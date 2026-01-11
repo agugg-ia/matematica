@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matemáticas Educativas - El Cuadrado de un Binomio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .presentacion-container {
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #3f51b5 0%, #5c6bc0 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: #ffeb3b;
+        }
+
+        .slide-indicator {
+            font-size: 1.2rem;
+            font-weight: 600;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+        }
+
+        .slide-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.8s ease;
+            height: 100%;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-title {
+            color: #3f51b5;
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #ff9800;
+            padding-bottom: 15px;
+            text-align: center;
+        }
+
+        .slide-subtitle {
+            color: #5c6bc0;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .slide-text {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+
+        .formula {
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 5px solid #ff9800;
+            font-size: 1.8rem;
+            text-align: center;
+            font-family: 'Cambria', 'Times New Roman', serif;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight {
+            color: #e91e63;
+            font-weight: bold;
+        }
+
+        .binomial-square {
+            font-size: 2.5rem;
+            color: #3f51b5;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .geometric-demo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .square-container {
+            width: 320px;
+            height: 320px;
+            position: relative;
+            border: 3px solid #333;
+            background-color: #f9f9f9;
+        }
+
+        .square-part {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #333;
+            transition: all 0.5s ease;
+        }
+
+        .part-a2 {
+            width: 200px;
+            height: 200px;
+            background-color: rgba(255, 152, 0, 0.3);
+            top: 0;
+            left: 0;
+            border-right: 2px dashed #333;
+            border-bottom: 2px dashed #333;
+        }
+
+        .part-b2 {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(76, 175, 80, 0.3);
+            bottom: 0;
+            right: 0;
+            border-left: 2px dashed #333;
+            border-top: 2px dashed #333;
+        }
+
+        .part-ab {
+            width: 200px;
+            height: 100px;
+            background-color: rgba(33, 150, 243, 0.3);
+            bottom: 0;
+            left: 0;
+            border-top: 2px dashed #333;
+            border-right: 2px dashed #333;
+        }
+
+        .part-ba {
+            width: 100px;
+            height: 200px;
+            background-color: rgba(33, 150, 243, 0.3);
+            top: 0;
+            right: 0;
+            border-left: 2px dashed #333;
+            border-bottom: 2px dashed #333;
+        }
+
+        /* Etiquetas de longitud para los lados */
+        .side-label {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #d32f2f;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-label-top-a {
+            top: -30px;
+            left: 80px;
+        }
+
+        .side-label-top-b {
+            top: -30px;
+            right: 40px;
+        }
+
+        .side-label-bottom-a {
+            bottom: -30px;
+            left: 80px;
+        }
+
+        .side-label-bottom-b {
+            bottom: -30px;
+            right: 40px;
+        }
+
+        .side-label-left-a {
+            left: -30px;
+            top: 80px;
+        }
+
+        .side-label-left-b {
+            left: -30px;
+            bottom: 40px;
+        }
+
+        .side-label-right-a {
+            right: -30px;
+            top: 80px;
+        }
+
+        .side-label-right-b {
+            right: -30px;
+            bottom: 40px;
+        }
+
+        /* Líneas de longitud */
+        .length-line {
+            position: absolute;
+            background-color: #d32f2f;
+            z-index: 5;
+        }
+
+        .length-line-top-a {
+            top: -15px;
+            left: 0;
+            width: 200px;
+            height: 2px;
+        }
+
+        .length-line-top-b {
+            top: -15px;
+            left: 200px;
+            width: 100px;
+            height: 2px;
+        }
+
+        .length-line-bottom-a {
+            bottom: -15px;
+            left: 0;
+            width: 200px;
+            height: 2px;
+        }
+
+        .length-line-bottom-b {
+            bottom: -15px;
+            left: 200px;
+            width: 100px;
+            height: 2px;
+        }
+
+        .length-line-left-a {
+            left: -15px;
+            top: 0;
+            width: 2px;
+            height: 200px;
+        }
+
+        .length-line-left-b {
+            left: -15px;
+            top: 200px;
+            width: 2px;
+            height: 100px;
+        }
+
+        .length-line-right-a {
+            right: -15px;
+            top: 0;
+            width: 2px;
+            height: 200px;
+        }
+
+        .length-line-right-b {
+            right: -15px;
+            top: 200px;
+            width: 2px;
+            height: 100px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: #f5f5f5;
+            border-top: 1px solid #ddd;
+            gap: 20px;
+        }
+
+        .control-btn {
+            background-color: #3f51b5;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .control-btn:hover {
+            background-color: #303f9f;
+            transform: translateY(-3px);
+        }
+
+        .control-btn:active {
+            transform: translateY(1px);
+        }
+
+        .control-btn i {
+            font-size: 1.2rem;
+        }
+
+        .auto-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .auto-btn {
+            background-color: #4caf50;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .auto-btn:hover {
+            background-color: #388e3c;
+            transform: scale(1.05);
+        }
+
+        .auto-btn.pause {
+            background-color: #ff9800;
+        }
+
+        .timer {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .example-container {
+            background-color: #e8f5e9;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #4caf50;
+        }
+
+        .example-title {
+            color: #2e7d32;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .step-by-step {
+            background-color: #f3e5f5;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #9c27b0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .step-number {
+            background-color: #9c27b0;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+
+        .practice-exercise {
+            background-color: #fff3e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #ff9800;
+        }
+
+        .exercise {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-check {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .btn-check:hover {
+            background-color: #f57c00;
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #e1f5fe;
+            border-radius: 8px;
+            border-left: 4px solid #03a9f4;
+        }
+
+        @media (max-width: 768px) {
+            .presentacion-container {
+                height: 95vh;
+            }
+            
+            .slide-title {
+                font-size: 2rem;
+            }
+            
+            .slide-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .slide-text {
+                font-size: 1.1rem;
+            }
+            
+            .square-container {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .part-a2 {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .part-b2 {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .part-ab {
+                width: 180px;
+                height: 90px;
+            }
+            
+            .part-ba {
+                width: 90px;
+                height: 180px;
+            }
+            
+            /* Ajustar etiquetas para móviles */
+            .side-label-top-a, .side-label-bottom-a {
+                left: 60px;
+            }
+            
+            .side-label-top-b, .side-label-bottom-b {
+                right: 30px;
+            }
+            
+            .side-label-left-a, .side-label-right-a {
+                top: 60px;
+            }
+            
+            .side-label-left-b, .side-label-right-b {
+                bottom: 30px;
+            }
+            
+            .length-line-top-a, .length-line-bottom-a {
+                width: 180px;
+            }
+            
+            .length-line-top-b, .length-line-bottom-b {
+                width: 90px;
+                left: 180px;
+            }
+            
+            .length-line-left-a, .length-line-right-a {
+                height: 180px;
+            }
+            
+            .length-line-left-b, .length-line-right-b {
+                height: 90px;
+                top: 180px;
+            }
+            
+            .controls {
+                flex-wrap: wrap;
+            }
+            
+            .control-btn {
+                padding: 10px 15px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentacion-container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-square-root-alt"></i>
+                <span>Matemáticas Educativas</span>
+            </div>
+            <div class="slide-indicator">
+                <span id="current-slide">1</span> / <span id="total-slides">8</span>
+            </div>
+        </div>
+        
+        <div class="slide-content">
+            <!-- Slide 1: Portada -->
+            <div class="slide active" id="slide1">
+                <h1 class="slide-title">El Cuadrado de un Binomio</h1>
+                <div class="slide-text">
+                    <p>En esta presentación descubriremos uno de los conceptos más importantes del álgebra: <span class="highlight">el cuadrado de un binomio</span>.</p>
+                    <p>Aprenderemos a desarrollar expresiones como (a + b)² de manera algebraica y visual, comprendiendo el origen de la fórmula que utilizamos.</p>
+                </div>
+                
+                <div class="binomial-square">
+                    (a + b)² = a² + 2ab + b²
+                </div>
+                
+                <div class="slide-text">
+                    <p>Esta fórmula es fundamental para:</p>
+                    <ul style="margin-left: 30px; font-size: 1.2rem; line-height: 1.8;">
+                        <li>Simplificar expresiones algebraicas</li>
+                        <li>Resolver ecuaciones cuadráticas</li>
+                        <li>Comprender conceptos geométricos</li>
+                        <li>Aplicaciones en física y estadística</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Slide 2: ¿Qué es un binomio? -->
+            <div class="slide" id="slide2">
+                <h2 class="slide-subtitle">¿Qué es un binomio?</h2>
+                <div class="slide-text">
+                    <p>Un <span class="highlight">binomio</span> es una expresión algebraica que consta de dos términos separados por un signo de suma (+) o resta (-).</p>
+                    <p>Ejemplos de binomios:</p>
+                </div>
+                
+                <div class="formula">
+                    a + b <br>
+                    3x - 5 <br>
+                    2m² + 7n
+                </div>
+                
+                <div class="slide-text">
+                    <p>Cuando elevamos un binomio al cuadrado, estamos multiplicándolo por sí mismo:</p>
+                </div>
+                
+                <div class="formula">
+                    (a + b)² = (a + b) × (a + b)
+                </div>
+                
+                <div class="slide-text">
+                    <p>Para entender cómo se desarrolla esta expresión, podemos multiplicar término por término, aplicando la propiedad distributiva.</p>
+                </div>
+            </div>
+            
+            <!-- Slide 3: Desarrollo algebraico -->
+            <div class="slide" id="slide3">
+                <h2 class="slide-subtitle">Desarrollo Algebraico</h2>
+                <div class="slide-text">
+                    <p>Vamos a desarrollar (a + b)² multiplicando término por término:</p>
+                </div>
+                
+                <div class="step-by-step">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-text">Escribimos la multiplicación del binomio por sí mismo:<br>
+                        (a + b)² = (a + b) × (a + b)</div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-text">Aplicamos la propiedad distributiva (también llamada FOIL):<br>
+                        = a × a + a × b + b × a + b × b</div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-text">Realizamos las multiplicaciones:<br>
+                        = a² + ab + ba + b²</div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-text">Como ab y ba son iguales (propiedad conmutativa):<br>
+                        = a² + 2ab + b²</div>
+                    </div>
+                </div>
+                
+                <div class="formula">
+                    (a + b)² = a² + 2ab + b²
+                </div>
+                
+                <div class="slide-text">
+                    <p>¡Esta es la fórmula del cuadrado de un binomio! Observa que NO es simplemente a² + b², sino que incluye el término <span class="highlight">2ab</span>.</p>
+                </div>
+            </div>
+            
+            <!-- Slide 4: Demostración geométrica MEJORADA -->
+            <div class="slide" id="slide4">
+                <h2 class="slide-subtitle">Demostración Geométrica</h2>
+                <div class="slide-text">
+                    <p>Podemos visualizar el cuadrado de un binomio geométricamente. Considera un cuadrado cuyo lado mide (a + b):</p>
+                </div>
+                
+                <div class="geometric-demo">
+                    <div style="position: relative; width: 320px; height: 320px;">
+                        <div class="square-container">
+                            <div class="square-part part-a2">a²</div>
+                            <div class="square-part part-ab">ab</div>
+                            <div class="square-part part-ba">ba</div>
+                            <div class="square-part part-b2">b²</div>
+                        </div>
+                        
+                        <!-- Líneas de longitud -->
+                        <div class="length-line length-line-top-a"></div>
+                        <div class="length-line length-line-top-b"></div>
+                        <div class="length-line length-line-bottom-a"></div>
+                        <div class="length-line length-line-bottom-b"></div>
+                        <div class="length-line length-line-left-a"></div>
+                        <div class="length-line length-line-left-b"></div>
+                        <div class="length-line length-line-right-a"></div>
+                        <div class="length-line length-line-right-b"></div>
+                        
+                        <!-- Etiquetas de longitud -->
+                        <div class="side-label side-label-top-a">a</div>
+                        <div class="side-label side-label-top-b">b</div>
+                        <div class="side-label side-label-bottom-a">a</div>
+                        <div class="side-label side-label-bottom-b">b</div>
+                        <div class="side-label side-label-left-a">a</div>
+                        <div class="side-label side-label-left-b">b</div>
+                        <div class="side-label side-label-right-a">a</div>
+                        <div class="side-label side-label-right-b">b</div>
+                        
+                        <!-- Etiqueta del lado completo -->
+                        <div class="side-label" style="top: -50px; left: 120px; font-size: 1.3rem; background-color: #ffeb3b;">
+                            a + b
+                        </div>
+                        <div class="side-label" style="bottom: -50px; left: 120px; font-size: 1.3rem; background-color: #ffeb3b;">
+                            a + b
+                        </div>
+                        <div class="side-label" style="left: -50px; top: 120px; font-size: 1.3rem; background-color: #ffeb3b; transform: rotate(-90deg);">
+                            a + b
+                        </div>
+                        <div class="side-label" style="right: -50px; top: 120px; font-size: 1.3rem; background-color: #ffeb3b; transform: rotate(90deg);">
+                            a + b
+                        </div>
+                    </div>
+                    
+                    <div style="max-width: 400px;">
+                        <div class="slide-text">
+                            <p>El cuadrado grande tiene lado <strong>a + b</strong>, por lo que su área es: <strong>(a + b) × (a + b) = (a + b)²</strong></p>
+                            <p>Esta área se compone de:</p>
+                            <ul style="margin-left: 20px;">
+                                <li>Un cuadrado de lado a: área = a²</li>
+                                <li>Un cuadrado de lado b: área = b²</li>
+                                <li>Dos rectángulos de lados a y b: áreas = ab + ba = 2ab</li>
+                            </ul>
+                            <p>Observa cómo cada lado del cuadrado grande está dividido en dos segmentos: uno de longitud <strong>a</strong> y otro de longitud <strong>b</strong>.</p>
+                        </div>
+                        
+                        <div class="formula" style="font-size: 1.5rem;">
+                            Área total = a² + ab + ba + b² = a² + 2ab + b²
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-text">
+                    <p>Así visualizamos claramente que <span class="highlight">(a + b)² ≠ a² + b²</span>, sino que debemos incluir los dos rectángulos de área ab.</p>
+                </div>
+            </div>
+            
+            <!-- Slide 5: Ejemplos numéricos -->
+            <div class="slide" id="slide5">
+                <h2 class="slide-subtitle">Ejemplos Numéricos</h2>
+                <div class="slide-text">
+                    <p>Ahora apliquemos la fórmula con números concretos para comprender mejor:</p>
+                </div>
+                
+                <div class="example-container">
+                    <div class="example-title">Ejemplo 1: (x + 3)²</div>
+                    <div class="slide-text">
+                        <p>Aplicamos la fórmula: (a + b)² = a² + 2ab + b²</p>
+                        <p>Donde a = x y b = 3:</p>
+                        <p>(x + 3)² = x² + 2·x·3 + 3² = x² + 6x + 9</p>
+                    </div>
+                </div>
+                
+                <div class="example-container">
+                    <div class="example-title">Ejemplo 2: (2y + 5)²</div>
+                    <div class="slide-text">
+                        <p>Donde a = 2y y b = 5:</p>
+                        <p>(2y + 5)² = (2y)² + 2·(2y)·5 + 5² = 4y² + 20y + 25</p>
+                    </div>
+                </div>
+                
+                <div class="example-container">
+                    <div class="example-title">Ejemplo 3: (4 - z)²</div>
+                    <div class="slide-text">
+                        <p>Podemos escribir (4 - z)² como (4 + (-z))², entonces a = 4 y b = -z:</p>
+                        <p>(4 - z)² = 4² + 2·4·(-z) + (-z)² = 16 - 8z + z²</p>
+                        <p>Nota: (-z)² = z² porque cualquier número al cuadrado es positivo.</p>
+                    </div>
+                </div>
+                
+                <div class="slide-text">
+                    <p>Observa cómo en el último ejemplo, con un signo negativo, el término del medio (2ab) se convierte en negativo, pero el último término (b²) siempre es positivo.</p>
+                </div>
+            </div>
+            
+            <!-- Slide 6: Fórmula general -->
+            <div class="slide" id="slide6">
+                <h2 class="slide-subtitle">Fórmula General para Binomios</h2>
+                <div class="slide-text">
+                    <p>La fórmula del cuadrado de un binomio funciona tanto para suma como para resta:</p>
+                </div>
+                
+                <div class="formula">
+                    (a + b)² = a² + 2ab + b²<br><br>
+                    (a - b)² = a² - 2ab + b²
+                </div>
+                
+                <div class="slide-text">
+                    <p>La única diferencia es el signo del término 2ab.</p>
+                    <p>En general, podemos escribir:</p>
+                </div>
+                
+                <div class="formula">
+                    (a ± b)² = a² ± 2ab + b²
+                </div>
+                
+                <div class="slide-text">
+                    <p>Donde el signo de 2ab coincide con el signo entre a y b en el binomio original.</p>
+                    <p>También podemos aplicar la fórmula a binomios con coeficientes:</p>
+                </div>
+                
+                <div class="formula">
+                    (ma + nb)² = m²a² + 2mnab + n²b²
+                </div>
+                
+                <div class="slide-text">
+                    <p>Por ejemplo: (3x + 4y)² = 9x² + 24xy + 16y²</p>
+                </div>
+            </div>
+            
+            <!-- Slide 7: Práctica -->
+            <div class="slide" id="slide7">
+                <h2 class="slide-subtitle">¡Es tu turno! Practiquemos</h2>
+                <div class="slide-text">
+                    <p>Intenta desarrollar estos binomios al cuadrado. Luego haz clic en "Ver solución" para comprobar tu respuesta.</p>
+                </div>
+                
+                <div class="practice-exercise">
+                    <div class="exercise">
+                        <p><strong>Ejercicio 1:</strong> (x + 7)² = ?</p>
+                        <button class="btn-check" onclick="showExplanation(1)">Ver solución</button>
+                        <div class="explanation" id="explanation1">
+                            <p>(x + 7)² = x² + 2·x·7 + 7² = x² + 14x + 49</p>
+                        </div>
+                    </div>
+                    
+                    <div class="exercise">
+                        <p><strong>Ejercicio 2:</strong> (2a - 5)² = ?</p>
+                        <button class="btn-check" onclick="showExplanation(2)">Ver solución</button>
+                        <div class="explanation" id="explanation2">
+                            <p>(2a - 5)² = (2a)² + 2·(2a)·(-5) + (-5)² = 4a² - 20a + 25</p>
+                        </div>
+                    </div>
+                    
+                    <div class="exercise">
+                        <p><strong>Ejercicio 3:</strong> (3x + 2y)² = ?</p>
+                        <button class="btn-check" onclick="showExplanation(3)">Ver solución</button>
+                        <div class="explanation" id="explanation3">
+                            <p>(3x + 2y)² = (3x)² + 2·(3x)·(2y) + (2y)² = 9x² + 12xy + 4y²</p>
+                        </div>
+                    </div>
+                    
+                    <div class="exercise">
+                        <p><strong>Ejercicio 4:</strong> (m - 4n)² = ?</p>
+                        <button class="btn-check" onclick="showExplanation(4)">Ver solución</button>
+                        <div class="explanation" id="explanation4">
+                            <p>(m - 4n)² = m² + 2·m·(-4n) + (-4n)² = m² - 8mn + 16n²</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-text">
+                    <p>Recuerda: El error más común es olvidar el término 2ab y escribir solamente a² + b². ¡No caigas en esa trampa!</p>
+                </div>
+            </div>
+            
+            <!-- Slide 8: Conclusión -->
+            <div class="slide" id="slide8">
+                <h2 class="slide-subtitle">Conclusión y Aplicaciones</h2>
+                <div class="slide-text">
+                    <p>Hemos aprendido que el cuadrado de un binomio (a + b)² se desarrolla como:</p>
+                </div>
+                
+                <div class="formula">
+                    (a + b)² = a² + 2ab + b²
+                </div>
+                
+                <div class="slide-text">
+                    <p><strong>Puntos clave para recordar:</strong></p>
+                    <ul style="margin-left: 30px; font-size: 1.2rem; line-height: 1.8; margin-bottom: 25px;">
+                        <li>El término 2ab es fundamental y no puede omitirse</li>
+                        <li>La fórmula funciona tanto para suma como para resta</li>
+                        <li>Podemos comprenderla algebraicamente y geométricamente</li>
+                        <li>Es aplicable a expresiones con coeficientes y múltiples variables</li>
+                    </ul>
+                    
+                    <p><strong>Aplicaciones del cuadrado de un binomio:</strong></p>
+                    <ul style="margin-left: 30px; font-size: 1.2rem; line-height: 1.8;">
+                        <li>Resolver ecuaciones cuadráticas completando el cuadrado</li>
+                        <li>Simplificar expresiones en cálculo y álgebra avanzada</li>
+                        <li>Cálculo de áreas y volúmenes en geometría</li>
+                        <li>Desarrollar fórmulas en física (cinemática, energía, etc.)</li>
+                        <li>Análisis estadístico (varianza y desviación estándar)</li>
+                    </ul>
+                </div>
+                
+                <div class="slide-text" style="margin-top: 30px; text-align: center; font-size: 1.4rem; color: #3f51b5;">
+                    <p>¡Has dominado uno de los conceptos más importantes del álgebra!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" id="prev-btn">
+                <i class="fas fa-arrow-left"></i> Anterior
+            </button>
+            
+            <div class="auto-control">
+                <div class="timer" id="timer">00:00</div>
+                <button class="auto-btn" id="auto-btn">
+                    <i class="fas fa-play"></i>
+                </button>
+            </div>
+            
+            <button class="control-btn" id="next-btn">
+                Siguiente <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Variables de control
+        let currentSlide = 1;
+        const totalSlides = 8;
+        let autoPlayInterval;
+        let isAutoPlaying = false;
+        let timerSeconds = 0;
+        let timerInterval;
+        
+        // Actualizar indicador de diapositivas
+        function updateSlideIndicator() {
+            document.getElementById('current-slide').textContent = currentSlide;
+            document.getElementById('total-slides').textContent = totalSlides;
+        }
+        
+        // Mostrar diapositiva específica
+        function showSlide(slideNumber) {
+            // Ocultar todas las diapositivas
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Mostrar la diapositiva actual
+            document.getElementById(`slide${slideNumber}`).classList.add('active');
+            
+            // Actualizar indicador
+            currentSlide = slideNumber;
+            updateSlideIndicator();
+            
+            // Reiniciar temporizador si está en modo automático
+            if (isAutoPlaying) {
+                resetTimer();
+            }
+            
+            // Si es la diapositiva 4 (demostración geométrica), animar las etiquetas
+            if (slideNumber === 4) {
+                setTimeout(animateGeometricLabels, 500);
+            }
+        }
+        
+        // Animación para las etiquetas geométricas
+        function animateGeometricLabels() {
+            const labels = document.querySelectorAll('.side-label');
+            labels.forEach((label, index) => {
+                label.style.transform = 'scale(1.2)';
+                label.style.transition = 'transform 0.3s ease';
+                
+                setTimeout(() => {
+                    label.style.transform = '';
+                }, 300 + (index * 50));
+            });
+        }
+        
+        // Diapositiva siguiente
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                showSlide(currentSlide + 1);
+            } else {
+                // Si está en la última diapositiva, volver a la primera
+                showSlide(1);
+            }
+        }
+        
+        // Diapositiva anterior
+        function prevSlide() {
+            if (currentSlide > 1) {
+                showSlide(currentSlide - 1);
+            } else {
+                // Si está en la primera diapositiva, ir a la última
+                showSlide(totalSlides);
+            }
+        }
+        
+        // Control de reproducción automática
+        function toggleAutoPlay() {
+            const autoBtn = document.getElementById('auto-btn');
+            const autoIcon = autoBtn.querySelector('i');
+            
+            if (isAutoPlaying) {
+                // Detener reproducción automática
+                clearInterval(autoPlayInterval);
+                clearInterval(timerInterval);
+                autoBtn.classList.remove('pause');
+                autoIcon.className = 'fas fa-play';
+                isAutoPlaying = false;
+            } else {
+                // Iniciar reproducción automática
+                autoBtn.classList.add('pause');
+                autoIcon.className = 'fas fa-pause';
+                isAutoPlaying = true;
+                
+                // Avanzar automáticamente cada 15 segundos
+                autoPlayInterval = setInterval(nextSlide, 15000);
+                
+                // Iniciar temporizador
+                startTimer();
+            }
+        }
+        
+        // Temporizador
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerSeconds = 0;
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+        
+        function resetTimer() {
+            timerSeconds = 0;
+            updateTimerDisplay();
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Mostrar explicaciones de ejercicios
+        function showExplanation(exerciseNumber) {
+            const explanation = document.getElementById(`explanation${exerciseNumber}`);
+            if (explanation.style.display === 'block') {
+                explanation.style.display = 'none';
+            } else {
+                explanation.style.display = 'block';
+            }
+        }
+        
+        // Inicializar presentación
+        function initPresentation() {
+            updateSlideIndicator();
+            
+            // Configurar eventos de botones
+            document.getElementById('prev-btn').addEventListener('click', prevSlide);
+            document.getElementById('next-btn').addEventListener('click', nextSlide);
+            document.getElementById('auto-btn').addEventListener('click', toggleAutoPlay);
+            
+            // Configurar eventos de teclado
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    prevSlide();
+                } else if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+                    nextSlide();
+                } else if (e.key === 'p' || e.key === 'P') {
+                    toggleAutoPlay();
+                }
+            });
+            
+            // Iniciar con animación para los elementos geométricos
+            setTimeout(() => {
+                document.querySelectorAll('.square-part').forEach(part => {
+                    part.style.transform = 'scale(1.05)';
+                    part.style.boxShadow = '0 0 10px rgba(0,0,0,0.2)';
+                    
+                    setTimeout(() => {
+                        part.style.transform = 'scale(1)';
+                        part.style.boxShadow = 'none';
+                    }, 500);
+                });
+            }, 1000);
+        }
+        
+        // Iniciar cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', initPresentation);
+    </script>
+</body>
+</html>

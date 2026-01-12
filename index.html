@@ -227,8 +227,8 @@
             transform: rotate(2deg);
         }
 
-        /* --- Vista de Cursos Secundaria (Oculta por defecto) --- */
-        #vista-cursos {
+        /* --- VISTA DE CURSOS SECUNDARIA (Oculta por defecto) --- */
+        #vista-cursos, #vista-varios {
             display: none; 
             padding: 60px 0;
             animation: fadeIn 0.5s ease;
@@ -245,6 +245,7 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
         }
 
+        /* Clase para resaltar búsqueda en cualquier tarjeta */
         .highlight-card {
             animation: highlightPulse 1.5s ease-out;
             border: 2px solid var(--primary) !important;
@@ -331,13 +332,7 @@
         .eje-link:hover::after {
             opacity: 1; /* Visible al pasar el mouse */
         }
-
-        /* Estilo para sub-categorías (Números, Álgebra, etc.) */
-        .year-card li strong {
-            /* Nota: El estilo strong ahora lo maneja .eje-link, pero lo dejamos por compatibilidad */
-        }
         
-        /* Asegurar que los bullets aparezcan en los items */
         .year-card li {
             position: relative;
         }
@@ -349,16 +344,76 @@
             font-size: 0.8rem;
         }
 
-        .back-btn {
+        /* --- ESTILOS TEMAS VARIOS (Píldoras) --- */
+        .varios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .topic-card {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow);
+            transform: translateY(-5px);
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .topic-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .topic-card h3 {
+            font-size: 1.25rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .topic-card p {
+            font-size: 0.9rem;
+            color: var(--gray);
             margin-bottom: 20px;
-            display: inline-flex;
+            flex-grow: 1;
+        }
+
+        .topic-link {
+            align-self: flex-start;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent);
+            display: flex;
             align-items: center;
             gap: 5px;
-            color: var(--gray);
-            font-weight: 600;
-            cursor: pointer;
         }
-        .back-btn:hover { color: var(--primary); }
+
+        .topic-link:hover {
+            text-decoration: underline;
+        }
 
         /* --- Niveles --- */
         .levels {
@@ -402,6 +457,12 @@
             color: var(--primary);
         }
 
+        /* Color especial para Temas Varios */
+        .level-card.varios .level-icon {
+            background-color: #FEF3C7;
+            color: var(--accent);
+        }
+
         .level-card h3 {
             font-size: 1.8rem;
             margin-bottom: 15px;
@@ -431,6 +492,17 @@
             color: var(--secondary);
             font-weight: bold;
         }
+
+        .back-btn {
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .back-btn:hover { color: var(--primary); }
 
         /* --- Feedback Section --- */
         .feedback-section {
@@ -553,7 +625,7 @@
                 <!-- Barra de Búsqueda Incorporada -->
                 <div class="search-container">
                     <form onsubmit="buscarContenido(event)">
-                        <input type="text" id="buscador" class="search-input" placeholder="Buscar tema (ej: Pitágoras, Funciones)...">
+                        <input type="text" id="buscador" class="search-input" placeholder="Buscar tema (ej: Binomio, Pitágoras)...">
                         <div class="search-icon" onclick="document.querySelector('form').dispatchEvent(new Event('submit'))">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                         </div>
@@ -573,7 +645,7 @@
                     <div class="hero-content">
                         <div class="hero-text">
                             <h1>Domina las Matemáticas con <span>Agugg_ia</span>.</h1>
-                            <p>La plataforma definitiva alineada al diseño curricular de la Provincia de Córdoba. Secundaria y preparación universitaria.</p>
+                            <p>La plataforma definitiva alineada al diseño curricular de la Provincia de Córdoba. Secundaria, universidad y píldoras de conocimiento.</p>
                             <a href="#niveles" class="btn btn-primary">Empezar a aprender</a>
                         </div>
                         <div class="hero-image">
@@ -605,6 +677,22 @@
                                 </ul>
                             </div>
                             <button onclick="mostrarCursosSecundaria()" class="btn btn-outline" style="width: 100%;">Ver Cursos</button>
+                        </div>
+
+                        <!-- Tarjeta Temas Varios (NUEVA) -->
+                        <div class="level-card varios">
+                            <div class="level-icon">🧩</div>
+                            <h3>Temas Varios</h3>
+                            <p>Píldoras de contenido rápido. Refuerzos puntuales, curiosidades y herramientas útiles.</p>
+                            <div class="level-topics">
+                                <ul>
+                                    <li>Cuadrado de un binomio</li>
+                                    <li>Propiedades de los números</li>
+                                    <li>Trucos de cálculo mental</li>
+                                    <li>Geometría rápida</li>
+                                </ul>
+                            </div>
+                            <button onclick="mostrarTemasVarios()" class="btn btn-primary" style="width: 100%; background-color: var(--accent); border: none;">Ver Píldoras</button>
                         </div>
 
                         <!-- Tarjeta Ingreso Universitario -->
@@ -840,6 +928,71 @@
             </div>
         </div>
 
+        <!-- VISTA TEMAS VARIOS (NUEVA) -->
+        <div id="vista-varios">
+            <div class="container">
+                <div onclick="mostrarInicio()" class="back-btn">
+                    ← Volver al inicio
+                </div>
+                <div class="section-title">
+                    <h2>Píldoras de Conocimiento</h2>
+                    <p>Recursos rápidos y específicos para resolver dudas puntuales.</p>
+                </div>
+                
+                <div class="varios-grid">
+                    
+                    <!-- Píldora 1: Cuadrado de un binomio -->
+                    <div class="topic-card" id="vario-binomio">
+                        <div class="topic-category">Álgebra</div>
+                        <h3>Cuadrado de un binomio</h3>
+                        <p>Aprende y practica la fórmula $(a+b)^2 = a^2 + 2ab + b^2$ con explicación visual y ejercicios resueltos paso a paso.</p>
+                        <a href="#" class="topic-link">Ver lección ➔</a>
+                    </div>
+
+                    <!-- Píldora 2: Los números y sus propiedades -->
+                    <div class="topic-card" id="vario-numeros">
+                        <div class="topic-category">Aritmética</div>
+                        <h3>Los números y sus propiedades</h3>
+                        <p>Repaso fundamental sobre propiedades (conmutativa, asociativa, distributiva) y tipos de números (N, Z, Q, R).</p>
+                        <a href="#" class="topic-link">Ver lección ➔</a>
+                    </div>
+
+                    <!-- Píldora 3: Teorema de Pitágoras -->
+                    <div class="topic-card" id="vario-pitagoras">
+                        <div class="topic-category">Geometría</div>
+                        <h3>Teorema de Pitágoras</h3>
+                        <p>La herramienta clave para triángulos rectángulos. Demostración simple y problemas de aplicación clásicos.</p>
+                        <a href="#" class="topic-link">Ver lección ➔</a>
+                    </div>
+
+                    <!-- Píldora 4: Regla de tres simple -->
+                    <div class="topic-card" id="vario-regla">
+                        <div class="topic-category">Proporcionalidad</div>
+                        <h3>Regla de tres simple</h3>
+                        <p>Guía definitiva para resolver problemas de proporcionalidad directa e inversa en situaciones cotidianas.</p>
+                        <a href="#" class="topic-link">Ver lección ➔</a>
+                    </div>
+
+                    <!-- Píldora 5: Ecuaciones simples -->
+                    <div class="topic-card" id="vario-ecuaciones">
+                        <div class="topic-category">Álgebra</div>
+                        <h3>Ecuaciones de primer grado</h3>
+                        <p>Aprende a despejar incógnitas y resolver ecuaciones del tipo $ax + b = c$ sin complicaciones.</p>
+                        <a href="#" class="topic-link">Ver lección ➔</a>
+                    </div>
+
+                    <!-- Píldora 6: Fracciones -->
+                    <div class="topic-card" id="vario-fracciones">
+                        <div class="topic-category">Aritmética</div>
+                        <h3>Operaciones con Fracciones</h3>
+                        <p>Suma, resta, multiplicación y división de fracciones con ejemplos claros y ejercicios interactivos.</p>
+                        <a href="#" class="topic-link">Ver lección ➔</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         <!-- Sección de Feedback / Corrección de Errores -->
         <section id="feedback" class="feedback-section">
             <div class="container feedback-container">
@@ -885,6 +1038,7 @@
                     <ul style="font-size: 0.9rem;">
                         <li><a href="#" onclick="mostrarInicio()">Inicio</a></li>
                         <li><a href="#" onclick="mostrarCursosSecundaria()">Secundaria</a></li>
+                        <li><a href="#" onclick="mostrarTemasVarios()">Temas Varios</a></li>
                         <li><a href="#feedback">Reportar Error</a></li>
                     </ul>
                 </div>
@@ -899,27 +1053,43 @@
     <script>
         // --- Lógica de Navegación ---
         function mostrarCursosSecundaria() {
-            document.getElementById('vista-inicial').style.display = 'none';
+            ocultarTodasVistas();
             document.getElementById('vista-cursos').style.display = 'block';
             window.scrollTo(0,0);
         }
 
+        function mostrarTemasVarios() {
+            ocultarTodasVistas();
+            document.getElementById('vista-varios').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
         function mostrarInicio() {
-            document.getElementById('vista-cursos').style.display = 'none';
+            ocultarTodasVistas();
             document.getElementById('vista-inicial').style.display = 'block';
             window.scrollTo(0,0);
+        }
+
+        function ocultarTodasVistas() {
+            document.getElementById('vista-inicial').style.display = 'none';
+            document.getElementById('vista-cursos').style.display = 'none';
+            document.getElementById('vista-varios').style.display = 'none';
         }
 
         // --- Lógica de Búsqueda Inteligente ---
         function buscarContenido(event) {
             event.preventDefault(); 
             const termino = document.getElementById('buscador').value.toLowerCase().trim();
-            const cards = document.querySelectorAll('.year-card');
+            
+            // Buscamos tanto en las tarjetas de Secundaria (.year-card) como en Temas Varios (.topic-card)
+            const cards = document.querySelectorAll('.year-card, .topic-card');
+            
             let encontrado = false;
             let targetCard = null;
 
             if (termino === "") return;
 
+            // Limpiar clases de highlight previas
             cards.forEach(card => card.classList.remove('highlight-card'));
 
             for (let card of cards) {
@@ -932,16 +1102,27 @@
             }
 
             if (encontrado) {
-                if (document.getElementById('vista-cursos').style.display === 'none') {
+                // Determinar a qué vista pertenece la tarjeta encontrada para mostrar la vista correcta
+                const parentVarios = document.getElementById('vista-varios');
+                const parentCursos = document.getElementById('vista-cursos');
+                
+                // Si la tarjeta está dentro de vista-varios
+                if (parentVarios.contains(targetCard) && parentVarios.style.display === 'none') {
+                    mostrarTemasVarios();
+                } 
+                // Si la tarjeta está dentro de vista-cursos
+                else if (parentCursos.contains(targetCard) && parentCursos.style.display === 'none') {
                     mostrarCursosSecundaria();
                 }
 
-                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                targetCard.classList.add('highlight-card');
-
-                document.getElementById('buscador').value = '';
+                // Scroll y animación
+                setTimeout(() => {
+                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    targetCard.classList.add('highlight-card');
+                    document.getElementById('buscador').value = '';
+                }, 100); // Pequeño delay para asegurar que la vista es visible antes de scroll
             } else {
-                alert(`No se encontraron recursos para "${termino}".\nIntenta buscar: Pitágoras, Polinomios, Derivadas, Vectores, etc.`);
+                alert(`No se encontraron recursos para "${termino}".\nIntenta buscar: Pitágoras, Binomio, Funciones, etc.`);
             }
         }
     </script>

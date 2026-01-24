@@ -3,98 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mates con Agugg_ia: Plataforma de matemáticas basada en el diseño curricular de la Provincia de Córdoba.">
     <title>Lección | Mates con Agugg_ia</title>
-    <!-- Script MathJax (Paso 0) -->
+    
+    <!-- 1. LIBRERÍA MATHJAX (Para fórmulas) -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    
-    <!-- COPIA AQUÍ TODO EL BLOQUE <style> DE TU INDEX.CSS -->
-    <!-- Es vital que mantengas :root y las clases generales -->
-    <style>
-        /* ... (Pega aquí todo el CSS de tu index) ... */
 
-        /* Estilos específicos para el contenido de la lección */
+    <style>
+        /* --- VARIABLES CSS Y ESTILOS GENERALES (Tu CSS Original del Index) --- */
+        :root {
+            --primary: #2563EB;      
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;    
+            --accent: #F59E0B;       
+            --dark: #1F2937;         
+            --light: #F3F4F6;        
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--dark);
+            background-color: var(--white);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        ul { list-style: none; }
+        img { max-width: 100%; height: auto; display: block; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- HEADER (Tu estilo original) --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.3rem; 
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .logo span { color: var(--dark); }
+
+        /* --- ESTILOS ESPECÍFICOS PARA LA LECCIÓN (Nuevos) --- */
         .lesson-container {
-            max-width: 800px;
-            margin: 40px auto;
-            background: white;
-            padding: 40px;
+            max-width: 850px; /* Un poco más ancho que en el index para facilitar lectura */
+            margin: 50px auto;
+            background: var(--white);
+            padding: 50px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
+            border: 1px solid #E5E7EB;
         }
 
         .lesson-nav {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #E5E7EB;
         }
 
         .lesson-nav a {
-            color: var(--primary);
+            color: var(--gray);
             font-weight: 600;
+            margin-right: 20px;
         }
 
-        /* Tipografía para contenido matemático */
-        .lesson-content h2 { margin-top: 2rem; margin-bottom: 1rem; color: var(--dark); }
-        .lesson-content h3 { margin-top: 1.5rem; margin-bottom: 0.8rem; color: var(--primary-dark); }
-        .lesson-content p { margin-bottom: 1rem; font-size: 1.05rem; color: #374151; }
-        
+        .lesson-nav a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Tipografía Matemática */
+        .lesson-content h1 { 
+            font-size: 2.5rem; 
+            color: var(--primary-dark); 
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        .lesson-content h2 { 
+            margin-top: 2.5rem; 
+            margin-bottom: 1.2rem; 
+            color: var(--dark); 
+            font-size: 1.8rem;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+        .lesson-content h3 { 
+            margin-top: 2rem; 
+            margin-bottom: 1rem; 
+            color: var(--primary); 
+            font-size: 1.4rem;
+        }
+        .lesson-content p { 
+            margin-bottom: 1.2rem; 
+            font-size: 1.1rem; 
+            color: #374151; 
+            text-align: justify;
+        }
+
+        /* Caja de Ejemplos */
         .example-box {
             background-color: #EFF6FF;
-            border-left: 4px solid var(--primary);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 4px;
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
         }
+        .example-box h4 { color: var(--primary-dark); margin-bottom: 10px; }
         
+        /* Caja de Ejercicios */
         .exercise-box {
             background-color: #ECFDF5;
             border: 1px solid #10B981;
-            padding: 20px;
-            margin: 30px 0;
+            padding: 25px;
+            margin: 40px 0;
             border-radius: var(--radius);
         }
+        .exercise-box h4 { color: #065F46; margin-bottom: 15px; font-size: 1.2rem;}
 
+        /* Botón Solución */
         .solution-btn {
-            margin-top: 10px;
-            background: none;
-            border: none;
-            color: var(--primary);
+            margin-top: 15px;
+            background: var(--white);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            padding: 8px 16px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            text-decoration: underline;
+            transition: all 0.2s;
+        }
+        .solution-btn:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Texto de solución oculto */
+        .solution-text {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px dashed #10B981;
+            display: none; /* Oculto por defecto */
+        }
+
+        /* --- FOOTER (Tu estilo original) --- */
+        footer {
+            background-color: var(--dark);
+            color: #D1D5DB;
+            padding: 40px 0;
+            margin-top: auto;
+            text-align: center;
+        }
+
+        /* Responsive simple */
+        @media (max-width: 768px) {
+            .lesson-container { padding: 25px; }
+            .lesson-content h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Header Simplificado (Mismo que el index) -->
+
+    <!-- HEADER (COPIADO DE TU INDEX) -->
     <header>
         <div class="container">
             <nav>
-                <a href="index.html" class="logo">
-                    <!-- Tu logo SVG aquí -->
+                <div class="logo" onclick="window.location.href='index.html'">
+                    <!-- Tu Logo SVG -->
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 2V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 7L12 2L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 17L12 22L20 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                     <span>Mates con Agugg_ia</span>
-                </a>
+                </div>
             </nav>
         </div>
     </header>
 
     <main>
         <div class="container">
+            <!-- NAVEGACIÓN DE MIGAS DE PAN -->
             <div class="lesson-nav">
-                <a href="index.html">← Volver al Inicio</a> | <a href="index.html#vista-cursos">Volver a Cursos</a>
+                <a href="index.html">← Volver al Inicio</a> 
+                <a href="index.html#vista-cursos">Ver Cursos</a>
             </div>
 
             <div class="lesson-container">
-                <!-- EL CONTENIDO GENERADO POR LA IA IRÁ AQUÍ -->
-                <div id="dynamic-content">
-                    <h1>TÍTULO DE LA LECCIÓN</h1>
-                    <p>Contenido...</p>
+                
+                <!-- ==================================================================== -->
+                <!--           ZONA DE CONTENIDO: PEGA AQUÍ LO DE DEEPSEEK                  -->
+                <!-- ==================================================================== -->
+                
+                <div class="lesson-content" id="contenido-leccion">
+                    
+                    <!-- BORRA ESTO Y PEGA EL HTML DE LA IA -->
+                    <h1>Título de la Lección</h1>
+                    <p>Aquí irá la explicación detallada...</p>
+
+                    <!-- Ejemplo de cómo quedará el contenido de la IA: -->
+                    <!--
+                    <h2>1. Conceptos Básicos</h2>
+                    <p>Explicación del concepto...</p>
+                    <div class="example-box">
+                        <h4>Ejemplo 1:</h4>
+                        <p>Resolución paso a paso...</p>
+                    </div>
+                    -->
+
                 </div>
+
+                <!-- ==================================================================== -->
+                <!--                       FIN ZONA DE CONTENIDO                            -->
+                <!-- ==================================================================== -->
+
             </div>
         </div>
     </main>
 
+    <!-- FOOTER (COPIADO DE TU INDEX) -->
     <footer>
-        <!-- Tu footer original aquí -->
+        <div class="container">
+            <p>&copy; 2023 Mates con Agugg_ia. Todos los derechos reservados.</p>
+            <p style="font-size: 0.8rem; margin-top: 10px; color: #6B7280;">
+                Plataforma educativa autogestiva alineada al currículum provincial.
+            </p>
+        </div>
     </footer>
+
+    <!-- SCRIPT PARA INTERACTIVIDAD (Mostrar/Ocultar Soluciones) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.solution-btn');
+            
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Busca el elemento hermano siguiente (la solución)
+                    const solution = this.nextElementSibling;
+                    if (solution && solution.classList.contains('solution-text')) {
+                        if (solution.style.display === 'block') {
+                            solution.style.display = 'none';
+                            this.textContent = 'Ver Solución';
+                        } else {
+                            solution.style.display = 'block';
+                            this.textContent = 'Ocultar Solución';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>

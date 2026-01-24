@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección | Mates con Agugg_ia</title>
+    
+    <!-- 1. LIBRERÍA MATHJAX -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* --- VARIABLES CSS Y ESTILOS GENERALES --- */
+        :root {
+            --primary: #2563EB;      
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;    
+            --accent: #F59E0B;       
+            --dark: #1F2937;         
+            --light: #F3F4F6;        
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--dark);
+            background-color: #F9FAFB; /* Fondo ligeramente más gris para destacar el contenedor */
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        ul { list-style: none; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-size: 1.3rem; 
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .logo span { color: var(--dark); }
+
+        /* --- CONTENEDOR PRINCIPAL DE LECCIÓN --- */
+        .lesson-container {
+            max-width: 1000px; /* Ancho cómodo para lectura */
+            margin: 40px auto;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden; /* Para bordes redondeados */
+            min-height: 600px;
+        }
+
+        .lesson-header {
+            padding: 30px 40px;
+            background: linear-gradient(to right, #EFF6FF, #ffffff);
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .lesson-nav {
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .lesson-nav a { color: var(--primary); font-weight: 600; }
+
+        .lesson-title { font-size: 2.2rem; color: var(--primary-dark); line-height: 1.2; }
+
+        /* --- SISTEMA DE PESTAÑAS (TABS) --- */
+        .tabs-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Botones de navegación de pestañas */
+        .tabs-nav {
+            display: flex;
+            background-color: #f3f4f6;
+            border-bottom: 1px solid #e5e7eb;
+            overflow-x: auto; /* Para móviles */
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 20px 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border-bottom: 4px solid transparent;
+        }
+
+        .tab-btn:hover { background-color: #e5e7eb; color: var(--primary); }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            background-color: var(--white);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Paneles de contenido */
+        .tab-content {
+            padding: 40px;
+            display: none; /* Ocultos por defecto */
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ESTILOS ESPECÍFICOS DE CONTENIDO --- */
+        
+        /* Estilos Generales de Texto */
+        h2 { color: var(--primary); margin-bottom: 15px; font-size: 1.8rem; margin-top: 20px; }
+        h3 { color: var(--dark); margin-bottom: 10px; font-size: 1.4rem; margin-top: 20px; }
+        p { margin-bottom: 15px; font-size: 1.05rem; color: #374151; text-align: justify; }
+        
+        /* Tab 1: Introducción */
+        .intro-quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            color: var(--gray);
+            margin: 20px 0;
+            background: #FFFBEB;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Tab 2: Teoría */
+        .concept-box {
+            background: #EFF6FF;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #DBEAFE;
+        }
+
+        /* Tab 3: Desarrollos Resueltos */
+        .solved-example {
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        .solved-header {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+        .solved-body { padding: 20px; background: #FAFAFA; }
+        .solved-step { margin-bottom: 15px; border-left: 2px solid var(--gray); padding-left: 15px; }
+
+        /* Tab 4: Práctica (Ejercicios) */
+        .exercise-item {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #D1D5DB;
+        }
+        .solution-toggle {
+            background: var(--white);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .solution-toggle:hover { background: var(--secondary); color: white; }
+        .solution-text {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #ECFDF5;
+            border-radius: 6px;
+            border: 1px solid #10B981;
+        }
+
+        /* Tab 5: Autoevaluación (Quiz) */
+        .quiz-item { margin-bottom: 25px; }
+        .quiz-options button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            margin: 5px 0;
+            background: white;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quiz-options button:hover { background-color: #F3F4F6; }
+        
+        /* Estados de respuesta del quiz */
+        .quiz-btn.correct { background-color: #D1FAE5; border-color: #10B981; color: #065F46; }
+        .quiz-btn.incorrect { background-color: #FEE2E2; border-color: #EF4444; color: #991B1B; }
+        .quiz-feedback { margin-top: 8px; font-weight: 600; font-size: 0.9rem; display: none; }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: #D1D5DB;
+            padding: 20px 0;
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo" onclick="window.location.href='index.html'">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 2V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 7L12 2L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 17L12 22L20 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Mates con Agugg_ia</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="lesson-container">
+                <!-- Cabecera de la lección -->
+                <div class="lesson-header">
+                    <div class="lesson-nav">
+                        <a href="index.html">← Volver al Inicio</a> | <a href="index.html#vista-cursos">Ver Cursos</a>
+                    </div>
+                    <h1 class="lesson-title">TÍTULO DE LA LECCIÓN</h1>
+                </div>
+
+                <!-- NAVEGACIÓN DE PESTAÑAS -->
+                <div class="tabs-container">
+                    <div class="tabs-nav">
+                        <button class="tab-btn active" onclick="openTab(event, 'tab-intro')">1. Introducción</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-teoria')">2. Teoría</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-resueltos')">3. Desarrollos</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-practica')">4. Práctica</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-quiz')">5. Autoevaluación</button>
+                    </div>
+
+                    <!-- PESTAÑA 1: INTRODUCCIÓN -->
+                    <div id="tab-intro" class="tab-content active">
+                        <!-- PEGA AQUÍ EL CONTENIDO DE INTRODUCCIÓN GENERADO POR IA -->
+                        <h2>Bienvenido</h2>
+                        <p>Contenido generado por IA sobre la importancia, contexto histórico y utilidad futura.</p>
+                        <!-- Ejemplo visual de cita -->
+                        <div class="intro-quote">
+                            "La matemática no es sobre números, ecuaciones, computaciones o algoritmos: es sobre entender." - William Paul Thurston
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 2: TEORÍA -->
+                    <div id="tab-teoria" class="tab-content">
+                        <!-- PEGA AQUÍ EL CONTENIDO TEÓRICO -->
+                        <h2>Conceptos Fundamentales</h2>
+                        <div class="concept-box">
+                            <h3>Definición Clave</h3>
+                            <p>$$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$</p>
+                        </div>
+                        <p>Aquí irán las propiedades, enunciados y explicaciones detalladas...</p>
+                    </div>
+
+                    <!-- PESTAÑA 3: DESARROLLOS RESUELTOS -->
+                    <div id="tab-resueltos" class="tab-content">
+                        <!-- PEGA AQUÍ LOS PROBLEMAS RESUELTOS CONTEXTUALIZADOS -->
+                        <h2>Problemas Modelo</h2>
+                        <p>Analiza cómo se aplican los conceptos teóricos en situaciones reales.</p>
+
+                        <!-- Estructura para un ejemplo resuelto -->
+                        <div class="solved-example">
+                            <div class="solved-header">Ejemplo 1: Contexto Real</div>
+                            <div class="solved-body">
+                                <p><strong>Problema:</strong> Texto del problema contextualizado...</p>
+                                <div class="solved-step"><strong>Paso 1:</strong> Análisis de datos...</div>
+                                <div class="solved-step"><strong>Paso 2:</strong> Planteo de ecuación...</div>
+                                <div class="solved-step"><strong>Paso 3:</strong> Resolución...</div>
+                                <p><strong>Conclusión:</strong> Interpretación del resultado...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 4: PRÁCTICA (EJERCICIOS) -->
+                    <div id="tab-practica" class="tab-content">
+                        <h2>Ejercicios y Problemas</h2>
+                        <p>Completa los siguientes ejercicios. (Mínimo 10 ejercicios y 5 problemas).</p>
+                        
+                        <!-- Estructura para un ejercicio -->
+                        <div class="exercise-item">
+                            <h3>Ejercicio 1</h3>
+                            <p>Enunciado del ejercicio...</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            <div class="solution-text">
+                                <p><strong>Resolución:</strong> Explicación paso a paso...</p>
+                                <p>$$ \text{Cálculo final} = 42 $$</p>
+                            </div>
+                        </div>
+
+                        <div class="exercise-item">
+                            <h3>Problema 1</h3>
+                            <p>Enunciado del problema contextualizado...</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            <div class="solution-text">
+                                <p><strong>Resolución:</strong> Explicación paso a paso...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 5: AUTOEVALUACIÓN -->
+                    <div id="tab-quiz" class="tab-content">
+                        <h2>Autoevaluación Rápida</h2>
+                        <p>Selecciona la respuesta correcta para verificar tu comprensión.</p>
+
+                        <!-- Estructura para pregunta de opción múltiple -->
+                        <div class="quiz-item">
+                            <p><strong>1. ¿Cuál es la definición correcta de...?</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, false)">Opción A (Incorrecta)</button>
+                                <button onclick="checkAnswer(this, true)">Opción B (Correcta)</button>
+                                <button onclick="checkAnswer(this, false)">Opción C (Incorrecta)</button>
+                                <button onclick="checkAnswer(this, false)">Opción D (Incorrecta)</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+                    </div>
+
+                </div> <!-- Fin tabs-container -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Mates con Agugg_ia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // --- LÓGICA DE PESTAÑAS ---
+        function openTab(evt, tabName) {
+            // Ocultar todos los contenidos
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+
+            // Quitar clase active de los botones
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Mostrar la pestaña actual y añadir clase active
+            document.getElementById(tabName).style.display = "block";
+            // Pequeño timeout para permitir la animación CSS
+            setTimeout(() => {
+                document.getElementById(tabName).classList.add("active");
+            }, 10);
+            evt.currentTarget.className += " active";
+        }
+
+        // --- LÓGICA DE SOLUCIONES (ACORDEÓN) ---
+        function toggleSolution(btn) {
+            var solution = btn.nextElementSibling;
+            if (solution.style.display === "block") {
+                solution.style.display = "none";
+                btn.textContent = "Ver Solución";
+            } else {
+                solution.style.display = "block";
+                btn.textContent = "Ocultar Solución";
+            }
+        }
+
+        // --- LÓGICA DE QUIZ (AUTOEVALUACIÓN) ---
+        function checkAnswer(btn, isCorrect) {
+            // Desactivar otros botones de esta pregunta para evitar múltiples clics
+            var parent = btn.parentElement;
+            var buttons = parent.getElementsByTagName("button");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true; // Deshabilitar
+                // Si este botón era el correcto (y no el que clicamos), marcarlo visualmente
+                if (buttons[i] !== btn && buttons[i].getAttribute("onclick").includes("true")) {
+                    buttons[i].classList.add("correct"); 
+                }
+            }
+
+            var feedback = parent.nextElementSibling;
+            feedback.style.display = "block";
+
+            if (isCorrect) {
+                btn.classList.add("correct");
+                feedback.textContent = "¡Correcto! Muy bien hecho.";
+                feedback.style.color = "#065F46";
+            } else {
+                btn.classList.add("incorrect");
+                feedback.textContent = "Incorrecto. Revisa la teoría o los ejemplos resueltos.";
+                feedback.style.color = "#991B1B";
+            }
+        }
+    </script>
+
+</body>
+</html>

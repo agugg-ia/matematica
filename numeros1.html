@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mates con Agugg_ia: Plataforma de matemáticas basada en el diseño curricular de la Provincia de Córdoba.">
+    <title>Lección | Mates con Agugg_ia</title>
+    
+    <!-- 1. LIBRERÍA MATHJAX (Para fórmulas) -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* --- VARIABLES CSS Y ESTILOS GENERALES (Tu CSS Original del Index) --- */
+        :root {
+            --primary: #2563EB;      
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;    
+            --accent: #F59E0B;       
+            --dark: #1F2937;         
+            --light: #F3F4F6;        
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--dark);
+            background-color: var(--white);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        ul { list-style: none; }
+        img { max-width: 100%; height: auto; display: block; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- HEADER (Tu estilo original) --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.3rem; 
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .logo span { color: var(--dark); }
+
+        /* --- ESTILOS ESPECÍFICOS PARA LA LECCIÓN (Nuevos) --- */
+        .lesson-container {
+            max-width: 850px; /* Un poco más ancho que en el index para facilitar lectura */
+            margin: 50px auto;
+            background: var(--white);
+            padding: 50px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid #E5E7EB;
+        }
+
+        .lesson-nav {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .lesson-nav a {
+            color: var(--gray);
+            font-weight: 600;
+            margin-right: 20px;
+        }
+
+        .lesson-nav a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Tipografía Matemática */
+        .lesson-content h1 { 
+            font-size: 2.5rem; 
+            color: var(--primary-dark); 
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        .lesson-content h2 { 
+            margin-top: 2.5rem; 
+            margin-bottom: 1.2rem; 
+            color: var(--dark); 
+            font-size: 1.8rem;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+        .lesson-content h3 { 
+            margin-top: 2rem; 
+            margin-bottom: 1rem; 
+            color: var(--primary); 
+            font-size: 1.4rem;
+        }
+        .lesson-content p { 
+            margin-bottom: 1.2rem; 
+            font-size: 1.1rem; 
+            color: #374151; 
+            text-align: justify;
+        }
+
+        /* Caja de Ejemplos */
+        .example-box {
+            background-color: #EFF6FF;
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        .example-box h4 { color: var(--primary-dark); margin-bottom: 10px; }
+        
+        /* Caja de Ejercicios */
+        .exercise-box {
+            background-color: #ECFDF5;
+            border: 1px solid #10B981;
+            padding: 25px;
+            margin: 40px 0;
+            border-radius: var(--radius);
+        }
+        .exercise-box h4 { color: #065F46; margin-bottom: 15px; font-size: 1.2rem;}
+
+        /* Botón Solución */
+        .solution-btn {
+            margin-top: 15px;
+            background: var(--white);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .solution-btn:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Texto de solución oculto */
+        .solution-text {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px dashed #10B981;
+            display: none; /* Oculto por defecto */
+        }
+
+        /* --- FOOTER (Tu estilo original) --- */
+        footer {
+            background-color: var(--dark);
+            color: #D1D5DB;
+            padding: 40px 0;
+            margin-top: auto;
+            text-align: center;
+        }
+
+        /* Responsive simple */
+        @media (max-width: 768px) {
+            .lesson-container { padding: 25px; }
+            .lesson-content h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER (COPIADO DE TU INDEX) -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo" onclick="window.location.href='index.html'">
+                    <!-- Tu Logo SVG -->
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 2V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 7L12 2L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 17L12 22L20 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Mates con Agugg_ia</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- NAVEGACIÓN DE MIGAS DE PAN -->
+            <div class="lesson-nav">
+                <a href="index.html">← Volver al Inicio</a> 
+                <a href="index.html#vista-cursos">Ver Cursos</a>
+            </div>
+
+            <div class="lesson-container">
+                
+                <!-- ==================================================================== -->
+                <!--           ZONA DE CONTENIDO: PEGA AQUÍ LO DE DEEPSEEK                  -->
+                <!-- ==================================================================== -->
+                
+                <div class="lesson-content" id="contenido-leccion">
+                    
+                    <!-- BORRA ESTO Y PEGA EL HTML DE LA IA -->
+                    <h1>Título de la Lección</h1>
+                    <p>Aquí irá la explicación detallada...</p>
+
+                    <!-- Ejemplo de cómo quedará el contenido de la IA: -->
+                    <!--
+                    <h2>1. Conceptos Básicos</h2>
+                    <p>Explicación del concepto...</p>
+                    <div class="example-box">
+                        <h4>Ejemplo 1:</h4>
+                        <p>Resolución paso a paso...</p>
+                    </div>
+                    -->
+
+                </div>
+
+              <h2>1. Regularidades Numéricas y su Representación Geométrica</h2>
+<p>En matemáticas, una regularidad es un patrón que se repite de manera predecible en una secuencia de números o figuras. Identificar regularidades nos permite predecir términos futuros, comprender relaciones profundas y conectar el mundo abstracto de los números con formas geométricas concretas. Los números naturales \( \mathbb{N} \) (1, 2, 3, 4,...) esconden patrones sorprendentes, como los números triangulares, cuadrados o pentagonales, que pueden organizarse formando figuras.</p>
+<p>La representación geométrica de estos números no es solo un juego visual; es una herramienta fundamental para el desarrollo del pensamiento algebraico. Al disponer puntos o fichas para formar figuras, podemos deducir fórmulas generales. Por ejemplo, el enésimo número cuadrado se forma con \( n^2 \) puntos, lo que visualmente corresponde a un cuadrado de lado \( n \). Esta conexión entre la aritmética y la geometría sienta las bases para conceptos más avanzados, como las sucesiones y las funciones.</p>
+
+<p><strong>Ejemplo detallado: Números triangulares</strong></p>
+<p>Los primeros números triangulares son: 1, 3, 6, 10, 15,... ¿Cuál es el patrón? Geométricamente, se pueden arreglar puntos formando triángulos equiláteros. Aritméticamente, cada número se obtiene sumando los primeros números naturales. El primer número triangular es 1. El segundo es 1+2=3. El tercero es 1+2+3=6. El cuarto es 1+2+3+4=10. Por lo tanto, el número triangular en la posición \( n \) (al que llamamos \( T_n \)) es la suma de los primeros \( n \) naturales: $$ T_n = 1 + 2 + 3 + ... + n = \frac{n \cdot (n+1)}{2} $$ Para el 5to número triangular (\( n=5 \)): $$ T_5 = \frac{5 \cdot (5+1)}{2} = \frac{5 \cdot 6}{2} = 15 $$ Efectivamente, 15 es el quinto término de la lista.</p>
+
+<div class="exercise-box">
+    <h3>Ejercicios Propuestos</h3>
+    <ol>
+        <li>Encuentra los próximos tres números de la secuencia: 2, 4, 8, 14, 22, ___, ___, ___. (Pista: Observa la diferencia entre términos consecutivos).</li>
+        <li>Representa con puntos el sexto número triangular (sin contarlos uno por uno) y calcula su valor usando la fórmula \( T_n \).</li>
+        <li>Los números cuadrados son 1, 4, 9, 16,... Dibuja cómo se forma el número cuadrado para \( n=4 \). ¿Cuál es la expresión algebraica general del enésimo número cuadrado?</li>
+    </ol>
+</div>
+
+<h2>2. Introducción a la Combinatoria: Diagramas de Árbol y Cuadros</h2>
+<p>La combinatoria es la rama de las matemáticas que estudia las formas de contar agrupaciones de elementos sin necesidad de enumerarlas todas. Es fundamental para calcular probabilidades y organizar información. En primer año, trabajamos con tres conceptos básicos: <strong>permutaciones</strong> (ordenamientos de todos los elementos de un conjunto), <strong>variaciones</strong> (ordenamientos de un subconjunto de elementos) y <strong>combinaciones</strong> (selecciones de elementos donde el orden no importa).</p>
+<p>Para abordar estos problemas de manera intuitiva, usamos herramientas como los <strong>diagramas de árbol</strong> y los <strong>cuadros de doble entrada</strong>. Un diagrama de árbol permite visualizar todas las posibilidades de manera ramificada, etapa por etapa, y es especialmente útil cuando los eventos son secuenciales. Los cuadros, en cambio, son eficientes para combinar opciones de dos variables. Comprender la diferencia entre "ordenar" y "elegir" es la clave para aplicar correctamente cada concepto.</p>
+
+<p><strong>Ejemplo detallado: Diagrama de árbol para variaciones</strong></p>
+<p>Imagina que tienes las letras A, B y C, y quieres formar códigos de dos letras distintas. ¿Cuántos códigos posibles hay? Como el orden importa (AB es diferente de BA), esto es una variación. Construimos un diagrama de árbol: En la primera elección, tenemos 3 opciones (A, B, C). De cada una de estas, se ramifican las opciones para la segunda letra, que no puede repetirse. Si la primera fue A, las segundas pueden ser B o C. Si la primera fue B, las segundas pueden ser A o C. Si la primera fue C, las segundas pueden ser A o B.
+Contando las ramas finales, obtenemos: AB, AC, BA, BC, CA, CB. Hay 6 códigos posibles. Esto se puede calcular como \( 3 \times 2 = 6 \), que es la fórmula de variación \( V_{3,2} = 3 \cdot 2 \).</p>
+
+<div class="exercise-box">
+    <h3>Ejercicios Propuestos</h3>
+    <ol>
+        <li>Usa un diagrama de árbol para listar todas las permutaciones posibles de las letras X, Y, Z (es decir, todos los ordenamientos de 3 elementos). ¿Cuántas hay?</li>
+        <li>En una heladería, ofrecen 3 sabores: Frutilla (F), Chocolate (C) y Vainilla (V). Si solo puedes pedir una bocha de helado, ¿cuántas opciones tienes? Si puedes pedir dos bochas de sabores distintos, ¿cuántas combinaciones posibles hay? (Usa un cuadro para la segunda pregunta).</li>
+        <li>Explica con tus palabras la diferencia entre una variación y una combinación. Da un ejemplo de cada una.</li>
+    </ol>
+</div>
+
+<h2>3. Propiedades Algebraicas de la Suma y Multiplicación con Naturales</h2>
+<p>Las operaciones básicas con números naturales no son acciones aisladas; obedecen a propiedades fundamentales que les dan estructura y nos permiten simplificar cálculos. Estas propiedades son los cimientos del álgebra. Las principales son: la <strong>conmutatividad</strong> (el orden de los factores no altera el resultado), la <strong>asociatividad</strong> (podemos agrupar los números de diferente manera sin cambiar el resultado) y la <strong>distributividad</strong> de la multiplicación respecto de la suma (que permite "repartir" un factor sobre una suma).</p>
+<p>Analizar algebraicamente estas propiedades significa expresarlas en lenguaje simbólico general, usando letras (variables) que representan cualquier número natural. Esto trasciende los ejemplos numéricos concretos y nos da una regla universal. Por ejemplo, la propiedad conmutativa de la suma se escribe \( a + b = b + a \), para todo \( a, b \in \mathbb{N} \). Entender y dominar estas propiedades es esencial para operar con expresiones algebraicas en años superiores y para desarrollar estrategias de cálculo mental eficiente.</p>
+
+<p><strong>Ejemplo detallado: La propiedad distributiva</strong></p>
+<p>La propiedad distributiva conecta la suma y la multiplicación. Nos dice que multiplicar un número por una suma es igual a sumar los resultados de multiplicar ese número por cada sumando. Formalmente: \( a \cdot (b + c) = a \cdot b + a \cdot c \). Veámoslo con números: Supongamos que queremos calcular \( 4 \times (7 + 3) \). Podemos hacerlo de dos formas:
+    <br>1) Respetando el paréntesis: \( 4 \times (10) = 40 \).
+    <br>2) Distribuyendo el 4: \( (4 \times 7) + (4 \times 3) = 28 + 12 = 40 \).
+Ambas formas dan el mismo resultado. Esta propiedad es la base de algoritmos como la multiplicación por dos cifras y de técnicas de factorización en álgebra.</p>
+
+<div class="exercise-box">
+    <h3>Ejercicios Propuestos</h3>
+    <ol>
+        <li>Aplica la propiedad asociativa de la multiplicación para calcular \( 5 \times 13 \times 2 \) de la forma más sencilla. Explica cada paso.</li>
+        <li>Completa con la propiedad correspondiente (conmutativa, asociativa o distributiva):
+            a) \( 15 + 8 = 8 + 15 \) → Propiedad ________.
+            b) \( (9 \times 4) \times 5 = 9 \times (4 \times 5) \) → Propiedad ________.
+            c) \( 6 \times (10 - 3) = 6 \times 10 - 6 \times 3 \) → Propiedad ________.</li>
+        <li>Usa la propiedad distributiva "al revés" (factor común) para expresar estas sumas como una multiplicación: a) \( 24 + 36 \) b) \( 14 + 21 + 35 \).</li>
+    </ol>
+</div>
+
+<h2>4. Múltiplos, Divisores, Criterios de Divisibilidad y Factores Primos</h2>
+<p>Los conceptos de múltiplo y divisor describen una relación de divisibilidad entre dos números naturales. Decimos que \( a \) es múltiplo de \( b \) (o que \( b \) es divisor de \( a \)) si al dividir \( a \) entre \( b \) la división es exacta (resto cero). Por ejemplo, 12 es múltiplo de 3 porque \( 12 \div 3 = 4 \) con resto 0. El conjunto de múltiplos de un número es infinito, mientras que el conjunto de divisores es finito. Trabajar con estos conceptos nos permite simplificar fracciones, encontrar común denominador y resolver problemas de agrupaciones.</p>
+<p>Para saber rápidamente si un número es divisible por otro (sin hacer la división) usamos los <strong>criterios de divisibilidad</strong>, que son reglas basadas en las cifras del número. Por otro lado, la <strong>descomposición en factores primos</strong> (o factorización) es un proceso que consiste en expresar un número compuesto como un producto de números primos. Este es un resultado fundamental en aritmética conocido como el Teorema Fundamental de la Aritmética, y es la herramienta clave para calcular el máximo común divisor (MCD) y el mínimo común múltiplo (mcm).</p>
+
+<p><strong>Ejemplo detallado: Descomposición en factores primos y aplicación</strong></p>
+<p>Vamos a descomponer el número 180. Dividimos sucesivamente por números primos (2, 3, 5, 7,...) hasta obtener 1.
+    <br>180 ÷ 2 = 90
+    <br>90 ÷ 2 = 45
+    <br>45 ÷ 3 = 15
+    <br>15 ÷ 3 = 5
+    <br>5 ÷ 5 = 1
+Los divisores utilizados son: 2, 2, 3, 3, 5. Por lo tanto, la descomposición es: $$ 180 = 2^2 \times 3^2 \times 5^1 $$
+Con esta factorización, podemos encontrar fácilmente los divisores de 180 y también calcular, por ejemplo, el mcm o MCD con otro número. Si queremos el MCD(180, 54), descomponemos 54: \( 54 = 2 \times 3^3 \). El MCD se obtiene multiplicando los factores primos comunes con su menor exponente: \( 2^1 \times 3^2 = 2 \times 9 = 18 \).</p>
+
+<div class="exercise-box">
+    <h3>Ejercicios Propuestos</h3>
+    <ol>
+        <li>Encuentra todos los divisores del número 48. Luego, identifica cuáles de estos divisores son números primos.</li>
+        <li>Aplica los criterios de divisibilidad por 2, 3, 5, 6 y 9 para determinar, sin dividir, por cuáles de estos números es divisible 2.430. Justifica cada respuesta.</li>
+        <li>Descompone en factores primos los números 96 y 140. Usa estas descomposiciones para calcular: a) El máximo común divisor (MCD). b) El mínimo común múltiplo (mcm).</li>
+    </ol>
+</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER (COPIADO DE TU INDEX) -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Mates con Agugg_ia. Todos los derechos reservados.</p>
+            <p style="font-size: 0.8rem; margin-top: 10px; color: #6B7280;">
+                Plataforma educativa autogestiva alineada al currículum provincial.
+            </p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT PARA INTERACTIVIDAD (Mostrar/Ocultar Soluciones) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.solution-btn');
+            
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Busca el elemento hermano siguiente (la solución)
+                    const solution = this.nextElementSibling;
+                    if (solution && solution.classList.contains('solution-text')) {
+                        if (solution.style.display === 'block') {
+                            solution.style.display = 'none';
+                            this.textContent = 'Ver Solución';
+                        } else {
+                            solution.style.display = 'block';
+                            this.textContent = 'Ocultar Solución';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

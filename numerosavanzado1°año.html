@@ -29,7 +29,7 @@
         body {
             font-family: var(--font-main);
             color: var(--dark);
-            background-color: #F9FAFB; /* Fondo ligeramente más gris para destacar el contenedor */
+            background-color: #F9FAFB; 
             line-height: 1.6;
             display: flex;
             flex-direction: column;
@@ -67,12 +67,12 @@
 
         /* --- CONTENEDOR PRINCIPAL DE LECCIÓN --- */
         .lesson-container {
-            max-width: 1000px; /* Ancho cómodo para lectura */
+            max-width: 1000px; 
             margin: 40px auto;
             background: var(--white);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            overflow: hidden; /* Para bordes redondeados */
+            overflow: hidden; 
             min-height: 600px;
         }
 
@@ -102,7 +102,7 @@
             display: flex;
             background-color: #f3f4f6;
             border-bottom: 1px solid #e5e7eb;
-            overflow-x: auto; /* Para móviles */
+            overflow-x: auto; 
         }
 
         .tab-btn {
@@ -170,10 +170,13 @@
         }
 
         /* Tab 3: Desarrollos Resueltos */
+        details { margin-bottom: 20px; }
+        summary { cursor: pointer; font-weight: bold; color: var(--primary-dark); }
+        
         .solved-example {
             border: 1px solid #E5E7EB;
             border-radius: 8px;
-            margin: 30px 0;
+            margin: 20px 0;
             overflow: hidden;
         }
         .solved-header {
@@ -348,7 +351,8 @@
     </div>
 
 <!-- PESTAÑA 3: DESARROLLOS RESUELTOS -->
-<div class="tab-content" id="solved">
+<!-- CORRECCIÓN APLICADA AQUÍ: id="tab-resueltos" -->
+<div id="tab-resueltos" class="tab-content">
     <h2>Problemas Resueltos Paso a Paso</h2>
     <p>Explorá cada tema desplegando los acordeones. Encontrarás ejercicios básicos y problemas aplicados con soluciones detalladas.</p>
 

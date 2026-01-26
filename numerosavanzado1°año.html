@@ -349,69 +349,785 @@
     </div>
 
     <!-- PESTAÑA 3: DESARROLLOS RESUELTOS -->
-    <div id="tab-resueltos" class="tab-content">
-        <h2>Problemas Resueltos Paso a Paso</h2>
+<!-- PESTAÑA 3: DESARROLLOS RESUELTOS -->
+<div class="tab-content" id="solved">
+    <h2>Problemas Resueltos Paso a Paso</h2>
+    <p>Explorá cada tema desplegando los acordeones. Encontrarás ejercicios básicos y problemas aplicados con soluciones detalladas.</p>
 
-        <div class="solved-example">
-            <div class="solved-header">Ejemplo 1: Organizando una fiesta (Combinatoria)</div>
-            <div class="solved-body">
-                <p>Para una fiesta, tenés 3 remeras (roja, azul, verde) y 2 pantalones (jean, jogging). ¿De cuántas maneras distintas podés vestirte usando una remera y un pantalón?</p>
-                <div class="solved-step">
-                    <strong>Paso 1:</strong> Identificar el tipo de problema. Es una elección secuencial: primero elegís remera, luego pantalón. El orden de estas elecciones no importa como variación, pero cada combinación (remera+pantalón) es única.
+    <!-- TÓPICO 1: REGULARIDADES -->
+    <details class="topic-accordion">
+        <summary>
+            <h3>1. Regularidades Numéricas y Representación Geométrica</h3>
+        </summary>
+        <div class="accordion-content">
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 1: Encontrar el patrón</div>
+                <div class="solved-body">
+                    <p>Encontrá los dos próximos términos en la secuencia: 3, 6, 11, 18, 27, ___, ___</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Analizar las diferencias entre términos consecutivos.
+                        <br>6 - 3 = 3
+                        <br>11 - 6 = 5
+                        <br>18 - 11 = 7
+                        <br>27 - 18 = 9
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Las diferencias (3, 5, 7, 9) forman una progresión aritmética que aumenta de 2 en 2.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> La próxima diferencia sería 9 + 2 = 11, y la siguiente 11 + 2 = 13.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Calcular los términos: 27 + 11 = 38; 38 + 13 = 51.
+                    </div>
+                    <p><strong>Respuesta:</strong> La secuencia continúa: 38, 51.</p>
                 </div>
-                <div class="solved-step">
-                    <strong>Paso 2:</strong> Aplicar el principio de multiplicación. Nº de opciones para remeras: 3. Nº de opciones para pantalones: 2.
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 2: Fórmula del n-ésimo término</div>
+                <div class="solved-body">
+                    <p>Encontrá la fórmula del término general para la secuencia: 2, 5, 10, 17, 26, ...</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Observar la relación con los números cuadrados.
+                        <br>2 = 1² + 1
+                        <br>5 = 2² + 1
+                        <br>10 = 3² + 1
+                        <br>17 = 4² + 1
+                        <br>26 = 5² + 1
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Identificar el patrón: cada término es igual al cuadrado de su posición más 1.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Si \( n \) es la posición (empezando en 1), entonces el término \( a_n \) es \( n^2 + 1 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Verificar: Para \( n=3 \), \( 3^2 + 1 = 10 \), que coincide.
+                    </div>
+                    <p><strong>Respuesta:</strong> \( a_n = n^2 + 1 \).</p>
                 </div>
-                <div class="solved-step">
-                    <strong>Paso 3:</strong> Calcular. Total de conjuntos distintos = \( 3 \times 2 = 6 \).
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 3: Números triangulares</div>
+                <div class="solved-body">
+                    <p>Calculá el séptimo número triangular usando la fórmula.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Recordar la fórmula del n-ésimo número triangular: \( T_n = \frac{n(n+1)}{2} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Sustituir \( n = 7 \) en la fórmula.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Calcular: \( T_7 = \frac{7 \times (7+1)}{2} = \frac{7 \times 8}{2} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Resolver: \( \frac{56}{2} = 28 \).
+                    </div>
+                    <p><strong>Respuesta:</strong> El séptimo número triangular es 28.</p>
                 </div>
-                <div class="solved-step">
-                    <strong>Paso 4:</strong> Listar (opcional) para verificar: (R, J), (R, G), (A, J), (A, G), (V, J), (V, G).
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 4: Patrón en cuadrados</div>
+                <div class="solved-body">
+                    <p>Mostrá que la suma de dos números triangulares consecutivos es un número cuadrado.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Escribir los números triangulares: \( T_n = \frac{n(n+1)}{2} \) y \( T_{n-1} = \frac{(n-1)n}{2} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Sumar ambas expresiones: \( T_n + T_{n-1} = \frac{n(n+1)}{2} + \frac{n(n-1)}{2} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Sacar común denominador: \( = \frac{n(n+1) + n(n-1)}{2} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Factorizar y simplificar: \( = \frac{n[(n+1)+(n-1)]}{2} = \frac{n(2n)}{2} = n^2 \).
+                    </div>
+                    <p><strong>Respuesta:</strong> \( T_n + T_{n-1} = n^2 \), que es el n-ésimo número cuadrado.</p>
                 </div>
-                <p><strong>Respuesta:</strong> Hay 6 conjuntos posibles.</p>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Problema: Diseñar un mosaico</div>
+                <div class="solved-body">
+                    <p>Un albañil usa baldosas blancas para formar cuadrados. Para el primer cuadrado usa 4 baldosas, para el segundo 9, para el tercero 16. Si continúa el patrón, ¿cuántas baldosas necesitará para el décimo cuadrado? ¿Cuál es la fórmula general?</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Identificar el patrón en los primeros términos.
+                        <br>Primer cuadrado: \( 4 = 2^2 \) (pero posición 1)
+                        <br>Segundo: \( 9 = 3^2 \) (posición 2)
+                        <br>Tercero: \( 16 = 4^2 \) (posición 3)
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Generalizar: Para la posición \( n \), el número de baldosas es \( (n+1)^2 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Aplicar para \( n=10 \): \( (10+1)^2 = 11^2 = 121 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Verificar con el tercer término: \( (3+1)^2 = 16 \), correcto.
+                    </div>
+                    <p><strong>Respuesta:</strong> Necesitará 121 baldosas. Fórmula: \( baldosas_n = (n+1)^2 \).</p>
+                </div>
             </div>
         </div>
+    </details>
 
-        <div class="solved-example">
-            <div class="solved-header">Ejemplo 2: Repartir materiales (Múltiplos y divisores)</div>
-            <div class="solved-body">
-                <p>Tenés 12 lápices y 9 cuadernos. Querés armar paquetes iguales para donar, usando todos los materiales. ¿Cuál es la mayor cantidad de paquetes que podés armar? ¿Qué contendrá cada uno?</p>
-                <div class="solved-step">
-                    <strong>Paso 1:</strong> La cantidad de paquetes debe dividir exactamente tanto a 12 como a 9. Por lo tanto, debemos encontrar el <strong>máximo común divisor (MCD)</strong>.
+    <!-- TÓPICO 2: COMBINATORIA -->
+    <details class="topic-accordion">
+        <summary>
+            <h3>2. Introducción a la Combinatoria</h3>
+        </summary>
+        <div class="accordion-content">
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 1: Principio de multiplicación básico</div>
+                <div class="solved-body">
+                    <p>Si hay 4 caminos para ir de la ciudad A a la B, y 3 caminos para ir de B a C, ¿de cuántas maneras se puede ir de A a C pasando por B?</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Identificar las etapas: Primero ir de A a B, luego de B a C.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Aplicar el principio de multiplicación: Nº de formas = (formas de A→B) × (formas de B→C).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Sustituir: \( 4 \times 3 = 12 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Conclusión: Hay 12 rutas posibles.
+                    </div>
+                    <p><strong>Respuesta:</strong> 12 maneras diferentes.</p>
                 </div>
-                <div class="solved-step">
-                    <strong>Paso 2:</strong> Factorizar ambos números. \( 12 = 2^2 \cdot 3 \); \( 9 = 3^2 \).
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 2: Permutaciones simples</div>
+                <div class="solved-body">
+                    <p>¿De cuántas maneras se pueden ordenar 5 libros diferentes en un estante?</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Es una permutación de 5 elementos distintos.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Usar la fórmula de permutaciones: \( P_5 = 5! \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Calcular \( 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Interpretar: Cada ordenamiento es único.
+                    </div>
+                    <p><strong>Respuesta:</strong> 120 maneras diferentes.</p>
                 </div>
-                <div class="solved-step">
-                    <strong>Paso 3:</strong> El MCD se forma con los factores primos comunes elevados al menor exponente: \( 3^1 = 3 \).
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 3: Variaciones (orden importa)</div>
+                <div class="solved-body">
+                    <p>En una carrera con 8 atletas, ¿de cuántas maneras pueden repartirse las medallas de oro, plata y bronce?</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> El orden importa (oro, plata, bronce son distintos). Es una variación de 8 elementos tomados de 3 en 3.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Fórmula: \( V_{8,3} = 8 \times 7 \times 6 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Calcular: \( 8 \times 7 = 56 \); \( 56 \times 6 = 336 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Verificar: Para el oro hay 8 opciones, para la plata 7, para el bronce 6.
+                    </div>
+                    <p><strong>Respuesta:</strong> 336 maneras diferentes.</p>
                 </div>
-                <div class="solved-step">
-                    <strong>Paso 4:</strong> Interpretar. Se pueden armar 3 paquetes. Cada paquete tendrá \( 12 \div 3 = 4 \) lápices y \( 9 \div 3 = 3 \) cuadernos.
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 4: Combinaciones (orden no importa)</div>
+                <div class="solved-body">
+                    <p>De un grupo de 6 amigos, ¿cuántos equipos de 3 personas se pueden formar?</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> El orden no importa (el equipo {Ana, Luis, María} es el mismo que {María, Ana, Luis}).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Es una combinación: \( C_{6,3} = \frac{6!}{3!(6-3)!} = \frac{6!}{3! \cdot 3!} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Calcular factoriales: \( 6! = 720 \), \( 3! = 6 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Sustituir: \( \frac{720}{6 \times 6} = \frac{720}{36} = 20 \).
+                    </div>
+                    <p><strong>Respuesta:</strong> Se pueden formar 20 equipos diferentes.</p>
                 </div>
-                <p><strong>Respuesta:</strong> Se arman 3 paquetes, cada uno con 4 lápices y 3 cuadernos.</p>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Problema: Organizar una comisión</div>
+                <div class="solved-body">
+                    <p>En un curso de 20 estudiantes, se debe elegir una comisión de 4 personas: 1 presidente, 1 secretario y 2 vocales. ¿De cuántas maneras se puede elegir la comisión?</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Elegir presidente y secretario (orden importa, son cargos distintos). Variación de 20 tomados de 2: \( V_{20,2} = 20 \times 19 = 380 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Luego, elegir 2 vocales de los 18 restantes (orden no importa, ambos son vocales). Combinación: \( C_{18,2} = \frac{18 \times 17}{2} = 153 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Aplicar principio de multiplicación: \( 380 \times 153 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Calcular: \( 380 \times 150 = 57,000 \); \( 380 \times 3 = 1,140 \); total = 58,140.
+                    </div>
+                    <p><strong>Respuesta:</strong> La comisión se puede elegir de 58,140 maneras diferentes.</p>
+                </div>
             </div>
         </div>
+    </details>
 
-        <div class="solved-example">
-            <div class="solved-header">Ejemplo 3: Diseñar una contraseña (Permutaciones)</div>
-            <div class="solved-body">
-                <p>Querés crear una contraseña de 4 letras distintas usando las letras A, B, C, D. ¿Cuántas contraseñas posibles hay?</p>
-                <div class="solved-step">
-                    <strong>Paso 1:</strong> Es un problema de <strong>permutaciones</strong> porque usamos todos los elementos disponibles (4 letras) y el orden importa (ABCD es diferente de ACBD).
+    <!-- TÓPICO 3: PROPIEDADES ALGEBRAICAS -->
+    <details class="topic-accordion">
+        <summary>
+            <h3>3. Propiedades Algebraicas de la Suma y Multiplicación</h3>
+        </summary>
+        <div class="accordion-content">
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 1: Aplicar propiedad conmutativa</div>
+                <div class="solved-body">
+                    <p>Mostrá que \( 35 + 48 = 48 + 35 \) y \( 7 \times 12 = 12 \times 7 \).</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Para la suma: Calcular ambos lados. \( 35 + 48 = 83 \); \( 48 + 35 = 83 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Ambas sumas dan el mismo resultado, ilustrando la conmutatividad de la suma.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Para la multiplicación: \( 7 \times 12 = 84 \); \( 12 \times 7 = 84 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Ambas multiplicaciones dan el mismo resultado, ilustrando la conmutatividad del producto.
+                    </div>
+                    <p><strong>Respuesta:</strong> Se verifica que \( a+b = b+a \) y \( a \cdot b = b \cdot a \).</p>
                 </div>
-                <div class="solved-step">
-                    <strong>Paso 2:</strong> El número de permutaciones de 4 elementos es \( P_4 = 4! \).
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 2: Usar propiedad asociativa para simplificar</div>
+                <div class="solved-body">
+                    <p>Calculá \( 25 \times 13 \times 4 \) de la forma más sencilla.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Aplicar propiedad asociativa para reagrupar: \( (25 \times 4) \times 13 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Calcular \( 25 \times 4 = 100 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Luego \( 100 \times 13 = 1,300 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Comparar con el cálculo directo: \( 25 \times 13 = 325 \); \( 325 \times 4 = 1,300 \). Mismo resultado pero más cálculos.
+                    </div>
+                    <p><strong>Respuesta:</strong> El resultado es 1,300.</p>
                 </div>
-                <div class="solved-step">
-                    <strong>Paso 3:</strong> Calcular \( 4! = 4 \times 3 \times 2 \times 1 = 24 \).
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 3: Aplicar propiedad distributiva</div>
+                <div class="solved-body">
+                    <p>Resolvé \( 8 \times (15 + 6) \) usando la propiedad distributiva.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Aplicar distributiva: \( 8 \times 15 + 8 \times 6 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Calcular cada producto: \( 8 \times 15 = 120 \); \( 8 \times 6 = 48 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Sumar: \( 120 + 48 = 168 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Verificar resolviendo primero el paréntesis: \( 15 + 6 = 21 \); \( 8 \times 21 = 168 \).
+                    </div>
+                    <p><strong>Respuesta:</strong> El resultado es 168.</p>
                 </div>
-                <div class="solved-step">
-                    <strong>Paso 4:</strong> Verificar con un diagrama de árbol mental: para la primera letra hay 4 opciones, para la segunda 3, para la tercera 2 y para la cuarta 1. \( 4 \times 3 \times 2 \times 1 = 24 \).
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 4: Factor común (distributiva al revés)</div>
+                <div class="solved-body">
+                    <p>Expresá \( 18 + 27 + 36 \) como una multiplicación usando factor común.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Buscar el máximo común divisor de los números: MCD(18, 27, 36) = 9.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Expresar cada término como producto de 9 por otro número:
+                        <br>\( 18 = 9 \times 2 \)
+                        <br>\( 27 = 9 \times 3 \)
+                        <br>\( 36 = 9 \times 4 \)
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Aplicar factor común: \( 9 \times 2 + 9 \times 3 + 9 \times 4 = 9 \times (2 + 3 + 4) \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Verificar: \( 9 \times 9 = 81 \), que es igual a \( 18 + 27 + 36 = 81 \).
+                    </div>
+                    <p><strong>Respuesta:</strong> \( 9 \times (2 + 3 + 4) \).</p>
                 </div>
-                <p><strong>Respuesta:</strong> Hay 24 contraseñas posibles.</p>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Problema: Compras en el supermercado</div>
+                <div class="solved-body">
+                    <p>Ana compra 3 paquetes de galletitas a $125 cada uno y 3 bolsas de caramelos a $75 cada una. ¿Cuánto gasta en total? Usá propiedades para calcular mentalmente.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Plantear la expresión: \( 3 \times 125 + 3 \times 75 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Aplicar propiedad distributiva (factor común 3): \( 3 \times (125 + 75) \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Sumar dentro del paréntesis: \( 125 + 75 = 200 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Multiplicar: \( 3 \times 200 = 600 \).
+                    </div>
+                    <p><strong>Respuesta:</strong> Ana gasta $600. Esto es más rápido que calcular \( 375 + 225 \).</p>
+                </div>
             </div>
         </div>
-    </div>
+    </details>
+
+    <!-- TÓPICO 4: MÚLTIPLOS, DIVISORES Y FACTORIZACIÓN -->
+    <details class="topic-accordion">
+        <summary>
+            <h3>4. Múltiplos, Divisores, Criterios de Divisibilidad y Factorización Prima</h3>
+        </summary>
+        <div class="accordion-content">
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 1: Encontrar múltiplos</div>
+                <div class="solved-body">
+                    <p>Encontrá los primeros 5 múltiplos de 13 mayores que 50.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Un múltiplo de 13 es de la forma \( 13 \times k \), con \( k \) natural.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Encontrar el primer múltiplo mayor que 50: \( 13 \times 4 = 52 \) (es mayor que 50).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Continuar multiplicando: \( 13 \times 5 = 65 \), \( 13 \times 6 = 78 \), \( 13 \times 7 = 91 \), \( 13 \times 8 = 104 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Listar los resultados.
+                    </div>
+                    <p><strong>Respuesta:</strong> 52, 65, 78, 91, 104.</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 2: Encontrar todos los divisores</div>
+                <div class="solved-body">
+                    <p>Encontrá todos los divisores de 72.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Empezar por 1: \( 72 \div 1 = 72 \), entonces 1 y 72 son divisores.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Probar con 2: \( 72 \div 2 = 36 \), entonces 2 y 36 son divisores.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Continuar sistemáticamente: 3 y 24, 4 y 18, 6 y 12, 8 y 9.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Ordenar: 1, 2, 3, 4, 6, 8, 9, 12, 18, 24, 36, 72.
+                    </div>
+                    <p><strong>Respuesta:</strong> Los divisores de 72 son: 1, 2, 3, 4, 6, 8, 9, 12, 18, 24, 36, 72.</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 3: Criterios de divisibilidad</div>
+                <div class="solved-body">
+                    <p>Determiná, sin dividir, si 2.016 es divisible por 2, 3, 4, 5, 6, 9 y 10.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Por 2: termina en 6 (par) → SÍ.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Por 3: suma de cifras 2+0+1+6=9, divisible por 3 → SÍ.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Por 4: las últimas dos cifras forman 16, divisible por 4 → SÍ.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Por 5: no termina en 0 ni 5 → NO. Por 6: divisible por 2 y 3 → SÍ. Por 9: suma de cifras=9, divisible por 9 → SÍ. Por 10: no termina en 0 → NO.
+                    </div>
+                    <p><strong>Respuesta:</strong> Divisible por 2, 3, 4, 6, 9. No divisible por 5 ni 10.</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 4: Descomposición en factores primos</div>
+                <div class="solved-body">
+                    <p>Descomponé 360 en factores primos.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Dividir por el primo más pequeño posible (2): \( 360 \div 2 = 180 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Seguir dividiendo por 2: \( 180 \div 2 = 90 \); \( 90 \div 2 = 45 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> 45 ya no es divisible por 2, probar con 3: \( 45 \div 3 = 15 \); \( 15 \div 3 = 5 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> 5 es primo: \( 5 \div 5 = 1 \). Los factores son los divisores usados.
+                    </div>
+                    <p><strong>Respuesta:</strong> \( 360 = 2^3 \times 3^2 \times 5 \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Problema: Organizar estudiantes en filas</div>
+                <div class="solved-body">
+                    <p>Un profesor quiere formar a sus 36 estudiantes en filas iguales (todas con la misma cantidad). ¿De cuántas maneras puede hacerlo si quiere más de 3 filas pero menos de 10?</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Buscar los divisores de 36: 1, 2, 3, 4, 6, 9, 12, 18, 36.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Filtrar los que están entre 3 y 10 exclusivos: mayores que 3: 4, 6, 9; menores que 10: 4, 6, 9.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Verificar cada opción:
+                        <br>4 filas → \( 36 \div 4 = 9 \) estudiantes por fila.
+                        <br>6 filas → \( 36 \div 6 = 6 \) estudiantes por fila.
+                        <br>9 filas → \( 36 \div 9 = 4 \) estudiantes por fila.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Todas cumplen la condición.
+                    </div>
+                    <p><strong>Respuesta:</strong> Puede formarlos de 3 maneras diferentes: en 4, 6 o 9 filas.</p>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- TÓPICO 5: POTENCIACIÓN -->
+    <details class="topic-accordion">
+        <summary>
+            <h3>5. Potenciación con Números Naturales</h3>
+        </summary>
+        <div class="accordion-content">
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 1: Calcular potencias básicas</div>
+                <div class="solved-body">
+                    <p>Calculá: \( 2^5 \), \( 3^4 \), \( 5^3 \), \( 10^4 \).</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> \( 2^5 = 2 \times 2 \times 2 \times 2 \times 2 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Calcular paso a paso: \( 2 \times 2 = 4 \), \( 4 \times 2 = 8 \), \( 8 \times 2 = 16 \), \( 16 \times 2 = 32 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> \( 3^4 = 3 \times 3 \times 3 \times 3 = 81 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> \( 5^3 = 125 \), \( 10^4 = 10,000 \).
+                    </div>
+                    <p><strong>Respuesta:</strong> \( 2^5 = 32 \), \( 3^4 = 81 \), \( 5^3 = 125 \), \( 10^4 = 10,000 \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 2: Propiedad del producto de potencias de igual base</div>
+                <div class="solved-body">
+                    <p>Simplificá \( 2^4 \times 2^3 \) como una sola potencia.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Recordar propiedad: \( a^m \times a^n = a^{m+n} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Identificar base común (2) y sumar exponentes: \( 4 + 3 = 7 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Escribir como una sola potencia: \( 2^7 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Verificar: \( 2^4 = 16 \), \( 2^3 = 8 \), \( 16 \times 8 = 128 \), y \( 2^7 = 128 \).
+                    </div>
+                    <p><strong>Respuesta:</strong> \( 2^7 \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 3: Propiedad de potencia de otra potencia</div>
+                <div class="solved-body">
+                    <p>Simplificá \( (5^2)^3 \) como una sola potencia.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Recordar propiedad: \( (a^m)^n = a^{m \times n} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Multiplicar exponentes: \( 2 \times 3 = 6 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Escribir como \( 5^6 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Verificar: \( 5^2 = 25 \), \( 25^3 = 15,625 \), y \( 5^6 = 15,625 \).
+                    </div>
+                    <p><strong>Respuesta:</strong> \( 5^6 \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 4: Propiedad del producto elevado a una potencia</div>
+                <div class="solved-body">
+                    <p>Simplificá \( (2 \times 3)^4 \) usando propiedades.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Recordar propiedad: \( (a \times b)^n = a^n \times b^n \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Aplicar: \( (2 \times 3)^4 = 2^4 \times 3^4 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Calcular cada potencia: \( 2^4 = 16 \), \( 3^4 = 81 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Multiplicar: \( 16 \times 81 = 1,296 \). Verificar: \( (6)^4 = 1,296 \).
+                    </div>
+                    <p><strong>Respuesta:</strong> \( 2^4 \times 3^4 = 1,296 \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Problema: Crecimiento exponencial de bacterias</div>
+                <div class="solved-body">
+                    <p>Una bacteria se duplica cada hora. Si comienza con 1 bacteria, ¿cuántas habrá después de 8 horas? Expresá el resultado como potencia.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Después de 1 hora: \( 1 \times 2 = 2^1 = 2 \) bacterias.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Después de 2 horas: \( 2 \times 2 = 2^2 = 4 \) bacterias.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Identificar el patrón: después de \( n \) horas: \( 2^n \) bacterias.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Para \( n=8 \): \( 2^8 = 256 \) bacterias.
+                    </div>
+                    <p><strong>Respuesta:</strong> Habrá \( 2^8 = 256 \) bacterias.</p>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- TÓPICO 6: NÚMEROS RACIONALES -->
+    <details class="topic-accordion">
+        <summary>
+            <h3>6. Números Racionales Positivos (Fracción, Decimal, Porcentaje)</h3>
+        </summary>
+        <div class="accordion-content">
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 1: Convertir fracción a decimal</div>
+                <div class="solved-body">
+                    <p>Convertí \( \frac{3}{8} \) a decimal.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Dividir el numerador por el denominador: \( 3 \div 8 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Como 3 es menor que 8, agregar un 0 y un punto decimal: 3,0 ÷ 8.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> 8 cabe 0 veces en 3,0, pero 8×3=24, cabe 3 veces en 30 (con resto 6). Poner 0,3 y bajar 0.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> 60 ÷ 8 = 7 (porque 8×7=56), resto 4. Bajar 0. 40 ÷ 8 = 5 exacto. Resultado: 0,375.
+                    </div>
+                    <p><strong>Respuesta:</strong> \( \frac{3}{8} = 0,375 \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 2: Convertir decimal a fracción</div>
+                <div class="solved-body">
+                    <p>Expresá 0,65 como fracción irreducible.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Escribir el decimal como fracción con denominador potencia de 10: \( 0,65 = \frac{65}{100} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Simplificar dividiendo numerador y denominador por su MCD. MCD(65,100)=5.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> \( \frac{65 \div 5}{100 \div 5} = \frac{13}{20} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Verificar que 13 y 20 no tienen divisores comunes (excepto 1).
+                    </div>
+                    <p><strong>Respuesta:</strong> \( 0,65 = \frac{13}{20} \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 3: Convertir fracción a porcentaje</div>
+                <div class="solved-body">
+                    <p>Expresá \( \frac{7}{25} \) como porcentaje.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Método 1: Convertir a decimal primero. \( 7 \div 25 = 0,28 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Multiplicar el decimal por 100: \( 0,28 \times 100 = 28 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Agregar el símbolo %.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Método alternativo: \( \frac{7}{25} = \frac{7 \times 4}{25 \times 4} = \frac{28}{100} = 28\% \).
+                    </div>
+                    <p><strong>Respuesta:</strong> \( \frac{7}{25} = 28\% \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 4: Convertir porcentaje a fracción</div>
+                <div class="solved-body">
+                    <p>Expresá 45% como fracción irreducible.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Porcentaje significa "por cada 100": \( 45\% = \frac{45}{100} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Simplificar: MCD(45,100)=5.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Dividir: \( \frac{45 \div 5}{100 \div 5} = \frac{9}{20} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Verificar: 9 y 20 son coprimos.
+                    </div>
+                    <p><strong>Respuesta:</strong> \( 45\% = \frac{9}{20} \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Problema: Descuento en una tienda</div>
+                <div class="solved-body">
+                    <p>Una remera cuesta $1.200. Tiene un descuento del 15%. ¿Cuánto se paga? Expresá el descuento como fracción y decimal.</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Calcular el monto del descuento: \( 15\% \) de \( 1.200 = \frac{15}{100} \times 1.200 = 0,15 \times 1.200 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Calcular: \( 0,15 \times 1.200 = 180 \). Descuento de $180.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Precio final: \( 1.200 - 180 = 1.020 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Expresar 15% como fracción: \( \frac{15}{100} = \frac{3}{20} \); como decimal: 0,15.
+                    </div>
+                    <p><strong>Respuesta:</strong> Se paga $1.020. 15% = \( \frac{3}{20} \) = 0,15.</p>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- TÓPICO 7: OPERACIONES CON RACIONALES -->
+    <details class="topic-accordion">
+        <summary>
+            <h3>7. Operaciones con Números Racionales</h3>
+        </summary>
+        <div class="accordion-content">
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 1: Suma de fracciones con distinto denominador</div>
+                <div class="solved-body">
+                    <p>Calculá \( \frac{2}{3} + \frac{5}{6} \).</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Encontrar mínimo común múltiplo de los denominadores: mcm(3,6)=6.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Convertir \( \frac{2}{3} \) a sextos: \( \frac{2}{3} = \frac{2 \times 2}{3 \times 2} = \frac{4}{6} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Sumar: \( \frac{4}{6} + \frac{5}{6} = \frac{4+5}{6} = \frac{9}{6} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Simplificar: \( \frac{9}{6} = \frac{3}{2} \) o \( 1 \frac{1}{2} \).
+                    </div>
+                    <p><strong>Respuesta:</strong> \( \frac{3}{2} \) ó \( 1,5 \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 2: Resta de fracciones</div>
+                <div class="solved-body">
+                    <p>Calculá \( \frac{7}{8} - \frac{1}{3} \).</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> mcm(8,3)=24.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Convertir: \( \frac{7}{8} = \frac{7 \times 3}{8 \times 3} = \frac{21}{24} \); \( \frac{1}{3} = \frac{1 \times 8}{3 \times 8} = \frac{8}{24} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Restar: \( \frac{21}{24} - \frac{8}{24} = \frac{13}{24} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Verificar que \( \frac{13}{24} \) es irreducible (MCD(13,24)=1).
+                    </div>
+                    <p><strong>Respuesta:</strong> \( \frac{13}{24} \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 3: Multiplicación de fracciones</div>
+                <div class="solved-body">
+                    <p>Calculá \( \frac{4}{5} \times \frac{15}{8} \).</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Multiplicar numeradores: \( 4 \times 15 = 60 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Multiplicar denominadores: \( 5 \times 8 = 40 \). Resultado preliminar: \( \frac{60}{40} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Simplificar: MCD(60,40)=20. Dividir: \( \frac{60 \div 20}{40 \div 20} = \frac{3}{2} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Alternativa: simplificar antes de multiplicar: \( \frac{4}{5} \times \frac{15}{8} = \frac{4 \times 15}{5 \times 8} = \frac{1 \times 3}{1 \times 2} = \frac{3}{2} \).
+                    </div>
+                    <p><strong>Respuesta:</strong> \( \frac{3}{2} \) ó \( 1,5 \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Ejercicio 4: División de fracciones</div>
+                <div class="solved-body">
+                    <p>Calculá \( \frac{3}{4} \div \frac{2}{5} \).</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Recordar que dividir por una fracción es multiplicar por su recíproco: \( \frac{3}{4} \div \frac{2}{5} = \frac{3}{4} \times \frac{5}{2} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Multiplicar numeradores: \( 3 \times 5 = 15 \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Multiplicar denominadores: \( 4 \times 2 = 8 \). Resultado: \( \frac{15}{8} \).
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Simplificar si es posible: \( \frac{15}{8} \) es irreducible. También se puede expresar como \( 1 \frac{7}{8} \).
+                    </div>
+                    <p><strong>Respuesta:</strong> \( \frac{15}{8} \) ó \( 1,875 \).</p>
+                </div>
+            </div>
+
+            <div class="solved-example">
+                <div class="solved-header">Problema: Receta de cocina</div>
+                <div class="solved-body">
+                    <p>Una receta para 4 personas requiere \( \frac{3}{4} \) de taza de harina. Si queremos hacer la receta para 6 personas, ¿cuánta harina necesitamos? Si solo tenemos \( 1 \frac{1}{2} \) tazas, ¿nos alcanza?</p>
+                    <div class="solved-step">
+                        <strong>Paso 1:</strong> Calcular la cantidad por persona: \( \frac{3}{4} \div 4 = \frac{3}{4} \times \frac{1}{4} = \frac{3}{16} \) taza por persona.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 2:</strong> Para 6 personas: \( 6 \times \frac{3}{16} = \frac{18}{16} = \frac{9}{8} = 1 \frac{1}{8} \) tazas.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 3:</strong> Comparar con lo que tenemos: \( 1 \frac{1}{2} = \frac{3}{2} = 1,5 \) tazas.
+                    </div>
+                    <div class="solved-step">
+                        <strong>Paso 4:</strong> Convertir a común denominador o decimal: \( 1 \frac{1}{8} = 1,125 \) tazas necesarias. Tenemos 1,5 tazas. \( 1,5 > 1,125 \), así que sí alcanza.
+                    </div>
+                    <p><strong>Respuesta:</strong> Necesitamos \( 1 \frac{1}{8} \) tazas. Sí, nos alcanza con \( 1 \frac{1}{2} \) tazas.</p>
+                </div>
+            </div>
+        </div>
+    </details>
+</div>
 
     <!-- PESTAÑA 4: PRÁCTICA -->
     <div id="tab-practica" class="tab-content">

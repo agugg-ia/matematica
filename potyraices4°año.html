@@ -309,85 +309,83 @@
                     <!-- PESTAÑA 2: TEORÍA -->
                     <div id="tab-teoria" class="tab-content">
                         <!-- PEGA AQUÍ EL CONTENIDO TEÓRICO -->
-                      <h2>Fundamentos Teóricos de Potenciación y Radicación en ℝ</h2>
+                     <h2>Fundamentos Teóricos de Potenciación y Radicación en ℝ</h2>
 
 <div class="concept-box">
     <h3>Definición de Raíz n-ésima en los Reales</h3>
-    <p>Dado un número real $a$ (llamado <strong>radicando</strong>) y un número natural $n ≥ 2$ (llamado <strong>índice</strong>), la <strong>raíz n-ésima</strong> de $a$, denotada $\sqrt[n]{a}$, se define como el número real $b$ tal que:</p>
-    <p>$$ b^n = a $$</p>
+    <p>Dado un número real <span class="math">a</span> (llamado <strong>radicando</strong>) y un número natural <span class="math">n \geq 2</span> (llamado <strong>índice</strong>), la <strong>raíz n-ésima</strong> de <span class="math">a</span>, denotada <span class="math">\sqrt[n]{a}</span>, se define como el número real <span class="math">b</span> tal que:</p>
+    <p class="math-center">$$ b^n = a $$</p>
     <p><strong>Condiciones de existencia y unicidad en ℝ:</strong></p>
     <ul>
-        <li>Si $n$ es <strong>par</strong>: Se requiere $a ≥ 0$. En este caso, $\sqrt[n]{a}$ es el único número real <strong>no negativo</strong> $b$ que cumple $b^n = a$. Por ejemplo, $\sqrt{25} = 5$ (no -5, aunque $(-5)^2=25$).</li>
-        <li>Si $n$ es <strong>impar</strong>: No hay restricción para $a$; puede ser cualquier número real. La raíz $\sqrt[n]{a}$ existirá siempre y tendrá el mismo signo que $a$. Por ejemplo, $\sqrt[3]{-8} = -2$.</li>
+        <li>Si <span class="math">n</span> es <strong>par</strong>: Se requiere <span class="math">a \geq 0</span>. En este caso, <span class="math">\sqrt[n]{a}</span> es el único número real <strong>no negativo</strong> <span class="math">b</span> que cumple <span class="math">b^n = a</span>. Por ejemplo, <span class="math">\sqrt{25} = 5</span> (no -5, aunque <span class="math">(-5)^2=25</span>).</li>
+        <li>Si <span class="math">n</span> es <strong>impar</strong>: No hay restricción para <span class="math">a</span>; puede ser cualquier número real. La raíz <span class="math">\sqrt[n]{a}</span> existirá siempre y tendrá el mismo signo que <span class="math">a</span>. Por ejemplo, <span class="math">\sqrt[3]{-8} = -2</span>.</li>
     </ul>
 </div>
 
 <div class="concept-box">
     <h3>Equivalencia entre Radical y Potencia Fraccionaria: Una Justificación</h3>
-    <p>La notación $\sqrt[n]{a} = a^{1/n}$ y, en general, $\sqrt[n]{a^m} = a^{m/n}$, no es una mera convención de escritura. Es una <strong>extensión lógica y coherente</strong> de las propiedades de las potencias de exponente entero. Para entender por qué, debemos pensar en qué queremos que signifique una potencia con exponente fraccionario.</p>
+    <p>La notación <span class="math">\sqrt[n]{a} = a^{1/n}</span> y, en general, <span class="math">\sqrt[n]{a^m} = a^{m/n}</span>, no es una mera convención de escritura. Es una <strong>extensión lógica y coherente</strong> de las propiedades de las potencias de exponente entero.</p>
 
     <h4>Argumento desde las Propiedades de las Potencias</h4>
     <p>Partimos de una propiedad fundamental y conocida de las potencias con exponente entero: al multiplicar potencias de la misma base, <strong>se suman los exponentes</strong>.</p>
-    <p>$$ a^p \cdot a^q = a^{p+q} \quad \text{para } p, q \in \mathbb{Z} $$</p>
+    <p class="math-center">$$ a^p \cdot a^q = a^{p+q} \quad \text{para } p, q \in \mathbb{Z} $$</p>
     
-    <p>Si ahora queremos definir de manera útil qué es $a^{1/n}$ (donde $n$ es un número natural), una forma sensata es hacerlo de modo que esta propiedad fundamental se preserve. Imaginemos entonces que multiplicamos $a^{1/n}$ por sí mismo $n$ veces:</p>
-    <p>
+    <p>Si ahora queremos definir de manera útil qué es <span class="math">a^{1/n}</span> (donde <span class="math">n</span> es un número natural), una forma sensata es hacerlo de modo que esta propiedad fundamental se preserve. Imaginemos entonces que multiplicamos <span class="math">a^{1/n}</span> por sí mismo <span class="math">n</span> veces:</p>
+    <p class="math-center">
     $$
-    \underbrace{a^{1/n} \cdot a^{1/n} \cdot \ldots \cdot a^{1/n}}_{\text{$n$ factores}} = a^{\frac{1}{n} + \frac{1}{n} + \ldots + \frac{1}{n}} = a^{\frac{n}{n}} = a^1 = a
+    \underbrace{a^{1/n} \cdot a^{1/n} \cdot \ldots \cdot a^{1/n}}_{n \text{ factores}} = a^{\frac{1}{n} + \frac{1}{n} + \ldots + \frac{1}{n}} = a^{\frac{n}{n}} = a^1 = a
     $$
     </p>
     
-    <p>¡Hemos descubierto algo crucial! La operación que acabamos de hacer nos dice que:
-    $$ (a^{1/n})^n = a $$
-    </p>
-    <p>Pero, <strong>¿qué número, elevado a la $n$, da como resultado $a$?</strong> ¡Precisamente la <em>raíz n-ésima</em> de $a$! Por definición, $\sqrt[n]{a}$ es el número que cumple $(\sqrt[n]{a})^n = a$.</p>
+    <p>¡Hemos descubierto algo crucial! La operación que acabamos de hacer nos dice que:</p>
+    <p class="math-center">$$ (a^{1/n})^n = a $$</p>
+    <p>Pero, <strong>¿qué número, elevado a la <span class="math">n</span>, da como resultado <span class="math">a</span>?</strong> ¡Precisamente la <em>raíz n-ésima</em> de <span class="math">a</span>! Por definición, <span class="math">\sqrt[n]{a}</span> es el número que cumple <span class="math">(\sqrt[n]{a})^n = a</span>.</p>
     
-    <p>Para que la propiedad de la suma de exponentes siga siendo válida al extender las potencias a exponentes fraccionarios, <strong>no nos queda otra opción</strong> que identificar:
-    $$ a^{1/n} = \sqrt[n]{a} $$
-    </p>
+    <p>Para que la propiedad de la suma de exponentes siga siendo válida al extender las potencias a exponentes fraccionarios, <strong>no nos queda otra opción</strong> que identificar:</p>
+    <p class="math-center">$$ a^{1/n} = \sqrt[n]{a} $$</p>
     
     <h4>Validación con Ejemplos Numéricos</h4>
     
-    <p><strong>Ejemplo 1: Caso $n=2$ (Raíz cuadrada)</strong><br>
-    Tomemos $16^{1/2}$. Si nuestra equivalencia es correcta, debe cumplir que $(16^{1/2})^2 = 16$.<br>
-    $$ 16^{1/2} \cdot 16^{1/2} = 16^{1/2 + 1/2} = 16^1 = 16 $$<br>
-    ¿Qué número multiplicado por sí mismo da 16? $4 \cdot 4 = 16$. Por lo tanto, $16^{1/2} = 4$, que es exactamente $\sqrt{16}$.
+    <p><strong>Ejemplo 1: Caso <span class="math">n=2</span> (Raíz cuadrada)</strong><br>
+    Tomemos <span class="math">16^{1/2}</span>. Si nuestra equivalencia es correcta, debe cumplir que <span class="math">(16^{1/2})^2 = 16</span>.<br>
+    <span class="math">16^{1/2} \cdot 16^{1/2} = 16^{1/2 + 1/2} = 16^1 = 16</span><br>
+    ¿Qué número multiplicado por sí mismo da 16? <span class="math">4 \cdot 4 = 16</span>. Por lo tanto, <span class="math">16^{1/2} = 4</span>, que es exactamente <span class="math">\sqrt{16}</span>.
     </p>
     
-    <p><strong>Ejemplo 2: Caso $n=3$ (Raíz cúbica)</strong><br>
-    Tomemos $8^{1/3}$. Debe cumplir $(8^{1/3})^3 = 8$.<br>
-    $$ 8^{1/3} \cdot 8^{1/3} \cdot 8^{1/3} = 8^{1/3+1/3+1/3} = 8^1 = 8 $$<br>
-    ¿Qué número elevado al cubo da 8? $2^3 = 8$. Por lo tanto, $8^{1/3} = 2$, que es exactamente $\sqrt[3]{8}$.
+    <p><strong>Ejemplo 2: Caso <span class="math">n=3</span> (Raíz cúbica)</strong><br>
+    Tomemos <span class="math">8^{1/3}</span>. Debe cumplir <span class="math">(8^{1/3})^3 = 8</span>.<br>
+    <span class="math">8^{1/3} \cdot 8^{1/3} \cdot 8^{1/3} = 8^{1/3+1/3+1/3} = 8^1 = 8</span><br>
+    ¿Qué número elevado al cubo da 8? <span class="math">2^3 = 8</span>. Por lo tanto, <span class="math">8^{1/3} = 2</span>, que es exactamente <span class="math">\sqrt[3]{8}</span>.
     </p>
     
-    <p><strong>Ejemplo 3: El caso general $a^{m/n}$</strong><br>
-    ¿Cómo justificamos $\sqrt[3]{8^2} = 8^{2/3}$? Podemos hacerlo de dos maneras equivalentes, usando las propiedades ya aceptadas:
+    <p><strong>Ejemplo 3: El caso general <span class="math">a^{m/n}</span></strong><br>
+    ¿Cómo justificamos <span class="math">\sqrt[3]{8^2} = 8^{2/3}</span>? Podemos hacerlo de dos maneras equivalentes:
     <ol>
-        <li> $$ 8^{2/3} = (8^{1/3})^2 = (\sqrt[3]{8})^2 = 2^2 = 4 $$ </li>
-        <li> $$ 8^{2/3} = (8^2)^{1/3} = 64^{1/3} = \sqrt[3]{64} = 4 $$ </li>
+        <li> <span class="math">8^{2/3} = (8^{1/3})^2 = (\sqrt[3]{8})^2 = 2^2 = 4</span> </li>
+        <li> <span class="math">8^{2/3} = (8^2)^{1/3} = 64^{1/3} = \sqrt[3]{64} = 4</span> </li>
     </ol>
-    Ambas interpretaciones (primero la raíz y luego la potencia, o primero la potencia y luego la raíz) conducen al mismo resultado numérico, demostrando la consistencia de la definición $\sqrt[n]{a^m} = a^{m/n}$.
+    Ambas interpretaciones (primero la raíz y luego la potencia, o primero la potencia y luego la raíz) conducen al mismo resultado numérico, demostrando la consistencia de la definición <span class="math">\sqrt[n]{a^m} = a^{m/n}</span>.
     </p>
     
     <h4>Conclusión y Generalización</h4>
-    <p>Esta equivalencia es, por lo tanto, la <strong>única forma natural</strong> de definir las potencias con exponente racional ($\frac{m}{n}$) de manera que se mantengan intactas todas las propiedades de las potencias de exponente entero (producto, cociente, potencia de potencia). Se resume en:</p>
-    <p>
+    <p>Esta equivalencia es, por lo tanto, la <strong>única forma natural</strong> de definir las potencias con exponente racional (<span class="math">\frac{m}{n}</span>) de manera que se mantengan intactas todas las propiedades de las potencias de exponente entero (producto, cociente, potencia de potencia). Se resume en:</p>
+    <p class="math-center">
     $$ \boxed{\sqrt[n]{a} = a^{\frac{1}{n}} \quad \text{y} \quad \sqrt[n]{a^m} = a^{\frac{m}{n}}} $$
     </p>
-    <p>Donde, para garantizar la existencia en los números reales, recordamos: si $n$ es par, entonces $a ≥ 0$; si $n$ es impar, $a$ puede ser cualquier real.</p>
+    <p>Donde, para garantizar la existencia en los números reales, recordamos: si <span class="math">n</span> es par, entonces <span class="math">a \geq 0</span>; si <span class="math">n</span> es impar, <span class="math">a</span> puede ser cualquier real.</p>
 </div>
 
 <h3>La Transición Crítica: De los Racionales (ℚ) a los Reales (ℝ)</h3>
-<p>Hasta ahora trabajábamos principalmente con números racionales (ℚ), que son todos aquellos que pueden escribirse como una fracción $\frac{p}{q}$ con $p$ y $q$ enteros ($q \neq 0$). Este conjunto incluye a los enteros, los decimales finitos y los decimales infinitos periódicos.</p>
+<p>Hasta ahora trabajábamos principalmente con números racionales (ℚ), que son todos aquellos que pueden escribirse como una fracción <span class="math">\frac{p}{q}</span> con <span class="math">p</span> y <span class="math">q</span> enteros (<span class="math">q \neq 0</span>). Este conjunto incluye a los enteros, los decimales finitos y los decimales infinitos periódicos.</p>
 
 <p>Sin embargo, la operación de radicación nos enfrenta a una realidad matemática incómoda: <strong>no todas las raíces son números racionales</strong>.</p>
 
-<p><strong>El descubrimiento fundacional:</strong> Los pitagóricos (siglo V a.C.) demostraron que $\sqrt{2}$ <em>no puede</em> escribirse como una fracción. Es un decimal infinito y no periódico: $1.41421356237...$ Esto significó que, aunque podían construir geométricamente la diagonal de un cuadrado de lado 1 (que mide exactamente $\sqrt{2}$), no podían expresar su longitud con un número de su sistema (los racionales).</p>
+<p><strong>El descubrimiento fundacional:</strong> Los pitagóricos (siglo V a.C.) demostraron que <span class="math">\sqrt{2}</span> <em>no puede</em> escribirse como una fracción. Es un decimal infinito y no periódico: <span class="math">1.41421356237\ldots</span> Esto significó que, aunque podían construir geométricamente la diagonal de un cuadrado de lado 1 (que mide exactamente <span class="math">\sqrt{2}</span>), no podían expresar su longitud con un número de su sistema (los racionales).</p>
 
-<p><strong>La insuficiencia de ℚ:</strong> El conjunto ℚ es "denso" (entre dos racionales siempre hay otro), pero tiene "huecos". Estos huecos son precisamente los números irracionales, como $\sqrt{2}$, $\sqrt{3}$, $\pi$, $e$. Cuando intentas ubicar $\sqrt{2}$ en la recta numérica usando solo racionales, te aproximas cada vez más, pero nunca aterrizas en una fracción exacta.</p>
+<p><strong>La insuficiencia de ℚ:</strong> El conjunto ℚ es "denso" (entre dos racionales siempre hay otro), pero tiene "huecos". Estos huecos son precisamente los números irracionales, como <span class="math">\sqrt{2}</span>, <span class="math">\sqrt{3}</span>, <span class="math">\pi</span>, <span class="math">e</span>. Cuando intentas ubicar <span class="math">\sqrt{2}</span> en la recta numérica usando solo racionales, te aproximas cada vez más, pero nunca aterrizas en una fracción exacta.</p>
 
 <p><strong>El conjunto ℝ como solución:</strong> Los números Reales (ℝ) se definen como la unión de los Racionales (ℚ) y los Irracionales (𝕀).</p>
-<p>$$ \mathbb{R} = \mathbb{Q} \cup \mathbb{I} $$</p>
+<p class="math-center">$$ \mathbb{R} = \mathbb{Q} \cup \mathbb{I} $$</p>
 <p>La propiedad fundamental de ℝ es que <strong>completa</strong> la recta numérica. No hay más huecos. Cada punto de la recta corresponde a un número real, y cada número real corresponde a un punto de la recta. En ℝ, todas las raíces de índice par de números no negativos, y todas las raíces de índice impar de cualquier número, existen y están perfectamente definidas.</p>
 
 <h3>Propiedades Algebraicas de la Radicación en ℝ</h3>
@@ -395,34 +393,44 @@
 
 <h4>1. Propiedad Distributiva respecto de la Multiplicación y División</h4>
 <p>La raíz de un producto es el producto de las raíces (y viceversa), siempre que todas las raíces existan en ℝ.</p>
-<p>$$ \sqrt[n]{a \cdot b} = \sqrt[n]{a} \cdot \sqrt[n]{b} $$</p>
+<p class="math-center">$$ \sqrt[n]{a \cdot b} = \sqrt[n]{a} \cdot \sqrt[n]{b} $$</p>
 <p>La raíz de un cociente es el cociente de las raíces.</p>
-<p>$$ \sqrt[n]{\frac{a}{b}} = \frac{\sqrt[n]{a}}{\sqrt[n]{b}} \quad \text{(con } b \neq 0\text{)} $$</p>
-<p><em>Condición importante:</em> Si $n$ es par, se requiere $a, b ≥ 0$ para la primera propiedad, y $a ≥ 0, b > 0$ para la segunda, evitando problemas con raíces de números negativos.</p>
+<p class="math-center">$$ \sqrt[n]{\frac{a}{b}} = \frac{\sqrt[n]{a}}{\sqrt[n]{b}} \quad \text{(con } b \neq 0\text{)} $$</p>
+<p><em>Condición importante:</em> Si <span class="math">n</span> es par, se requiere <span class="math">a, b \geq 0</span> para la primera propiedad, y <span class="math">a \geq 0, b > 0</span> para la segunda, evitando problemas con raíces de números negativos.</p>
 
 <h4>2. Producto y Cociente de Radicales de Igual Índice</h4>
 <p>Es la aplicación directa de la propiedad distributiva, pero escrita en el orden inverso, muy útil para combinar radicales.</p>
-<p>$$ \sqrt[n]{a} \cdot \sqrt[n]{b} = \sqrt[n]{a \cdot b} $$</p>
-<p>$$ \frac{\sqrt[n]{a}}{\sqrt[n]{b}} = \sqrt[n]{\frac{a}{b}} $$</p>
+<p class="math-center">$$ \sqrt[n]{a} \cdot \sqrt[n]{b} = \sqrt[n]{a \cdot b} $$</p>
+<p class="math-center">$$ \frac{\sqrt[n]{a}}{\sqrt[n]{b}} = \sqrt[n]{\frac{a}{b}} $$</p>
 
 <h4>3. Raíz de una Raíz</h4>
 <p>Para calcular una raíz de otra raíz, se multiplican los índices.</p>
-<p>$$ \sqrt[m]{\sqrt[n]{a}} = \sqrt[m \cdot n]{a} $$</p>
+<p class="math-center">$$ \sqrt[m]{\sqrt[n]{a}} = \sqrt[m \cdot n]{a} $$</p>
 <p><strong>Justificación con notación exponencial:</strong><br>
-$\sqrt[m]{\sqrt[n]{a}} = (a^{1/n})^{1/m} = a^{\frac{1}{n} \cdot \frac{1}{m}} = a^{\frac{1}{m \cdot n}} = \sqrt[m \cdot n]{a}$</p>
+<span class="math">\sqrt[m]{\sqrt[n]{a}} = (a^{1/n})^{1/m} = a^{\frac{1}{n} \cdot \frac{1}{m}} = a^{\frac{1}{m \cdot n}} = \sqrt[m \cdot n]{a}</span></p>
 
 <h4>4. Potencia de una Raíz</h4>
 <p>Para elevar una raíz a una potencia, se puede introducir el exponente dentro del radical.</p>
-<p>$$ (\sqrt[n]{a})^m = \sqrt[n]{a^m} $$</p>
+<p class="math-center">$$ (\sqrt[n]{a})^m = \sqrt[n]{a^m} $$</p>
 <p><strong>Justificación con notación exponencial:</strong><br>
-$(\sqrt[n]{a})^m = (a^{1/n})^m = a^{\frac{m}{n}} = \sqrt[n]{a^m}$</p>
+<span class="math">(\sqrt[n]{a})^m = (a^{1/n})^m = a^{\frac{m}{n}} = \sqrt[n]{a^m}</span></p>
 
 <h4>5. Simplificación y Amplificación de Índices</h4>
 <p>Si el exponente del radicando y el índice tienen un factor común, se puede simplificar. También se puede amplificar multiplicando índice y exponente por el mismo número (útil para homogeneizar índices).</p>
-<p>$$ \sqrt[n \cdot k]{a^{m \cdot k}} = \sqrt[n]{a^m} \quad \text{(Simplificación)} $$</p>
-<p>$$ \sqrt[n]{a^m} = \sqrt[n \cdot k]{a^{m \cdot k}} \quad \text{(Amplificación)} $$</p>
-<p><em>Ejemplo:</em> $\sqrt[6]{8^2} = \sqrt[6]{64} = 2$. Pero notemos que $8=2^3$, entonces $\sqrt[6]{(2^3)^2} = \sqrt[6]{2^6} = 2^{6/6}=2^1=2$. También podríamos simplificar: $\sqrt[6]{8^2} = \sqrt[6/2]{8^{2/2}} = \sqrt[3]{8} = 2$.</p>
-                    <!-- PESTAÑA 3: DESARROLLOS RESUELTOS -->
+<p class="math-center">$$ \sqrt[n \cdot k]{a^{m \cdot k}} = \sqrt[n]{a^m} \quad \text{(Simplificación)} $$</p>
+<p class="math-center">$$ \sqrt[n]{a^m} = \sqrt[n \cdot k]{a^{m \cdot k}} \quad \text{(Amplificación)} $$</p>
+<p><em>Ejemplo:</em> <span class="math">\sqrt[6]{8^2} = \sqrt[6]{64} = 2</span>. Pero notemos que <span class="math">8=2^3</span>, entonces <span class="math">\sqrt[6]{(2^3)^2} = \sqrt[6]{2^6} = 2^{6/6}=2^1=2</span>. También podríamos simplificar: <span class="math">\sqrt[6]{8^2} = \sqrt[6/2]{8^{2/2}} = \sqrt[3]{8} = 2</span>.</p>
+
+<style>
+.math {
+    font-family: "Times New Roman", Times, serif;
+    font-style: italic;
+}
+.math-center {
+    text-align: center;
+    margin: 20px 0;
+}
+</style>                    <!-- PESTAÑA 3: DESARROLLOS RESUELTOS -->
                     <div id="tab-resueltos" class="tab-content">
                         <!-- PEGA AQUÍ LOS PROBLEMAS RESUELTOS CONTEXTUALIZADOS -->
                       <div class="solved-example">

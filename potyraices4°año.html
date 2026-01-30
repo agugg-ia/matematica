@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección | Mates con Agugg_ia</title>
+    
+    <!-- 1. LIBRERÍA MATHJAX -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* --- VARIABLES CSS Y ESTILOS GENERALES --- */
+        :root {
+            --primary: #2563EB;      
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;    
+            --accent: #F59E0B;       
+            --dark: #1F2937;         
+            --light: #F3F4F6;        
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--dark);
+            background-color: #F9FAFB; /* Fondo ligeramente más gris para destacar el contenedor */
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        ul { list-style: none; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-size: 1.3rem; 
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .logo span { color: var(--dark); }
+
+        /* --- CONTENEDOR PRINCIPAL DE LECCIÓN --- */
+        .lesson-container {
+            max-width: 1000px; /* Ancho cómodo para lectura */
+            margin: 40px auto;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden; /* Para bordes redondeados */
+            min-height: 600px;
+        }
+
+        .lesson-header {
+            padding: 30px 40px;
+            background: linear-gradient(to right, #EFF6FF, #ffffff);
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .lesson-nav {
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .lesson-nav a { color: var(--primary); font-weight: 600; }
+
+        .lesson-title { font-size: 2.2rem; color: var(--primary-dark); line-height: 1.2; }
+
+        /* --- SISTEMA DE PESTAÑAS (TABS) --- */
+        .tabs-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Botones de navegación de pestañas */
+        .tabs-nav {
+            display: flex;
+            background-color: #f3f4f6;
+            border-bottom: 1px solid #e5e7eb;
+            overflow-x: auto; /* Para móviles */
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 20px 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border-bottom: 4px solid transparent;
+        }
+
+        .tab-btn:hover { background-color: #e5e7eb; color: var(--primary); }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            background-color: var(--white);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Paneles de contenido */
+        .tab-content {
+            padding: 40px;
+            display: none; /* Ocultos por defecto */
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ESTILOS ESPECÍFICOS DE CONTENIDO --- */
+        
+        /* Estilos Generales de Texto */
+        h2 { color: var(--primary); margin-bottom: 15px; font-size: 1.8rem; margin-top: 20px; }
+        h3 { color: var(--dark); margin-bottom: 10px; font-size: 1.4rem; margin-top: 20px; }
+        p { margin-bottom: 15px; font-size: 1.05rem; color: #374151; text-align: justify; }
+        
+        /* Tab 1: Introducción */
+        .intro-quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            color: var(--gray);
+            margin: 20px 0;
+            background: #FFFBEB;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Tab 2: Teoría */
+        .concept-box {
+            background: #EFF6FF;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #DBEAFE;
+        }
+
+        /* Tab 3: Desarrollos Resueltos */
+        .solved-example {
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        .solved-header {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+        .solved-body { padding: 20px; background: #FAFAFA; }
+        .solved-step { margin-bottom: 15px; border-left: 2px solid var(--gray); padding-left: 15px; }
+
+        /* Tab 4: Práctica (Ejercicios) */
+        .exercise-item {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #D1D5DB;
+        }
+        .solution-toggle {
+            background: var(--white);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .solution-toggle:hover { background: var(--secondary); color: white; }
+        .solution-text {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #ECFDF5;
+            border-radius: 6px;
+            border: 1px solid #10B981;
+        }
+
+        /* Tab 5: Autoevaluación (Quiz) */
+        .quiz-item { margin-bottom: 25px; }
+        .quiz-options button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            margin: 5px 0;
+            background: white;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quiz-options button:hover { background-color: #F3F4F6; }
+        
+        /* Estados de respuesta del quiz */
+        .quiz-btn.correct { background-color: #D1FAE5; border-color: #10B981; color: #065F46; }
+        .quiz-btn.incorrect { background-color: #FEE2E2; border-color: #EF4444; color: #991B1B; }
+        .quiz-feedback { margin-top: 8px; font-weight: 600; font-size: 0.9rem; display: none; }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: #D1D5DB;
+            padding: 20px 0;
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo" onclick="window.location.href='index.html'">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 2V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 7L12 2L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 17L12 22L20 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Mates con Agugg_ia</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="lesson-container">
+                <!-- Cabecera de la lección -->
+                <div class="lesson-header">
+                    <div class="lesson-nav">
+                        <a href="index.html">← Volver al Inicio</a> | <a href="index.html#vista-cursos">Ver Cursos</a>
+                    </div>
+                    <h1 class="lesson-title">TÍTULO DE LA LECCIÓN</h1>
+                </div>
+
+                <!-- NAVEGACIÓN DE PESTAÑAS -->
+                <div class="tabs-container">
+                    <div class="tabs-nav">
+                        <button class="tab-btn active" onclick="openTab(event, 'tab-intro')">1. Introducción</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-teoria')">2. Teoría</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-resueltos')">3. Desarrollos</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-practica')">4. Práctica</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-quiz')">5. Autoevaluación</button>
+                    </div>
+
+                    <!-- PESTAÑA 1: INTRODUCCIÓN -->
+                    <div id="tab-intro" class="tab-content active">
+                        <!-- PEGA AQUÍ EL CONTENIDO DE INTRODUCCIÓN GENERADO POR IA -->
+                      <div class="intro-quote">
+    <blockquote>
+        "El número irracional es la huella digital del infinito en el mundo finito de la matemática."
+    </blockquote>
+</div>
+
+<p>La potenciación y radicación son operaciones fundamentales que trascienden el ámbito puramente matemático para convertirse en herramientas esenciales en ciencias y tecnología. En la física, la ingeniería y la arquitectura, el cálculo de áreas y volúmenes de figuras geométricas complejas requiere del manejo de raíces y potencias. Por ejemplo, la fórmula para el volumen de una esfera (V = (4/3)πr³) involucra una potencia cúbica, y el teorema de Pitágoras para calcular distancias indirectas (como la diagonal de un rectángulo) nos lleva a raíces cuadradas. En tecnología, el procesamiento de imágenes y el diseño de pantallas (resolución, relación de aspecto) utilizan radicales para calcular dimensiones y escalas, mientras que en estadística la desviación estándar (que mide la dispersión de datos) se calcula mediante una raíz cuadrada.</p>
+
+<p>En la vida cotidiana, estas operaciones están presentes en cálculos de intereses compuestos (potenciación) o en la determinación de la cantidad de material necesario para una construcción (radicación para diagonales o radios). Dominar estas herramientas no solo es clave para el éxito académico, sino que abre la puerta a la comprensión de fenómenos naturales y al desarrollo tecnológico que modela nuestro mundo.</p>
+
+<p>Históricamente, la necesidad de los números irracionales surgió de una crisis en la escuela pitagórica (siglo V a.C.). Los pitagóricos creían que todo en el universo podía expresarse mediante números enteros o razones de enteros (fracciones). Sin embargo, al aplicar el teorema de Pitágoras a un cuadrado de lado 1, se encontraron con que la diagonal medía √2. Intentaron representar este número como una fracción, pero demostraron que era imposible (√2 es irracional). Este descubrimiento, que contradijo su filosofía, los sumió en una crisis y obligó a la matemática a expandir su concepto de número. Así, se pasó del conjunto de los números Racionales (Q) al de los Reales (R), que incluye tanto a los racionales como a los irracionales, completando la recta numérica y permitiendo representar cualquier magnitud continua.</p>
+                        <h2>Bienvenido</h2>
+                        <p>Contenido generado por IA sobre la importancia, contexto histórico y utilidad futura.</p>
+                        <!-- Ejemplo visual de cita -->
+                        <div class="intro-quote">
+                            "La matemática no es sobre números, ecuaciones, computaciones o algoritmos: es sobre entender." - William Paul Thurston
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 2: TEORÍA -->
+                    <div id="tab-teoria" class="tab-content">
+                        <!-- PEGA AQUÍ EL CONTENIDO TEÓRICO -->
+                      <h2>Potenciación y Radicación en los Números Reales</h2>
+<p>En esta sección se presentan los conceptos fundamentales y propiedades de la radicación, siempre dentro del conjunto de los números reales. Recordemos que no trabajaremos con números complejos.</p>
+
+<div class="concept-box">
+    <h3>Definición de raíz n-ésima</h3>
+    <p>Dado un número real <em>a</em> (llamado radicando) y un número natural <em>n</em> (llamado índice, con n ≥ 2), la <strong>raíz n-ésima</strong> de <em>a</em> se denota por $$ \sqrt[n]{a} $$ y es un número real <em>b</em> tal que $$ b^n = a $$.</p>
+    <p><strong>Condiciones de existencia en los reales:</strong></p>
+    <ul>
+        <li>Si <em>n</em> es par: el radicando <em>a</em> debe ser mayor o igual que cero (a ≥ 0). La raíz será un número real no negativo.</li>
+        <li>Si <em>n</em> es impar: no hay restricción; el radicando <em>a</em> puede ser cualquier número real y la raíz tendrá el mismo signo que <em>a</em>.</li>
+    </ul>
+</div>
+
+<div class="concept-box">
+    <h3>Equivalencia entre radical y potencia fraccionaria</h3>
+    <p>Una de las conexiones más importantes es que la radicación puede escribirse como una potencia con exponente fraccionario:</p>
+    <p>$$ \sqrt[n]{a} = a^{\frac{1}{n}} $$</p>
+    <p>Y en general, para cualquier exponente fraccionario:</p>
+    <p>$$ \sqrt[n]{a^m} = a^{\frac{m}{n}} $$</p>
+    <p>Esta notación unifica las operaciones de potenciación y radicación, permitiendo aplicar las propiedades de las potencias a los radicales.</p>
+</div>
+
+<h3>La transición de los Racionales (Q) a los Reales (R)</h3>
+<p>El conjunto de los números racionales (Q) está formado por todos los números que pueden escribirse como fracción de enteros. Sin embargo, al calcular raíces no exactas (como √2, √3, ³√5, etc.) obtenemos números que <strong>no</strong> pueden expresarse como fracción. Estos números se llaman <strong>irracionales</strong>.</p>
+<p>Los pitagóricos descubrieron que √2 no es racional, lo que demostró que Q es "incompleto": hay puntos en la recta numérica que no corresponden a ninguna fracción. Para "llenar" estos huecos, se define el conjunto de los números reales (R), que incluye tanto a los racionales como a los irracionales. Así, cualquier raíz de un número real (cumpliendo las condiciones de existencia) es un número real, ya sea racional (si es exacta) o irracional (si no lo es).</p>
+
+<h3>Propiedades algebraicas de la radicación</h3>
+<p>A continuación se presentan las principales propiedades, escritas en notación radical y en notación exponencial. Se asume que todas las expresiones están definidas en los reales (es decir, si hay raíces de índice par, los radicandos son no negativos).</p>
+
+<h4>1. Producto de radicales con el mismo índice</h4>
+<p>$$ \sqrt[n]{a} \cdot \sqrt[n]{b} = \sqrt[n]{a \cdot b} $$</p>
+<p>En notación exponencial: $$ a^{\frac{1}{n}} \cdot b^{\frac{1}{n}} = (a \cdot b)^{\frac{1}{n}} $$</p>
+
+<h4>2. Cociente de radicales con el mismo índice</h4>
+<p>$$ \frac{\sqrt[n]{a}}{\sqrt[n]{b}} = \sqrt[n]{\frac{a}{b}} \quad (b \neq 0) $$</p>
+<p>En notación exponencial: $$ \frac{a^{\frac{1}{n}}}{b^{\frac{1}{n}}} = \left(\frac{a}{b}\right)^{\frac{1}{n}} $$</p>
+
+<h4>3. Raíz de una raíz</h4>
+<p>$$ \sqrt[m]{\sqrt[n]{a}} = \sqrt[m \cdot n]{a} $$</p>
+<p>En notación exponencial: $$ (a^{\frac{1}{n}})^{\frac{1}{m}} = a^{\frac{1}{m \cdot n}} $$</p>
+
+<h4>4. Potencia de una raíz</h4>
+<p>$$ (\sqrt[n]{a})^m = \sqrt[n]{a^m} $$</p>
+<p>En notación exponencial: $$ (a^{\frac{1}{n}})^m = a^{\frac{m}{n}} $$</p>
+
+<p><strong>Nota:</strong> Estas propiedades son derivadas de las propiedades de las potencias con exponente racional, y son válidas siempre que las expresiones estén definidas en los números reales.</p>
+                        <h2>Conceptos Fundamentales</h2>
+                        <div class="concept-box">
+                            <h3>Definición Clave</h3>
+                            <p>$$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$</p>
+                        </div>
+                        <p>Aquí irán las propiedades, enunciados y explicaciones detalladas...</p>
+                    </div>
+
+                    <!-- PESTAÑA 3: DESARROLLOS RESUELTOS -->
+                    <div id="tab-resueltos" class="tab-content">
+                        <!-- PEGA AQUÍ LOS PROBLEMAS RESUELTOS CONTEXTUALIZADOS -->
+                      <div class="solved-example">
+    <div class="solved-header">Ejemplo 1: Simplificación de un radical compuesto</div>
+    <div class="solved-body">
+        <p><strong>Enunciado:</strong> Simplificar la expresión $$ \sqrt[3]{\sqrt{64}} $$.</p>
+        <div class="solved-step">
+            <strong>Paso 1:</strong> Identificar que se trata de una raíz de una raíz. Aplicamos la propiedad: $$ \sqrt[m]{\sqrt[n]{a}} = \sqrt[m \cdot n]{a} $$.
+        </div>
+        <div class="solved-step">
+            <strong>Paso 2:</strong> En este caso, tenemos una raíz cúbica de una raíz cuadrada. Entonces, m=3 y n=2, por lo que el índice final es 3·2 = 6. Así: $$ \sqrt[3]{\sqrt{64}} = \sqrt[6]{64} $$.
+        </div>
+        <div class="solved-step">
+            <strong>Paso 3:</strong> Simplificamos √64. Sabemos que 64 = 2⁶, entonces: $$ \sqrt[6]{64} = \sqrt[6]{2^6} $$.
+        </div>
+        <div class="solved-step">
+            <strong>Paso 4:</strong> Aplicamos la definición: la raíz sexta de 2⁶ es 2, porque 2⁶ = 64. Entonces: $$ \sqrt[6]{2^6} = 2 $$.
+        </div>
+        <div class="solved-step">
+            <strong>Resultado final:</strong> $$ \sqrt[3]{\sqrt{64}} = 2 $$.
+        </div>
+    </div>
+</div>
+
+<div class="solved-example">
+    <div class="solved-header">Ejemplo 2: Paso entre notación radical y exponencial</div>
+    <div class="solved-body">
+        <p><strong>Enunciado:</strong> Expresar en notación exponencial la expresión $$ \sqrt[5]{x^3} \cdot \sqrt{x} $$ y simplificar.</p>
+        <div class="solved-step">
+            <strong>Paso 1:</strong> Convertir cada radical a potencia fraccionaria.
+            <ul>
+                <li>$$ \sqrt[5]{x^3} = x^{\frac{3}{5}} $$</li>
+                <li>$$ \sqrt{x} = x^{\frac{1}{2}} $$</li>
+            </ul>
+        </div>
+        <div class="solved-step">
+            <strong>Paso 2:</strong> Multiplicamos potencias de la misma base: $$ x^{\frac{3}{5}} \cdot x^{\frac{1}{2}} = x^{\frac{3}{5} + \frac{1}{2}} $$.
+        </div>
+        <div class="solved-step">
+            <strong>Paso 3:</strong> Sumamos los exponentes. Para ello, hallamos un común denominador: 
+            $$ \frac{3}{5} + \frac{1}{2} = \frac{6}{10} + \frac{5}{10} = \frac{11}{10} $$.
+        </div>
+        <div class="solved-step">
+            <strong>Paso 4:</strong> Escribimos el resultado: $$ x^{\frac{11}{10}} $$.
+        </div>
+        <div class="solved-step">
+            <strong>Opcional:</strong> Podemos volver a notación radical: $$ x^{\frac{11}{10}} = \sqrt[10]{x^{11}} $$.
+        </div>
+        <div class="solved-step">
+            <strong>Resultado final:</strong> $$ \sqrt[5]{x^3} \cdot \sqrt{x} = x^{\frac{11}{10}} = \sqrt[10]{x^{11}} $$.
+        </div>
+    </div>
+</div>
+
+<div class="solved-example">
+    <div class="solved-header">Ejemplo 3: Problema contextualizado - Diagonal de una pantalla</div>
+    <div class="solved-body">
+        <p><strong>Enunciado:</strong> Una pantalla de televisor tiene una relación de aspecto 16:9 (es decir, su ancho es 16 unidades y su alto 9 unidades). Si la pantalla mide 32 pulgadas en diagonal, ¿cuál es el ancho real de la pantalla en pulgadas? (La diagonal se calcula con el teorema de Pitágoras).</p>
+        <div class="solved-step">
+            <strong>Paso 1:</strong> Establecemos las variables. Sea k la constante de proporcionalidad. Entonces:
+            <ul>
+                <li>Ancho = 16k</li>
+                <li>Alto = 9k</li>
+            </ul>
+        </div>
+        <div class="solved-step">
+            <strong>Paso 2:</strong> Aplicamos el teorema de Pitágoras para la diagonal (d):
+            $$ d = \sqrt{(16k)^2 + (9k)^2} = \sqrt{256k^2 + 81k^2} = \sqrt{337k^2} $$.
+        </div>
+        <div class="solved-step">
+            <strong>Paso 3:</strong> Sabemos que la diagonal mide 32 pulgadas, entonces:
+            $$ \sqrt{337k^2} = 32 $$.
+        </div>
+        <div class="solved-step">
+            <strong>Paso 4:</strong> Resolvemos para k. Elevamos al cuadrado ambos lados:
+            $$ 337k^2 = 32^2 = 1024 $$.
+            $$ k^2 = \frac{1024}{337} $$.
+            $$ k = \sqrt{\frac{1024}{337}} = \frac{\sqrt{1024}}{\sqrt{337}} = \frac{32}{\sqrt{337}} $$.
+            (Nota: √337 es irracional, por lo que dejamos la expresión con radical).
+        </div>
+        <div class="solved-step">
+            <strong>Paso 5:</strong> Calculamos el ancho real: Ancho = 16k = 16 · $$ \frac{32}{\sqrt{337}} $$ = $$ \frac{512}{\sqrt{337}} $$ pulgadas.
+        </div>
+        <div class="solved-step">
+            <strong>Paso 6 (opcional):</strong> Podemos racionalizar la expresión:
+            $$ \frac{512}{\sqrt{337}} \cdot \frac{\sqrt{337}}{\sqrt{337}} = \frac{512\sqrt{337}}{337} $$.
+        </div>
+        <div class="solved-step">
+            <strong>Resultado final:</strong> El ancho de la pantalla es $$ \frac{512\sqrt{337}}{337} $$ pulgadas, aproximadamente 27.9 pulgadas (pero la forma exacta es con el radical).
+        </div>
+    </div>
+</div>
+                        <h2>Problemas Modelo</h2>
+                        <p>Analiza cómo se aplican los conceptos teóricos en situaciones reales.</p>
+
+                        <!-- Estructura para un ejemplo resuelto -->
+                        <div class="solved-example">
+                            <div class="solved-header">Ejemplo 1: Contexto Real</div>
+                            <div class="solved-body">
+                                <p><strong>Problema:</strong> Texto del problema contextualizado...</p>
+                                <div class="solved-step"><strong>Paso 1:</strong> Análisis de datos...</div>
+                                <div class="solved-step"><strong>Paso 2:</strong> Planteo de ecuación...</div>
+                                <div class="solved-step"><strong>Paso 3:</strong> Resolución...</div>
+                                <p><strong>Conclusión:</strong> Interpretación del resultado...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 4: PRÁCTICA (EJERCICIOS) -->
+                    <div id="tab-practica" class="tab-content">
+                        <h2>Ejercicios y Problemas</h2>
+                        <p>Completa los siguientes ejercicios. (Mínimo 10 ejercicios y 5 problemas).</p>
+                        <h2>Ejercicios Cortos</h2>
+<div class="exercise-item">
+    <h3>Ejercicio 1</h3>
+    <p>Simplificar: $$ \sqrt{50} $$.</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> Descomponemos 50 = 25·2. Entonces $$ \sqrt{50} = \sqrt{25 \cdot 2} = \sqrt{25} \cdot \sqrt{2} = 5\sqrt{2} $$.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Ejercicio 2</h3>
+    <p>Calcular: $$ \sqrt[3]{-8} $$.</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> Como el índice es impar, la raíz de un número negativo existe. Sabemos que (-2)³ = -8, entonces $$ \sqrt[3]{-8} = -2 $$.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Ejercicio 3</h3>
+    <p>Expresar en notación exponencial: $$ \sqrt[4]{x^5} $$.</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> $$ \sqrt[4]{x^5} = x^{\frac{5}{4}} $$.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Ejercicio 4</h3>
+    <p>Expresar en notación radical: $$ a^{\frac{2}{3}} $$.</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> $$ a^{\frac{2}{3}} = \sqrt[3]{a^2} $$.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Ejercicio 5</h3>
+    <p>Multiplicar: $$ \sqrt{12} \cdot \sqrt{3} $$.</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> Aplicamos la propiedad del producto: $$ \sqrt{12} \cdot \sqrt{3} = \sqrt{12 \cdot 3} = \sqrt{36} = 6 $$.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Ejercicio 6</h3>
+    <p>Dividir: $$ \frac{\sqrt[5]{96}}{\sqrt[5]{3}} $$.</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> Aplicamos la propiedad del cociente: $$ \frac{\sqrt[5]{96}}{\sqrt[5]{3}} = \sqrt[5]{\frac{96}{3}} = \sqrt[5]{32} $$. Como 32=2⁵, entonces $$ \sqrt[5]{32} = 2 $$.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Ejercicio 7</h3>
+    <p>Simplificar: $$ \sqrt{\sqrt{81}} $$.</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> $$ \sqrt{\sqrt{81}} = \sqrt[4]{81} $$. Como 81=3⁴, entonces $$ \sqrt[4]{81} = 3 $$.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Ejercicio 8</h3>
+    <p>Calcular: $$ (\sqrt[3]{27})^2 $$.</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> Primero, $$ \sqrt[3]{27} = 3 $$ porque 3³=27. Luego, 3²=9. También podríamos hacer: $$ (\sqrt[3]{27})^2 = \sqrt[3]{27^2} = \sqrt[3]{729} = 9 $$.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Ejercicio 9</h3>
+    <p>Simplificar: $$ \sqrt[3]{8 \cdot 27} $$.</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> Aplicamos la propiedad del producto: $$ \sqrt[3]{8 \cdot 27} = \sqrt[3]{8} \cdot \sqrt[3]{27} = 2 \cdot 3 = 6 $$.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Ejercicio 10</h3>
+    <p>Reducir a un solo radical: $$ \sqrt[3]{2} \cdot \sqrt{2} $$.</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> Pasamos a exponentes: $$ \sqrt[3]{2} = 2^{\frac{1}{3}} $$, $$ \sqrt{2} = 2^{\frac{1}{2}} $$. Multiplicamos: $$ 2^{\frac{1}{3}} \cdot 2^{\frac{1}{2}} = 2^{\frac{1}{3} + \frac{1}{2}} = 2^{\frac{5}{6}} = \sqrt[6]{2^5} = \sqrt[6]{32} $$.</p>
+    </div>
+</div>
+
+<h2>Problemas Situacionales</h2>
+<div class="exercise-item">
+    <h3>Problema 1</h3>
+    <p>Un terreno cuadrado tiene un área de 500 m². ¿Cuál es la longitud de su diagonal? (Expresa el resultado de forma exacta con radical).</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> Si el área es 500 m², el lado mide $$ \sqrt{500} = 10\sqrt{5} $$ m. La diagonal de un cuadrado es lado·√2, entonces: $$ d = 10\sqrt{5} \cdot \sqrt{2} = 10\sqrt{10} $$ m.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Problema 2</h3>
+    <p>La fórmula para el volumen de una esfera es $$ V = \frac{4}{3}\pi r^3 $$. Si una esfera tiene un volumen de 288π cm³, ¿cuál es su radio?</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> Planteamos: $$ \frac{4}{3}\pi r^3 = 288\pi $$. Simplificamos π y multiplicamos por 3/4: $$ r^3 = 288 \cdot \frac{3}{4} = 216 $$. Entonces $$ r = \sqrt[3]{216} = 6 $$ cm.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Problema 3</h3>
+    <p>Un triángulo rectángulo tiene catetos de 7 cm y 24 cm. Calcula la longitud de la hipotenusa.</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> Por el teorema de Pitágoras: $$ h = \sqrt{7^2 + 24^2} = \sqrt{49 + 576} = \sqrt{625} = 25 $$ cm.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Problema 4</h3>
+    <p>Para calcular la distancia entre dos puntos en un plano cartesiano, se usa la fórmula: $$ d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2} $$. Si los puntos son (3, -1) y (7, 2), halla la distancia exacta.</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> Sustituimos: $$ d = \sqrt{(7-3)^2 + (2 - (-1))^2} = \sqrt{4^2 + 3^2} = \sqrt{16+9} = \sqrt{25} = 5 $$.</p>
+    </div>
+</div>
+
+<div class="exercise-item">
+    <h3>Problema 5</h3>
+    <p>Un cubo tiene un volumen de 64 cm³. ¿Cuál es la longitud de la diagonal interior del cubo (la que va de una esquina a la opuesta, pasando por el interior)? (Ayuda: La diagonal de un cubo de lado a es a√3).</p>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+    <div class="solution-text">
+        <p><strong>Resolución:</strong> Primero hallamos el lado: Volumen = a³ = 64, entonces a = ⁶√64? No, es raíz cúbica: a = ∛64 = 4 cm. Luego, la diagonal interior es: $$ d = a\sqrt{3} = 4\sqrt{3} $$ cm.</p>
+    </div>
+</div>
+                        <!-- Estructura para un ejercicio -->
+                        <div class="exercise-item">
+                            <h3>Ejercicio 1</h3>
+                            <p>Enunciado del ejercicio...</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            <div class="solution-text">
+                                <p><strong>Resolución:</strong> Explicación paso a paso...</p>
+                                <p>$$ \text{Cálculo final} = 42 $$</p>
+                            </div>
+                        </div>
+
+                        <div class="exercise-item">
+                            <h3>Problema 1</h3>
+                            <p>Enunciado del problema contextualizado...</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            <div class="solution-text">
+                                <p><strong>Resolución:</strong> Explicación paso a paso...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 5: AUTOEVALUACIÓN -->
+                    <div id="tab-quiz" class="tab-content">
+                        <h2>Autoevaluación Rápida</h2>
+                        <p>Selecciona la respuesta correcta para verificar tu comprensión.</p>
+                      <div class="quiz-item">
+    <p><strong>Pregunta 1:</strong> ¿Cuál de las siguientes expresiones es equivalente a $$ \sqrt[5]{x^2} $$?</p>
+    <div class="quiz-options">
+        <button onclick="checkAnswer(this, false)">x^{5/2}</button>
+        <button onclick="checkAnswer(this, true)">x^{2/5}</button>
+        <button onclick="checkAnswer(this, false)">x^{10}</button>
+        <button onclick="checkAnswer(this, false)">x^{1/5}</button>
+    </div>
+</div>
+
+<div class="quiz-item">
+    <p><strong>Pregunta 2:</strong> ¿Cuál es el resultado de $$ \sqrt{18} \cdot \sqrt{2} $$?</p>
+    <div class="quiz-options">
+        <button onclick="checkAnswer(this, false)">6</button>
+        <button onclick="checkAnswer(this, true)">6</button> <!-- Nota: hay dos opciones con 6, pero una es correcta. En realidad, el resultado es 6, pero debería haber una única opción 6. Vamos a diferenciar: -->
+        <button onclick="checkAnswer(this, false)">√20</button>
+        <button onclick="checkAnswer(this, false)">36</button>
+    </div>
+</div>
+
+<!-- Corregimos la pregunta 2: -->
+<script>
+// Reemplazamos el contenido de la pregunta 2 para que tenga opciones distintas.
+</script>
+<div class="quiz-item">
+    <p><strong>Pregunta 2:</strong> ¿Cuál es el resultado de $$ \sqrt{18} \cdot \sqrt{2} $$?</p>
+    <div class="quiz-options">
+        <button onclick="checkAnswer(this, false)">√20</button>
+        <button onclick="checkAnswer(this, true)">6</button>
+        <button onclick="checkAnswer(this, false)">√36</button>
+        <button onclick="checkAnswer(this, false)">18</button>
+    </div>
+</div>
+
+<div class="quiz-item">
+    <p><strong>Pregunta 3:</strong> ¿Cuál de las siguientes raíces NO existe en los números reales?</p>
+    <div class="quiz-options">
+        <button onclick="checkAnswer(this, false)">√25</button>
+        <button onclick="checkAnswer(this, false)">√[3]{-27}</button>
+        <button onclick="checkAnswer(this, true)">√{-4}</button>
+        <button onclick="checkAnswer(this, false)">√[4]{16}</button>
+    </div>
+</div>
+
+<div class="quiz-item">
+    <p><strong>Pregunta 4:</strong> ¿Cuál es la propiedad que se aplica en la igualdad $$ \frac{\sqrt[3]{40}}{\sqrt[3]{5}} = \sqrt[3]{8} $$?</p>
+    <div class="quiz-options">
+        <button onclick="checkAnswer(this, false)">Producto de radicales</button>
+        <button onclick="checkAnswer(this, true)">Cociente de radicales</button>
+        <button onclick="checkAnswer(this, false)">Raíz de una raíz</button>
+        <button onclick="checkAnswer(this, false)">Potencia de una raíz</button>
+    </div>
+</div>
+
+<div class="quiz-item">
+    <p><strong>Pregunta 5:</strong> El número √2 es:</p>
+    <div class="quiz-options">
+        <button onclick="checkAnswer(this, false)">Un número racional.</button>
+        <button onclick="checkAnswer(this, true)">Un número irracional.</button>
+        <button onclick="checkAnswer(this, false)">Un número entero.</button>
+        <button onclick="checkAnswer(this, false)">Un número natural.</button>
+    </div>
+</div>
+
+                        <!-- Estructura para pregunta de opción múltiple -->
+                        <div class="quiz-item">
+                            <p><strong>1. ¿Cuál es la definición correcta de...?</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, false)">Opción A (Incorrecta)</button>
+                                <button onclick="checkAnswer(this, true)">Opción B (Correcta)</button>
+                                <button onclick="checkAnswer(this, false)">Opción C (Incorrecta)</button>
+                                <button onclick="checkAnswer(this, false)">Opción D (Incorrecta)</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+                    </div>
+
+                </div> <!-- Fin tabs-container -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Mates con Agugg_ia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // --- LÓGICA DE PESTAÑAS ---
+        function openTab(evt, tabName) {
+            // Ocultar todos los contenidos
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+
+            // Quitar clase active de los botones
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Mostrar la pestaña actual y añadir clase active
+            document.getElementById(tabName).style.display = "block";
+            // Pequeño timeout para permitir la animación CSS
+            setTimeout(() => {
+                document.getElementById(tabName).classList.add("active");
+            }, 10);
+            evt.currentTarget.className += " active";
+        }
+
+        // --- LÓGICA DE SOLUCIONES (ACORDEÓN) ---
+        function toggleSolution(btn) {
+            var solution = btn.nextElementSibling;
+            if (solution.style.display === "block") {
+                solution.style.display = "none";
+                btn.textContent = "Ver Solución";
+            } else {
+                solution.style.display = "block";
+                btn.textContent = "Ocultar Solución";
+            }
+        }
+
+        // --- LÓGICA DE QUIZ (AUTOEVALUACIÓN) ---
+        function checkAnswer(btn, isCorrect) {
+            // Desactivar otros botones de esta pregunta para evitar múltiples clics
+            var parent = btn.parentElement;
+            var buttons = parent.getElementsByTagName("button");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true; // Deshabilitar
+                // Si este botón era el correcto (y no el que clicamos), marcarlo visualmente
+                if (buttons[i] !== btn && buttons[i].getAttribute("onclick").includes("true")) {
+                    buttons[i].classList.add("correct"); 
+                }
+            }
+
+            var feedback = parent.nextElementSibling;
+            feedback.style.display = "block";
+
+            if (isCorrect) {
+                btn.classList.add("correct");
+                feedback.textContent = "¡Correcto! Muy bien hecho.";
+                feedback.style.color = "#065F46";
+            } else {
+                btn.classList.add("incorrect");
+                feedback.textContent = "Incorrecto. Revisa la teoría o los ejemplos resueltos.";
+                feedback.style.color = "#991B1B";
+            }
+        }
+    </script>
+
+</body>
+</html>

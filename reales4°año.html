@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección | Mates con Agugg_ia</title>
+    
+    <!-- 1. LIBRERÍA MATHJAX -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* --- VARIABLES CSS Y ESTILOS GENERALES --- */
+        :root {
+            --primary: #2563EB;      
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;    
+            --accent: #F59E0B;       
+            --dark: #1F2937;         
+            --light: #F3F4F6;        
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--dark);
+            background-color: #F9FAFB; /* Fondo ligeramente más gris para destacar el contenedor */
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        ul { list-style: none; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-size: 1.3rem; 
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .logo span { color: var(--dark); }
+
+        /* --- CONTENEDOR PRINCIPAL DE LECCIÓN --- */
+        .lesson-container {
+            max-width: 1000px; /* Ancho cómodo para lectura */
+            margin: 40px auto;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden; /* Para bordes redondeados */
+            min-height: 600px;
+        }
+
+        .lesson-header {
+            padding: 30px 40px;
+            background: linear-gradient(to right, #EFF6FF, #ffffff);
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .lesson-nav {
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .lesson-nav a { color: var(--primary); font-weight: 600; }
+
+        .lesson-title { font-size: 2.2rem; color: var(--primary-dark); line-height: 1.2; }
+
+        /* --- SISTEMA DE PESTAÑAS (TABS) --- */
+        .tabs-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Botones de navegación de pestañas */
+        .tabs-nav {
+            display: flex;
+            background-color: #f3f4f6;
+            border-bottom: 1px solid #e5e7eb;
+            overflow-x: auto; /* Para móviles */
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 20px 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border-bottom: 4px solid transparent;
+        }
+
+        .tab-btn:hover { background-color: #e5e7eb; color: var(--primary); }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            background-color: var(--white);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Paneles de contenido */
+        .tab-content {
+            padding: 40px;
+            display: none; /* Ocultos por defecto */
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ESTILOS ESPECÍFICOS DE CONTENIDO --- */
+        
+        /* Estilos Generales de Texto */
+        h2 { color: var(--primary); margin-bottom: 15px; font-size: 1.8rem; margin-top: 20px; }
+        h3 { color: var(--dark); margin-bottom: 10px; font-size: 1.4rem; margin-top: 20px; }
+        p { margin-bottom: 15px; font-size: 1.05rem; color: #374151; text-align: justify; }
+        
+        /* Tab 1: Introducción */
+        .intro-quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            color: var(--gray);
+            margin: 20px 0;
+            background: #FFFBEB;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Tab 2: Teoría */
+        .concept-box {
+            background: #EFF6FF;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #DBEAFE;
+        }
+
+        /* Tab 3: Desarrollos Resueltos */
+        .solved-example {
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        .solved-header {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+        .solved-body { padding: 20px; background: #FAFAFA; }
+        .solved-step { margin-bottom: 15px; border-left: 2px solid var(--gray); padding-left: 15px; }
+
+        /* Tab 4: Práctica (Ejercicios) */
+        .exercise-item {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #D1D5DB;
+        }
+        .solution-toggle {
+            background: var(--white);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .solution-toggle:hover { background: var(--secondary); color: white; }
+        .solution-text {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #ECFDF5;
+            border-radius: 6px;
+            border: 1px solid #10B981;
+        }
+
+        /* Tab 5: Autoevaluación (Quiz) */
+        .quiz-item { margin-bottom: 25px; }
+        .quiz-options button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            margin: 5px 0;
+            background: white;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quiz-options button:hover { background-color: #F3F4F6; }
+        
+        /* Estados de respuesta del quiz */
+        .quiz-btn.correct { background-color: #D1FAE5; border-color: #10B981; color: #065F46; }
+        .quiz-btn.incorrect { background-color: #FEE2E2; border-color: #EF4444; color: #991B1B; }
+        .quiz-feedback { margin-top: 8px; font-weight: 600; font-size: 0.9rem; display: none; }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: #D1D5DB;
+            padding: 20px 0;
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo" onclick="window.location.href='index.html'">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 2V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 7L12 2L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 17L12 22L20 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Mates con Agugg_ia</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="lesson-container">
+                <!-- Cabecera de la lección -->
+                <div class="lesson-header">
+                    <div class="lesson-nav">
+                        <a href="index.html">← Volver al Inicio</a> | <a href="index.html#vista-cursos">Ver Cursos</a>
+                    </div>
+                    <h1 class="lesson-title">TÍTULO DE LA LECCIÓN</h1>
+                </div>
+
+                <!-- NAVEGACIÓN DE PESTAÑAS -->
+                <div class="tabs-container">
+                    <div class="tabs-nav">
+                        <button class="tab-btn active" onclick="openTab(event, 'tab-intro')">1. Introducción</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-teoria')">2. Teoría</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-resueltos')">3. Desarrollos</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-practica')">4. Práctica</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-quiz')">5. Autoevaluación</button>
+                    </div>
+
+                    <!-- PESTAÑA 1: INTRODUCCIÓN -->
+                    <div id="tab-intro" class="tab-content active">
+                    <div id="tab-intro" class="tab-content active">
+    <h2>Matemática en Movimiento: Conjuntos, Cálculo y Probabilidades</h2>
+    
+    <div class="intro-quote">
+        "El fútbol es un juego de probabilidades. El éxito depende de la capacidad de calcular rápidamente las opciones y tomar la decisión óptima en cada momento." - Johan Cruyff
+    </div>
+    
+    <h3>Matemática y Educación Física: Una Conexión Natural</h3>
+    <p>¿Alguna vez te preguntaste cómo los entrenadores analizan el rendimiento deportivo? ¿O cómo se toman decisiones estratégicas en medio de un partido? La matemática está presente en cada aspecto de la actividad física. Desde las estadísticas que miden tus progresos hasta las estrategias que deciden si atacar o defender, los números y las probabilidades son compañeros constantes en el mundo del deporte y la educación física.</p>
+    
+    <p>En esta lección, exploraremos cómo la estadística deportiva nos permite interpretar rendimientos, cómo la teoría de juegos explica situaciones de cooperación y conflicto en equipos, y cómo los gráficos transforman datos fríos en historias visuales sobre marcas personales y logros colectivos. La matemática no está encerrada en los libros: corre en la cancha, salta en el gimnasio y se refleja en cada movimiento corporal medido y analizado.</p>
+    
+    <h3>Del Contar al Girar: El Viaje Histórico de los Números</h3>
+    <p>Los conjuntos numéricos han evolucionado a lo largo de la historia para responder a necesidades cada vez más complejas. Comenzamos contando objetos naturales (ℕ), luego necesitamos representar deudas (ℤ) y partes de un todo (ℚ). Cuando descubrimos magnitudes como la diagonal de un cuadrado, surgieron los irracionales, completando así la recta real (ℝ). Pero el viaje no terminó allí: ecuaciones como \(x^2 + 1 = 0\) nos obligaron a inventar los números complejos (ℂ), que hoy describen rotaciones, ondas y fenómenos físicos avanzados. Este camino desde lo concreto hasta lo abstracto refleja cómo la mente humana expande sus herramientas para comprender y modelar la realidad cada vez más profundamente.</p>
+</div>
+                        <h2>Bienvenido</h2>
+                        <p>Contenido generado por IA sobre la importancia, contexto histórico y utilidad futura.</p>
+                        <!-- Ejemplo visual de cita -->
+                        <div class="intro-quote">
+                            "La matemática no es sobre números, ecuaciones, computaciones o algoritmos: es sobre entender." - William Paul Thurston
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 2: TEORÍA -->
+                    <div id="tab-teoria" class="tab-content">
+                       <div id="tab-teoria" class="tab-content">
+    <h2>Conceptos Fundamentales Integrados</h2>
+    
+    <h3>Bloque 1: Estadística y Deporte - Más Allá de los Números</h3>
+    <div class="concept-box">
+        <h4>Interpretación de Tablas y Gráficos en Contextos Deportivos</h4>
+        <p>En educación física y deportes, los datos se presentan en tablas (estadísticas de jugadores, marcas personales, resultados) y gráficos (progresión de rendimiento, comparación entre equipos). Una buena interpretación requiere:</p>
+        <ul>
+            <li><strong>Identificar qué representa cada columna/fila</strong> en una tabla</li>
+            <li><strong>Reconocer patrones y tendencias</strong> en gráficos de líneas o barras</li>
+            <li><strong>Relacionar variables</strong> (ej: tiempo de entrenamiento vs. mejora en marca)</li>
+            <li><strong>Contextualizar los datos</strong> dentro de la situación real</li>
+        </ul>
+        <p><strong>Teoría de Juegos básica:</strong> En situaciones de conflicto/cooperación (como elegir estrategias en un partido), analizamos tablas de pagos donde cada combinación de decisiones tiene un resultado diferente. El objetivo es maximizar el beneficio individual o colectivo según el contexto.</p>
+    </div>
+    
+    <h3>Bloque 2: Propiedades de los Conjuntos Numéricos</h3>
+    <div class="concept-box">
+        <h4>Orden, Densidad y Completitud</h4>
+        <p><strong>Orden:</strong> Todos los conjuntos numéricos (excepto ℂ en su forma estándar) pueden ordenarse. En ℝ: dados \(a\) y \(b\), se cumple una y solo una de: \(a < b\), \(a = b\), \(a > b\).</p>
+        <p><strong>Densidad (especialmente en ℚ):</strong> Entre dos números racionales distintos siempre existe otro racional. Ejemplo: entre 0 y 1 está ½, entre 0 y ½ está ¼, etc. ¡Hay infinitos racionales en cualquier intervalo!</p>
+        <p><strong>Completitud (propio de ℝ):</strong> La recta real no tiene "huecos". Todo punto de la recta corresponde a un número real. Esta propiedad permite definir límites, continuidad y el cálculo infinitesimal.</p>
+        
+        <h4>Relaciones de Inclusión</h4>
+        <p>$$ \mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R} \subset \mathbb{C} $$</p>
+        <p>Cada conjunto amplía al anterior para resolver nuevas necesidades:</p>
+        <ul>
+            <li>ℕ (Naturales): contar objetos</li>
+            <li>ℤ (Enteros): representar pérdidas y ganancias</li>
+            <li>ℚ (Racionales): medir partes de un todo</li>
+            <li>ℝ (Reales): medir longitudes exactas (incluye irracionales)</li>
+            <li>ℂ (Complejos): resolver todas las ecuaciones algebraicas</li>
+        </ul>
+    </div>
+    
+    <h3>Bloque 3: Números Reales y Estrategias de Cálculo</h3>
+    <div class="concept-box">
+        <h4>Representaciones de los Números Reales</h4>
+        <p>Un mismo número real puede expresarse de múltiples formas:</p>
+        <ul>
+            <li><strong>Fracción:</strong> \(\frac{3}{4}\)</li>
+            <li><strong>Decimal:</strong> 0.75 (exacto) o 0.333... (periódico)</li>
+            <li><strong>Punto en la recta:</strong> Ubicación exacta en la recta numérica</li>
+            <li><strong>Porcentaje:</strong> 75%</li>
+            <li><strong>Irracional con radical:</strong> \(\sqrt{2}\), \(\pi\), \(e\)</li>
+        </ul>
+        <p><strong>Proporcionalidad:</strong> Relación constante entre magnitudes. Directa: \(y = kx\) (ej: distancia y tiempo a velocidad constante). Inversa: \(y = \frac{k}{x}\) (ej: velocidad y tiempo para una distancia fija).</p>
+        
+        <h4>Estrategias de Cálculo y Razonabilidad</h4>
+        <p>La elección del método de cálculo depende del contexto:</p>
+        <ul>
+            <li><strong>Cálculo mental:</strong> Para estimaciones rápidas, números sencillos</li>
+            <li><strong>Cálculo escrito:</strong> Para precisión, operaciones complejas</li>
+            <li><strong>Cálculo con calculadora:</strong> Para operaciones tediosas, verificación</li>
+            <li><strong>Exacto vs. aproximado:</strong> Según necesitemos precisión absoluta o una idea general</li>
+        </ul>
+        <p><strong>Evaluación de razonabilidad:</strong> Antes y después de calcular, preguntarse: "¿El resultado tiene sentido en este contexto?" Ejemplo: si calculamos el promedio de goles por partido de un equipo y obtenemos 25, probablemente hay un error (¡demasiado alto!).</p>
+    </div>
+    
+    <h3>Bloque 4: Números Complejos - Más Allá de la Recta</h3>
+    <div class="concept-box">
+        <h4>Insuficiencia de los Reales</h4>
+        <p>La ecuación \(x^2 + 1 = 0\) no tiene solución en ℝ porque ningún número real elevado al cuadrado da -1. Esto llevó a definir la unidad imaginaria \(i\), donde \(i^2 = -1\).</p>
+        
+        <h4>Representación Geométrica</h4>
+        <p>Un número complejo se representa como un punto en el <strong>plano complejo</strong>:</p>
+        <ul>
+            <li><strong>Como par ordenado:</strong> \(z = (a, b)\) donde \(a\) es la parte real y \(b\) la parte imaginaria</li>
+            <li><strong>Forma binómica:</strong> \(z = a + bi\)</li>
+            <li><strong>Interpretación geométrica:</strong> El eje horizontal representa la parte real, el vertical la parte imaginaria. El número \((a, b)\) corresponde al punto de coordenadas \((a, b)\) en el plano.</li>
+        </ul>
+        <p><em>Nota:</em> En esta introducción no realizaremos operaciones algebraicas complejas, solo nos familiarizaremos con su representación visual.</p>
+    </div>
+    
+    <h3>Bloque 5: Combinatoria - Contando Posibilidades</h3>
+    <div class="concept-box">
+        <h4>Fórmulas de Conteo (sin repetición)</h4>
+        <p><strong>Permutaciones:</strong> Ordenar \(n\) elementos distintos en \(n\) posiciones</p>
+        <p>$$ P_n = n! = n \times (n-1) \times (n-2) \times \cdots \times 2 \times 1 $$</p>
+        <p>Ejemplo: De cuántas formas pueden llegar 4 corredores a la meta: \(4! = 24\) formas.</p>
+        
+        <p><strong>Variaciones:</strong> Elegir y ordenar \(r\) elementos distintos de un conjunto de \(n\)</p>
+        <p>$$ V_{n,r} = \frac{n!}{(n-r)!} $$</p>
+        <p>Ejemplo: Formar un podio (1°, 2°, 3°) con 8 atletas: \(V_{8,3} = \frac{8!}{5!} = 8 \times 7 \times 6 = 336\) formas.</p>
+        
+        <p><strong>Combinaciones:</strong> Elegir \(r\) elementos distintos de un conjunto de \(n\) (sin importar el orden)</p>
+        <p>$$ C_{n,r} = \binom{n}{r} = \frac{n!}{r!(n-r)!} $$</p>
+        <p>Ejemplo: Formar un equipo de 5 jugadores de un grupo de 11: \(C_{11,5} = \frac{11!}{5!6!} = 462\) equipos posibles.</p>
+    </div>
+</div>
+                        <h2>Conceptos Fundamentales</h2>
+                        <div class="concept-box">
+                            <h3>Definición Clave</h3>
+                            <p>$$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$</p>
+                        </div>
+                        <p>Aquí irán las propiedades, enunciados y explicaciones detalladas...</p>
+                    </div>
+
+                    <!-- PESTAÑA 3: DESARROLLOS RESUELTOS -->
+                    <div id="tab-resueltos" class="tab-content">
+                     <div id="tab-resueltos" class="tab-content">
+    <h2>Problemas Modelo Paso a Paso</h2>
+    
+    <div class="solved-example">
+        <div class="solved-header">Ejemplo 1: Análisis de Estadísticas Deportivas</div>
+        <div class="solved-body">
+            <p><strong>Problema:</strong> En un torneo de handball, tres equipos (A, B y C) tienen la siguiente tabla de goles a favor y en contra después de 4 partidos:</p>
+            
+            <table style="border-collapse: collapse; width: 80%; margin: 20px auto;">
+                <tr style="background-color: #f3f4f6;">
+                    <th style="border: 1px solid #ccc; padding: 8px;">Equipo</th>
+                    <th style="border: 1px solid #ccc; padding: 8px;">Goles a favor</th>
+                    <th style="border: 1px solid #ccc; padding: 8px;">Goles en contra</th>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ccc; padding: 8px;">A</td>
+                    <td style="border: 1px solid #ccc; padding: 8px;">48</td>
+                    <td style="border: 1px solid #ccc; padding: 8px;">40</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ccc; padding: 8px;">B</td>
+                    <td style="border: 1px solid #ccc; padding: 8px;">52</td>
+                    <td style="border: 1px solid #ccc; padding: 8px;">45</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #ccc; padding: 8px;">C</td>
+                    <td style="border: 1px solid #ccc; padding: 8px;">45</td>
+                    <td style="border: 1px solid #ccc; padding: 8px;">50</td>
+                </tr>
+            </table>
+            
+            <p>Si el criterio de desempate es la diferencia de goles (goles a favor menos goles en contra), ¿qué equipo lidera el torneo?</p>
+            
+            <div class="solved-step">
+                <strong>Paso 1: Comprender los datos</strong><br>
+                Identificamos que necesitamos calcular para cada equipo: diferencia = goles a favor - goles en contra.
+            </div>
+            
+            <div class="solved-step">
+                <strong>Paso 2: Calcular diferencias</strong><br>
+                Equipo A: \(48 - 40 = 8\)<br>
+                Equipo B: \(52 - 45 = 7\)<br>
+                Equipo C: \(45 - 50 = -5\)
+            </div>
+            
+            <div class="solved-step">
+                <strong>Paso 3: Comparar resultados</strong><br>
+                Ordenamos de mayor a menor diferencia: A (8), B (7), C (-5).
+            </div>
+            
+            <div class="solved-step">
+                <strong>Paso 4: Interpretar en contexto</strong><br>
+                El equipo A lidera con diferencia +8, seguido por B (+7). El equipo C tiene balance negativo (-5), lo que significa que recibió más goles de los que convirtió.
+            </div>
+            
+            <p><strong>Conclusión:</strong> El equipo A lidera el torneo según el criterio de diferencia de goles. Este tipo de análisis es fundamental en deportes para determinar posiciones en tablas de posiciones.</p>
+        </div>
+    </div>
+    
+    <div class="solved-example">
+        <div class="solved-header">Ejemplo 2: Cálculo con Números Reales y Evaluación de Razonabilidad</div>
+        <div class="solved-body">
+            <p><strong>Problema:</strong> Un corredor entrena para una maratón. En su último entrenamiento corrió 21.5 km en 1 hora y 45 minutos. Quiere saber su velocidad promedio en km/h. Además, planea correr la maratón completa (42.195 km) y quiere estimar en qué tiempo podría terminarla si mantiene ese ritmo.</p>
+            
+            <div class="solved-step">
+                <strong>Paso 1: Convertir el tiempo a horas</strong><br>
+                1 hora y 45 minutos = \(1 + \frac{45}{60} = 1 + 0.75 = 1.75\) horas.
+            </div>
+            
+            <div class="solved-step">
+                <strong>Paso 2: Calcular velocidad promedio</strong><br>
+                Velocidad = distancia ÷ tiempo = \(21.5 \div 1.75\)<br>
+                <strong>Estrategia de cálculo:</strong> Usamos cálculo escrito o calculadora por la complejidad de la división.<br>
+                \(21.5 \div 1.75 = 12.2857...\) km/h
+            </div>
+            
+            <div class="solved-step">
+                <strong>Paso 3: Evaluar razonabilidad del resultado</strong><br>
+                12.3 km/h es una velocidad razonable para un corredor entrenado (equivale a aproximadamente 4:53 min/km, un buen ritmo para maratón).
+            </div>
+            
+            <div class="solved-step">
+                <strong>Paso 4: Estimar tiempo para maratón completa</strong><br>
+                Tiempo = distancia ÷ velocidad = \(42.195 \div 12.2857\)<br>
+                \(42.195 \div 12.2857 ≈ 3.435\) horas
+            </div>
+            
+            <div class="solved-step">
+                <strong>Paso 5: Convertir a horas y minutos</strong><br>
+                3.435 horas = 3 horas + \(0.435 \times 60\) minutos = 3 horas + 26.1 minutos ≈ 3h 26m
+            </div>
+            
+            <p><strong>Conclusión:</strong> El corredor mantiene una velocidad de aproximadamente 12.3 km/h. Si mantiene ese ritmo, podría completar la maratón en alrededor de 3 horas y 26 minutos. Este tipo de cálculos con evaluación de razonabilidad es esencial en la planificación deportiva.</p>
+        </div>
+    </div>
+    
+    <div class="solved-example">
+        <div class="solved-header">Ejemplo 3: Probabilidad con Combinaciones en Deportes</div>
+        <div class="solved-body">
+            <p><strong>Problema:</strong> Un equipo de básquetbol tiene 12 jugadores disponibles. El entrenador debe seleccionar 5 para el quinteto inicial. ¿Cuántos quintetos diferentes podría formar? Si 3 de los jugadores son bases (posición específica) y el entrenador siempre incluye exactamente 1 base en el quinteto, ¿cuántas formaciones posibles hay ahora?</p>
+            
+            <div class="solved-step">
+                <strong>Parte A: Sin restricciones</strong><br>
+                Seleccionar 5 jugadores de 12 sin importar el orden → Usamos <strong>combinaciones</strong>:<br>
+                $$ C_{12,5} = \frac{12!}{5! \times 7!} = \frac{12 \times 11 \times 10 \times 9 \times 8}{5 \times 4 \times 3 \times 2 \times 1} $$
+            </div>
+            
+            <div class="solved-step">
+                <strong>Cálculo paso a paso:</strong><br>
+                Simplificamos: \(\frac{12 \times 11 \times 10 \times 9 \times 8}{5 \times 4 \times 3 \times 2 \times 1} = \frac{95040}{120} = 792\)
+            </div>
+            
+            <div class="solved-step">
+                <strong>Parte B: Con 1 base obligatorio</strong><br>
+                <strong>Paso 1:</strong> Elegir 1 base de 3 posibles: \(C_{3,1} = 3\) formas<br>
+                <strong>Paso 2:</strong> Elegir los otros 4 jugadores de los 9 no bases restantes: \(C_{9,4} = \frac{9!}{4! \times 5!} = \frac{9 \times 8 \times 7 \times 6}{4 \times 3 \times 2 \times 1} = 126\)<br>
+                <strong>Paso 3:</strong> Multiplicar (principio multiplicativo): \(3 \times 126 = 378\)
+            </div>
+            
+            <p><strong>Conclusión:</strong> Sin restricciones, hay 792 quintetos posibles. Con la condición de incluir exactamente 1 base, hay 378 formaciones posibles. Este tipo de cálculos combinatorios ayuda a los entrenadores a evaluar todas sus opciones estratégicas.</p>
+        </div>
+    </div>
+</div>
+                        <h2>Problemas Modelo</h2>
+                        <p>Analiza cómo se aplican los conceptos teóricos en situaciones reales.</p>
+
+                        <!-- Estructura para un ejemplo resuelto -->
+                        <div class="solved-example">
+                            <div class="solved-header">Ejemplo 1: Contexto Real</div>
+                            <div class="solved-body">
+                                <p><strong>Problema:</strong> Texto del problema contextualizado...</p>
+                                <div class="solved-step"><strong>Paso 1:</strong> Análisis de datos...</div>
+                                <div class="solved-step"><strong>Paso 2:</strong> Planteo de ecuación...</div>
+                                <div class="solved-step"><strong>Paso 3:</strong> Resolución...</div>
+                                <p><strong>Conclusión:</strong> Interpretación del resultado...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 4: PRÁCTICA (EJERCICIOS) -->
+                    <div id="tab-practica" class="tab-content">
+                      <div id="tab-practica" class="tab-content">
+    <h2>Ejercicios y Problemas</h2>
+    <p>Completa los siguientes ejercicios para consolidar los conceptos. Intenta resolverlos por tu cuenta antes de ver las soluciones.</p>
+    
+    <h3>Ejercicios Cortos (10)</h3>
+    
+    <div class="exercise-item">
+        <h3>Ejercicio 1</h3>
+        <p>Identifica a qué conjunto numérico pertenece cada número: a) -5 b) 3/4 c) √2 d) π e) 2+3i</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong> a) ℤ (entero negativo) b) ℚ (fracción) c) ℝ\ℚ (irracional) d) ℝ\ℚ (irracional) e) ℂ (complejo)</p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Ejercicio 2</h3>
+        <p>¿Es verdadera la siguiente afirmación? "Entre dos números irracionales siempre hay un número racional."</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong> Verdadero. La propiedad de densidad de ℚ en ℝ garantiza que entre cualesquiera dos números reales distintos (incluyendo irracionales) existe al menos un racional.</p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Ejercicio 3</h3>
+        <p>Ubica en la recta numérica (aproximadamente): a) 3/2 b) -1.5 c) √4 d) 0.75</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong> a) 1.5 b) -1.5 c) 2 d) 0.75. Todos son puntos específicos en la recta real.</p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Ejercicio 4</h3>
+        <p>Escribe el término general de la sucesión: 2, 4, 6, 8, 10, ...</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong> \(a_n = 2n\) (números pares positivos).</p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Ejercicio 5</h3>
+        <p>¿Qué estrategia de cálculo usarías para: a) 15 × 4 b) 17.5 × 3.2 c) √45?</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong> a) Mental (15×4=60) b) Calculadora o escrito (decimales) c) Calculadora (irracional) o aproximación (√45≈6.708)</p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Ejercicio 6</h3>
+        <p>Representa el número complejo z = (3, -2) en el plano complejo. ¿Cuáles son sus partes real e imaginaria?</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong> Parte real: 3, parte imaginaria: -2. En el plano: punto en (3, -2).</p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Ejercicio 7</h3>
+        <p>Calcula mentalmente: a) 25% de 80 b) 1/3 de 90 c) 0.2 × 50</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong> a) 20 b) 30 c) 10</p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Ejercicio 8</h3>
+        <p>Evalúa la razonabilidad: "Un atleta corre 100m en 5 segundos." ¿Es posible?</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong> No es razonable. El récord mundial es ≈9.58s (Usain Bolt). 5s implicaría 72 km/h, velocidad imposible para un humano.</p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Ejercicio 9</h3>
+        <p>¿Cuál es la relación de inclusión correcta entre ℕ, ℤ, ℚ, ℝ?</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong> ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ</p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Ejercicio 10</h3>
+        <p>Si un número pertenece a ℤ, ¿necesariamente pertenece a ℚ? ¿Y a ℝ?</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong> Sí a ambas. Todo entero es racional (ej: 5 = 5/1) y todo racional es real.</p>
+        </div>
+    </div>
+    
+    <h3>Problemas Contextualizados (5)</h3>
+    
+    <div class="exercise-item">
+        <h3>Problema 1 - Estadística Deportiva</h3>
+        <p>En un torneo de fútbol, el equipo "Golazo" tiene estos resultados: Partidos jugados: 8, Ganados: 5, Empatados: 2, Perdidos: 1. Calcula: a) Porcentaje de victorias b) Puntos totales (victoria=3, empate=1) c) Rendimiento (puntos posibles: 24)</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong><br>
+            a) % victorias = (5/8)×100 = 62.5%<br>
+            b) Puntos = (5×3) + (2×1) + (1×0) = 15 + 2 = 17 puntos<br>
+            c) Rendimiento = (17/24)×100 ≈ 70.8%</p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Problema 2 - Interpretación de Tabla</h3>
+        <p>Analiza la tabla de posiciones de un torneo y determina qué equipo tiene mejor diferencia de goles:</p>
+        <table style="border-collapse: collapse; width: 70%; margin: 10px 0;">
+            <tr style="background-color: #f3f4f6;">
+                <th style="border: 1px solid #ccc; padding: 6px;">Equipo</th>
+                <th style="border: 1px solid #ccc; padding: 6px;">GF</th>
+                <th style="border: 1px solid #ccc; padding: 6px;">GC</th>
+            </tr>
+            <tr><td style="border: 1px solid #ccc; padding: 6px;">Rápidos</td><td style="border: 1px solid #ccc; padding: 6px;">15</td><td style="border: 1px solid #ccc; padding: 6px;">8</td></tr>
+            <tr><td style="border: 1px solid #ccc; padding: 6px;">Fuertes</td><td style="border: 1px solid #ccc; padding: 6px;">12</td><td style="border: 1px solid #ccc; padding: 6px;">6</td></tr>
+            <tr><td style="border: 1px solid #ccc; padding: 6px;">Ágiles</td><td style="border: 1px solid #ccc; padding: 6px;">10</td><td style="border: 1px solid #ccc; padding: 6px;">10</td></tr>
+        </table>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong><br>
+            Rápidos: 15-8 = +7<br>
+            Fuertes: 12-6 = +6<br>
+            Ágiles: 10-10 = 0<br>
+            <strong>El equipo "Rápidos" tiene mejor diferencia (+7).</strong></p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Problema 3 - Probabilidad con Combinaciones</h3>
+        <p>Un equipo de vóley tiene 8 jugadoras disponibles. ¿De cuántas formas puede el entrenador seleccionar a las 6 que jugarán? Si 2 son líberos (especialistas en defensa) y quiere al menos 1 líbero en cancha, ¿cuántas formaciones posibles hay?</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong><br>
+            <strong>Parte A (sin restricciones):</strong> \(C_{8,6} = C_{8,2} = \frac{8×7}{2} = 28\) formas.<br>
+            <strong>Parte B (al menos 1 líbero):</strong><br>
+            Caso 1: 1 líbero y 5 no líberos: \(C_{2,1} × C_{6,5} = 2 × 6 = 12\)<br>
+            Caso 2: 2 líberos y 4 no líberos: \(C_{2,2} × C_{6,4} = 1 × 15 = 15\)<br>
+            Total: 12 + 15 = 27 formaciones posibles.</p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Problema 4 - Permutaciones en Deportes</h3>
+        <p>En una carrera de 400 metros, 6 atletas compiten. ¿De cuántas formas diferentes pueden llegar a la meta (suponiendo que no hay empates)? Si sabemos que el atleta A llegará primero, ¿cuántas posibilidades hay para los otros puestos?</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong><br>
+            <strong>Parte A:</strong> Permutación de 6 elementos: \(P_6 = 6! = 720\) formas.<br>
+            <strong>Parte B:</strong> Si A es primero, permutamos los 5 restantes: \(P_5 = 5! = 120\) posibilidades.</p>
+        </div>
+    </div>
+    
+    <div class="exercise-item">
+        <h3>Problema 5 - Cálculo y Razonabilidad</h3>
+        <p>Un nadador recorre 100 metros en 48 segundos. Estima: a) Su velocidad en m/s y km/h b) ¿En qué tiempo nadaría 1500m (proporcionalidad directa)? c) Evalúa la razonabilidad comparando con récords mundiales.</p>
+        <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+        <div class="solution-text">
+            <p><strong>Resolución:</strong><br>
+            a) Velocidad = 100m / 48s ≈ 2.083 m/s = 2.083 × 3.6 ≈ 7.5 km/h<br>
+            b) Tiempo para 1500m = (1500/100) × 48s = 15 × 48 = 720s = 12 minutos<br>
+            c) Razonable: el récord mundial de 1500m estilo libre es ≈14:31, así que 12 minutos sería muy rápido pero no imposible para un nadador élite.</p>
+        </div>
+    </div>
+</div>
+                        <h2>Ejercicios y Problemas</h2>
+                        <p>Completa los siguientes ejercicios. (Mínimo 10 ejercicios y 5 problemas).</p>
+                        
+                        <!-- Estructura para un ejercicio -->
+                        <div class="exercise-item">
+                            <h3>Ejercicio 1</h3>
+                            <p>Enunciado del ejercicio...</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            <div class="solution-text">
+                                <p><strong>Resolución:</strong> Explicación paso a paso...</p>
+                                <p>$$ \text{Cálculo final} = 42 $$</p>
+                            </div>
+                        </div>
+
+                        <div class="exercise-item">
+                            <h3>Problema 1</h3>
+                            <p>Enunciado del problema contextualizado...</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            <div class="solution-text">
+                                <p><strong>Resolución:</strong> Explicación paso a paso...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 5: AUTOEVALUACIÓN -->
+                    <div id="tab-quiz" class="tab-content">
+
+                      <div id="tab-quiz" class="tab-content">
+    <h2>Autoevaluación Rápida</h2>
+    <p>Selecciona la respuesta correcta para verificar tu comprensión. ¡Solo una opción es correcta en cada pregunta!</p>
+    
+    <div class="quiz-item">
+        <p><strong>1. ¿Qué propiedad tienen los números racionales que los hace "densos" en la recta real?</strong></p>
+        <div class="quiz-options">
+            <button onclick="checkAnswer(this, false)">Pueden expresarse como fracción</button>
+            <button onclick="checkAnswer(this, false)">Incluyen a los números enteros</button>
+            <button onclick="checkAnswer(this, true)">Entre dos racionales distintos siempre hay otro racional</button>
+            <button onclick="checkAnswer(this, false)">Tienen representación decimal finita o periódica</button>
+        </div>
+        <p class="quiz-feedback"></p>
+    </div>
+    
+    <div class="quiz-item">
+        <p><strong>2. Un atleta calcula mentalmente 15% de 200. ¿Qué estrategia de cálculo es más eficiente?</strong></p>
+        <div class="quiz-options">
+            <button onclick="checkAnswer(this, true)">Calcular 10% (20) + 5% (10) = 30</button>
+            <button onclick="checkAnswer(this, false)">Hacer 200 × 0.15 con calculadora</button>
+            <button onclick="checkAnswer(this, false)">Buscar en una tabla de porcentajes</button>
+            <button onclick="checkAnswer(this, false)">Estimar aproximadamente 25</button>
+        </div>
+        <p class="quiz-feedback"></p>
+    </div>
+    
+    <div class="quiz-item">
+        <p><strong>3. ¿Cuál es la fórmula correcta para calcular combinaciones de n elementos tomados de a r (sin repetición)?</strong></p>
+        <div class="quiz-options">
+            <button onclick="checkAnswer(this, false)">$$ P_n = n! $$</button>
+            <button onclick="checkAnswer(this, false)">$$ V_{n,r} = \frac{n!}{(n-r)!} $$</button>
+            <button onclick="checkAnswer(this, true)">$$ C_{n,r} = \frac{n!}{r!(n-r)!} $$</button>
+            <button onclick="checkAnswer(this, false)">$$ C_{n,r} = \frac{n!}{(n-r)!} $$</button>
+        </div>
+        <p class="quiz-feedback"></p>
+    </div>
+    
+    <div class="quiz-item">
+        <p><strong>4. ¿Por qué la ecuación \(x^2 + 1 = 0\) no tiene solución en los números reales?</strong></p>
+        <div class="quiz-options">
+            <button onclick="checkAnswer(this, false)">Porque x debe ser negativo</button>
+            <button onclick="checkAnswer(this, false)">Porque la suma de cuadrados siempre es positiva</button>
+            <button onclick="checkAnswer(this, true)">Porque ningún número real elevado al cuadrado da -1</button>
+            <button onclick="checkAnswer(this, false)">Porque necesita números imaginarios para resolverse</button>
+        </div>
+        <p class="quiz-feedback"></p>
+    </div>
+    
+    <div class="quiz-item">
+        <p><strong>5. En una tabla de posiciones deportivas, si un equipo tiene 12 goles a favor y 8 en contra, ¿cuál es su diferencia de goles y qué indica?</strong></p>
+        <div class="quiz-options">
+            <button onclick="checkAnswer(this, false)">20, indica el total de goles</button>
+            <button onclick="checkAnswer(this, false)">4, indica cuántos goles necesita para empatar</button>
+            <button onclick="checkAnswer(this, true)">+4, indica que convirtió 4 goles más de los que recibió</button>
+            <button onclick="checkAnswer(this, false)">1.5, indica la razón entre goles a favor y en contra</button>
+        </div>
+        <p class="quiz-feedback"></p>
+    </div>
+</div>
+                      <h2>Autoevaluación Rápida</h2>
+                        <p>Selecciona la respuesta correcta para verificar tu comprensión.</p>
+
+                        <!-- Estructura para pregunta de opción múltiple -->
+                        <div class="quiz-item">
+                            <p><strong>1. ¿Cuál es la definición correcta de...?</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, false)">Opción A (Incorrecta)</button>
+                                <button onclick="checkAnswer(this, true)">Opción B (Correcta)</button>
+                                <button onclick="checkAnswer(this, false)">Opción C (Incorrecta)</button>
+                                <button onclick="checkAnswer(this, false)">Opción D (Incorrecta)</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+                    </div>
+
+                </div> <!-- Fin tabs-container -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Mates con Agugg_ia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // --- LÓGICA DE PESTAÑAS ---
+        function openTab(evt, tabName) {
+            // Ocultar todos los contenidos
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+
+            // Quitar clase active de los botones
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Mostrar la pestaña actual y añadir clase active
+            document.getElementById(tabName).style.display = "block";
+            // Pequeño timeout para permitir la animación CSS
+            setTimeout(() => {
+                document.getElementById(tabName).classList.add("active");
+            }, 10);
+            evt.currentTarget.className += " active";
+        }
+
+        // --- LÓGICA DE SOLUCIONES (ACORDEÓN) ---
+        function toggleSolution(btn) {
+            var solution = btn.nextElementSibling;
+            if (solution.style.display === "block") {
+                solution.style.display = "none";
+                btn.textContent = "Ver Solución";
+            } else {
+                solution.style.display = "block";
+                btn.textContent = "Ocultar Solución";
+            }
+        }
+
+        // --- LÓGICA DE QUIZ (AUTOEVALUACIÓN) ---
+        function checkAnswer(btn, isCorrect) {
+            // Desactivar otros botones de esta pregunta para evitar múltiples clics
+            var parent = btn.parentElement;
+            var buttons = parent.getElementsByTagName("button");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true; // Deshabilitar
+                // Si este botón era el correcto (y no el que clicamos), marcarlo visualmente
+                if (buttons[i] !== btn && buttons[i].getAttribute("onclick").includes("true")) {
+                    buttons[i].classList.add("correct"); 
+                }
+            }
+
+            var feedback = parent.nextElementSibling;
+            feedback.style.display = "block";
+
+            if (isCorrect) {
+                btn.classList.add("correct");
+                feedback.textContent = "¡Correcto! Muy bien hecho.";
+                feedback.style.color = "#065F46";
+            } else {
+                btn.classList.add("incorrect");
+                feedback.textContent = "Incorrecto. Revisa la teoría o los ejemplos resueltos.";
+                feedback.style.color = "#991B1B";
+            }
+        }
+    </script>
+
+</body>
+</html>

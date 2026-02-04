@@ -3,263 +3,550 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Los Números Reales: El Continuo Numérico | Matemática Secundaria</title>
-    
+    <title>Los Números Reales: Teoría y Práctica Integral</title>
+
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
         window.MathJax = {
-            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                packages: {'[+]': ['ams']} 
+            },
+            svg: { fontCache: 'global' }
         };
     </script>
 
     <style>
         :root {
-            --primary-color: #1a252f;
-            --accent-color: #2980b9;
-            --secondary-accent: #d35400;
-            --success-color: #27ae60;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-color: #2c3e50;
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --accent-dark: #2980b9;
+            --secondary: #e67e22;
+            --success: #27ae60;
+            --danger: #c0392b;
+            --light: #ecf0f1;
+            --dark-text: #2c3e50;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0; line-height: 1.7;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: var(--dark-text);
+            margin: 0;
+            line-height: 1.6;
         }
 
+        /* Header Moderno */
         header {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            color: white; padding: 3rem 1rem; text-align: center;
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+        header h1 { font-weight: 300; margin: 0; font-size: 2.5rem; letter-spacing: 1px; }
+        header p { opacity: 0.9; margin-top: 10px; font-weight: 500; color: var(--secondary); }
+
+        /* Contenedor Principal */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px 60px 20px;
         }
 
-        main { max-width: 1100px; margin: 20px auto; padding: 20px; }
-
-        /* Mejoras en Navegación */
-        .tabs-nav {
-            display: flex; flex-wrap: wrap; gap: 10px;
-            justify-content: center; margin-bottom: 30px;
-            position: sticky; top: 10px; z-index: 100;
+        /* Navegación Vertical/Horizontal Híbrida */
+        .tabs-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: white;
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            justify-content: center;
         }
 
         .tab-btn {
-            background: white; border: 2px solid var(--accent-color);
-            padding: 12px 20px; cursor: pointer; border-radius: 30px;
-            font-weight: 600; color: var(--accent-color);
+            background: transparent;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 25px;
+            font-weight: 600;
+            color: #7f8c8d;
             transition: all 0.3s ease;
+            font-size: 0.95rem;
         }
 
+        .tab-btn:hover { background-color: #f0f3f4; color: var(--primary); }
         .tab-btn.active {
-            background-color: var(--accent-color); color: white;
-            box-shadow: 0 4px 15px rgba(41, 128, 185, 0.4);
+            background-color: var(--accent);
+            color: white;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
         }
 
-        /* Contenido */
+        /* Contenido de las Pestañas */
         .tab-content {
-            display: none; background: var(--card-bg);
-            padding: 40px; border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            animation: slideUp 0.5s ease;
+            display: none;
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            animation: slideUp 0.4s ease-out;
         }
-        
+        .tab-content.active { display: block; }
+
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .tab-content.active { display: block; }
-
-        /* Componentes de Contenido */
-        .theory-deep-dive {
-            background-color: #f0f7ff; border-left: 6px solid var(--accent-color);
-            padding: 25px; margin: 20px 0; border-radius: 4px;
+        /* Elementos Didácticos */
+        h2 { color: var(--primary); border-bottom: 3px solid var(--accent); padding-bottom: 10px; margin-top: 0; }
+        h3 { color: var(--accent-dark); margin-top: 30px; font-weight: 600; }
+        
+        .definition-box {
+            background-color: #e8f6f3;
+            border-left: 5px solid var(--success);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .theorem-box {
+            background-color: #f4f6f7;
+            border: 1px solid #bdc3c7;
+            border-top: 4px solid var(--primary);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 6px;
         }
 
-        .challenge-box {
-            background-color: #fff4e6; border: 1px solid #ffe8cc;
-            padding: 25px; margin: 25px 0; border-radius: 8px;
+        .warning-box {
+            background-color: #fdedec;
+            border-left: 5px solid var(--danger);
+            color: #922b21;
+            padding: 15px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .challenge-box h4 { color: #d35400; margin-top: 0; }
-
-        .geogebra-placeholder {
-            background: #eee; border: 2px dashed #ccc;
-            height: 300px; display: flex; align-items: center;
-            justify-content: center; margin: 20px 0; color: #666;
-            font-style: italic;
+        .example-box {
+            background-color: #fff;
+            border: 1px solid #dfe6e9;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            position: relative;
+        }
+        .example-badge {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--secondary);
+            color: white;
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            border-radius: 12px;
+            font-weight: bold;
         }
 
-        /* Footer */
-        footer { text-align: center; padding: 40px; color: #7f8c8d; }
-
-        /* Estilos de botones de solución del usuario se mantienen igual */
-        .btn-solution {
-            background-color: var(--secondary-accent); color: white;
-            border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;
+        /* Botones de Acción */
+        .btn-toggle {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            transition: background 0.2s;
         }
-        .solution-text {
-            display: none; margin-top: 15px; padding: 15px;
-            background-color: #f1f8e9; border-left: 4px solid var(--success-color);
+        .btn-toggle:hover { background-color: #1a252f; }
+        
+        .solution-panel {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 3px solid var(--secondary);
+            font-family: 'Georgia', serif; /* Serif para lectura matemática */
+        }
+
+        /* Diagrama de Conjuntos (CSS Puro) */
+        .set-container {
+            border: 2px solid #7f8c8d; padding: 20px; margin: 10px; border-radius: 50%;
+            position: relative; text-align: left;
+        }
+        .set-R { background: #eaf2f8; min-height: 300px; }
+        .set-Q { border-color: #2980b9; background: #d4e6f1; margin: 20px; padding: 20px; border-radius: 30px; min-height: 200px; }
+        .set-Z { border-color: #27ae60; background: #d5f5e3; margin: 20px; padding: 15px; border-radius: 20px; }
+        .set-N { border-color: #e67e22; background: #fae5d3; margin: 10px; padding: 10px; border-radius: 10px; text-align: center; font-weight: bold;}
+        .set-I { 
+            position: absolute; right: 30px; top: 50px; 
+            border: 2px dashed #8e44ad; background: #f4ecf7; 
+            padding: 30px; border-radius: 50%; width: 100px; text-align: center; font-weight: bold;
+        }
+        .set-label { font-weight: bold; color: #555; position: absolute; top: 10px; left: 20px; }
+
+        /* Estilos de Tabla */
+        .math-table {
+            width: 100%; border-collapse: collapse; margin: 20px 0;
+        }
+        .math-table th { background-color: var(--primary); color: white; padding: 12px; text-align: left; }
+        .math-table td { border-bottom: 1px solid #ddd; padding: 12px; }
+        .math-table tr:nth-child(even) { background-color: #f2f2f2; }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .tabs-container { flex-direction: column; border-radius: 10px; }
+            .tab-btn { text-align: left; width: 100%; border-radius: 5px; }
+            .set-I { position: relative; right: auto; top: auto; margin: 10px auto; width: auto; }
+            header h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>La Construcción de los Números Reales</h1>
-    <p>Un viaje desde la crisis pitagórica hasta el continuo de Cantor</p>
+    <h1>Números Reales: Profundización</h1>
+    <p>Teoría, Propiedades y Práctica para Nivel Secundario Superior</p>
 </header>
 
 <main>
-    <nav class="tabs-nav">
-        <button class="tab-btn active" onclick="openTab(event, 'tab1')">1. El Origen de la Crisis</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab2')">2. Clasificación Avanzada</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab3')">3. El Rigor: $\sqrt{2}$</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab4')">4. La Recta Real (Completitud)</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab5')">5. Desafíos y Axiomas</button>
+    <nav class="tabs-container">
+        <button class="tab-btn active" onclick="openTab(event, 'tab1')">1. Conjuntos Numéricos</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab2')">2. Irracionales e Historia</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab3')">3. Recta Real e Intervalos</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab4')">4. Radicales (Operaciones)</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab5')">5. Aproximación y Error</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab6')">6. Práctica por Niveles</button>
     </nav>
 
     <div id="tab1" class="tab-content active">
-        <h2>La Ruptura de la Armonía Pitagórica</h2>
-        <p>Para los pitagóricos, el número era la esencia de todas las cosas. Pero esta armonía se basaba en una premisa falsa: <em>"Cualquier par de magnitudes son conmensurables"</em> (tienen una unidad de medida común).</p>
-        
-        <div class="theory-deep-dive">
-            <h4>Concepto clave: Inconmensurabilidad</h4>
-            <p>Decimos que dos segmentos son <strong>inconmensurables</strong> cuando su razón no puede expresarse como una fracción de números enteros. La diagonal de un cuadrado y su lado son el primer ejemplo histórico de esto.</p>
+        <h2>La Estructura de los Números</h2>
+        <p>Para entender los Reales ($\mathbb{R}$), primero debemos visualizar cómo contienen a todos los conjuntos anteriores. Los números reales completan la recta numérica.</p>
+
+        <div class="set-container set-R">
+            <span class="set-label">$\mathbb{R}$ (Reales)</span>
+            
+            <div class="set-I">
+                $\mathbb{I}$<br>Irracionales<br>
+                <small>$\pi, \sqrt{2}, e$</small>
+            </div>
+
+            <div class="set-container set-Q">
+                <span class="set-label">$\mathbb{Q}$ (Racionales: Fracciones y Decimales Exactos/Periódicos)</span>
+                
+                <div class="set-container set-Z">
+                    <span class="set-label">$\mathbb{Z}$ (Enteros: ..., -2, -1, 0, ...)</span>
+                    
+                    <div class="set-container set-N">
+                        $\mathbb{N}$ (Naturales)<br>1, 2, 3...
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="challenge-box">
-            <h4>🤔 El Experimento Mental de Hipaso</h4>
-            <p>Si intentamos medir la diagonal de un cuadrado de lado 1 con una regla cada vez más pequeña, nunca terminaremos. ¿Qué significa esto para la realidad física? ¿Existe la "longitud exacta" si no podemos escribirla como fracción?</p>
-            <p><strong>Actividad sugerida:</strong> Investiga sobre el "Pentagrama Pitagórico" y cómo la Proporción Áurea ($\phi$) también causó crisis en su escuela.</p>
+        <div class="definition-box">
+            <strong>Definición Formal:</strong> El conjunto de los Números Reales ($\mathbb{R}$) es la unión del conjunto de los números Racionales ($\mathbb{Q}$) y el conjunto de los números Irracionales ($\mathbb{I}$).
+            $$ \mathbb{R} = \mathbb{Q} \cup \mathbb{I} $$
+            Esto implica que cualquier número real es racional O BIEN irracional. No puede ser ambos.
         </div>
     </div>
 
     <div id="tab2" class="tab-content">
-        <h2>Más allá de lo Racional: Clasificación</h2>
-        <p>No todos los irracionales son iguales. En este nivel, debemos distinguir dos tipos fundamentales:</p>
+        <h2>El Mundo de los Irracionales</h2>
         
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div class="theory-deep-dive" style="border-color: #9b59b6;">
-                <h4>1. Irracionales Algebraicos</h4>
-                <p>Son raíces de ecuaciones polinómicas con coeficientes enteros. </p>
-                <p>Ejemplos: $\sqrt{2}$, $\sqrt[3]{5}$, $1+\sqrt{3}$.</p>
-            </div>
-            <div class="theory-deep-dive" style="border-color: #e74c3c;">
-                <h4>2. Irracionales Trascendentes</h4>
-                <p>¡No pueden ser raíces de ningún polinomio! Son "más infinitos" que los algebraicos.</p>
-                <p>Ejemplos: $\pi$, $e$.</p>
-            </div>
+        <p>Un número es <strong>Irracional</strong> si tiene infinitas cifras decimales <strong>no periódicas</strong>. No pueden escribirse como fracción $\frac{a}{b}$.</p>
+
+        <div class="theorem-box">
+            <h3>Demostración Clásica: $\sqrt{2}$ es irracional</h3>
+            <p>Usamos el método de <em>Reducción al Absurdo</em>. </p>
+            <details>
+                <summary style="cursor:pointer; color:var(--accent); font-weight:bold;">Ver paso a paso (Clic aquí)</summary>
+                <ol>
+                    <li>Suponemos que $\sqrt{2} = \frac{p}{q}$ es racional (fracción irreducible).</li>
+                    <li>Elevamos al cuadrado: $2 = \frac{p^2}{q^2} \Rightarrow p^2 = 2q^2$. (Entonces $p^2$ es par $\to$ $p$ es par).</li>
+                    <li>Si $p$ es par, $p=2k$. Sustituimos: $(2k)^2 = 2q^2 \Rightarrow 4k^2 = 2q^2 \Rightarrow 2k^2 = q^2$.</li>
+                    <li>Esto implica que $q^2$ es par $\to$ $q$ es par.</li>
+                    <li><strong>Contradicción:</strong> Si $p$ y $q$ son pares, la fracción no era irreducible. Por tanto, la suposición inicial es falsa. $\sqrt{2} \notin \mathbb{Q}$.</li>
+                </ol>
+            </details>
         </div>
 
-        <h3>La Densidad de los Reales</h3>
-        <p>Una propiedad asombrosa de los números reales es que entre dos números racionales siempre hay un irracional, y entre dos irracionales siempre hay un racional. </p>
-        
-        <div class="challenge-box">
-            <h4>🎯 Desafío de Construcción</h4>
-            <p>Escribe un número que tenga infinitos decimales pero que <strong>SÍ</strong> sea racional. ¿Cómo debe ser su patrón?</p>
-            <button class="btn-solution" onclick="toggleSolution('sol-c2')">Ver pista</button>
-            <div id="sol-c2" class="solution-text">Debe ser periódico. Ejemplo: $0.121212...$ que equivale a $\frac{12}{99}$. Si el patrón no se repite en bloques exactos, como $0.121121112...$, entonces es irracional.</div>
-        </div>
+        <h3>Irracionales Trascendentes vs. Algebraicos</h3>
+        <p>No todos los irracionales son raíces. Podemos clasificarlos:</p>
+        <ul style="list-style-type: disc; margin-left: 20px;">
+            <li><strong>Algebraicos:</strong> Son solución de algún polinomio (ej: $\sqrt{2}$ es solución de $x^2 - 2 = 0$).</li>
+            <li><strong>Trascendentes:</strong> No son solución de ningún polinomio con coeficientes enteros. Los más famosos son $\pi$ y $e$.</li>
+        </ul>
     </div>
 
     <div id="tab3" class="tab-content">
-        <h2>El Poder de la Demostración</h2>
-        <p>En matemática, "parecer" no es suficiente. Aquí analizamos la demostración formal por el método de <strong>Reducción al Absurdo</strong>.</p>
+        <h2>La Recta Real y Topología</h2>
+        <p>La propiedad fundamental de $\mathbb{R}$ es la <strong>Completitud</strong>: a cada punto de la recta le corresponde un número real y viceversa. No quedan "huecos".</p>
+
+        <h3>1. Intervalos Reales</h3>
+        <p>Son subconjuntos de la recta real definidos por desigualdades.</p>
         
-        <div class="theory-deep-dive" style="background: #fff;">
-            <p>Supongamos que $\sqrt{2} = \frac{p}{q}$ es una fracción irreducible...</p>
-            <p style="text-align: center; font-size: 1.2rem;">$\downarrow$</p>
-            <p>Si elevamos al cuadrado y despejamos, llegamos a que tanto $p$ como $q$ deben ser pares.</p>
-            <p style="text-align: center; font-size: 1.2rem;">$\downarrow$</p>
-            <p><strong>CONTRADICCIÓN:</strong> Dijimos que la fracción era irreducible (no se podía simplificar más). Si ambos son pares, se puede simplificar por 2.</p>
+        <table class="math-table">
+            <tr>
+                <th>Tipo</th>
+                <th>Notación</th>
+                <th>Desigualdad</th>
+                <th>Gráfica (Idea)</th>
+            </tr>
+            <tr>
+                <td>Abierto</td>
+                <td>$(a, b)$</td>
+                <td>$a < x < b$</td>
+                <td>(-------) (extremos vacíos)</td>
+            </tr>
+            <tr>
+                <td>Cerrado</td>
+                <td>$[a, b]$</td>
+                <td>$a \leq x \leq b$</td>
+                <td>[-------] (extremos llenos)</td>
+            </tr>
+            <tr>
+                <td>Semiabierto</td>
+                <td>$(a, b]$</td>
+                <td>$a < x \leq b$</td>
+                <td>(-------]</td>
+            </tr>
+            <tr>
+                <td>Infinito</td>
+                <td>$[a, +\infty)$</td>
+                <td>$x \geq a$</td>
+                <td>[-------></td>
+            </tr>
+        </table>
+
+        <h3>2. Valor Absoluto y Distancia</h3>
+        <div class="definition-box">
+            El valor absoluto $|x|$ representa la <strong>distancia</strong> del número $x$ al cero.
+            $$ |x| = \begin{cases} x & \text{si } x \geq 0 \\ -x & \text{si } x < 0 \end{cases} $$
+            <br>
+            <strong>Generalización:</strong> La distancia entre dos números reales $a$ y $b$ es $d(a,b) = |b - a|$.
         </div>
 
-        <div class="challenge-box" style="background-color: #e8f4fd; border-color: #3498db;">
-            <h4>🚀 Desafío Avanzado</h4>
-            <p>¿Podrías usar el mismo método para demostrar que $\sqrt{3}$ es irracional? ¿En qué paso cambiaría el razonamiento?</p>
-            <button class="btn-solution" onclick="toggleSolution('sol-sqrt3')">Ver explicación</button>
-            <div id="sol-sqrt3" class="solution-text">¡Sí! En lugar de hablar de números "pares", hablarías de múltiplos de 3. Llegarías a que tanto $p$ como $q$ son múltiplos de 3, contradiciendo la irreducibilidad.</div>
+        <div class="example-box">
+            <span class="example-badge">Ejemplo</span>
+            <strong>Problema:</strong> Escribir como intervalo y graficar: $|x - 3| \leq 2$.
+            <button class="btn-toggle" onclick="toggleSolution('sol-int-1')">Ver Solución</button>
+            <div id="sol-int-1" class="solution-panel">
+                Interpretación geométrica: "Números cuya distancia al 3 es menor o igual a 2".<br>
+                Desde el 3, me muevo 2 a la izquierda (1) y 2 a la derecha (5).<br>
+                <strong>Matemáticamente:</strong>
+                $$-2 \leq x - 3 \leq 2$$
+                Sumamos 3 a todo:
+                $$1 \leq x \leq 5$$
+                <strong>Intervalo:</strong> $[1, 5]$.
+            </div>
         </div>
     </div>
 
     <div id="tab4" class="tab-content">
-        <h2>La Recta Numérica y el Axioma de Completitud</h2>
-        <p>Los números racionales son como "estrellas en el cielo": hay infinitos, pero el cielo sigue estando mayormente vacío. Los números reales son el "cielo completo".</p>
+        <h2>Operaciones con Radicales</h2>
+        <p>Para trabajar con exactitud en matemáticas, evitamos los decimales y usamos las propiedades de la radicación.</p>
 
-        <div class="geogebra-placeholder">
-            [Aquí se recomienda insertar un Applet de GeoGebra: "Zoom infinito en la recta real"]
+        <div class="prop-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="theorem-box" style="margin-top:0;">
+                <strong>Propiedad Distributiva (Producto/División)</strong>
+                $$ \sqrt[n]{a \cdot b} = \sqrt[n]{a} \cdot \sqrt[n]{b} $$
+                $$ \sqrt[n]{\frac{a}{b}} = \frac{\sqrt[n]{a}}{\sqrt[n]{b}} $$
+                <em style="color:red; font-size:0.9em;">¡Cuidado! No vale para suma/resta.</em>
+            </div>
+            <div class="theorem-box" style="margin-top:0;">
+                <strong>Potencia de Raíz</strong>
+                $$ \sqrt[n]{a^m} = a^{\frac{m}{n}} $$
+                Esta propiedad une radicales con exponentes fraccionarios.
+            </div>
         </div>
 
-        <h3>El Axioma del Supremo</h3>
-        <p>Esta es la base del Análisis Matemático. Dice que todo conjunto de números reales que esté acotado superiormente tiene un <strong>Supremo</strong> (una "pared" mínima) que también es un número real.</p>
+        <h3>1. Extracción de Factores</h3>
+        <p>Simplificamos raíces extrayendo factores cuyo exponente sea mayor o igual al índice.</p>
+        <div class="example-box">
+            <span class="example-badge">Ejemplo</span>
+            Simplificar $\sqrt{50}$ y $\sqrt[3]{16}$.
+            <button class="btn-toggle" onclick="toggleSolution('sol-rad-1')">Ver Solución</button>
+            <div id="sol-rad-1" class="solution-panel">
+                a) Factorizamos $50 = 2 \cdot 5^2$.<br>
+                $\sqrt{50} = \sqrt{2 \cdot 5^2} = \sqrt{2} \cdot \sqrt{5^2} = 5\sqrt{2}$.
+                <br><br>
+                b) Factorizamos $16 = 2^4 = 2^3 \cdot 2$.<br>
+                $\sqrt[3]{16} = \sqrt[3]{2^3 \cdot 2} = 2\sqrt[3]{2}$.
+            </div>
+        </div>
+
+        <h3>2. Racionalización de Denominadores</h3>
+        <p>Procedimiento para eliminar raíces del denominador.</p>
         
-        <div class="theory-deep-dive">
-            <p>Sin este axioma, no existirían las derivadas ni las integrales. Es lo que permite que el movimiento sea continuo y no a saltos cuánticos.</p>
+        <div class="example-box">
+            <span class="example-badge">Caso 1: Simple</span>
+            Racionalizar $\frac{3}{\sqrt{5}}$.
+            <br>
+            <strong>Método:</strong> Multiplicamos numerador y denominador por $\sqrt{5}$.
+            $$ \frac{3 \cdot \sqrt{5}}{\sqrt{5} \cdot \sqrt{5}} = \frac{3\sqrt{5}}{\sqrt{25}} = \frac{3\sqrt{5}}{5} $$
+        </div>
+
+        <div class="example-box">
+            <span class="example-badge">Caso 2: Binomio (Conjugado)</span>
+            Racionalizar $\frac{2}{3 - \sqrt{2}}$.
+            <br>
+            <strong>Método:</strong> Multiplicamos por el conjugado $(3 + \sqrt{2})$.
+            $$ \frac{2 \cdot (3+\sqrt{2})}{(3-\sqrt{2})(3+\sqrt{2})} = \frac{6 + 2\sqrt{2}}{3^2 - (\sqrt{2})^2} = \frac{6 + 2\sqrt{2}}{9 - 2} = \frac{6 + 2\sqrt{2}}{7} $$
         </div>
     </div>
 
     <div id="tab5" class="tab-content">
-        <h2>Laboratorio de Práctica</h2>
-        
-        <div class="exercise-item">
-            <strong>1. El Problema del área:</strong> Un círculo tiene un área de exactamente $10\pi$ cm². ¿Su radio es un número racional, irracional algebraico o irracional trascendente?
-            <br><button class="btn-solution" onclick="toggleSolution('sol-p5-1')">Ver Solución</button>
-            <div id="sol-p5-1" class="solution-text">Área = $\pi \cdot r^2 \Rightarrow 10\pi = \pi \cdot r^2 \Rightarrow r = \sqrt{10}$. Es un <strong>Irracional Algebraico</strong>.</div>
+        <h2>Aproximación y Estimación de Error</h2>
+        <p>En física y química, no podemos usar infinitos decimales. Debemos cortar el número.</p>
+
+        <h3>Métodos de Aproximación</h3>
+        <ul>
+            <li><strong>Truncamiento:</strong> Se eliminan las cifras a partir de un orden dado. (Ej: $3.789$ a décimos $\to 3.7$).</li>
+            <li><strong>Redondeo:</strong> Se observa la cifra siguiente. Si es 5 o mayor, se suma 1 a la anterior. (Ej: $3.789$ a décimos $\to 3.8$).</li>
+        </ul>
+
+        <div class="warning-box">
+            ⚠️ <strong>Importante:</strong> El redondeo suele minimizar el error cometido respecto al truncamiento.
         </div>
 
-        <div class="exercise-item">
-            <strong>2. La suma prohibida:</strong> ¿Es posible que la suma de dos números irracionales sea un número racional? Justifica con un ejemplo.
-            <br><button class="btn-solution" onclick="toggleSolution('sol-p5-2')">Ver Solución</button>
-            <div id="sol-p5-2" class="solution-text">¡Sí! Por ejemplo: $(2 + \sqrt{2}) + (2 - \sqrt{2}) = 4$. Ambos sumandos son irracionales, pero su suma es racional.</div>
-        </div>
+        <h3>Tipos de Error</h3>
+        <p>Si el valor real es $V_r$ y el aproximado es $V_a$:</p>
+        <ul>
+            <li><strong>Error Absoluto ($E_a$):</strong> $|V_r - V_a|$. Mide la lejanía en unidades.</li>
+            <li><strong>Error Relativo ($E_r$):</strong> $\frac{E_a}{|V_r|}$. Mide la calidad de la medida (porcentaje).</li>
+        </ul>
 
-        <div class="exercise-item">
-            <strong>3. Identificación:</strong> Indica a qué conjunto pertenecen:
-            <ul>
-                <li>$\sqrt[3]{-8}$</li>
-                <li>$0.123456789101112...$</li>
-                <li>$\frac{22}{7}$ (Ojo: no es $\pi$)</li>
-            </ul>
-            <button class="btn-solution" onclick="toggleSolution('sol-p5-3')">Ver Solución</button>
-            <div id="sol-p5-3" class="solution-text">
-                - $\sqrt[3]{-8} = -2$ (Entero / Racional).<br>
-                - $0.123...$ (Irracional: patrón no periódico).<br>
-                - $\frac{22}{7}$ (Racional: es un cociente de enteros).
+        <div class="example-box">
+            <span class="example-badge">Ejercicio</span>
+            Aproximar $\pi \approx 3.14159...$ a las centésimas por redondeo y calcular el Error Absoluto.
+            <button class="btn-toggle" onclick="toggleSolution('sol-err-1')">Ver Solución</button>
+            <div id="sol-err-1" class="solution-panel">
+                1. <strong>Redondeo:</strong> Cortamos en la segunda cifra decimal (4). La siguiente es 1 (menor que 5), así que queda $3.14$.<br>
+                2. <strong>Error Absoluto:</strong> $|\pi - 3.14| \approx |3.14159 - 3.14| = 0.00159...$<br>
+                El error es menor que $0.002$.
             </div>
         </div>
+    </div>
+
+    <div id="tab6" class="tab-content">
+        <h2>Práctica y Autoevaluación</h2>
+        <p>Selecciona el nivel de dificultad.</p>
+
+        <h3>Nivel 1: Conceptos Básicos</h3>
+        <div class="exercise-item">
+            <p><strong>1. Clasificación:</strong> Determina si el número $1.232323...$ es racional o irracional.</p>
+            <button class="btn-toggle" onclick="toggleSolution('ex-n1-1')">Respuesta</button>
+            <div id="ex-n1-1" class="solution-panel">
+                <strong>Racional ($\mathbb{Q}$).</strong> Es un decimal periódico puro. Puede escribirse como fracción.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <p><strong>2. Intervalos:</strong> Escribe como desigualdad el intervalo $(-2, 5]$.</p>
+            <button class="btn-toggle" onclick="toggleSolution('ex-n1-2')">Respuesta</button>
+            <div id="ex-n1-2" class="solution-panel">
+                $-2 < x \leq 5$. (Abierto en -2, cerrado en 5).
+            </div>
+        </div>
+
+        <hr>
+
+        <h3>Nivel 2: Procedimientos y Cálculo</h3>
+        <div class="exercise-item">
+            <p><strong>3. Operación con Radicales:</strong> Calcular $3\sqrt{2} + 5\sqrt{2} - \sqrt{8}$.</p>
+            <button class="btn-toggle" onclick="toggleSolution('ex-n2-1')">Respuesta</button>
+            <div id="ex-n2-1" class="solution-panel">
+                Primero simplificamos $\sqrt{8} = \sqrt{4\cdot 2} = 2\sqrt{2}$.<br>
+                Luego operamos términos semejantes:<br>
+                $3\sqrt{2} + 5\sqrt{2} - 2\sqrt{2} = (3+5-2)\sqrt{2} = \mathbf{6\sqrt{2}}$.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <p><strong>4. Racionalización:</strong> Racionalizar $\frac{10}{\sqrt{5}}$.</p>
+            <button class="btn-toggle" onclick="toggleSolution('ex-n2-2')">Respuesta</button>
+            <div id="ex-n2-2" class="solution-panel">
+                Multiplicamos por $\sqrt{5}/\sqrt{5}$:<br>
+                $\frac{10\sqrt{5}}{5} = \mathbf{2\sqrt{5}}$.
+            </div>
+        </div>
+
+        <hr>
+
+        <h3>Nivel 3: Aplicación y Desafío</h3>
+        <div class="exercise-item">
+            <p><strong>5. Geometría Real:</strong> Un triángulo equilátero tiene lado $L=4$. Calcula su altura exacta.</p>
+            <button class="btn-toggle" onclick="toggleSolution('ex-n3-1')">Respuesta</button>
+            <div id="ex-n3-1" class="solution-panel">
+                Usamos Pitágoras. La altura divide la base en 2.<br>
+                $h^2 + 2^2 = 4^2 \Rightarrow h^2 + 4 = 16 \Rightarrow h^2 = 12$.<br>
+                $h = \sqrt{12}$.<br>
+                Simplificamos: $\sqrt{4 \cdot 3} = \mathbf{2\sqrt{3}}$. (Este es un irracional).
+            </div>
+        </div>
+        
+        <div class="exercise-item">
+            <p><strong>6. Distancias:</strong> Hallar los valores de $x$ que cumplen $|2x - 1| = 5$.</p>
+            <button class="btn-toggle" onclick="toggleSolution('ex-n3-2')">Respuesta</button>
+            <div id="ex-n3-2" class="solution-panel">
+                Tenemos dos opciones:<br>
+                1) $2x - 1 = 5 \Rightarrow 2x = 6 \Rightarrow x = 3$.<br>
+                2) $2x - 1 = -5 \Rightarrow 2x = -4 \Rightarrow x = -2$.<br>
+                Solución: $S = \{-2, 3\}$.
+            </div>
+        </div>
+
     </div>
 </main>
 
 <footer>
-    <p>&copy; 2026 Plataforma Educativa de Matemática | Provincia de Córdoba</p>
+    <p>&copy; 2024 - Recurso Educativo Mejorado de Matemática - Nivel Secundario Superior</p>
 </footer>
 
 <script>
     function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-            tabcontent[i].classList.remove("active");
+        var i, tabContent, tabLinks;
+        tabContent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabContent.length; i++) {
+            tabContent[i].style.display = "none";
+            tabContent[i].classList.remove("active");
         }
-        tablinks = document.getElementsByClassName("tab-btn");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].classList.remove("active");
+        tabLinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tabLinks.length; i++) {
+            tabLinks[i].className = tabLinks[i].className.replace(" active", "");
         }
         document.getElementById(tabName).style.display = "block";
+        
+        // Pequeño delay para permitir la animación CSS
         setTimeout(() => {
             document.getElementById(tabName).classList.add("active");
-        }, 50);
-        evt.currentTarget.classList.add("active");
+        }, 10);
+        
+        evt.currentTarget.className += " active";
     }
 
     function toggleSolution(id) {
         var el = document.getElementById(id);
-        el.style.display = (el.style.display === "block") ? "none" : "block";
+        if (el.style.display === "block") {
+            el.style.display = "none";
+        } else {
+            el.style.display = "block";
+        }
     }
 </script>
 

@@ -1,877 +1,267 @@
-# CÓDIGO HTML COMPLETO CORREGIDO
-
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Números Reales y Exponentes Racionales - Matemática 4to Año</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Los Números Reales: El Continuo Numérico | Matemática Secundaria</title>
+    
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+        };
+    </script>
+
     <style>
         :root {
-            --azul-oscuro: #0D47A1;
-            --azul-medio: #1976D2;
-            --azul-claro: #BBDEFB;
-            --gris-claro: #F5F5F5;
-            --acento-naranja: #FF6F00;
-            --blanco: #FFFFFF;
-            --gris-texto: #424242;
-            --verde: #388E3C;
-            --rojo: #D32F2F;
-            --sombra: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --primary-color: #1a252f;
+            --accent-color: #2980b9;
+            --secondary-accent: #d35400;
+            --success-color: #27ae60;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
+
         body {
-            background-color: var(--gris-claro);
-            color: var(--gris-texto);
-            line-height: 1.6;
-            padding: 10px;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0; line-height: 1.7;
         }
-        
-        /* MEJORA: Ajustes sutiles para MathJax */
-        mjx-container {
-            display: inline-block;
-            vertical-align: middle;
-        }
-        .mjx-chtml {
-            overflow: visible !important;
-        }
-        
-        /* Estilos específicos para fórmulas matemáticas */
-        .formula-box mjx-container {
-            display: block !important;
-            text-align: center;
-            margin: 15px auto;
-            padding: 10px;
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-        
-        /* Para raíces con índice */
-        .formula-box mjx-root {
-            vertical-align: middle !important;
-        }
-        
-        /* Evitar que las fracciones se compriman demasiado */
-        .formula-box mjx-frac {
-            font-size: 1.1em !important;
-        }
-        
-        /* Asegurar buen espaciado en ecuaciones */
-        .formula-box mjx-math {
-            padding: 5px 0;
-        }
-        
-        /* Para fórmulas dentro de soluciones */
-        .solution mjx-container {
-            display: inline-block !important;
-            margin: 5px 0;
-        }
-        
-        /* Mejorar visualización de radicales */
-        mjx-sqrt {
-            line-height: 1.2 !important;
-            padding: 2px 1px;
-        }
-        
-        mjx-root > mjx-surd {
-            padding-right: 2px;
-        }
-        
-        mjx-root > mjx-box {
-            padding-top: 1px;
-            padding-bottom: 1px;
-        }
-        
-        /* Clase para fórmulas que deben mantenerse en una línea */
-        .math-inline {
-            display: inline-block;
-            vertical-align: middle;
-        }
-        
-        .math-inline mjx-container {
-            display: inline-block !important;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
+
         header {
-            background: linear-gradient(135deg, var(--azul-oscuro), var(--azul-medio));
-            color: var(--blanco);
-            padding: 25px;
-            text-align: center;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            box-shadow: var(--sombra);
-            position: relative;
-            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white; padding: 3rem 1rem; text-align: center;
         }
-        
-        header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 30px 30px;
-            opacity: 0.3;
-            z-index: 0;
+
+        main { max-width: 1100px; margin: 20px auto; padding: 20px; }
+
+        /* Mejoras en Navegación */
+        .tabs-nav {
+            display: flex; flex-wrap: wrap; gap: 10px;
+            justify-content: center; margin-bottom: 30px;
+            position: sticky; top: 10px; z-index: 100;
         }
-        
-        h1 { 
-            font-size: 2.2rem; 
-            margin-bottom: 10px; 
-            position: relative;
-            z-index: 1;
-        }
-        
-        .subtitle { 
-            font-size: 1.1rem; 
-            font-weight: 300; 
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .tab-container {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 3px solid var(--azul-medio);
-            flex-wrap: wrap;
-            gap: 2px;
-        }
-        
-        .tab-button {
-            flex: 1;
-            min-width: 140px;
-            padding: 15px 10px;
-            background-color: var(--azul-claro);
-            border: none;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: var(--azul-oscuro);
+
+        .tab-btn {
+            background: white; border: 2px solid var(--accent-color);
+            padding: 12px 20px; cursor: pointer; border-radius: 30px;
+            font-weight: 600; color: var(--accent-color);
             transition: all 0.3s ease;
-            border-radius: 8px 8px 0 0;
         }
-        
-        .tab-button:hover { 
-            background-color: var(--azul-medio); 
-            color: white; 
-            transform: translateY(-2px);
+
+        .tab-btn.active {
+            background-color: var(--accent-color); color: white;
+            box-shadow: 0 4px 15px rgba(41, 128, 185, 0.4);
         }
-        
-        .tab-button.active {
-            background-color: var(--azul-oscuro);
-            color: var(--blanco);
-            border-bottom: 3px solid var(--acento-naranja);
-            box-shadow: 0 4px 8px rgba(13, 71, 161, 0.2);
-        }
-        
+
+        /* Contenido */
         .tab-content {
-            display: none;
-            padding: 30px;
-            background-color: var(--blanco);
-            border-radius: 0 10px 10px 10px;
-            box-shadow: var(--sombra);
-            margin-bottom: 30px;
-            min-height: 500px;
-            animation: fadeIn 0.5s ease;
+            display: none; background: var(--card-bg);
+            padding: 40px; border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            animation: slideUp 0.5s ease;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .tab-content.active { display: block; }
-        
-        .concept-banner {
-            background: linear-gradient(to right, var(--azul-medio), var(--azul-oscuro));
-            color: var(--blanco);
-            padding: 18px;
-            border-radius: 10px;
-            margin: 25px 0;
-            text-align: center;
-            font-size: 1.3rem;
-            font-weight: bold;
-            box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .definition-box {
-            background-color: #E3F2FD;
-            border-left: 5px solid var(--azul-oscuro);
-            padding: 22px;
-            margin: 22px 0;
-            border-radius: 0 10px 10px 0;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+
+        /* Componentes de Contenido */
+        .theory-deep-dive {
+            background-color: #f0f7ff; border-left: 6px solid var(--accent-color);
+            padding: 25px; margin: 20px 0; border-radius: 4px;
         }
 
-        .important-box {
-            background-color: #FFF3E0;
-            border-left: 5px solid var(--acento-naranja);
-            padding: 22px;
-            margin: 22px 0;
-            border-radius: 0 10px 10px 0;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        
-        .example-box {
-            background-color: var(--blanco);
-            border: 2px solid var(--azul-claro);
-            padding: 22px;
-            margin: 25px 0;
-            border-radius: 10px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-        }
-        
-        .example-title { 
-            color: var(--azul-oscuro); 
-            font-weight: bold; 
-            margin-bottom: 15px; 
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .example-title i { color: var(--acento-naranja); }
-        
-        .solution-button {
-            background: linear-gradient(to right, var(--azul-medio), var(--azul-oscuro));
-            color: var(--blanco);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            box-shadow: 0 3px 6px rgba(25, 118, 210, 0.2);
-        }
-        
-        .solution-button:hover { 
-            background: linear-gradient(to right, var(--azul-oscuro), var(--azul-medio));
-            transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(25, 118, 210, 0.3);
-        }
-        
-        .solution {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #F0F7FF;
-            border-radius: 8px;
-            border-left: 4px solid var(--azul-medio);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        .challenge-box {
+            background-color: #fff4e6; border: 1px solid #ffe8cc;
+            padding: 25px; margin: 25px 0; border-radius: 8px;
         }
 
-        .exercise-box {
-            background-color: var(--blanco);
-            border: 2px solid #E3F2FD;
-            padding: 25px;
-            margin: 30px 0;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-            transition: transform 0.3s ease;
-        }
-        
-        .exercise-box:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+        .challenge-box h4 { color: #d35400; margin-top: 0; }
+
+        .geogebra-placeholder {
+            background: #eee; border: 2px dashed #ccc;
+            height: 300px; display: flex; align-items: center;
+            justify-content: center; margin: 20px 0; color: #666;
+            font-style: italic;
         }
 
-        .quiz-container {
-            background-color: #F1F8E9;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 30px 0;
-            border: 2px solid var(--verde);
-            box-shadow: 0 4px 10px rgba(56, 142, 60, 0.1);
-        }
-        
-        .question { 
-            margin-bottom: 18px; 
-            font-weight: bold;
-            color: #2E7D32;
-            font-size: 1.1rem;
-        }
-        
-        .options { margin-left: 20px; }
-        
-        .option { 
-            margin: 12px 0;
-            padding: 10px;
-            border-radius: 6px;
-            background-color: white;
-            transition: background-color 0.2s;
-        }
-        
-        .option:hover { background-color: #F1F8E9; }
-        
-        .option input { margin-right: 12px; }
-        
-        .feedback {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 8px;
-            display: none;
-            font-size: 0.95rem;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .correct { 
-            background-color: #C8E6C9; 
-            color: #1B5E20; 
-            border: 2px solid #388E3C; 
-        }
-        
-        .incorrect { 
-            background-color: #FFCDD2; 
-            color: #B71C1C; 
-            border: 2px solid #D32F2F; 
-        }
-        
-        .submit-button {
-            background: linear-gradient(to right, var(--verde), #2E7D32);
-            color: var(--blanco);
-            border: none;
-            padding: 14px 28px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(56, 142, 60, 0.3);
-        }
-        
-        .submit-button:hover { 
-            background: linear-gradient(to right, #2E7D32, var(--verde));
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(56, 142, 60, 0.4);
-        }
-        
-        .application-box {
-            background-color: #E8F5E9;
-            border-left: 5px solid var(--verde);
-            padding: 20px;
-            margin: 25px 0;
-            border-radius: 0 12px 12px 0;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-        }
-        
-        .math-icon { 
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px; 
-            font-size: 1.6rem; 
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-        }
-        
-        footer { 
-            text-align: center; 
-            margin-top: 40px; 
-            padding: 25px; 
-            background: linear-gradient(to right, var(--azul-oscuro), var(--azul-medio));
-            color: var(--blanco); 
-            border-radius: 12px; 
-            box-shadow: var(--sombra);
-        }
+        /* Footer */
+        footer { text-align: center; padding: 40px; color: #7f8c8d; }
 
-        /* Gráficos */
-        .graph-container {
-            background-color: var(--blanco);
-            border: 2px solid #E0E0E0;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 25px 0;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        /* Estilos de botones de solución del usuario se mantienen igual */
+        .btn-solution {
+            background-color: var(--secondary-accent); color: white;
+            border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;
         }
-        
-        canvas {
-            border: 2px solid #E0E0E0;
-            border-radius: 8px;
-            max-width: 100%;
-            background: #FAFAFA;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        
-        .controls {
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            background: #F5F5F5;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-        }
-        
-        .control-button {
-            background: linear-gradient(to right, var(--azul-medio), var(--azul-oscuro));
-            color: var(--blanco);
-            border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-        
-        .control-button:hover { 
-            background: linear-gradient(to right, var(--azul-oscuro), var(--azul-medio));
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3);
-        }
-
-        .slider-container {
-            margin: 10px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: white;
-            padding: 12px 18px;
-            border-radius: 8px;
-            border: 2px solid #E0E0E0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        
-        input[type="range"] { 
-            width: 180px; 
-            accent-color: var(--azul-medio);
-            cursor: pointer;
-        }
-
-        .formula-box {
-            background-color: #F8F9FA;
-            border: 2px solid var(--azul-claro);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-            font-size: 1.1rem;
-            color: var(--azul-oscuro);
-            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-        }
-
-        /* Timeline y Síntesis */
-        .history-timeline { 
-            position: relative; 
-            margin: 40px 0; 
-            padding: 30px 0; 
-        }
-        
-        .timeline-line {
-            position: absolute; 
-            left: 50%; 
-            top: 0; 
-            bottom: 0;
-            width: 4px; 
-            background: linear-gradient(to bottom, var(--azul-medio), var(--acento-naranja)); 
-            transform: translateX(-50%);
-        }
-        
-        .timeline-item { 
-            position: relative; 
-            margin-bottom: 40px; 
-            width: 45%; 
-        }
-        
-        .timeline-item:nth-child(odd) { 
-            left: 0; 
-            text-align: right; 
-            padding-right: 70px; 
-        }
-        
-        .timeline-item:nth-child(even) { 
-            left: 55%; 
-            padding-left: 70px; 
-        }
-        
-        .timeline-dot {
-            position: absolute; 
-            width: 24px; 
-            height: 24px; 
-            border-radius: 50%;
-            background-color: var(--acento-naranja); 
-            top: 5px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            border: 3px solid white;
-            z-index: 2;
-        }
-        
-        .timeline-item:nth-child(odd) .timeline-dot { right: -12px; }
-        .timeline-item:nth-child(even) .timeline-dot { left: -12px; }
-        
-        .timeline-content {
-            background-color: #E3F2FD; 
-            border-radius: 12px; 
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .timeline-content:hover {
-            transform: translateY(-5px);
-        }
-        
-        .timeline-year {
-            font-weight: bold;
-            color: var(--azul-oscuro);
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-        
-        .concept-map { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            margin: 40px 0; 
-        }
-        
-        .map-row { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            margin: 20px 0; 
-            flex-wrap: wrap; 
-        }
-        
-        .map-node {
-            background: linear-gradient(135deg, var(--azul-medio), var(--azul-oscuro)); 
-            color: var(--blanco); 
-            padding: 20px;
-            border-radius: 12px; 
-            margin: 15px; 
-            text-align: center; 
-            min-width: 180px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15); 
-            position: relative;
-            transition: all 0.4s ease;
-        }
-        
-        .map-node.highlight { 
-            background: linear-gradient(135deg, var(--acento-naranja), #FF8F00); 
-            transform: scale(1.15); 
-            z-index: 2;
-            box-shadow: 0 10px 20px rgba(255, 111, 0, 0.4);
-        }
-        
-        .map-arrow { 
-            color: var(--gris-texto); 
-            font-size: 2rem; 
-            margin: 0 20px; 
-            align-self: center; 
-        }
-
-        /* Ajustes específicos para pantallas pequeñas */
-        @media (max-width: 768px) {
-            .formula-box mjx-container {
-                font-size: 0.9em !important;
-                overflow-x: scroll;
-                max-width: 100%;
-            }
-            
-            mjx-math {
-                max-width: 100% !important;
-            }
-            
-            .container { padding: 15px; }
-            h1 { font-size: 1.9rem; }
-        }
-        
-        @media (max-width: 768px) {
-            .tab-button { 
-                min-width: 120px;
-                font-size: 0.8rem; 
-                padding: 12px 8px; 
-            }
-            
-            h1 { font-size: 1.7rem; }
-            
-            .tab-content {
-                padding: 20px;
-            }
-            
-            .timeline-item { 
-                width: 100%; 
-                left: 0 !important; 
-                padding-left: 70px !important; 
-                padding-right: 20px !important; 
-                text-align: left !important; 
-            }
-            
-            .timeline-dot { left: -12px !important; right: auto !important; }
-            .timeline-line { left: 25px; }
-            
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .slider-container {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            input[type="range"] { width: 160px; }
-            
-            canvas {
-                max-width: 95%;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .tab-button { 
-                flex: 1 0 45%;
-                margin-bottom: 5px;
-            }
-            
-            h1 { font-size: 1.5rem; }
-            
-            .concept-banner {
-                font-size: 1.1rem;
-                padding: 15px;
-            }
-            
-            .example-box, .definition-box, .important-box {
-                padding: 18px;
-            }
-            
-            .map-node {
-                min-width: 140px;
-                padding: 15px;
-                font-size: 0.9rem;
-            }
+        .solution-text {
+            display: none; margin-top: 15px; padding: 15px;
+            background-color: #f1f8e9; border-left: 4px solid var(--success-color);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-square-root-alt math-icon"></i> Números Reales y Propiedades</h1>
-            <p class="subtitle">Los irracionales, la radicación y los exponentes racionales - Matemática 4to Año</p>
-        </header>
+
+<header>
+    <h1>La Construcción de los Números Reales</h1>
+    <p>Un viaje desde la crisis pitagórica hasta el continuo de Cantor</p>
+</header>
+
+<main>
+    <nav class="tabs-nav">
+        <button class="tab-btn active" onclick="openTab(event, 'tab1')">1. El Origen de la Crisis</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab2')">2. Clasificación Avanzada</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab3')">3. El Rigor: $\sqrt{2}$</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab4')">4. La Recta Real (Completitud)</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab5')">5. Desafíos y Axiomas</button>
+    </nav>
+
+    <div id="tab1" class="tab-content active">
+        <h2>La Ruptura de la Armonía Pitagórica</h2>
+        <p>Para los pitagóricos, el número era la esencia de todas las cosas. Pero esta armonía se basaba en una premisa falsa: <em>"Cualquier par de magnitudes son conmensurables"</em> (tienen una unidad de medida común).</p>
         
-        <div class="tab-container">
-            <button class="tab-button active" onclick="openTab(event, 'clase1')">
-                <i class="fas fa-brain"></i> Irracionales
-            </button>
-            <button class="tab-button" onclick="openTab(event, 'clase2')">
-                <i class="fas fa-ruler-combined"></i> Recta y Operaciones
-            </button>
-            <button class="tab-button" onclick="openTab(event, 'clase3')">
-                <i class="fas fa-bolt"></i> Potenciación y Radicación
-            </button>
-            <button class="tab-button" onclick="openTab(event, 'clase4')">
-                <i class="fas fa-link"></i> Exponentes Racionales
-            </button>
-            <button class="tab-button" onclick="openTab(event, 'clase5')">
-                <i class="fas fa-calculator"></i> Práctica
-            </button>
-            <button class="tab-button" onclick="openTab(event, 'historia')">
-                <i class="fas fa-history"></i> Historia
-            </button>
-            <button class="tab-button" onclick="openTab(event, 'sintesis')">
-                <i class="fas fa-project-diagram"></i> Síntesis
-            </button>
-            <button class="tab-button" onclick="openTab(event, 'bibliografia')">
-                <i class="fas fa-book"></i> Bibliografía
-            </button>
+        <div class="theory-deep-dive">
+            <h4>Concepto clave: Inconmensurabilidad</h4>
+            <p>Decimos que dos segmentos son <strong>inconmensurables</strong> cuando su razón no puede expresarse como una fracción de números enteros. La diagonal de un cuadrado y su lado son el primer ejemplo histórico de esto.</p>
         </div>
 
-        <!-- CLASE 1: EL MUNDO DE LOS IRRACIONALES -->
-        <div id="clase1" class="tab-content active">
-            <div class="concept-banner">
-                <i class="fas fa-brain"></i>
-                Cuando las fracciones no alcanzan: Números Irracionales
-            </div>
-            
-            <div class="definition-box">
-                <h3><i class="fas fa-question-circle"></i> ¿Qué es un número irracional?</h3>
-                <p>Un número irracional es aquel que <strong>NO puede expresarse</strong> como el cociente de dos números enteros (fracción). Su representación decimal es infinita y <strong>no periódica</strong> (los decimales no se repiten en un patrón fijo).</p>
-                <div class="formula-box">
-                    $$ \text{Ejemplo: } \pi = 3.14159265\dots \quad (\text{No termina ni se repite}) $$
-                </div>
-            </div>
+        <div class="challenge-box">
+            <h4>🤔 El Experimento Mental de Hipaso</h4>
+            <p>Si intentamos medir la diagonal de un cuadrado de lado 1 con una regla cada vez más pequeña, nunca terminaremos. ¿Qué significa esto para la realidad física? ¿Existe la "longitud exacta" si no podemos escribirla como fracción?</p>
+            <p><strong>Actividad sugerida:</strong> Investiga sobre el "Pentagrama Pitagórico" y cómo la Proporción Áurea ($\phi$) también causó crisis en su escuela.</p>
+        </div>
+    </div>
 
-            <div class="important-box">
-                <h3><i class="fas fa-lightbulb"></i> La "Invención" o Descubrimiento</h3>
-                <p>Los irracionales no se "inventaron" arbitrariamente. Aparecieron naturalmente en la geometría. Los pitagóricos descubrieron que la diagonal de un cuadrado de lado 1 tenía una longitud ($\sqrt{2}$) que no podía escribirse como fracción.</p>
+    <div id="tab2" class="tab-content">
+        <h2>Más allá de lo Racional: Clasificación</h2>
+        <p>No todos los irracionales son iguales. En este nivel, debemos distinguir dos tipos fundamentales:</p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="theory-deep-dive" style="border-color: #9b59b6;">
+                <h4>1. Irracionales Algebraicos</h4>
+                <p>Son raíces de ecuaciones polinómicas con coeficientes enteros. </p>
+                <p>Ejemplos: $\sqrt{2}$, $\sqrt[3]{5}$, $1+\sqrt{3}$.</p>
             </div>
-            
-            <div class="example-box">
-                <div class="example-title">
-                    <i class="fas fa-list-ol"></i> Ejemplos Clásicos
-                </div>
-                <ul>
-                    <li>$$ \sqrt{2} \approx 1.41421356\dots $$ (Raíz de 2)</li>
-                    <li>$$ \pi \approx 3.14159265\dots $$ (Pi)</li>
-                    <li>$$ \phi \approx 1.61803398\dots $$ (Número Áureo)</li>
-                    <li>$$ e \approx 2.71828182\dots $$ (Número de Euler)</li>
-                </ul>
-            </div>
-            
-            <div class="graph-container">
-                <h3><i class="fas fa-chart-line"></i> Visualización Interactiva: La Raíz de 2</h3>
-                <p>Ajusta el tamaño del cuadrado y observa cómo se forma $\sqrt{2}$ mediante la diagonal.</p>
-                <canvas id="irrationalCanvas" width="600" height="400"></canvas>
-                <div class="controls">
-                    <div class="slider-container">
-                        <label><i class="fas fa-arrows-alt-h"></i> Lado del cuadrado (a): </label>
-                        <input type="range" id="sizeSlider" min="1" max="4" step="0.5" value="2">
-                        <span id="valSize" style="font-weight:bold; min-width: 30px;">2</span>
-                    </div>
-                    <button class="control-button" onclick="toggleDiagonal()">
-                        <i class="fas fa-eye"></i> Mostrar/Ocultar Diagonal
-                    </button>
-                </div>
-                <div class="formula-box" id="sqrtValue">
-                    Lado: $2$, Diagonal: $\sqrt{2^{2} + 2^{2}} = \sqrt{8} = 2\sqrt{2} \approx 2.828$
-                </div>
-            </div>
-
-            <div class="quiz-container">
-                <h3><i class="fas fa-check-circle"></i> Evaluación - Clase 1</h3>
-                <div class="question">1. ¿Cuál es la característica principal de la expresión decimal de un número irracional?</div>
-                <div class="options">
-                    <div class="option">
-                        <input type="radio" name="q1" value="a" id="q1a">
-                        <label for="q1a">Es finita (termina)</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" name="q1" value="b" id="q1b">
-                        <label for="q1b">Es infinita y periódica (se repite)</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" name="q1" value="c" id="q1c">
-                        <label for="q1c">Es infinita y NO periódica (no se repite)</label>
-                    </div>
-                </div>
-                <div id="feedback1" class="feedback"></div>
-                
-                <div class="question">2. El número $\pi$ es...</div>
-                <div class="options">
-                    <div class="option">
-                        <input type="radio" name="q2" value="a" id="q2a">
-                        <label for="q2a">Racional (se puede escribir como fracción)</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" name="q2" value="b" id="q2b">
-                        <label for="q2b">Irracional</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" name="q2" value="c" id="q2c">
-                        <label for="q2c">Entero</label>
-                    </div>
-                </div>
-                <div id="feedback2" class="feedback"></div>
-                
-                <button class="submit-button" onclick="checkQuiz('quiz1')">
-                    <i class="fas fa-check"></i> Verificar respuestas
-                </button>
+            <div class="theory-deep-dive" style="border-color: #e74c3c;">
+                <h4>2. Irracionales Trascendentes</h4>
+                <p>¡No pueden ser raíces de ningún polinomio! Son "más infinitos" que los algebraicos.</p>
+                <p>Ejemplos: $\pi$, $e$.</p>
             </div>
         </div>
 
-        <!-- CLASE 2: RECTA NUMÉRICA Y OPERACIONES -->
-        <div id="clase2" class="tab-content">
-            <div class="concept-banner">
-                <i class="fas fa-ruler-combined"></i>
-                Ubicación y Propiedades de Operación
-            </div>
-            
-            <div class="definition-box">
-                <h3><i class="fas fa-map-marker-alt"></i> Ubicación en la Recta Numérica</h3>
-                <p>Todo número real tiene su lugar único en la recta numérica. Para ubicar irracionales como $\sqrt{2}$ o $\sqrt{3}$, usamos construcciones geométricas (triángulos rectángulos).</p>
-                <p><strong>Ejemplo $\sqrt{2}$:</strong> Es la hipotenusa de un triángulo rectángulo de catetos 1.</p>
-                <div class="formula-box">
-                    $$ \text{Hipotenusa} = \sqrt{1^{2} + 1^{2}} = \sqrt{2} \approx 1.414 $$
-                </div>
-            </div>
+        <h3>La Densidad de los Reales</h3>
+        <p>Una propiedad asombrosa de los números reales es que entre dos números racionales siempre hay un irracional, y entre dos irracionales siempre hay un racional. </p>
+        
+        <div class="challenge-box">
+            <h4>🎯 Desafío de Construcción</h4>
+            <p>Escribe un número que tenga infinitos decimales pero que <strong>SÍ</strong> sea racional. ¿Cómo debe ser su patrón?</p>
+            <button class="btn-solution" onclick="toggleSolution('sol-c2')">Ver pista</button>
+            <div id="sol-c2" class="solution-text">Debe ser periódico. Ejemplo: $0.121212...$ que equivale a $\frac{12}{99}$. Si el patrón no se repite en bloques exactos, como $0.121121112...$, entonces es irracional.</div>
+        </div>
+    </div>
 
-            <div class="important-box">
-                <h3><i class="fas fa-exclamation-triangle"></i> Cuidado con las Operaciones</h3>
-                <p>Aunque los irracionales ahora pertenecen al conjunto $\mathbb{R}$ y comparten las propiedades de los racionales (conmutativa, asociativa, etc.), NO podemos operarlos ingenuamente con el radical.</p>
-                <div class="formula-box">
-                    $$ \sqrt{2} + \sqrt{3} \neq \sqrt{5} \quad \text{(¡Esto es FALSO!)} $$
-                </div>
-                <p>Para sumarlos, debemos usar sus aproximaciones decimales o dejarlos indicados en forma radical.</p>
-            </div>
+    <div id="tab3" class="tab-content">
+        <h2>El Poder de la Demostración</h2>
+        <p>En matemática, "parecer" no es suficiente. Aquí analizamos la demostración formal por el método de <strong>Reducción al Absurdo</strong>.</p>
+        
+        <div class="theory-deep-dive" style="background: #fff;">
+            <p>Supongamos que $\sqrt{2} = \frac{p}{q}$ es una fracción irreducible...</p>
+            <p style="text-align: center; font-size: 1.2rem;">$\downarrow$</p>
+            <p>Si elevamos al cuadrado y despejamos, llegamos a que tanto $p$ como $q$ deben ser pares.</p>
+            <p style="text-align: center; font-size: 1.2rem;">$\downarrow$</p>
+            <p><strong>CONTRADICCIÓN:</strong> Dijimos que la fracción era irreducible (no se podía simplificar más). Si ambos son pares, se puede simplificar por 2.</p>
+        </div>
 
-            <div class="example-box">
-                <div class="example-title">
-                    <i class="fas fa-calculator"></i> Ejercicio: Suma de Irracionales
-                </div>
-                <p>Calcula $\sqrt{2} + \sqrt{3}$ y da una aproximación razonable.</p>
-                <button class="solution-button" onclick="toggleSolution('sol1')">
-                    <i class="fas fa-eye"></i> Ver solución
-                </button>
-                <div id="sol1" class="solution">
-                    <p>Usamos aproximaciones decimales:</p>
-                    <p>$$ \sqrt{2} \approx 1.41421356 $$</p>
-                    <p>$$ \sqrt{3} \approx 1.73205081 $$</p>
-                    <p>$$ 1.41421356 + 1.73205081 = 3.14626437 $$</p>
-                    <p><strong>Resultado:</strong> $\sqrt{2} + \sqrt{3} \approx 3.146$</p>
-                    <p>Nota: $3.146$ es aproximadamente $\pi$ (3.1416). Es decir, $\sqrt{2} + \sqrt{3} \approx \pi$. ¡Una curiosidad geométrica!</p>
-                </div>
-            </div>
+        <div class="challenge-box" style="background-color: #e8f4fd; border-color: #3498db;">
+            <h4>🚀 Desafío Avanzado</h4>
+            <p>¿Podrías usar el mismo método para demostrar que $\sqrt{3}$ es irracional? ¿En qué paso cambiaría el razonamiento?</p>
+            <button class="btn-solution" onclick="toggleSolution('sol-sqrt3')">Ver explicación</button>
+            <div id="sol-sqrt3" class="solution-text">¡Sí! En lugar de hablar de números "pares", hablarías de múltiplos de 3. Llegarías a que tanto $p$ como $q$ son múltiplos de 3, contradiciendo la irreducibilidad.</div>
+        </div>
+    </div>
 
-            <div class="exercise-box">
-                <h3><i class="fas fa-pencil-alt"></i> Ejercicio Propuesto</h3>
-                <p>Calcula el valor numérico aproximado de $2\sqrt{5} - \sqrt{20}$.</p>
-                <button class="solution-button" onclick="toggleSolution('ex1')">
-                    <i class="fas fa-lightbulb"></i> Ver respuesta
-                </button>
-                <div id="ex1" class="solution">
-                    <p><strong>Método A: Decimales directos</strong></p>
-                    <p>$$ \sqrt{5} \approx 2.23607 \rightarrow 2 \cdot 2.23607 = 4.47214 $$</p>
-                    <p>$$ \sqrt{20} \approx 4.47214 $$</p>
-                    <p>$$ 4.47214 - 4.47214 = 0 $$</p>
-                    
-                    <p><strong>Método B: Simplificando Radicales (más elegante)</strong></p>
-                    <p>$$ \sqrt{20} = \sqrt{4 \cdot 5} = \sqrt{4} \cdot \sqrt{5} = 2\sqrt{5} $$</p>
-                    <p>Entonces: $$ 2\sqrt{5} - 2\sqrt{5} = 0 $$</p>
-                    <p><strong>Conclusión:</strong> Es una identidad exacta, no solo aproximada.</p>
-                </div>
-            </div>
+    <div id="tab4" class="tab-content">
+        <h2>La Recta Numérica y el Axioma de Completitud</h2>
+        <p>Los números racionales son como "estrellas en el cielo": hay infinitos, pero el cielo sigue estando mayormente vacío. Los números reales son el "cielo completo".</p>
 
-            <div class="quiz-container">
-                <h3><i class="fas fa-check-circle"></i> Evaluación - Clase 2</h3>
-                <div class="question">1. ¿Es cierto que $\sqrt{3} \times \sqrt{3} = 3$?</div>
-                <div class="options">
-                    <div class="option">
-                        <input type="radio" name="q2_1" value="a" id="q2_1a">
-                        <label for="q2_1a">No, es igual a 9</label>
-                    </div>
-                    <div class="option">
-                        <input type="radio" name="q2_1" value="b" id="q2_1b">
-                        <label for="q2_1b">Sí, por la propiedad de raíz cuadrada</label>
-                    </div>
-                </div>
+        <div class="geogebra-placeholder">
+            [Aquí se recomienda insertar un Applet de GeoGebra: "Zoom infinito en la recta real"]
+        </div>
+
+        <h3>El Axioma del Supremo</h3>
+        <p>Esta es la base del Análisis Matemático. Dice que todo conjunto de números reales que esté acotado superiormente tiene un <strong>Supremo</strong> (una "pared" mínima) que también es un número real.</p>
+        
+        <div class="theory-deep-dive">
+            <p>Sin este axioma, no existirían las derivadas ni las integrales. Es lo que permite que el movimiento sea continuo y no a saltos cuánticos.</p>
+        </div>
+    </div>
+
+    <div id="tab5" class="tab-content">
+        <h2>Laboratorio de Práctica</h2>
+        
+        <div class="exercise-item">
+            <strong>1. El Problema del área:</strong> Un círculo tiene un área de exactamente $10\pi$ cm². ¿Su radio es un número racional, irracional algebraico o irracional trascendente?
+            <br><button class="btn-solution" onclick="toggleSolution('sol-p5-1')">Ver Solución</button>
+            <div id="sol-p5-1" class="solution-text">Área = $\pi \cdot r^2 \Rightarrow 10\pi = \pi \cdot r^2 \Rightarrow r = \sqrt{10}$. Es un <strong>Irracional Algebraico</strong>.</div>
+        </div>
+
+        <div class="exercise-item">
+            <strong>2. La suma prohibida:</strong> ¿Es posible que la suma de dos números irracionales sea un número racional? Justifica con un ejemplo.
+            <br><button class="btn-solution" onclick="toggleSolution('sol-p5-2')">Ver Solución</button>
+            <div id="sol-p5-2" class="solution-text">¡Sí! Por ejemplo: $(2 + \sqrt{2}) + (2 - \sqrt{2}) = 4$. Ambos sumandos son irracionales, pero su suma es racional.</div>
+        </div>
+
+        <div class="exercise-item">
+            <strong>3. Identificación:</strong> Indica a qué conjunto pertenecen:
+            <ul>
+                <li>$\sqrt[3]{-8}$</li>
+                <li>$0.123456789101112...$</li>
+                <li>$\frac{22}{7}$ (Ojo: no es $\pi$)</li>
+            </ul>
+            <button class="btn-solution" onclick="toggleSolution('sol-p5-3')">Ver Solución</button>
+            <div id="sol-p5-3" class="solution-text">
+                - $\sqrt[3]{-8} = -2$ (Entero / Racional).<br>
+                - $0.123...$ (Irracional: patrón no periódico).<br>
+                - $\frac{22}{7}$ (Racional: es un cociente de enteros).
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 Plataforma Educativa de Matemática | Provincia de Córdoba</p>
+</footer>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        document.getElementById(tabName).style.display = "block";
+        setTimeout(() => {
+            document.getElementById(tabName).classList.add("active");
+        }, 50);
+        evt.currentTarget.classList.add("active");
+    }
+
+    function toggleSolution(id) {
+        var el = document.getElementById(id);
+        el.style.display = (el.style.display === "block") ? "none" : "block";
+    }
+</script>
+
+</body>
+</html>

@@ -1102,16 +1102,13 @@
                 }
             };
 
-            // 1. Gráfico para prueba de recta vertical (Pestaña 1)
+                       // 1. Gráfico para prueba de recta vertical (Pestaña 1) - VERSIÓN FINAL SIN ERRORES
             const verticalLineCtx = document.getElementById('verticalLineTestChart');
             if (verticalLineCtx) {
+                // Generar datos para el círculo (radio 2)
                 const circleData = Array.from({length: 64}, (_, i) => {
                     const angle = i * Math.PI / 32;
-                    return {x: 2*Math.cos(angle), y: 2*Math.sin(angle)};
-                });
-                const parabolaData = Array.from({length: 21}, (_, i) => {
-                    const x = i/2 - 5;
-                    return {x: x, y: 0.2*x*x};
+                    return {x: 2 * Math.cos(angle), y: 2 * Math.sin(angle)};
                 });
 
                 new Chart(verticalLineCtx, {
@@ -1119,34 +1116,53 @@
                     data: {
                         datasets: [
                             {
-                                label: 'Círculo (NO es función)',
+                                type: 'scatter',
+                                label: 'Círculo: x² + y² = 4',
                                 data: circleData,
                                 borderColor: '#EF4444',
-                                backgroundColor: 'rgba(239, 68, 68, 0.2)',
-                                borderWidth: 2,
-                                showLine: true,
-                                fill: true,
-                                tension: 0,
-                                pointRadius: 0
-                            },
-                            {
-                                label: 'Parábola (SÍ es función)',
-                                data: parabolaData,
-                                borderColor: '#10B981',
-                                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                                backgroundColor: 'rgba(239, 68, 68, 0.1)',
                                 borderWidth: 3,
                                 showLine: true,
                                 fill: true,
-                                tension: 0.4,
-                                pointRadius: 0
+                                tension: 0,
+                                pointRadius: 0,
+                                order: 1 // Se dibuja primero (detrás)
+                            },
+                            {
+                                type: 'line',
+                                label: 'Prueba Recta Vertical (x=0)',
+                                data: [
+                                    {x: 0, y: -3.5}, // Punto abajo
+                                    {x: 0, y: 3.5}   // Punto arriba
+                                ],
+                                borderColor: '#1F2937', // Gris oscuro/Negro
+                                borderWidth: 2,
+                                borderDash: [5, 5], // Efecto punteado
+                                pointRadius: 0,
+                                fill: false,
+                                order: 0 // Se dibuja encima
                             }
                         ]
                     },
                     options: {
-                        ...commonOptions,
+                        responsive: true,
+                        maintainAspectRatio: true, 
+                        aspectRatio: 1, // Fuerza el gráfico a ser cuadrado 1:1
+                        plugins: {
+                            legend: { display: true, position: 'bottom' },
+                            tooltip: { enabled: false }
+                        },
                         scales: {
-                            x: { title: { display: true, text: 'x' }, min: -4, max: 4 },
-                            y: { title: { display: true, text: 'y' }, min: -4, max: 4 }
+                            x: { 
+                                title: { display: true, text: 'x' },
+                                min: -4, max: 4,
+                                grid: { color: '#E5E7EB' }
+                            },
+                            y: { 
+                                title: { display: true, text: 'y' },
+                                min: -4, max: 4,
+                                grid: { color: '#E5E7EB' }
+                            }
                         }
                     }
                 });

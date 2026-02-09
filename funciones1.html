@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Gráfico de Funciones | Mates con Agugg_ia</title>
+    
+    <!-- 1. LIBRERÍA MATHJAX -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* --- VARIABLES CSS Y ESTILOS GENERALES --- */
+        :root {
+            --primary: #2563EB;      
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;    
+            --accent: #F59E0B;       
+            --dark: #1F2937;         
+            --light: #F3F4F6;        
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--dark);
+            background-color: #F9FAFB;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        ul { list-style: none; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-size: 1.3rem; 
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .logo span { color: var(--dark); }
+
+        /* --- CONTENEDOR PRINCIPAL DE LECCIÓN --- */
+        .lesson-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            min-height: 600px;
+        }
+
+        .lesson-header {
+            padding: 30px 40px;
+            background: linear-gradient(to right, #EFF6FF, #ffffff);
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .lesson-nav {
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .lesson-nav a { color: var(--primary); font-weight: 600; }
+
+        .lesson-title { font-size: 2.2rem; color: var(--primary-dark); line-height: 1.2; }
+
+        /* --- SISTEMA DE PESTAÑAS (TABS) --- */
+        .tabs-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Botones de navegación de pestañas */
+        .tabs-nav {
+            display: flex;
+            background-color: #f3f4f6;
+            border-bottom: 1px solid #e5e7eb;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 20px 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border-bottom: 4px solid transparent;
+        }
+
+        .tab-btn:hover { background-color: #e5e7eb; color: var(--primary); }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            background-color: var(--white);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Paneles de contenido */
+        .tab-content {
+            padding: 40px;
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ESTILOS ESPECÍFICOS DE CONTENIDO --- */
+        
+        h2 { color: var(--primary); margin-bottom: 15px; font-size: 1.8rem; margin-top: 20px; }
+        h3 { color: var(--dark); margin-bottom: 10px; font-size: 1.4rem; margin-top: 20px; }
+        p { margin-bottom: 15px; font-size: 1.05rem; color: #374151; text-align: justify; }
+        
+        /* Tab 1: Introducción */
+        .intro-quote {
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 20px;
+            color: var(--gray);
+            margin: 20px 0;
+            background: #FFFBEB;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 25px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary);
+        }
+        .timeline-item {
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 20px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+        .timeline-year {
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        /* Tab 2: Teoría */
+        .concept-box {
+            background: #EFF6FF;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #DBEAFE;
+        }
+
+        .graph-container {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            background: #FAFAFA;
+        }
+
+        /* Tab 3: Desarrollos Resueltos */
+        .solved-example {
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        .solved-header {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+        .solved-body { padding: 20px; background: #FAFAFA; }
+        .solved-step { 
+            margin-bottom: 15px; 
+            border-left: 2px solid var(--gray); 
+            padding-left: 15px; 
+        }
+
+        /* Tab 4: Práctica */
+        .exercise-item {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #D1D5DB;
+        }
+        .solution-toggle {
+            background: var(--white);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .solution-toggle:hover { background: var(--secondary); color: white; }
+        .solution-text {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #ECFDF5;
+            border-radius: 6px;
+            border: 1px solid #10B981;
+        }
+
+        /* Tab 5: Autoevaluación */
+        .quiz-item { margin-bottom: 25px; }
+        .quiz-options button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            margin: 5px 0;
+            background: white;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quiz-options button:hover { background-color: #F3F4F6; }
+        
+        .quiz-btn.correct { background-color: #D1FAE5; border-color: #10B981; color: #065F46; }
+        .quiz-btn.incorrect { background-color: #FEE2E2; border-color: #EF4444; color: #991B1B; }
+        .quiz-feedback { margin-top: 8px; font-weight: 600; font-size: 0.9rem; display: none; }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: #D1D5DB;
+            padding: 20px 0;
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .lesson-title { font-size: 1.8rem; }
+            .tab-content { padding: 25px; }
+            .tabs-nav { flex-wrap: wrap; }
+            .tab-btn { flex: 1 0 auto; min-width: 120px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo" onclick="window.location.href='index.html'">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 2V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 7L12 2L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 17L12 22L20 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Mates con Agugg_ia</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="lesson-container">
+                <!-- Cabecera de la lección -->
+                <div class="lesson-header">
+                    <div class="lesson-nav">
+                        <a href="index.html">← Volver al Inicio</a> | <a href="index.html#vista-cursos">Ver Cursos</a>
+                    </div>
+                    <h1 class="lesson-title">Análisis Gráfico de Funciones</h1>
+                </div>
+
+                <!-- NAVEGACIÓN DE PESTAÑAS -->
+                <div class="tabs-container">
+                    <div class="tabs-nav">
+                        <button class="tab-btn active" onclick="openTab(event, 'tab-intro')">1. Introducción</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-teoria')">2. Teoría</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-resueltos')">3. Desarrollos</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-practica')">4. Práctica</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-quiz')">5. Autoevaluación</button>
+                    </div>
+
+                    <!-- PESTAÑA 1: INTRODUCCIÓN -->
+                    <div id="tab-intro" class="tab-content active">
+                        <h2>¿Por qué estudiar funciones gráficamente?</h2>
+                        <p>El análisis gráfico de funciones nos permite comprender cómo se relacionan las variables en fenómenos reales. Desde el movimiento de los planetas hasta las variaciones económicas, las funciones describen patrones y comportamientos que podemos visualizar y analizar a través de sus gráficas.</p>
+                        
+                        <div class="intro-quote">
+                            "Una imagen vale más que mil palabras, y en matemáticas, una gráfica vale más que mil números."
+                        </div>
+
+                        <h3>Evolución histórica del concepto</h3>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-year">Siglo XIV - Oresme</div>
+                                <p>Primeras representaciones gráficas de variaciones, usando segmentos para mostrar cambios en la velocidad.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">1637 - Descartes</div>
+                                <p>Desarrolló la geometría analítica, uniendo álgebra y geometría, sentando las bases para graficar funciones en coordenadas cartesianas.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">1694 - Leibniz</div>
+                                <p>Introdujo el término "función" para describir cantidades relacionadas con una curva. La escuela alemana comenzó a formalizar el concepto.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">1748 - Euler</div>
+                                <p>Definió función como "una expresión analítica compuesta de cualquier manera de esa cantidad variable y de números o cantidades constantes".</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-year">1837 - Dirichlet</div>
+                                <p>Proporcionó la definición moderna: una función asigna a cada valor del primer conjunto un único valor del segundo, independientemente de si existe una fórmula.</p>
+                            </div>
+                        </div>
+
+                        <h3>Contexto cordobés</h3>
+                        <p>En Córdoba, el análisis de funciones tiene aplicaciones prácticas en múltiples áreas:</p>
+                        <ul style="padding-left: 20px; margin-bottom: 20px;">
+                            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Agronomía:</strong> Crecimiento de cultivos en las sierras en función del tiempo y condiciones climáticas.</li>
+                            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Economía regional:</strong> Producción y consumo de bienes característicos de la provincia.</li>
+                            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Meteorología:</strong> Variaciones climáticas a lo largo del año en diferentes regiones de Córdoba.</li>
+                            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Gestión de recursos:</strong> Niveles de embalses como el San Roque en función de las estaciones.</li>
+                        </ul>
+                        <p>Comprender cómo modelar estas relaciones nos permite tomar mejores decisiones en nuestra provincia.</p>
+                    </div>
+
+                    <!-- PESTAÑA 2: TEORÍA -->
+                    <div id="tab-teoria" class="tab-content">
+                        <h2>Conceptos Fundamentales</h2>
+                        
+                        <div class="concept-box">
+                            <h3>Definición formal</h3>
+                            <p>Una función \(f\) es una relación entre dos conjuntos \(A\) (dominio) y \(B\) (codominio) donde cada elemento \(x \in A\) se relaciona con exactamente un elemento \(f(x) \in B\).</p>
+                            <p>$$f: A \rightarrow B \quad \text{tal que} \quad \forall x \in A, \exists! y \in B / y = f(x)$$</p>
+                        </div>
+
+                        <h3>Lenguaje de las gráficas</h3>
+                        <p>Una gráfica en el plano cartesiano representa visualmente una función. El eje horizontal (X) representa la variable independiente, y el eje vertical (Y) la variable dependiente \(f(x)\).</p>
+                        
+                        <div class="graph-container">
+                            <canvas id="basicFunctionChart"></canvas>
+                        </div>
+
+                        <div class="concept-box">
+                            <h3>Características clave de una gráfica</h3>
+                            <ul style="padding-left: 20px;">
+                                <li style="margin-bottom: 8px; list-style-type: disc;"><strong>Dominio:</strong> Conjunto de valores de \(x\) para los cuales la función está definida.</li>
+                                <li style="margin-bottom: 8px; list-style-type: disc;"><strong>Imagen o recorrido:</strong> Conjunto de valores de \(y\) que toma la función.</li>
+                                <li style="margin-bottom: 8px; list-style-type: disc;"><strong>Ceros o raíces:</strong> Valores de \(x\) donde \(f(x) = 0\) (corta al eje X).</li>
+                                <li style="margin-bottom: 8px; list-style-type: disc;"><strong>Ordenada al origen:</strong> Valor de \(f(0)\) (corta al eje Y).</li>
+                            </ul>
+                        </div>
+
+                        <h3>Comportamiento: crecimiento y decrecimiento</h3>
+                        <p>Una función es <strong>creciente</strong> en un intervalo si al aumentar \(x\), también aumenta \(f(x)\). Es <strong>decreciente</strong> si al aumentar \(x\), disminuye \(f(x)\).</p>
+                        
+                        <div class="graph-container">
+                            <canvas id="growthChart"></canvas>
+                        </div>
+
+                        <h3>Concavidad y puntos de inflexión</h3>
+                        <p>La <strong>concavidad</strong> describe cómo se curva la gráfica:</p>
+                        <ul style="padding-left: 20px; margin-bottom: 15px;">
+                            <li style="margin-bottom: 8px; list-style-type: disc;"><strong>Cóncava hacia arriba:</strong> Forma de "U" o valle</li>
+                            <li style="margin-bottom: 8px; list-style-type: disc;"><strong>Cóncava hacia abajo:</strong> Forma de "∩" o colina</li>
+                        </ul>
+                        <p>Un <strong>punto de inflexión</strong> es donde la gráfica cambia de concavidad.</p>
+                        
+                        <div class="graph-container">
+                            <canvas id="concavityChart"></canvas>
+                        </div>
+
+                        <h3>Funciones definidas por partes</h3>
+                        <p>Son funciones que se definen con diferentes fórmulas en diferentes intervalos de su dominio. Muy comunes en situaciones reales como tarifas de servicios.</p>
+                        
+                        <div class="concept-box">
+                            <h4>Ejemplo: Tarifa eléctrica en Córdoba</h4>
+                            <p>$$C(x) = 
+                            \begin{cases} 
+                            5x & \text{si } 0 \leq x \leq 150 \\
+                            750 + 7(x-150) & \text{si } 150 < x \leq 300 \\
+                            1800 + 10(x-300) & \text{si } x > 300
+                            \end{cases}$$
+                            Donde \(x\) es el consumo en kWh y \(C(x)\) es el costo en pesos.</p>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 3: DESARROLLOS RESUELTOS -->
+                    <div id="tab-resueltos" class="tab-content">
+                        <h2>Problemas Modelo Resueltos</h2>
+
+                        <div class="solved-example">
+                            <div class="solved-header">Ejemplo 1: Análisis completo de una función cúbica</div>
+                            <div class="solved-body">
+                                <p><strong>Problema:</strong> Analiza completamente la función \(f(x) = x^3 - 3x^2 - x + 3\) a partir de su gráfica.</p>
+                                
+                                <div class="graph-container">
+                                    <canvas id="cubicExampleChart"></canvas>
+                                </div>
+                                
+                                <div class="solved-step"><strong>Paso 1: Dominio</strong><br>Como es una función polinómica, su dominio es todos los números reales: \(\text{Dom } f = \mathbb{R} = (-\infty, \infty)\).</div>
+                                
+                                <div class="solved-step"><strong>Paso 2: Imagen o recorrido</strong><br>Observando la gráfica, vemos que la función toma todos los valores reales: \(\text{Im } f = \mathbb{R}\).</div>
+                                
+                                <div class="solved-step"><strong>Paso 3: Ceros o raíces</strong><br>La gráfica corta al eje X en tres puntos: aproximadamente \(x = -1\), \(x = 1\) y \(x = 3\). Verificamos: \(f(-1) = (-1)^3 - 3(-1)^2 - (-1) + 3 = -1 - 3 + 1 + 3 = 0\).</div>
+                                
+                                <div class="solved-step"><strong>Paso 4: Corte con eje Y</strong><br>Cuando \(x = 0\): \(f(0) = 0^3 - 3(0)^2 - 0 + 3 = 3\). Punto: \((0, 3)\).</div>
+                                
+                                <div class="solved-step"><strong>Paso 5: Intervalos de crecimiento y decrecimiento</strong><br>La función crece en \((-∞, -0.15)\) y \((2.15, ∞)\) aproximadamente. Decrece en \((-0.15, 2.15)\).</div>
+                                
+                                <div class="solved-step"><strong>Paso 6: Máximos y mínimos relativos</strong><br>Máximo relativo en \(x ≈ -0.15\), \(y ≈ 3.08\). Mínimo relativo en \(x ≈ 2.15\), \(y ≈ -4.08\).</div>
+                                
+                                <p><strong>Conclusión:</strong> Hemos realizado un análisis completo que incluye dominio, imagen, ceros, corte con eje Y, monotonía y extremos.</p>
+                            </div>
+                        </div>
+
+                        <div class="solved-example">
+                            <div class="solved-header">Ejemplo 2: Función en contexto real - Tarifa de taxi</div>
+                            <div class="solved-body">
+                                <p><strong>Problema:</strong> En la ciudad de Córdoba, un taxi cobra $120 por bajada de bandera y $50 por cada kilómetro recorrido. Analiza gráficamente esta situación.</p>
+                                
+                                <div class="graph-container">
+                                    <canvas id="taxiExampleChart"></canvas>
+                                </div>
+                                
+                                <div class="solved-step"><strong>Paso 1: Plantear la función</strong><br>Sea \(x\) la distancia en km, y \(C(x)\) el costo total. Entonces: \(C(x) = 120 + 50x\).</div>
+                                
+                                <div class="solved-step"><strong>Paso 2: Dominio</strong><br>La distancia no puede ser negativa: \(\text{Dom } C = \{x \in \mathbb{R} / x \geq 0\} = [0, ∞)\).</div>
+                                
+                                <div class="solved-step"><strong>Paso 3: Imagen</strong><br>El costo mínimo es $120 (cuando \(x = 0\)). Luego aumenta sin límite: \(\text{Im } C = [120, ∞)\).</div>
+                                
+                                <div class="solved-step"><strong>Paso 4: Corte con ejes</strong><br>Con eje Y: \(C(0) = 120\) → punto \((0, 120)\). Con eje X: Resolver \(120 + 50x = 0\) → \(x = -2.4\), pero no está en el dominio, por lo que no corta al eje X (no tiene sentido una distancia negativa).</div>
+                                
+                                <div class="solved-step"><strong>Paso 5: Comportamiento</strong><br>Es una función lineal con pendiente positiva, por lo que es siempre creciente en todo su dominio.</div>
+                                
+                                <p><strong>Conclusión:</strong> La función \(C(x) = 120 + 50x\) modela correctamente la tarifa del taxi. Es creciente, con dominio restringido a valores no negativos y un costo inicial de $120.</p>
+                            </div>
+                        </div>
+
+                        <div class="solved-example">
+                            <div class="solved-header">Ejemplo 3: Análisis de una función por partes</div>
+                            <div class="solved-body">
+                                <p><strong>Problema:</strong> Analiza la siguiente función definida por partes:</p>
+                                <p>$$f(x) = 
+                                \begin{cases} 
+                                2 & \text{si } x < -2 \\
+                                -x & \text{si } -2 \leq x < 0 \\
+                                \frac{x^2}{2} & \text{si } 0 \leq x < 2 \\
+                                2 & \text{si } x \geq 2
+                                \end{cases}$$</p>
+                                
+                                <div class="graph-container">
+                                    <canvas id="piecewiseExampleChart"></canvas>
+                                </div>
+                                
+                                <div class="solved-step"><strong>Paso 1: Dominio</strong><br>Observamos que la función está definida para todos los números reales: \(\text{Dom } f = \mathbb{R}\).</div>
+                                
+                                <div class="solved-step"><strong>Paso 2: Imagen</strong><br>Los valores de \(y\) van desde 0 hasta 2 (incluyendo el 2): \(\text{Im } f = [0, 2]\).</div>
+                                
+                                <div class="solved-step"><strong>Paso 3: Continuidad</strong><br>La función es discontinua en \(x = -2\) (hay un salto) y es continua en \(x = 0\) y \(x = 2\) (los tramos se unen sin saltos).</div>
+                                
+                                <div class="solved-step"><strong>Paso 4: Comportamiento</strong><br>Crece en \((-2, 0)\) y es constante en \((-∞, -2)\) y \([2, ∞)\).</div>
+                                
+                                <div class="solved-step"><strong>Paso 5: Extremos</strong><br>Tiene un máximo absoluto en \(y = 2\) para \(x < -2\) y \(x ≥ 2\). Tiene un mínimo absoluto en \(x = 0\) con \(f(0) = 0\).</div>
+                                
+                                <p><strong>Conclusión:</strong> Las funciones por partes permiten modelar situaciones que cambian abruptamente, como tarifas escalonadas o procesos con diferentes etapas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 4: PRÁCTICA -->
+                    <div id="tab-practica" class="tab-content">
+                        <h2>Ejercicios y Problemas</h2>
+                        <p>Completa los siguientes ejercicios. Intenta resolverlos por tu cuenta antes de ver la solución.</p>
+                        
+                        <div class="exercise-item">
+                            <h3>Ejercicio 1: Dominio e imagen</h3>
+                            <p>Observa la siguiente gráfica y determina:</p>
+                            <div class="graph-container">
+                                <canvas id="practiceChart1"></canvas>
+                            </div>
+                            <p>a) El dominio de la función<br>
+                               b) La imagen o recorrido<br>
+                               c) Los ceros o raíces<br>
+                               d) El corte con el eje Y</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            <div class="solution-text">
+                                <p><strong>Solución:</strong></p>
+                                <p>a) Dominio: Los valores de \(x\) van desde -4 hasta 4 → \([-4, 4]\)</p>
+                                <p>b) Imagen: Los valores de \(y\) van desde -2 hasta 3 → \([-2, 3]\)</p>
+                                <p>c) Ceros: La gráfica corta al eje X en \(x ≈ -3\), \(x ≈ -0.5\) y \(x ≈ 2.5\)</p>
+                                <p>d) Corte con Y: Cuando \(x = 0\), \(y ≈ -1\) → punto \((0, -1)\)</p>
+                            </div>
+                        </div>
+
+                        <div class="exercise-item">
+                            <h3>Ejercicio 2: Comportamiento y extremos</h3>
+                            <p>Para la misma gráfica del ejercicio anterior, determina:</p>
+                            <p>a) Intervalos de crecimiento<br>
+                               b) Intervalos de decrecimiento<br>
+                               c) Coordenadas de los máximos relativos<br>
+                               d) Coordenadas de los mínimos relativos</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            <div class="solution-text">
+                                <p><strong>Solución:</strong></p>
+                                <p>a) Crecimiento: La función crece en \((-4, -2)\) y \((0, 1.5)\) aproximadamente</p>
+                                <p>b) Decrecimiento: La función decrece en \((-2, 0)\) y \((1.5, 4)\)</p>
+                                <p>c) Máximos relativos: En \(x ≈ -2\) con \(y ≈ 2\) y en \(x ≈ 1.5\) con \(y ≈ 1.2\)</p>
+                                <p>d) Mínimos relativos: En \(x ≈ 0\) con \(y ≈ -1\)</p>
+                            </div>
+                        </div>
+
+                        <div class="exercise-item">
+                            <h3>Ejercicio 3: Función contextualizada</h3>
+                            <p>La temperatura en la ciudad de Córdoba varía a lo largo del día según la función \(T(h) = 12 \cdot \sin\left(\frac{\pi}{12}(h-6)\right) + 10\), donde \(h\) es la hora del día (0 a 24) y \(T\) es la temperatura en °C.</p>
+                            <div class="graph-container">
+                                <canvas id="practiceChart2"></canvas>
+                            </div>
+                            <p>a) ¿Cuál es la temperatura a las 6 am?<br>
+                               b) ¿A qué hora se alcanza la temperatura máxima y cuál es?<br>
+                               c) ¿En qué intervalos del día la temperatura aumenta?<br>
+                               d) ¿En qué intervalos del día la temperatura disminuye?</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            <div class="solution-text">
+                                <p><strong>Solución:</strong></p>
+                                <p>a) A las 6 am: \(T(6) = 12 \cdot \sin\left(\frac{\pi}{12}(6-6)\right) + 10 = 12 \cdot \sin(0) + 10 = 10°C\)</p>
+                                <p>b) Temperatura máxima: 22°C a las 12:00 (mediodía)</p>
+                                <p>c) La temperatura aumenta desde las 6:00 hasta las 12:00 y desde las 18:00 hasta las 24:00</p>
+                                <p>d) La temperatura disminuye desde las 0:00 hasta las 6:00 y desde las 12:00 hasta las 18:00</p>
+                            </div>
+                        </div>
+
+                        <div class="exercise-item">
+                            <h3>Problema 1: Costo de llamadas telefónicas</h3>
+                            <p>Una compañía de telefonía móvil en Córdoba ofrece el siguiente plan: $50 por mes incluye 100 minutos. Cada minuto adicional cuesta $0.80.</p>
+                            <p>a) Define una función por partes \(C(m)\) que represente el costo mensual en función de los minutos consumidos \(m\).<br>
+                               b) Grafica la función.<br>
+                               c) Determina el costo para 80 minutos, 150 minutos y 300 minutos.<br>
+                               d) ¿Es continua la función? Explica.</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            <div class="solution-text">
+                                <p><strong>Solución:</strong></p>
+                                <p>a) \(C(m) = 
+                                \begin{cases} 
+                                50 & \text{si } 0 \leq m \leq 100 \\
+                                50 + 0.80(m-100) & \text{si } m > 100
+                                \end{cases}\)</p>
+                                <p>b) Gráfica con dos tramos: una constante hasta 100 minutos, luego una recta con pendiente 0.80</p>
+                                <p>c) Para 80 min: \(C(80) = 50\)<br>
+                                   Para 150 min: \(C(150) = 50 + 0.80(50) = 90\)<br>
+                                   Para 300 min: \(C(300) = 50 + 0.80(200) = 210\)</p>
+                                <p>d) Sí es continua, porque en \(m = 100\) ambos tramos dan el mismo valor: 50.</p>
+                            </div>
+                        </div>
+
+                        <div class="exercise-item">
+                            <h3>Problema 2: Nivel de un embalse</h3>
+                            <p>El Embalse San Roque tiene variaciones estacionales en su nivel de agua. La siguiente gráfica muestra el porcentaje de capacidad a lo largo del año:</p>
+                            <div class="graph-container">
+                                <canvas id="practiceChart3"></canvas>
+                            </div>
+                            <p>a) ¿En qué mes alcanza su máximo nivel? ¿Y su mínimo?<br>
+                               b) Describe los intervalos de crecimiento y decrecimiento.<br>
+                               c) ¿Qué porcentaje de capacidad tiene en marzo? ¿Y en octubre?<br>
+                               d) ¿Por qué crees que ocurren estas variaciones?</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            <div class="solution-text">
+                                <p><strong>Solución:</strong></p>
+                                <p>a) Máximo: alrededor de diciembre-enero (85%). Mínimo: alrededor de noviembre (55%).</p>
+                                <p>b) Crece desde noviembre hasta enero. Decrece desde enero hasta noviembre.</p>
+                                <p>c) En marzo: aproximadamente 78%. En octubre: aproximadamente 56%.</p>
+                                <p>d) Las variaciones se deben a las estaciones: en verano hay más lluvias y deshielo que llenan el embalse, mientras que en invierno y primavera hay menor precipitación y mayor consumo.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 5: AUTOEVALUACIÓN -->
+                    <div id="tab-quiz" class="tab-content">
+                        <h2>Autoevaluación Rápida</h2>
+                        <p>Selecciona la respuesta correcta para verificar tu comprensión. Al hacer clic, verás si tu respuesta es correcta o incorrecta.</p>
+
+                        <div class="quiz-item">
+                            <p><strong>1. ¿Qué matemático introdujo por primera vez el término "función"?</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, false)">Descartes</button>
+                                <button onclick="checkAnswer(this, true)">Leibniz</button>
+                                <button onclick="checkAnswer(this, false)">Euler</button>
+                                <button onclick="checkAnswer(this, false)">Dirichlet</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p><strong>2. El dominio de una función es:</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, false)">Los valores de Y que toma la función</button>
+                                <button onclick="checkAnswer(this, true)">Los valores de X para los cuales la función está definida</button>
+                                <button onclick="checkAnswer(this, false)">Los puntos donde la gráfica corta al eje X</button>
+                                <button onclick="checkAnswer(this, false)">Los valores máximos y mínimos de la función</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p><strong>3. Si al aumentar el valor de X, también aumenta el valor de f(X), la función es:</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, true)">Creciente</button>
+                                <button onclick="checkAnswer(this, false)">Decreciente</button>
+                                <button onclick="checkAnswer(this, false)">Constante</button>
+                                <button onclick="checkAnswer(this, false)">Periódica</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p><strong>4. Un punto donde la gráfica cambia de cóncava hacia arriba a cóncava hacia abajo se llama:</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, false)">Máximo relativo</button>
+                                <button onclick="checkAnswer(this, false)">Mínimo relativo</button>
+                                <button onclick="checkAnswer(this, true)">Punto de inflexión</button>
+                                <button onclick="checkAnswer(this, false)">Corte con el eje Y</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p><strong>5. En la función por partes que modela una tarifa eléctrica, un cambio brusco en el precio representaría:</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, false)">Un máximo relativo</button>
+                                <button onclick="checkAnswer(this, true)">Una discontinuidad de salto</button>
+                                <button onclick="checkAnswer(this, false)">Un punto de inflexión</button>
+                                <button onclick="checkAnswer(this, false)">Un cero de la función</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p><strong>6. La imagen de la función \(f(x) = x^2 + 1\) es:</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, false)">Todos los números reales</button>
+                                <button onclick="checkAnswer(this, true)">\([1, \infty)\)</button>
+                                <button onclick="checkAnswer(this, false)">\([0, \infty)\)</button>
+                                <button onclick="checkAnswer(this, false)">\([-1, 1]\)</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p><strong>7. ¿Qué información nos da el corte de una gráfica con el eje Y?</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, false)">Los valores donde la función es máxima</button>
+                                <button onclick="checkAnswer(this, true)">El valor de la función cuando x = 0</button>
+                                <button onclick="checkAnswer(this, false)">Los intervalos donde la función crece</button>
+                                <button onclick="checkAnswer(this, false)">Los valores donde la función es cero</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p><strong>8. Una función definida por partes:</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, false)">Siempre es continua</button>
+                                <button onclick="checkAnswer(this, true)">Usa diferentes fórmulas en diferentes intervalos</button>
+                                <button onclick="checkAnswer(this, false)">Solo puede tener dos partes</button>
+                                <button onclick="checkAnswer(this, false)">Nunca tiene máximos ni mínimos</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p><strong>9. ¿Cuál es el dominio de la función representada por una gráfica que muestra valores de X desde -5 hasta 5?</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, false)">Solo los números positivos</button>
+                                <button onclick="checkAnswer(this, true)">El intervalo \([-5, 5]\)</button>
+                                <button onclick="checkAnswer(this, false)">Todos los números reales</button>
+                                <button onclick="checkAnswer(this, false)">Solo los números enteros</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+
+                        <div class="quiz-item">
+                            <p><strong>10. ¿Por qué es importante el análisis gráfico de funciones en contextos reales como Córdoba?</strong></p>
+                            <div class="quiz-options">
+                                <button onclick="checkAnswer(this, false)">Solo para aprobar exámenes de matemática</button>
+                                <button onclick="checkAnswer(this, true)">Para modelar y comprender fenómenos como el clima, la economía o el consumo</button>
+                                <button onclick="checkAnswer(this, false)">Porque es un tema obligatorio en el curriculum</button>
+                                <button onclick="checkAnswer(this, false)">Para aprender a dibujar mejor</button>
+                            </div>
+                            <p class="quiz-feedback"></p>
+                        </div>
+                    </div>
+
+                </div> <!-- Fin tabs-container -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Mates con Agugg_ia. Material didáctico para estudiantes de secundaria de Córdoba, Argentina.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // --- LÓGICA DE PESTAÑAS ---
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            document.getElementById(tabName).style.display = "block";
+            setTimeout(() => {
+                document.getElementById(tabName).classList.add("active");
+            }, 10);
+            evt.currentTarget.className += " active";
+        }
+
+        // --- LÓGICA DE SOLUCIONES (ACORDEÓN) ---
+        function toggleSolution(btn) {
+            var solution = btn.nextElementSibling;
+            if (solution.style.display === "block") {
+                solution.style.display = "none";
+                btn.textContent = "Ver Solución";
+            } else {
+                solution.style.display = "block";
+                btn.textContent = "Ocultar Solución";
+            }
+        }
+
+        // --- LÓGICA DE QUIZ (AUTOEVALUACIÓN) ---
+        function checkAnswer(btn, isCorrect) {
+            var parent = btn.parentElement;
+            var buttons = parent.getElementsByTagName("button");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+            }
+
+            var feedback = parent.nextElementSibling;
+            feedback.style.display = "block";
+
+            if (isCorrect) {
+                btn.classList.add("correct");
+                feedback.textContent = "¡Correcto!";
+                feedback.style.color = "#065F46";
+            } else {
+                btn.classList.add("incorrect");
+                feedback.textContent = "Incorrecto. Revisa la teoría o los ejemplos resueltos.";
+                feedback.style.color = "#991B1B";
+            }
+        }
+
+        // --- INICIALIZACIÓN DE GRÁFICOS CON CHART.JS ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gráfico básico para teoría (Pestaña 2)
+            const basicCtx = document.getElementById('basicFunctionChart');
+            if (basicCtx) {
+                new Chart(basicCtx, {
+                    type: 'line',
+                    data: {
+                        labels: Array.from({length: 21}, (_, i) => i - 5),
+                        datasets: [{
+                            label: 'f(x) = x² - 4',
+                            data: Array.from({length: 21}, (_, i) => {
+                                let x = i - 5;
+                                return x*x - 4;
+                            }),
+                            borderColor: '#2563EB',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { title: { display: true, text: 'x' } },
+                            y: { title: { display: true, text: 'f(x)' } }
+                        }
+                    }
+                });
+            }
+
+            // Gráfico de crecimiento (Pestaña 2)
+            const growthCtx = document.getElementById('growthChart');
+            if (growthCtx) {
+                new Chart(growthCtx, {
+                    type: 'line',
+                    data: {
+                        labels: Array.from({length: 31}, (_, i) => i - 5),
+                        datasets: [{
+                            label: 'f(x)',
+                            data: Array.from({length: 31}, (_, i) => {
+                                let x = i - 5;
+                                return 0.1*x*x*x - 0.6*x*x - 1.5*x + 2;
+                            }),
+                            borderColor: '#10B981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { title: { display: true, text: 'x' } },
+                            y: { title: { display: true, text: 'f(x)' } }
+                        }
+                    }
+                });
+            }
+
+            // Gráfico de concavidad (Pestaña 2)
+            const concavityCtx = document.getElementById('concavityChart');
+            if (concavityCtx) {
+                const labels = Array.from({length: 21}, (_, i) => i - 5);
+                new Chart(concavityCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Cóncava hacia arriba',
+                                data: labels.map(x => 0.2*x*x + 1),
+                                borderColor: '#2563EB',
+                                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0
+                            },
+                            {
+                                label: 'Cóncava hacia abajo',
+                                data: labels.map(x => -0.2*x*x + 1),
+                                borderColor: '#F59E0B',
+                                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: { title: { display: true, text: 'x' } },
+                            y: { title: { display: true, text: 'f(x)' } }
+                        }
+                    }
+                });
+            }
+
+            // Gráfico ejemplo cúbico (Pestaña 3)
+            const cubicCtx = document.getElementById('cubicExampleChart');
+            if (cubicCtx) {
+                const labels = Array.from({length: 41}, (_, i) => (i/10 - 2).toFixed(1));
+                new Chart(cubicCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'f(x) = x³ - 3x² - x + 3',
+                            data: labels.map(x => {
+                                x = parseFloat(x);
+                                return x*x*x - 3*x*x - x + 3;
+                            }),
+                            borderColor: '#8B5CF6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { title: { display: true, text: 'x' } },
+                            y: { title: { display: true, text: 'f(x)' } }
+                        }
+                    }
+                });
+            }
+
+            // Gráfico taxi (Pestaña 3)
+            const taxiCtx = document.getElementById('taxiExampleChart');
+            if (taxiCtx) {
+                new Chart(taxiCtx, {
+                    type: 'line',
+                    data: {
+                        labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                        datasets: [{
+                            label: 'Costo del taxi ($)',
+                            data: [120, 170, 220, 270, 320, 370, 420, 470, 520, 570, 620],
+                            borderColor: '#10B981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { 
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `Costo: $${context.parsed.y} (${context.parsed.x} km)`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { title: { display: true, text: 'Distancia (km)' } },
+                            y: { 
+                                title: { display: true, text: 'Costo ($)' },
+                                beginAtZero: true 
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Gráfico por partes (Pestaña 3)
+            const piecewiseCtx = document.getElementById('piecewiseExampleChart');
+            if (piecewiseCtx) {
+                const labels = Array.from({length: 31}, (_, i) => i/2 - 4);
+                const data = labels.map(x => {
+                    if (x < -2) return 2;
+                    else if (x < 0) return -x;
+                    else if (x < 2) return x*x/2;
+                    else return 2;
+                });
+                
+                new Chart(piecewiseCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Función por partes',
+                            data: data,
+                            borderColor: '#F59E0B',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0,
+                            spanGaps: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { title: { display: true, text: 'x' } },
+                            y: { title: { display: true, text: 'f(x)' } }
+                        }
+                    }
+                });
+            }
+
+            // Gráficos para práctica
+            const practiceCtx1 = document.getElementById('practiceChart1');
+            if (practiceCtx1) {
+                const labels = Array.from({length: 41}, (_, i) => i/5 - 4);
+                new Chart(practiceCtx1, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'f(x)',
+                            data: labels.map(x => {
+                                return 0.3*x*x*x*x - 0.8*x*x*x - 2*x*x + 3*x + 1;
+                            }),
+                            borderColor: '#8B5CF6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { title: { display: true, text: 'x' } },
+                            y: { title: { display: true, text: 'f(x)' } }
+                        }
+                    }
+                });
+            }
+
+            const practiceCtx2 = document.getElementById('practiceChart2');
+            if (practiceCtx2) {
+                const labels = Array.from({length: 25}, (_, i) => i);
+                new Chart(practiceCtx2, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Temperatura (°C)',
+                            data: labels.map(h => {
+                                return 12*Math.sin(Math.PI/12*(h-6)) + 10;
+                            }),
+                            borderColor: '#EF4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { 
+                                title: { display: true, text: 'Hora del día' },
+                                ticks: { callback: function(value) { return value + ':00'; } }
+                            },
+                            y: { 
+                                title: { display: true, text: 'Temperatura (°C)' },
+                                min: 0,
+                                max: 25
+                            }
+                        }
+                    }
+                });
+            }
+
+            const practiceCtx3 = document.getElementById('practiceChart3');
+            if (practiceCtx3) {
+                const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                const niveles = [85, 82, 78, 72, 68, 65, 63, 60, 58, 56, 55, 75];
+                
+                new Chart(practiceCtx3, {
+                    type: 'line',
+                    data: {
+                        labels: meses,
+                        datasets: [{
+                            label: 'Nivel del Embalse (%)',
+                            data: niveles,
+                            borderColor: '#2563EB',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { title: { display: true, text: 'Mes' } },
+                            y: { 
+                                title: { display: true, text: 'Nivel (%)' },
+                                min: 50,
+                                max: 90
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

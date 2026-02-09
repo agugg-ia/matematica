@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Análisis Gráfico de Funciones | Mates con Agugg_ia</title>
     
-    <!-- 0. CONFIGURACIÓN DE MATHJAX (Corrección principal para que las fórmulas se vean bien) -->
+    <!-- 0. CONFIGURACIÓN DE MATHJAX -->
     <script>
         window.MathJax = {
             tex: {
@@ -44,9 +44,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: var(--font-main);
@@ -135,11 +133,11 @@
 
         .tab-btn {
             flex: 1;
-            padding: 20px 15px;
+            padding: 20px 10px; /* Padding reducido para acomodar más pestañas */
             border: none;
             background: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.9rem; /* Texto ligeramente más pequeño */
             font-weight: 600;
             color: var(--gray);
             transition: all 0.3s ease;
@@ -171,13 +169,11 @@
         }
 
         /* --- ESTILOS ESPECÍFICOS DE CONTENIDO --- */
-        
         h2 { color: var(--primary); margin-bottom: 15px; font-size: 1.8rem; margin-top: 20px; }
         h3 { color: var(--dark); margin-bottom: 10px; font-size: 1.4rem; margin-top: 20px; }
         h4 { font-size: 1.1rem; margin-bottom: 10px; }
         p { margin-bottom: 15px; font-size: 1.05rem; color: #374151; text-align: justify; }
         
-        /* Tab 1: Introducción */
         .intro-quote {
             font-style: italic;
             border-left: 4px solid var(--accent);
@@ -189,7 +185,6 @@
             border-radius: 0 8px 8px 0;
         }
 
-        /* Cápsulas didácticas */
         .info-activa {
             background: #EFF6FF;
             border-left: 4px solid var(--primary);
@@ -211,7 +206,6 @@
             color: var(--primary-dark);
         }
 
-        /* Tab 2: Análisis Gráfico (Estaciones) */
         .estacion-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -263,11 +257,10 @@
             border-radius: 8px;
             background: #FAFAFA;
             position: relative;
-            height: 300px; /* Altura fija para consistencia */
+            height: 300px;
             width: 100%;
         }
 
-        /* Tab 3: Aplicaciones y Modelización */
         .situacion-real {
             background: #ECFDF5;
             border: 1px solid #10B981;
@@ -292,7 +285,6 @@
             margin: 25px 0;
         }
 
-        /* Tab 4: Teoría y Formalización */
         .concept-box {
             background: #EFF6FF;
             padding: 20px;
@@ -316,7 +308,6 @@
             border-top: 4px solid var(--secondary);
         }
 
-        /* Tab 5: Práctica y Evaluación */
         .exercise-item {
             margin-bottom: 30px;
             padding-bottom: 20px;
@@ -344,7 +335,6 @@
             border: 1px solid #10B981;
         }
 
-        /* Tab 5: Autoevaluación */
         .quiz-item { margin-bottom: 25px; }
         .quiz-options button {
             display: block;
@@ -365,7 +355,6 @@
         .quiz-btn.incorrect { background-color: #FEE2E2; border-color: #EF4444; color: #991B1B; }
         .quiz-feedback { margin-top: 8px; font-weight: 600; font-size: 0.9rem; display: none; min-height: 1.5em; }
 
-        /* Rúbrica */
         .rubrica-table {
             width: 100%;
             border-collapse: collapse;
@@ -388,7 +377,6 @@
             background-color: #F9FAFB;
         }
 
-        /* Footer */
         footer {
             background-color: var(--dark);
             color: #D1D5DB;
@@ -443,11 +431,17 @@
                 <!-- NAVEGACIÓN DE PESTAÑAS -->
                 <div class="tabs-container">
                     <div class="tabs-nav">
-                        <button class="tab-btn active" onclick="openTab(event, 'tab-intro')">1. Introducción y Contexto</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-analisis')">2. Análisis Gráfico</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-aplicaciones')">3. Aplicaciones y Modelización</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-teoria')">4. Teoría y Formalización</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-practica')">5. Práctica y Evaluación</button>
+                        <button class="tab-btn active" onclick="openTab(event, 'tab-intro')">1. Introducción</button>
+                        <!-- NUEVA PESTAÑA: Conceptos Básicos -->
+                        <button class="tab-btn" onclick="openTab(event, 'tab-conceptos-basicos')">2. Conceptos Básicos</button>
+                        <!-- ANTIGUA PESTAÑA 2 AHORA ES 3 -->
+                        <button class="tab-btn" onclick="openTab(event, 'tab-analisis')">3. Análisis Gráfico</button>
+                        <!-- NUEVA PESTAÑA: Comportamiento -->
+                        <button class="tab-btn" onclick="openTab(event, 'tab-comportamiento')">4. Comportamiento</button>
+                        <!-- ANTIGUA PESTAÑA 3 AHORA ES 5 -->
+                        <button class="tab-btn" onclick="openTab(event, 'tab-aplicaciones')">5. Aplicaciones</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-teoria')">6. Teoría</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-practica')">7. Evaluación</button>
                     </div>
 
                     <!-- PESTAÑA 1: INTRODUCCIÓN Y CONTEXTO -->
@@ -473,7 +467,7 @@
                         
                         <div class="mente-activa">
                             <h4>menteACTIVA: Prueba de la Recta Vertical</h4>
-                            <p>¿Cómo saber si una gráfica representa una función? Trazá mentalmente rectas verticales sobre la gráfica. Si cada recta vertical corta a la gráfica en <strong>un solo punto</strong>, entonces es una función. Si alguna recta vertical la corta en dos o más puntos, NO es una función.</p>
+                            <p>¿Cómo saber si una gráfica representa una función? Trazá mentalmente rectas verticales sobre la gráfica. Si cada recta vertical corta a la gráfica en <strong>un solo punto</strong>, entonces es una función.</p>
                             
                             <div class="graph-container">
                                 <canvas id="verticalLineTestChart"></canvas>
@@ -497,10 +491,53 @@
                         </div>
                     </div>
 
-                    <!-- PESTAÑA 2: ANÁLISIS GRÁFICO -->
+                    <!-- PESTAÑA 2 (NUEVA): CONCEPTOS FUNDAMENTALES -->
+                    <div id="tab-conceptos-basicos" class="tab-content">
+                        <h2>Fase 1.5: Conceptos Fundamentales</h2>
+                        <p>Antes de analizar gráficas complejas, necesitamos dominar el vocabulario básico. Esta sección define las herramientas que usarás en las próximas actividades.</p>
+
+                        <div class="info-activa">
+                            <h4>¿Qué es el Dominio ($D_f$)?</h4>
+                            <p>El <strong>Dominio</strong> de una función es el conjunto de todos los valores posibles de entrada ($x$) para los cuales la función tiene sentido y existe un resultado.</p>
+                            <p style="font-family: monospace; background: #eee; padding: 5px;">Pregunta clave: ¿Qué valores de $x$ puedo "meter" en la fórmula sin que se rompa?</p>
+                        </div>
+
+                        <div class="info-activa">
+                            <h4>¿Qué es la Imagen ($I_m$) o Rango?</h4>
+                            <p>La <strong>Imagen</strong> es el conjunto de todos los valores de salida ($y$) que la función produce al utilizar todos los valores del dominio.</p>
+                            <p style="font-family: monospace; background: #eee; padding: 5px;">Pregunta clave: ¿Qué resultados ($y$) puede salir de la máquina?</p>
+                        </div>
+
+                        <h3>Visualización del Concepto</h3>
+                        <p>Observemos la función simple $f(x) = x^2$. Analicémosla gráficamente:</p>
+                        
+                        <div class="graph-container">
+                            <canvas id="conceptBasicChart"></canvas>
+                        </div>
+
+                        <div class="mente-activa">
+                            <h4>Análisis Guiado</h4>
+                            <ol style="padding-left: 20px;">
+                                <li>Mirá la gráfica de arriba ($f(x) = x^2$, una parábola).</li>
+                                <li><strong>Dominio:</strong> ¿La gráfica existe hacia la izquierda y hacia la derecha infinitamente? <br><em>Respuesta: Sí. Por lo tanto, el dominio es todo $\mathbb{R}$.</em></li>
+                                <li><strong>Imagen:</strong> ¿La gráfica baja del eje $X$ hacia valores negativos de $y$? <br><em>Respuesta: No. Lo más bajo que llega es $y=0$. Por lo tanto, la imagen es $y \ge 0$.</em></li>
+                            </ol>
+                        </div>
+
+                        <div class="concept-box">
+                            <h4>Coordenadas: La Dirección Correcta</h4>
+                            <p>Es común confundir Dominio con Imagen. Acordá:</p>
+                            <ul style="padding-left: 20px;">
+                                <li><strong>DOMINIO ($x$)</strong> se lee en el eje <strong>HORIZONTAL</strong> (de izquierda a derecha).</li>
+                                <li><strong>IMAGEN ($y$)</strong> se lee en el eje <strong>VERTICAL</strong> (de abajo hacia arriba).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 3 (ANTIGUA 2): ANÁLISIS GRÁFICO -->
                     <div id="tab-analisis" class="tab-content">
                         <h2>Fase 2: Análisis Gráfico - Estaciones de Trabajo</h2>
-                        <p>Trabaja en grupos rotativos por estas estaciones. Cada estación presenta una situación de acción donde debés analizar gráficas diversas.</p>
+                        <p>Ya conocés los conceptos de Dominio e Imagen. Ahora, trabajá en grupos rotativos por estas estaciones. Cada estación presenta una situación de acción donde debés analizar gráficas diversas.</p>
                         
                         <div class="estacion-container">
                             <!-- Estación A -->
@@ -585,7 +622,67 @@
                         </div>
                     </div>
 
-                    <!-- PESTAÑA 3: APLICACIONES Y MODELIZACIÓN -->
+                    <!-- PESTAÑA 4 (NUEVA): COMPORTAMIENTO Y CUALIDADES -->
+                    <div id="tab-comportamiento" class="tab-content">
+                        <h2>Fase 2.5: Comportamiento y Cualidades de las Funciones</h2>
+                        <p>Antes de pasar a problemas reales como la velocidad de un auto o la temperatura, necesitamos entender cómo se "mueve" una función.</p>
+
+                        <div class="estacion-container">
+                            <!-- Tarjeta Monotonía -->
+                            <div class="estacion-card">
+                                <div class="estacion-header">
+                                    <div class="estacion-icon" style="background-color: var(--secondary);">M</div>
+                                    <h3>Monotonía: ¿Sube o Baja?</h3>
+                                </div>
+                                <p>Analizamos la tendencia general de la gráfica al movernos de izquierda a derecha.</p>
+                                <ul style="padding-left: 20px; margin-bottom: 10px;">
+                                    <li><strong>Creciente:</strong> Cuando $x$ aumenta, $y$ también aumenta (la gráfica sube).</li>
+                                    <li><strong>Decreciente:</strong> Cuando $x$ aumenta, $y$ disminuye (la gráfica baja).</li>
+                                </ul>
+                                <div class="graph-container" style="height: 200px;">
+                                    <canvas id="monoChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Tarjeta Continuidad -->
+                            <div class="estacion-card">
+                                <div class="estacion-header">
+                                    <div class="estacion-icon" style="background-color: var(--accent);">C</div>
+                                    <h3>Continuidad: ¿Está Rota?</h3>
+                                </div>
+                                <p>Una función es continua en un intervalo si su gráfica se puede dibujar <strong>sin levantar el lápiz</strong> del papel.</p>
+                                <p>Si hay un "salto" o un "hueco", hablamos de <strong>Discontinuidad</strong>.</p>
+                                <div class="graph-container" style="height: 200px;">
+                                    <canvas id="continuityChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Tarjeta Límites/Asíntotas -->
+                            <div class="estacion-card">
+                                <div class="estacion-header">
+                                    <div class="estacion-icon" style="background-color: #EF4444;">L</div>
+                                    <h3>Límites y Asíntotas</h3>
+                                </div>
+                                <p>A veces las funciones no llegan a un valor, sino que se acercan infinitamente a una línea recta.</p>
+                                <p>Esa línea recta se llama <strong>Asíntota</strong>. Imaginá que caminás hacia una pared, acercándote cada vez más, pero nunca la tocás.</p>
+                                <div class="graph-container" style="height: 200px;">
+                                    <canvas id="asymptoteChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mente-activa">
+                            <h4>Conectando Conceptos</h4>
+                            <p>Cuando analicemos la velocidad de un auto en la próxima pestaña, preguntarás:</p>
+                            <ul style="padding-left: 20px; margin-top: 10px;">
+                                <li>¿En qué tramo la velocidad era <strong>creciente</strong> (acelerando)?</li>
+                                <li>¿El auto se detuvo bruscamente (<strong>discontinuidad</strong>) o frenó suavemente (<strong>continuidad</strong>)?</li>
+                                <li>¿La velocidad tiende a estabilizarse en algún valor (<strong>asíntota horizontal</strong>)?</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 5 (ANTIGUA 3): APLICACIONES Y MODELIZACIÓN -->
                     <div id="tab-aplicaciones" class="tab-content">
                         <h2>Fase 3: Interpretación en Contexto y Validación</h2>
                         
@@ -686,7 +783,7 @@
                         </div>
                     </div>
 
-                    <!-- PESTAÑA 4: TEORÍA Y FORMALIZACIÓN -->
+                    <!-- PESTAÑA 6 (ANTIGUA 4): TEORÍA Y FORMALIZACIÓN -->
                     <div id="tab-teoria" class="tab-content">
                         <h2>Fase 4: Institucionalización del Saber</h2>
                         <p>Ahora vinculamos las producciones libres de los alumnos con los nombres y definiciones formales de los objetos matemáticos.</p>
@@ -750,7 +847,7 @@
                         </div>
                     </div>
 
-                    <!-- PESTAÑA 5: PRÁCTICA Y EVALUACIÓN -->
+                    <!-- PESTAÑA 7 (ANTIGUA 5): PRÁCTICA Y EVALUACIÓN -->
                     <div id="tab-practica" class="tab-content">
                         <h2>Fase 5: Evaluación Integradora</h2>
                         
@@ -922,7 +1019,6 @@
             setTimeout(() => {
                 activeTab.classList.add("active");
                 // IMPORTANTE: Redimensionar gráficos cuando el tab se vuelve visible
-                // Chart.js a veces tiene problemas si inicializa en display:none
                 resizeCharts();
             }, 10);
             
@@ -953,7 +1049,6 @@
             // Deshabilitar todos los botones de esta pregunta
             for (let i = 0; i < buttons.length; i++) {
                 buttons[i].disabled = true;
-                // Eliminar clases previas
                 buttons[i].classList.remove("correct", "incorrect");
             }
 
@@ -985,7 +1080,6 @@
         // --- INICIALIZACIÓN DE GRÁFICOS CON CHART.JS ---
         document.addEventListener('DOMContentLoaded', function() {
             
-            // Configuración común para gráficos
             const commonOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -1003,15 +1097,13 @@
                 }
             };
 
-            // Gráfico para prueba de recta vertical (Pestaña 1)
+            // 1. Gráfico para prueba de recta vertical (Pestaña 1)
             const verticalLineCtx = document.getElementById('verticalLineTestChart');
             if (verticalLineCtx) {
-                // Generar datos para círculo
                 const circleData = Array.from({length: 64}, (_, i) => {
                     const angle = i * Math.PI / 32;
                     return {x: 2*Math.cos(angle), y: 2*Math.sin(angle)};
                 });
-                // Generar datos para parábola
                 const parabolaData = Array.from({length: 21}, (_, i) => {
                     const x = i/2 - 5;
                     return {x: x, y: 0.2*x*x};
@@ -1048,20 +1140,43 @@
                     options: {
                         ...commonOptions,
                         scales: {
-                            x: { 
-                                title: { display: true, text: 'x' },
-                                min: -4, max: 4 
-                            },
-                            y: { 
-                                title: { display: true, text: 'y' },
-                                min: -4, max: 4 
-                            }
+                            x: { title: { display: true, text: 'x' }, min: -4, max: 4 },
+                            y: { title: { display: true, text: 'y' }, min: -4, max: 4 }
                         }
                     }
                 });
             }
 
-            // Estación A: Dominio e Imagen (Pestaña 2)
+            // 2. Gráfico Conceptos Básicos (Pestaña 2 NUEVA) - Parábola simple
+            const conceptBasicCtx = document.getElementById('conceptBasicChart');
+            if (conceptBasicCtx) {
+                const labels = Array.from({length: 21}, (_, i) => i/2 - 5);
+                new Chart(conceptBasicCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'f(x) = x²',
+                            data: labels.map(x => x*x),
+                            borderColor: '#2563EB',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 0
+                        }]
+                    },
+                    options: {
+                        ...commonOptions,
+                        scales: {
+                            x: { title: { display: true, text: 'x (Dominio)' }, min: -5, max: 5 },
+                            y: { title: { display: true, text: 'y (Imagen)' }, min: -1, max: 10 }
+                        }
+                    }
+                });
+            }
+
+            // 3. Estación A (Pestaña 3)
             const estacionACtx = document.getElementById('estacionAChart');
             if (estacionACtx) {
                 const labels = Array.from({length: 41}, (_, i) => i/2 - 5);
@@ -1081,7 +1196,7 @@
                             backgroundColor: 'rgba(139, 92, 246, 0.1)',
                             borderWidth: 3,
                             fill: true,
-                            tension: 0.1, // Un poco de suavizado
+                            tension: 0.1,
                             stepped: false,
                             pointRadius: 0
                         }]
@@ -1096,7 +1211,7 @@
                 });
             }
 
-            // Estación B: Ceros y Ordenada (Pestaña 2)
+            // 4. Estación B (Pestaña 3)
             const estacionBCtx = document.getElementById('estacionBChart');
             if (estacionBCtx) {
                 const labels = Array.from({length: 41}, (_, i) => i/4 - 5);
@@ -1125,12 +1240,11 @@
                 });
             }
 
-            // Estación C: Continuidad y Asíntotas (Pestaña 2)
+            // 5. Estación C (Pestaña 3)
             const estacionCCtx = document.getElementById('estacionCChart');
             if (estacionCCtx) {
-                // Dividimos en dos arrays para evitar la línea vertical de la asíntota
-                const labels1 = Array.from({length: 60}, (_, i) => i/10 - 6); // -6 a 0
-                const labels2 = Array.from({length: 60}, (_, i) => i/10 + 0.1); // 0.1 a 6.1
+                const labels1 = Array.from({length: 60}, (_, i) => i/10 - 6); 
+                const labels2 = Array.from({length: 60}, (_, i) => i/10 + 0.1); 
                 
                 const data1 = labels1.map(x => 1/x);
                 const data2 = labels2.map(x => 1/x);
@@ -1147,7 +1261,7 @@
                             borderWidth: 3,
                             fill: false,
                             tension: 0,
-                            spanGaps: true, // Importante para unir visualmente si es necesario, pero aquí queremos el salto
+                            spanGaps: true,
                             pointRadius: 0
                         }]
                     },
@@ -1161,7 +1275,98 @@
                 });
             }
 
-            // Velocidad de auto (Pestaña 3)
+            // 6. Gráficos Pestaña Comportamiento (Pestaña 4 NUEVA)
+            
+            // Monotonía
+            const monoCtx = document.getElementById('monoChart');
+            if(monoCtx) {
+                const labels = Array.from({length: 41}, (_, i) => i - 20);
+                new Chart(monoCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Creciente y Decreciente',
+                            data: labels.map(x => Math.sin(x/2) + 2), // Onda senoidal desplazada
+                            borderColor: '#10B981',
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            tension: 0.4
+                        }]
+                    },
+                    options: { ...commonOptions, plugins: { legend: {display: true} }, scales: {x:{display:false}, y:{min:0, max:5}} }
+                });
+            }
+
+            // Continuidad (Salto)
+            const contCtx = document.getElementById('continuityChart');
+            if(contCtx) {
+                const x1 = Array.from({length: 20}, (_, i) => i/2 - 5); // -5 a -5
+                const x2 = Array.from({length: 20}, (_, i) => i/2);     // 0 a 5
+                const y1 = x1.map(x => x); // Recta y=x
+                const y2 = x2.map(x => x + 3); // Recta y=x+3 (salto de 3)
+
+                new Chart(contCtx, {
+                    type: 'line',
+                    data: {
+                        labels: [...x1, ...x2],
+                        datasets: [{
+                            label: 'Discontinuidad de Salto',
+                            data: [...y1, ...y2],
+                            borderColor: '#F59E0B',
+                            borderWidth: 2,
+                            spanGaps: false, // Dejar el hueco
+                            pointRadius: 0,
+                            stepped: false
+                        }]
+                    },
+                    options: { ...commonOptions, scales: {x:{display:false}, y:{min:-6, max:9}} }
+                });
+            }
+
+            // Asíntotas
+            const asympCtx = document.getElementById('asymptoteChart');
+            if(asympCtx) {
+                const xData = Array.from({length: 60}, (_, i) => i/10 - 6);
+                const yData = xData.map(x => 2 + Math.exp(-x)); // 2 + e^(-x). Tiende a y=2
+
+                new Chart(asympCtx, {
+                    type: 'line',
+                    data: {
+                        labels: xData,
+                        datasets: [{
+                            label: 'Asíntota Horizontal y=2',
+                            data: yData,
+                            borderColor: '#EF4444',
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            tension: 0.1
+                        }]
+                    },
+                    options: { 
+                        ...commonOptions, 
+                        scales: { x:{display:false}, y:{min:0, max:8} },
+                        plugins: { 
+                            ...commonOptions.plugins,
+                            annotation: {
+                                annotations: {
+                                    line1: {
+                                        type: 'line',
+                                        yMin: 2,
+                                        yMax: 2,
+                                        borderColor: 'rgb(255, 99, 132)',
+                                        borderWidth: 2,
+                                        borderDash: [6, 6],
+                                        label: { content: 'y=2', enabled: true, position: 'end' }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // 7. Velocidad de auto (Pestaña 5)
             const velocidadCtx = document.getElementById('velocidadAutoChart');
             if (velocidadCtx) {
                 const labels = [0, 5, 10, 13, 17, 22, 25, 30];
@@ -1199,7 +1404,7 @@
                 });
             }
 
-            // Temperatura diaria (Pestaña 3)
+            // 8. Temperatura diaria (Pestaña 5)
             const temperaturaCtx = document.getElementById('temperaturaDiaChart');
             if (temperaturaCtx) {
                 const labels = Array.from({length: 25}, (_, i) => i);
@@ -1231,7 +1436,7 @@
                 });
             }
 
-            // Gráfico para desafío de diseño (Pestaña 3) - Gráfico vacío
+            // 9. Gráfico para desafío de diseño (Pestaña 5)
             const desafioCtx = document.getElementById('desafioDesignChart');
             if (desafioCtx) {
                 new Chart(desafioCtx, {
@@ -1256,16 +1461,14 @@
                 });
             }
 
-            // Evaluación función 1 (Pestaña 5)
+            // 10. Evaluación función 1 (Pestaña 7)
             const eval1Ctx = document.getElementById('evalFunc1Chart');
             if (eval1Ctx) {
-                // Función racional: (x-3)/((x+2)(x-1))
                 const f1 = (x) => (x-3)/((x+2)*(x-1));
                 
-                // Tres segmentos para evitar líneas verticales en las asíntotas
-                const segment1 = Array.from({length: 30}, (_, i) => i/3 - 5); // -5 a -2.3 (aprox)
-                const segment2 = Array.from({length: 30}, (_, i) => i/30 - 1.9); // -1.9 a 0 (aprox)
-                const segment3 = Array.from({length: 30}, (_, i) => i/30 + 1.1); // 1.1 a 4 (aprox)
+                const segment1 = Array.from({length: 30}, (_, i) => i/3 - 5); 
+                const segment2 = Array.from({length: 30}, (_, i) => i/30 - 1.9); 
+                const segment3 = Array.from({length: 30}, (_, i) => i/30 + 1.1); 
 
                 const d1 = segment1.map(x => ({x: x, y: f1(x)}));
                 const d2 = segment2.map(x => ({x: x, y: f1(x)}));
@@ -1297,7 +1500,7 @@
                 });
             }
 
-            // Evaluación función 2 (Pestaña 5)
+            // 11. Evaluación función 2 (Pestaña 7)
             const eval2Ctx = document.getElementById('evalFunc2Chart');
             if (eval2Ctx) {
                 const labels = Array.from({length: 21}, (_, i) => i);

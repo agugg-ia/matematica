@@ -444,52 +444,57 @@
                         <button class="tab-btn" onclick="openTab(event, 'tab-practica')">7. Evaluación</button>
                     </div>
 
-                    <!-- PESTAÑA 1: INTRODUCCIÓN Y CONTEXTO -->
-                    <div id="tab-intro" class="tab-content active">
-                        <h2>Fase 1: Reactivación y Contextualización</h2>
-                        
-                        <div class="info-activa">
-                            <h4>InfoActiva: La Función como Máquina</h4>
-                            <p>Imagina una función como una máquina que procesa valores. Introducimos un valor de entrada ($x$) en la máquina, esta aplica una regla específica (la fórmula) y nos entrega un único valor de salida ($y$).</p>
-                            <p>Ejemplo: Si la máquina es $f(x) = 2x + 3$, cuando ingresamos $x = 4$, obtenemos $f(4) = 2(4) + 3 = 11$.</p>
-                        </div>
-                        
-                        <h3>Variables en la vida cotidiana</h3>
-                        <div class="concept-box">
-                            <h4>¿El dinero en tu billetera es una función del tiempo?</h4>
-                            <p>Piensa en tu dinero durante un mes. ¿Siempre aumenta cuando pasa el tiempo? No, porque gastas dinero. Por lo tanto, el dinero en función del tiempo puede ser <strong>creciente</strong> (cuando recibís dinero) o <strong>decreciente</strong> (cuando gastás).</p>
-                        </div>
-                        
-                        <div class="concept-box">
-                            <h4>Distancia recorrida en bicicleta</h4>
-                            <p>La distancia que recorrés en bici depende de dos variables: la velocidad y el tiempo. Si pedaleás a 15 km/h durante 2 horas, la distancia es $15 \times 2 = 30$ km. Aquí, la distancia <strong>depende</strong> de la velocidad y el tiempo.</p>
-                        </div>
-                        
-                        <div class="mente-activa">
-                            <h4>menteACTIVA: Prueba de la Recta Vertical</h4>
-                            <p>¿Cómo saber si una gráfica representa una función? Trazá mentalmente rectas verticales sobre la gráfica. Si cada recta vertical corta a la gráfica en <strong>un solo punto</strong>, entonces es una función.</p>
-                            
-                            <div class="graph-container">
-                                <canvas id="verticalLineTestChart"></canvas>
-                            </div>
-                            
-                            <p><strong>Pregunta:</strong> ¿El círculo $x^2 + y^2 = 4$ es una función? No, porque al trazar una recta vertical en $x = 0$, corta al círculo en dos puntos: $(0, 2)$ y $(0, -2)$.</p>
-                        </div>
-                        
-                        <h3>Contexto cordobés</h3>
-                        <div class="concept-box">
-                            <p>En Córdoba, encontramos relaciones funcionales en:</p>
-                            <ul style="padding-left: 20px; margin: 15px 0;">
-                                <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Agricultura:</strong> Rendimiento de cultivos según las lluvias en las sierras.</li>
-                                <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Turismo:</strong> Cantidad de turistas en función de la época del año.</li>
-                                <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Economía local:</strong> Producción de maní o soja en función de la inversión.</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="intro-quote">
-                            "No enseñamos matemáticas, enseñamos a pensar matemáticamente a través de problemas de la vida real."
-                        </div>
-                    </div>
+                    <!-- PESTAÑA 1: INTRODUCCIÓN Y CONTEXTO (MEJORADA) -->
+<div id="tab-intro" class="tab-content active">
+    <h2>Fase 1: Reactivación y Contextualización</h2>
+    
+    <div class="info-activa">
+        <h4>InfoActiva: La Función como Máquina</h4>
+        <p>Imagina una función como una máquina que procesa valores. Introducimos un valor de entrada ($x$) en la máquina, esta aplica una regla específica (la fórmula) y nos entrega un único valor de salida ($y$).</p>
+        <p>Ejemplo: Si la máquina es $f(x) = 2x + 3$, cuando ingresamos $x = 4$, obtenemos $f(4) = 2(4) + 3 = 11$.</p>
+    </div>
+    
+    <h3>Variables en la vida cotidiana</h3>
+    <div class="concept-box">
+        <h4>¿El dinero en tu billetera es una función del tiempo?</h4>
+        <p>Piensa en tu dinero durante un mes. ¿Siempre aumenta cuando pasa el tiempo? No, porque gastas dinero. Por lo tanto, el dinero en función del tiempo puede ser <strong>creciente</strong> (cuando recibís dinero) o <strong>decreciente</strong> (cuando gastás).</p>
+    </div>
+    
+    <div class="concept-box">
+        <h4>Distancia recorrida en bicicleta</h4>
+        <p>La distancia que recorrés en bici depende de dos variables: la velocidad y el tiempo. Si pedaleás a 15 km/h durante 2 horas, la distancia es $15 \times 2 = 30$ km. Aquí, la distancia <strong>depende</strong> de la velocidad y el tiempo.</p>
+    </div>
+    
+    <div class="mente-activa">
+        <h4>menteACTIVA: Prueba de la Recta Vertical</h4>
+        <p>¿Cómo saber si una gráfica representa una función? Trazá mentalmente rectas verticales sobre la gráfica. Si cada recta vertical corta a la gráfica en <strong>un solo punto</strong>, entonces es una función. Si alguna recta vertical la corta en dos o más puntos, NO es una función.</p>
+        
+        <!-- CONTENEDOR DEL GRÁFICO FORZADO A SER CUADRADO PARA QUE EL CÍRCULO NO SE VEA COMO ELIPSE -->
+        <div class="graph-container" style="aspect-ratio: 1/1; max-width: 400px; margin: 20px auto;">
+            <canvas id="verticalLineTestChart"></canvas>
+        </div>
+        
+        <div style="background: rgba(255,255,255,0.6); padding: 15px; border-radius: 8px; margin-top: 10px;">
+            <p style="margin-bottom: 0;"><strong>Pregunta:</strong> ¿El círculo $x^2 + y^2 = 4$ es una función?</p>
+            <p style="margin-bottom: 0; font-weight: bold; color: #B91C1C;"><em>Respuesta: No.</em></p>
+            <p style="font-size: 0.9rem;">Porque al trazar una recta vertical en $x = 0$ (el eje Y), la gráfica corta en dos puntos: $(0, 2)$ y $(0, -2)$. Un mismo valor de $x$ tiene dos salidas $y$ diferentes.</p>
+        </div>
+    </div>
+    
+    <h3>Contexto cordobés</h3>
+    <div class="concept-box">
+        <p>En Córdoba, encontramos relaciones funcionales en:</p>
+        <ul style="padding-left: 20px; margin: 15px 0;">
+            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Agricultura:</strong> Rendimiento de cultivos según las lluvias en las sierras.</li>
+            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Turismo:</strong> Cantidad de turistas en función de la época del año.</li>
+            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Economía local:</strong> Producción de maní o soja en función de la inversión.</li>
+        </ul>
+    </div>
+    
+    <div class="intro-quote">
+        "No enseñamos matemáticas, enseñamos a pensar matemáticamente a través de problemas de la vida real."
+    </div>
+</div>
 
                     <!-- PESTAÑA 2 (NUEVA): CONCEPTOS FUNDAMENTALES -->
                     <div id="tab-conceptos-basicos" class="tab-content">

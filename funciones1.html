@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Análisis Gráfico de Funciones | Mates con Agugg_ia</title>
     
+    <!-- 0. CONFIGURACIÓN DE MATHJAX (Corrección principal para que las fórmulas se vean bien) -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+
     <!-- 1. LIBRERÍA MATHJAX -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -29,6 +43,10 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             font-family: var(--font-main);
@@ -66,7 +84,9 @@
             align-items: center;
             gap: 8px;
             cursor: pointer;
+            transition: opacity 0.2s;
         }
+        .logo:hover { opacity: 0.8; }
         .logo span { color: var(--dark); }
 
         /* --- CONTENEDOR PRINCIPAL DE LECCIÓN --- */
@@ -78,6 +98,8 @@
             box-shadow: var(--shadow);
             overflow: hidden;
             min-height: 600px;
+            display: flex;
+            flex-direction: column;
         }
 
         .lesson-header {
@@ -91,6 +113,7 @@
             font-size: 0.9rem;
         }
         .lesson-nav a { color: var(--primary); font-weight: 600; }
+        .lesson-nav a:hover { text-decoration: underline; }
 
         .lesson-title { font-size: 2.2rem; color: var(--primary-dark); line-height: 1.2; }
 
@@ -99,6 +122,7 @@
             display: flex;
             flex-direction: column;
             width: 100%;
+            flex-grow: 1;
         }
 
         /* Botones de navegación de pestañas */
@@ -121,6 +145,7 @@
             transition: all 0.3s ease;
             white-space: nowrap;
             border-bottom: 4px solid transparent;
+            font-family: inherit;
         }
 
         .tab-btn:hover { background-color: #e5e7eb; color: var(--primary); }
@@ -149,6 +174,7 @@
         
         h2 { color: var(--primary); margin-bottom: 15px; font-size: 1.8rem; margin-top: 20px; }
         h3 { color: var(--dark); margin-bottom: 10px; font-size: 1.4rem; margin-top: 20px; }
+        h4 { font-size: 1.1rem; margin-bottom: 10px; }
         p { margin-bottom: 15px; font-size: 1.05rem; color: #374151; text-align: justify; }
         
         /* Tab 1: Introducción */
@@ -163,41 +189,110 @@
             border-radius: 0 8px 8px 0;
         }
 
-        .timeline {
-            position: relative;
-            padding-left: 30px;
-            margin: 25px 0;
+        /* Cápsulas didácticas */
+        .info-activa {
+            background: #EFF6FF;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
         }
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: var(--primary);
+        
+        .mente-activa {
+            background: #FEF3C7;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
         }
-        .timeline-item {
-            margin-bottom: 20px;
-            position: relative;
-            padding-left: 20px;
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -8px;
-            top: 5px;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background: var(--accent);
-        }
-        .timeline-year {
-            font-weight: bold;
+        
+        .info-activa h4, .mente-activa h4 {
+            margin-top: 0;
             color: var(--primary-dark);
         }
 
-        /* Tab 2: Teoría */
+        /* Tab 2: Análisis Gráfico (Estaciones) */
+        .estacion-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .estacion-card {
+            border: 2px solid #E5E7EB;
+            border-radius: 10px;
+            padding: 20px;
+            background: #FAFAFA;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .estacion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .estacion-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .estacion-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .graph-container {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            background: #FAFAFA;
+            position: relative;
+            height: 300px; /* Altura fija para consistencia */
+            width: 100%;
+        }
+
+        /* Tab 3: Aplicaciones y Modelización */
+        .situacion-real {
+            background: #ECFDF5;
+            border: 1px solid #10B981;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .desafio-creativo {
+            background: #FEF3C7;
+            border: 2px dashed var(--accent);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .validacion-pares {
+            background: #EFF6FF;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+
+        /* Tab 4: Teoría y Formalización */
         .concept-box {
             background: #EFF6FF;
             padding: 20px;
@@ -205,36 +300,23 @@
             margin: 20px 0;
             border: 1px solid #DBEAFE;
         }
-
-        .graph-container {
-            margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #E5E7EB;
+        
+        .aplicacion-contexto {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .app-card {
+            background: white;
             border-radius: 8px;
-            background: #FAFAFA;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--secondary);
         }
 
-        /* Tab 3: Desarrollos Resueltos */
-        .solved-example {
-            border: 1px solid #E5E7EB;
-            border-radius: 8px;
-            margin: 30px 0;
-            overflow: hidden;
-        }
-        .solved-header {
-            background: var(--primary);
-            color: white;
-            padding: 10px 20px;
-            font-weight: bold;
-        }
-        .solved-body { padding: 20px; background: #FAFAFA; }
-        .solved-step { 
-            margin-bottom: 15px; 
-            border-left: 2px solid var(--gray); 
-            padding-left: 15px; 
-        }
-
-        /* Tab 4: Práctica */
+        /* Tab 5: Práctica y Evaluación */
         .exercise-item {
             margin-bottom: 30px;
             padding-bottom: 20px;
@@ -250,6 +332,7 @@
             font-weight: 600;
             transition: 0.2s;
             margin-top: 10px;
+            font-size: 0.9rem;
         }
         .solution-toggle:hover { background: var(--secondary); color: white; }
         .solution-text {
@@ -274,12 +357,36 @@
             border-radius: 6px;
             cursor: pointer;
             transition: 0.2s;
+            font-family: inherit;
         }
         .quiz-options button:hover { background-color: #F3F4F6; }
         
         .quiz-btn.correct { background-color: #D1FAE5; border-color: #10B981; color: #065F46; }
         .quiz-btn.incorrect { background-color: #FEE2E2; border-color: #EF4444; color: #991B1B; }
-        .quiz-feedback { margin-top: 8px; font-weight: 600; font-size: 0.9rem; display: none; }
+        .quiz-feedback { margin-top: 8px; font-weight: 600; font-size: 0.9rem; display: none; min-height: 1.5em; }
+
+        /* Rúbrica */
+        .rubrica-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9rem;
+        }
+        
+        .rubrica-table th, .rubrica-table td {
+            border: 1px solid #E5E7EB;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .rubrica-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .rubrica-table tr:nth-child(even) {
+            background-color: #F9FAFB;
+        }
 
         /* Footer */
         footer {
@@ -297,6 +404,8 @@
             .tab-content { padding: 25px; }
             .tabs-nav { flex-wrap: wrap; }
             .tab-btn { flex: 1 0 auto; min-width: 120px; }
+            .estacion-container { grid-template-columns: 1fr; }
+            .graph-container { height: 250px; }
         }
     </style>
 </head>
@@ -328,425 +437,452 @@
                         <a href="index.html">← Volver al Inicio</a> | <a href="index.html#vista-cursos">Ver Cursos</a>
                     </div>
                     <h1 class="lesson-title">Análisis Gráfico de Funciones</h1>
+                    <p style="color: var(--gray); margin-top: 10px;">Una secuencia didáctica basada en resolución de problemas y análisis cualitativo</p>
                 </div>
 
                 <!-- NAVEGACIÓN DE PESTAÑAS -->
                 <div class="tabs-container">
                     <div class="tabs-nav">
-                        <button class="tab-btn active" onclick="openTab(event, 'tab-intro')">1. Introducción</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-teoria')">2. Teoría</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-resueltos')">3. Desarrollos</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-practica')">4. Práctica</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-quiz')">5. Autoevaluación</button>
+                        <button class="tab-btn active" onclick="openTab(event, 'tab-intro')">1. Introducción y Contexto</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-analisis')">2. Análisis Gráfico</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-aplicaciones')">3. Aplicaciones y Modelización</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-teoria')">4. Teoría y Formalización</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-practica')">5. Práctica y Evaluación</button>
                     </div>
 
-                    <!-- PESTAÑA 1: INTRODUCCIÓN -->
+                    <!-- PESTAÑA 1: INTRODUCCIÓN Y CONTEXTO -->
                     <div id="tab-intro" class="tab-content active">
-                        <h2>¿Por qué estudiar funciones gráficamente?</h2>
-                        <p>El análisis gráfico de funciones nos permite comprender cómo se relacionan las variables en fenómenos reales. Desde el movimiento de los planetas hasta las variaciones económicas, las funciones describen patrones y comportamientos que podemos visualizar y analizar a través de sus gráficas.</p>
+                        <h2>Fase 1: Reactivación y Contextualización</h2>
                         
-                        <div class="intro-quote">
-                            "Una imagen vale más que mil palabras, y en matemáticas, una gráfica vale más que mil números."
+                        <div class="info-activa">
+                            <h4>InfoActiva: La Función como Máquina</h4>
+                            <p>Imagina una función como una máquina que procesa valores. Introducimos un valor de entrada ($x$) en la máquina, esta aplica una regla específica (la fórmula) y nos entrega un único valor de salida ($y$).</p>
+                            <p>Ejemplo: Si la máquina es $f(x) = 2x + 3$, cuando ingresamos $x = 4$, obtenemos $f(4) = 2(4) + 3 = 11$.</p>
                         </div>
-
-                        <h3>Evolución histórica del concepto</h3>
-                        <div class="timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-year">Siglo XIV - Oresme</div>
-                                <p>Primeras representaciones gráficas de variaciones, usando segmentos para mostrar cambios en la velocidad.</p>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-year">1637 - Descartes</div>
-                                <p>Desarrolló la geometría analítica, uniendo álgebra y geometría, sentando las bases para graficar funciones en coordenadas cartesianas.</p>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-year">1694 - Leibniz</div>
-                                <p>Introdujo el término "función" para describir cantidades relacionadas con una curva. La escuela alemana comenzó a formalizar el concepto.</p>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-year">1748 - Euler</div>
-                                <p>Definió función como "una expresión analítica compuesta de cualquier manera de esa cantidad variable y de números o cantidades constantes".</p>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-year">1837 - Dirichlet</div>
-                                <p>Proporcionó la definición moderna: una función asigna a cada valor del primer conjunto un único valor del segundo, independientemente de si existe una fórmula.</p>
-                            </div>
+                        
+                        <h3>Variables en la vida cotidiana</h3>
+                        <div class="concept-box">
+                            <h4>¿El dinero en tu billetera es una función del tiempo?</h4>
+                            <p>Piensa en tu dinero durante un mes. ¿Siempre aumenta cuando pasa el tiempo? No, porque gastas dinero. Por lo tanto, el dinero en función del tiempo puede ser <strong>creciente</strong> (cuando recibís dinero) o <strong>decreciente</strong> (cuando gastás).</p>
                         </div>
-
+                        
+                        <div class="concept-box">
+                            <h4>Distancia recorrida en bicicleta</h4>
+                            <p>La distancia que recorrés en bici depende de dos variables: la velocidad y el tiempo. Si pedaleás a 15 km/h durante 2 horas, la distancia es $15 \times 2 = 30$ km. Aquí, la distancia <strong>depende</strong> de la velocidad y el tiempo.</p>
+                        </div>
+                        
+                        <div class="mente-activa">
+                            <h4>menteACTIVA: Prueba de la Recta Vertical</h4>
+                            <p>¿Cómo saber si una gráfica representa una función? Trazá mentalmente rectas verticales sobre la gráfica. Si cada recta vertical corta a la gráfica en <strong>un solo punto</strong>, entonces es una función. Si alguna recta vertical la corta en dos o más puntos, NO es una función.</p>
+                            
+                            <div class="graph-container">
+                                <canvas id="verticalLineTestChart"></canvas>
+                            </div>
+                            
+                            <p><strong>Pregunta:</strong> ¿El círculo $x^2 + y^2 = 4$ es una función? No, porque al trazar una recta vertical en $x = 0$, corta al círculo en dos puntos: $(0, 2)$ y $(0, -2)$.</p>
+                        </div>
+                        
                         <h3>Contexto cordobés</h3>
-                        <p>En Córdoba, el análisis de funciones tiene aplicaciones prácticas en múltiples áreas:</p>
-                        <ul style="padding-left: 20px; margin-bottom: 20px;">
-                            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Agronomía:</strong> Crecimiento de cultivos en las sierras en función del tiempo y condiciones climáticas.</li>
-                            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Economía regional:</strong> Producción y consumo de bienes característicos de la provincia.</li>
-                            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Meteorología:</strong> Variaciones climáticas a lo largo del año en diferentes regiones de Córdoba.</li>
-                            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Gestión de recursos:</strong> Niveles de embalses como el San Roque en función de las estaciones.</li>
-                        </ul>
-                        <p>Comprender cómo modelar estas relaciones nos permite tomar mejores decisiones en nuestra provincia.</p>
-                    </div>
-
-                    <!-- PESTAÑA 2: TEORÍA -->
-                    <div id="tab-teoria" class="tab-content">
-                        <h2>Conceptos Fundamentales</h2>
-                        
                         <div class="concept-box">
-                            <h3>Definición formal</h3>
-                            <p>Una función \(f\) es una relación entre dos conjuntos \(A\) (dominio) y \(B\) (codominio) donde cada elemento \(x \in A\) se relaciona con exactamente un elemento \(f(x) \in B\).</p>
-                            <p>$$f: A \rightarrow B \quad \text{tal que} \quad \forall x \in A, \exists! y \in B / y = f(x)$$</p>
-                        </div>
-
-                        <h3>Lenguaje de las gráficas</h3>
-                        <p>Una gráfica en el plano cartesiano representa visualmente una función. El eje horizontal (X) representa la variable independiente, y el eje vertical (Y) la variable dependiente \(f(x)\).</p>
-                        
-                        <div class="graph-container">
-                            <canvas id="basicFunctionChart"></canvas>
-                        </div>
-
-                        <div class="concept-box">
-                            <h3>Características clave de una gráfica</h3>
-                            <ul style="padding-left: 20px;">
-                                <li style="margin-bottom: 8px; list-style-type: disc;"><strong>Dominio:</strong> Conjunto de valores de \(x\) para los cuales la función está definida.</li>
-                                <li style="margin-bottom: 8px; list-style-type: disc;"><strong>Imagen o recorrido:</strong> Conjunto de valores de \(y\) que toma la función.</li>
-                                <li style="margin-bottom: 8px; list-style-type: disc;"><strong>Ceros o raíces:</strong> Valores de \(x\) donde \(f(x) = 0\) (corta al eje X).</li>
-                                <li style="margin-bottom: 8px; list-style-type: disc;"><strong>Ordenada al origen:</strong> Valor de \(f(0)\) (corta al eje Y).</li>
+                            <p>En Córdoba, encontramos relaciones funcionales en:</p>
+                            <ul style="padding-left: 20px; margin: 15px 0;">
+                                <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Agricultura:</strong> Rendimiento de cultivos según las lluvias en las sierras.</li>
+                                <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Turismo:</strong> Cantidad de turistas en función de la época del año.</li>
+                                <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Economía local:</strong> Producción de maní o soja en función de la inversión.</li>
                             </ul>
                         </div>
-
-                        <h3>Comportamiento: crecimiento y decrecimiento</h3>
-                        <p>Una función es <strong>creciente</strong> en un intervalo si al aumentar \(x\), también aumenta \(f(x)\). Es <strong>decreciente</strong> si al aumentar \(x\), disminuye \(f(x)\).</p>
                         
-                        <div class="graph-container">
-                            <canvas id="growthChart"></canvas>
+                        <div class="intro-quote">
+                            "No enseñamos matemáticas, enseñamos a pensar matemáticamente a través de problemas de la vida real."
                         </div>
+                    </div>
 
-                        <h3>Concavidad y puntos de inflexión</h3>
-                        <p>La <strong>concavidad</strong> describe cómo se curva la gráfica:</p>
-                        <ul style="padding-left: 20px; margin-bottom: 15px;">
-                            <li style="margin-bottom: 8px; list-style-type: disc;"><strong>Cóncava hacia arriba:</strong> Forma de "U" o valle</li>
-                            <li style="margin-bottom: 8px; list-style-type: disc;"><strong>Cóncava hacia abajo:</strong> Forma de "∩" o colina</li>
-                        </ul>
-                        <p>Un <strong>punto de inflexión</strong> es donde la gráfica cambia de concavidad.</p>
+                    <!-- PESTAÑA 2: ANÁLISIS GRÁFICO -->
+                    <div id="tab-analisis" class="tab-content">
+                        <h2>Fase 2: Análisis Gráfico - Estaciones de Trabajo</h2>
+                        <p>Trabaja en grupos rotativos por estas estaciones. Cada estación presenta una situación de acción donde debés analizar gráficas diversas.</p>
                         
-                        <div class="graph-container">
-                            <canvas id="concavityChart"></canvas>
+                        <div class="estacion-container">
+                            <!-- Estación A -->
+                            <div class="estacion-card">
+                                <div class="estacion-header">
+                                    <div class="estacion-icon">A</div>
+                                    <h3>Estación A: Dominio e Imagen</h3>
+                                </div>
+                                <p><strong>Objetivo:</strong> Identificar los conjuntos de valores de entrada ($D_f$) y salida ($I_m$).</p>
+                                
+                                <div class="graph-container">
+                                    <canvas id="estacionAChart"></canvas>
+                                </div>
+                                
+                                <div class="mente-activa" style="margin-top: 15px;">
+                                    <h4>Preguntas para analizar:</h4>
+                                    <ol style="padding-left: 20px;">
+                                        <li>¿Para qué valores de $x$ existe la gráfica?</li>
+                                        <li>¿Qué valores de $y$ toma la función?</li>
+                                        <li>¿Hay restricciones en el dominio? ¿Por qué?</li>
+                                        <li>Expresá el dominio e imagen usando notación de intervalos.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            
+                            <!-- Estación B -->
+                            <div class="estacion-card">
+                                <div class="estacion-header">
+                                    <div class="estacion-icon">B</div>
+                                    <h3>Estación B: Ceros y Ordenada al Origen</h3>
+                                </div>
+                                <p><strong>Objetivo:</strong> Determinar analíticamente los puntos donde $f(x) = 0$ (raíces) y donde corta al eje $y$.</p>
+                                
+                                <div class="graph-container">
+                                    <canvas id="estacionBChart"></canvas>
+                                </div>
+                                
+                                <div class="mente-activa" style="margin-top: 15px;">
+                                    <h4>Preguntas para analizar:</h4>
+                                    <ol style="padding-left: 20px;">
+                                        <li>¿En qué puntos la gráfica corta al eje X?</li>
+                                        <li>¿Cuál es el valor de $f(0)$?</li>
+                                        <li>¿Qué significado tienen los ceros en el contexto de la función?</li>
+                                        <li>¿Cómo se relacionan los ceros con la factorización de la función?</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            
+                            <!-- Estación C -->
+                            <div class="estacion-card">
+                                <div class="estacion-header">
+                                    <div class="estacion-icon">C</div>
+                                    <h3>Estación C: Continuidad y Asíntotas</h3>
+                                </div>
+                                <p><strong>Objetivo:</strong> Describir el comportamiento de la función cerca de puntos problemáticos.</p>
+                                
+                                <div class="graph-container">
+                                    <canvas id="estacionCChart"></canvas>
+                                </div>
+                                
+                                <div class="mente-activa" style="margin-top: 15px;">
+                                    <h4>Preguntas para analizar:</h4>
+                                    <ol style="padding-left: 20px;">
+                                        <li>¿La función es continua en todo su dominio?</li>
+                                        <li>¿Hay "saltos" o "huecos" en la gráfica?</li>
+                                        <li>¿La función se acerca a alguna línea recta sin tocarla?</li>
+                                        <li>¿Qué tipo de discontinuidad presenta?</li>
+                                    </ol>
+                                </div>
+                            </div>
                         </div>
+                        
+                        <div class="info-activa">
+                            <h4>InfoActiva: Notación Matemática Precisa</h4>
+                            <p>En el análisis de funciones es fundamental usar la notación correcta:</p>
+                            <ul style="padding-left: 20px; margin: 10px 0;">
+                                <li style="margin-bottom: 5px;">• Dominio: $D_f = \{x \in \mathbb{R} / \text{condición}\}$ o $D_f = [a, b] \cup (c, d]$</li>
+                                <li style="margin-bottom: 5px;">• Crecimiento: $f$ es creciente en $[a, b]$ si $\forall x_1, x_2 \in [a, b], x_1 < x_2 \Rightarrow f(x_1) \leq f(x_2)$</li>
+                                <li style="margin-bottom: 5px;">• Paridad: $f$ es par si $f(-x) = f(x)$ (simétrica al eje Y)</li>
+                                <li style="margin-bottom: 5px;">• $f$ es impar si $f(-x) = -f(x)$ (simétrica al origen)</li>
+                            </ul>
+                        </div>
+                    </div>
 
-                        <h3>Funciones definidas por partes</h3>
-                        <p>Son funciones que se definen con diferentes fórmulas en diferentes intervalos de su dominio. Muy comunes en situaciones reales como tarifas de servicios.</p>
+                    <!-- PESTAÑA 3: APLICACIONES Y MODELIZACIÓN -->
+                    <div id="tab-aplicaciones" class="tab-content">
+                        <h2>Fase 3: Interpretación en Contexto y Validación</h2>
+                        
+                        <div class="situacion-real">
+                            <h3>Actividad 3.1: Análisis de Situaciones Reales</h3>
+                            <p><strong>Contexto:</strong> Un automóvil se desplaza por la ciudad de Córdoba. La siguiente gráfica muestra su velocidad en km/h en función del tiempo en minutos.</p>
+                            
+                            <div class="graph-container">
+                                <canvas id="velocidadAutoChart"></canvas>
+                            </div>
+                            
+                            <div class="mente-activa" style="margin-top: 20px;">
+                                <h4>Preguntas para interpretar:</h4>
+                                <ol style="padding-left: 20px;">
+                                    <li>¿En qué intervalos el auto acelera (velocidad creciente)?</li>
+                                    <li>¿Cuándo frena (velocidad decreciente)?</li>
+                                    <li>¿En qué momentos está detenido?</li>
+                                    <li>¿Qué significa el máximo absoluto de la gráfica en este contexto?</li>
+                                    <li>¿Por qué hay segmentos horizontales? ¿Qué representan?</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="situacion-real">
+                            <h3>Temperatura en un día en Córdoba</h3>
+                            <p>La siguiente gráfica muestra cómo varía la temperatura a lo largo de un día típico.</p>
+                            
+                            <div class="graph-container">
+                                <canvas id="temperaturaDiaChart"></canvas>
+                            </div>
+                            
+                            <div class="mente-activa" style="margin-top: 20px;">
+                                <h4>Preguntas para interpretar:</h4>
+                                <ol style="padding-left: 20px;">
+                                    <li>¿A qué hora se alcanza la temperatura máxima? ¿Y la mínima?</li>
+                                    <li>¿En qué horarios la temperatura aumenta más rápidamente?</li>
+                                    <li>¿Cómo modelarías esta situación con una función trigonométrica?</li>
+                                    <li>¿Qué variables externas podrían afectar esta gráfica?</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="desafio-creativo">
+                            <h3>Actividad 3.2: Desafío de Diseño Creativo</h3>
+                            <p><strong>Consigna:</strong> Diseñá la gráfica de una función que cumpla TODAS estas condiciones:</p>
+                            <ul style="padding-left: 20px; margin: 15px 0;">
+                                <li style="margin-bottom: 8px;">• Dominio: $[-5, 5]$</li>
+                                <li style="margin-bottom: 8px;">• Tiene una asíntota horizontal en $y = 1$ cuando $x \to +\infty$</li>
+                                <li style="margin-bottom: 8px;">• Presenta una discontinuidad de salto en $x = 1$</li>
+                                <li style="margin-bottom: 8px;">• Tiene exactamente dos ceros (raíces)</li>
+                                <li style="margin-bottom: 8px;">• Es creciente en $(-5, -2)$ y decreciente en $(2, 5)$</li>
+                                <li style="margin-bottom: 8px;">• Alcanza un máximo relativo en $x = -2$</li>
+                            </ul>
+                            
+                            <div class="graph-container">
+                                <canvas id="desafioDesignChart"></canvas>
+                                <p style="text-align: center; margin-top: 10px; font-style: italic; font-size: 0.9rem;">Espacio para que dibujes tu función (en papel) o la diseñes usando software</p>
+                            </div>
+                        </div>
+                        
+                        <div class="validacion-pares">
+                            <h3>Validación entre Pares</h3>
+                            <p><strong>Instrucciones:</strong> Intercambiá tu diseño con otro grupo. Validá si la función del otro grupo cumple todas las condiciones solicitadas. Completá la siguiente tabla de validación:</p>
+                            
+                            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                                <thead>
+                                    <tr style="background-color: #E5E7EB;">
+                                        <th style="padding: 10px; border: 1px solid #ccc;">Condición</th>
+                                        <th style="padding: 10px; border: 1px solid #ccc;">¿Se cumple?</th>
+                                        <th style="padding: 10px; border: 1px solid #ccc;">Observaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ccc;">Dominio $[-5, 5]$</td>
+                                        <td style="padding: 10px; border: 1px solid #ccc;">□ Sí □ No</td>
+                                        <td style="padding: 10px; border: 1px solid #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ccc;">Asíntota horizontal $y=1$</td>
+                                        <td style="padding: 10px; border: 1px solid #ccc;">□ Sí □ No</td>
+                                        <td style="padding: 10px; border: 1px solid #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ccc;">Discontinuidad en $x=1$</td>
+                                        <td style="padding: 10px; border: 1px solid #ccc;">□ Sí □ No</td>
+                                        <td style="padding: 10px; border: 1px solid #ccc;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px; border: 1px solid #ccc;">Dos ceros</td>
+                                        <td style="padding: 10px; border: 1px solid #ccc;">□ Sí □ No</td>
+                                        <td style="padding: 10px; border: 1px solid #ccc;"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <p><strong>Reflexión:</strong> ¿Qué fue más difícil, diseñar la función o validar la de otro grupo? ¿Por qué?</p>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 4: TEORÍA Y FORMALIZACIÓN -->
+                    <div id="tab-teoria" class="tab-content">
+                        <h2>Fase 4: Institucionalización del Saber</h2>
+                        <p>Ahora vinculamos las producciones libres de los alumnos con los nombres y definiciones formales de los objetos matemáticos.</p>
+                        
+                        <div class="info-activa">
+                            <h4>Definiciones Formales</h4>
+                            <p><strong>Función:</strong> Dados dos conjuntos $A$ y $B$, una función $f: A \rightarrow B$ es una relación que asigna a cada elemento $x \in A$ un único elemento $f(x) \in B$.</p>
+                            <p><strong>Dominio ($D_f$):</strong> Conjunto de valores de entrada para los cuales la función está definida.</p>
+                            <p><strong>Imagen ($I_m$):</strong> Conjunto de valores de salida que toma la función.</p>
+                            <p><strong>Función continua:</strong> Una función es continua en un punto si el límite cuando $x$ tiende al punto coincide con el valor de la función en ese punto.</p>
+                        </div>
+                        
+                        <h3>Utilidad de las Funciones en Diversos Campos</h3>
+                        
+                        <div class="aplicacion-contexto">
+                            <div class="app-card">
+                                <h4>Tecnología</h4>
+                                <p>Las funciones sinusoidales modelan señales de Wi-Fi, televisión y radio. La función $f(t) = A \cdot \sin(\omega t + \phi)$ describe cómo varía una señal electromagnética con el tiempo.</p>
+                            </div>
+                            
+                            <div class="app-card">
+                                <h4>Redes Sociales</h4>
+                                <p>En Facebook, la cantidad de amigos conectados en función de la hora del día sigue un patrón que puede modelarse para maximizar el alcance de una publicación.</p>
+                            </div>
+                            
+                            <div class="app-card">
+                                <h4>Economía</h4>
+                                <p>Las funciones de oferta y demanda $O(p)$ y $D(p)$ dependen del precio $p$. El punto donde se cortan determina el precio de equilibrio del mercado.</p>
+                            </div>
+                            
+                            <div class="app-card">
+                                <h4>Medio Ambiente</h4>
+                                <p>En Córdoba, el nivel de los embalses como función de las precipitaciones ayuda a gestionar recursos hídricos para la agricultura y el consumo.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mente-activa">
+                            <h4>Perspectiva Histórica</h4>
+                            <p>La noción de función evolucionó a lo largo de siglos:</p>
+                            <ul style="padding-left: 20px; margin: 15px 0;">
+                                <li style="margin-bottom: 8px;"><strong>Diofanto (s. III):</strong> Usaba abreviaturas para cantidades desconocidas, precursor del álgebra simbólica.</li>
+                                <li style="margin-bottom: 8px;"><strong>Galileo (s. XVI-XVII):</strong> Estudiaba el movimiento mediante relaciones entre variables.</li>
+                                <li style="margin-bottom: 8px;"><strong>Euler (s. XVIII):</strong> Introdujo la notación $f(x)$ y clasificó funciones en algebraicas y trascendentes.</li>
+                                <li style="margin-bottom: 8px;"><strong>Dirichlet (s. XIX):</strong> Dio la definición moderna: "y es función de x si a cada valor de x le corresponde un único valor de y".</li>
+                            </ul>
+                        </div>
                         
                         <div class="concept-box">
-                            <h4>Ejemplo: Tarifa eléctrica en Córdoba</h4>
-                            <p>$$C(x) = 
-                            \begin{cases} 
-                            5x & \text{si } 0 \leq x \leq 150 \\
-                            750 + 7(x-150) & \text{si } 150 < x \leq 300 \\
-                            1800 + 10(x-300) & \text{si } x > 300
-                            \end{cases}$$
-                            Donde \(x\) es el consumo en kWh y \(C(x)\) es el costo en pesos.</p>
+                            <h4>Protocolo de Análisis Gráfico</h4>
+                            <p>Seguí estos pasos para analizar cualquier función gráficamente:</p>
+                            <ol style="padding-left: 20px; margin: 15px 0;">
+                                <li style="margin-bottom: 8px;">1. Determinar el <strong>dominio</strong> visual (valores de $x$ representados).</li>
+                                <li style="margin-bottom: 8px;">2. Identificar la <strong>imagen</strong> (valores de $y$ que alcanza).</li>
+                                <li style="margin-bottom: 8px;">3. Encontrar <strong>ceros</strong> y <strong>ordenada al origen</strong>.</li>
+                                <li style="margin-bottom: 8px;">4. Analizar <strong>crecimiento/decrecimiento</strong>.</li>
+                                <li style="margin-bottom: 8px;">5. Localizar <strong>máximos y mínimos</strong> relativos/absolutos.</li>
+                                <li style="margin-bottom: 8px;">6. Estudiar <strong>continuidad</strong> y <strong>discontinuidades</strong>.</li>
+                                <li style="margin-bottom: 8px;">7. Identificar <strong>asíntotas</strong> (verticales, horizontales, oblicuas).</li>
+                                <li style="margin-bottom: 8px;">8. Analizar <strong>comportamiento asintótico</strong> ($x \to \pm\infty$).</li>
+                            </ol>
                         </div>
                     </div>
 
-                    <!-- PESTAÑA 3: DESARROLLOS RESUELTOS -->
-                    <div id="tab-resueltos" class="tab-content">
-                        <h2>Problemas Modelo Resueltos</h2>
-
-                        <div class="solved-example">
-                            <div class="solved-header">Ejemplo 1: Análisis completo de una función cúbica</div>
-                            <div class="solved-body">
-                                <p><strong>Problema:</strong> Analiza completamente la función \(f(x) = x^3 - 3x^2 - x + 3\) a partir de su gráfica.</p>
-                                
-                                <div class="graph-container">
-                                    <canvas id="cubicExampleChart"></canvas>
-                                </div>
-                                
-                                <div class="solved-step"><strong>Paso 1: Dominio</strong><br>Como es una función polinómica, su dominio es todos los números reales: \(\text{Dom } f = \mathbb{R} = (-\infty, \infty)\).</div>
-                                
-                                <div class="solved-step"><strong>Paso 2: Imagen o recorrido</strong><br>Observando la gráfica, vemos que la función toma todos los valores reales: \(\text{Im } f = \mathbb{R}\).</div>
-                                
-                                <div class="solved-step"><strong>Paso 3: Ceros o raíces</strong><br>La gráfica corta al eje X en tres puntos: aproximadamente \(x = -1\), \(x = 1\) y \(x = 3\). Verificamos: \(f(-1) = (-1)^3 - 3(-1)^2 - (-1) + 3 = -1 - 3 + 1 + 3 = 0\).</div>
-                                
-                                <div class="solved-step"><strong>Paso 4: Corte con eje Y</strong><br>Cuando \(x = 0\): \(f(0) = 0^3 - 3(0)^2 - 0 + 3 = 3\). Punto: \((0, 3)\).</div>
-                                
-                                <div class="solved-step"><strong>Paso 5: Intervalos de crecimiento y decrecimiento</strong><br>La función crece en \((-∞, -0.15)\) y \((2.15, ∞)\) aproximadamente. Decrece en \((-0.15, 2.15)\).</div>
-                                
-                                <div class="solved-step"><strong>Paso 6: Máximos y mínimos relativos</strong><br>Máximo relativo en \(x ≈ -0.15\), \(y ≈ 3.08\). Mínimo relativo en \(x ≈ 2.15\), \(y ≈ -4.08\).</div>
-                                
-                                <p><strong>Conclusión:</strong> Hemos realizado un análisis completo que incluye dominio, imagen, ceros, corte con eje Y, monotonía y extremos.</p>
-                            </div>
-                        </div>
-
-                        <div class="solved-example">
-                            <div class="solved-header">Ejemplo 2: Función en contexto real - Tarifa de taxi</div>
-                            <div class="solved-body">
-                                <p><strong>Problema:</strong> En la ciudad de Córdoba, un taxi cobra $120 por bajada de bandera y $50 por cada kilómetro recorrido. Analiza gráficamente esta situación.</p>
-                                
-                                <div class="graph-container">
-                                    <canvas id="taxiExampleChart"></canvas>
-                                </div>
-                                
-                                <div class="solved-step"><strong>Paso 1: Plantear la función</strong><br>Sea \(x\) la distancia en km, y \(C(x)\) el costo total. Entonces: \(C(x) = 120 + 50x\).</div>
-                                
-                                <div class="solved-step"><strong>Paso 2: Dominio</strong><br>La distancia no puede ser negativa: \(\text{Dom } C = \{x \in \mathbb{R} / x \geq 0\} = [0, ∞)\).</div>
-                                
-                                <div class="solved-step"><strong>Paso 3: Imagen</strong><br>El costo mínimo es $120 (cuando \(x = 0\)). Luego aumenta sin límite: \(\text{Im } C = [120, ∞)\).</div>
-                                
-                                <div class="solved-step"><strong>Paso 4: Corte con ejes</strong><br>Con eje Y: \(C(0) = 120\) → punto \((0, 120)\). Con eje X: Resolver \(120 + 50x = 0\) → \(x = -2.4\), pero no está en el dominio, por lo que no corta al eje X (no tiene sentido una distancia negativa).</div>
-                                
-                                <div class="solved-step"><strong>Paso 5: Comportamiento</strong><br>Es una función lineal con pendiente positiva, por lo que es siempre creciente en todo su dominio.</div>
-                                
-                                <p><strong>Conclusión:</strong> La función \(C(x) = 120 + 50x\) modela correctamente la tarifa del taxi. Es creciente, con dominio restringido a valores no negativos y un costo inicial de $120.</p>
-                            </div>
-                        </div>
-
-                        <div class="solved-example">
-                            <div class="solved-header">Ejemplo 3: Análisis de una función por partes</div>
-                            <div class="solved-body">
-                                <p><strong>Problema:</strong> Analiza la siguiente función definida por partes:</p>
-                                <p>$$f(x) = 
-                                \begin{cases} 
-                                2 & \text{si } x < -2 \\
-                                -x & \text{si } -2 \leq x < 0 \\
-                                \frac{x^2}{2} & \text{si } 0 \leq x < 2 \\
-                                2 & \text{si } x \geq 2
-                                \end{cases}$$</p>
-                                
-                                <div class="graph-container">
-                                    <canvas id="piecewiseExampleChart"></canvas>
-                                </div>
-                                
-                                <div class="solved-step"><strong>Paso 1: Dominio</strong><br>Observamos que la función está definida para todos los números reales: \(\text{Dom } f = \mathbb{R}\).</div>
-                                
-                                <div class="solved-step"><strong>Paso 2: Imagen</strong><br>Los valores de \(y\) van desde 0 hasta 2 (incluyendo el 2): \(\text{Im } f = [0, 2]\).</div>
-                                
-                                <div class="solved-step"><strong>Paso 3: Continuidad</strong><br>La función es discontinua en \(x = -2\) (hay un salto) y es continua en \(x = 0\) y \(x = 2\) (los tramos se unen sin saltos).</div>
-                                
-                                <div class="solved-step"><strong>Paso 4: Comportamiento</strong><br>Crece en \((-2, 0)\) y es constante en \((-∞, -2)\) y \([2, ∞)\).</div>
-                                
-                                <div class="solved-step"><strong>Paso 5: Extremos</strong><br>Tiene un máximo absoluto en \(y = 2\) para \(x < -2\) y \(x ≥ 2\). Tiene un mínimo absoluto en \(x = 0\) con \(f(0) = 0\).</div>
-                                
-                                <p><strong>Conclusión:</strong> Las funciones por partes permiten modelar situaciones que cambian abruptamente, como tarifas escalonadas o procesos con diferentes etapas.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- PESTAÑA 4: PRÁCTICA -->
+                    <!-- PESTAÑA 5: PRÁCTICA Y EVALUACIÓN -->
                     <div id="tab-practica" class="tab-content">
-                        <h2>Ejercicios y Problemas</h2>
-                        <p>Completa los siguientes ejercicios. Intenta resolverlos por tu cuenta antes de ver la solución.</p>
+                        <h2>Fase 5: Evaluación Integradora</h2>
                         
                         <div class="exercise-item">
-                            <h3>Ejercicio 1: Dominio e imagen</h3>
-                            <p>Observa la siguiente gráfica y determina:</p>
+                            <h3>Ejercicio 1: Análisis Completo de una Función Racional</h3>
+                            <p>Analizá completamente la siguiente función, respondiendo todas las preguntas:</p>
+                            
                             <div class="graph-container">
-                                <canvas id="practiceChart1"></canvas>
+                                <canvas id="evalFunc1Chart"></canvas>
                             </div>
-                            <p>a) El dominio de la función<br>
-                               b) La imagen o recorrido<br>
-                               c) Los ceros o raíces<br>
-                               d) El corte con el eje Y</p>
-                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            
+                            <ol style="padding-left: 20px; margin: 15px 0;">
+                                <li style="margin-bottom: 8px;">Determiná el dominio y expresalo como unión de intervalos.</li>
+                                <li style="margin-bottom: 8px;">Encontrá la imagen o recorrido de la función.</li>
+                                <li style="margin-bottom: 8px;">Localizá todos los puntos de intersección con los ejes.</li>
+                                <li style="margin-bottom: 8px;">Identificá y clasificá las discontinuidades.</li>
+                                <li style="margin-bottom: 8px;">Determiná las ecuaciones de las asíntotas.</li>
+                                <li style="margin-bottom: 8px;">Analizá el comportamiento cuando $x \to +\infty$ y $x \to -\infty$.</li>
+                            </ol>
+                            
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Propuesta</button>
                             <div class="solution-text">
                                 <p><strong>Solución:</strong></p>
-                                <p>a) Dominio: Los valores de \(x\) van desde -4 hasta 4 → \([-4, 4]\)</p>
-                                <p>b) Imagen: Los valores de \(y\) van desde -2 hasta 3 → \([-2, 3]\)</p>
-                                <p>c) Ceros: La gráfica corta al eje X en \(x ≈ -3\), \(x ≈ -0.5\) y \(x ≈ 2.5\)</p>
-                                <p>d) Corte con Y: Cuando \(x = 0\), \(y ≈ -1\) → punto \((0, -1)\)</p>
+                                <p>1. Dominio: $\mathbb{R} \setminus \{-2, 1\} = (-\infty, -2) \cup (-2, 1) \cup (1, +\infty)$</p>
+                                <p>2. Imagen: $\mathbb{R} \setminus \{0\} = (-\infty, 0) \cup (0, +\infty)$</p>
+                                <p>3. Cortes: Con eje X en $x = 3$; con eje Y en $y = -1.5$</p>
+                                <p>4. Discontinuidades: Asíntotas verticales en $x = -2$ y $x = 1$</p>
+                                <p>5. Asíntotas: Verticales: $x = -2$, $x = 1$; Horizontal: $y = 0$</p>
+                                <p>6. Comportamiento: $\lim_{x \to +\infty} f(x) = 0^+$, $\lim_{x \to -\infty} f(x) = 0^-$</p>
                             </div>
                         </div>
-
+                        
                         <div class="exercise-item">
-                            <h3>Ejercicio 2: Comportamiento y extremos</h3>
-                            <p>Para la misma gráfica del ejercicio anterior, determina:</p>
-                            <p>a) Intervalos de crecimiento<br>
-                               b) Intervalos de decrecimiento<br>
-                               c) Coordenadas de los máximos relativos<br>
-                               d) Coordenadas de los mínimos relativos</p>
-                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
-                            <div class="solution-text">
-                                <p><strong>Solución:</strong></p>
-                                <p>a) Crecimiento: La función crece en \((-4, -2)\) y \((0, 1.5)\) aproximadamente</p>
-                                <p>b) Decrecimiento: La función decrece en \((-2, 0)\) y \((1.5, 4)\)</p>
-                                <p>c) Máximos relativos: En \(x ≈ -2\) con \(y ≈ 2\) y en \(x ≈ 1.5\) con \(y ≈ 1.2\)</p>
-                                <p>d) Mínimos relativos: En \(x ≈ 0\) con \(y ≈ -1\)</p>
-                            </div>
-                        </div>
-
-                        <div class="exercise-item">
-                            <h3>Ejercicio 3: Función contextualizada</h3>
-                            <p>La temperatura en la ciudad de Córdoba varía a lo largo del día según la función \(T(h) = 12 \cdot \sin\left(\frac{\pi}{12}(h-6)\right) + 10\), donde \(h\) es la hora del día (0 a 24) y \(T\) es la temperatura en °C.</p>
+                            <h3>Ejercicio 2: Problema Contextualizado - Cultivo en Córdoba</h3>
+                            <p>Un agricultor de la zona de Río Cuarto modela el crecimiento de su cultivo de soja con la función $A(t) = 50 + 10t - 0.5t^2$, donde $A$ es el área cubierta en hectáreas y $t$ el tiempo en semanas desde la siembra.</p>
+                            
                             <div class="graph-container">
-                                <canvas id="practiceChart2"></canvas>
+                                <canvas id="evalFunc2Chart"></canvas>
                             </div>
-                            <p>a) ¿Cuál es la temperatura a las 6 am?<br>
-                               b) ¿A qué hora se alcanza la temperatura máxima y cuál es?<br>
-                               c) ¿En qué intervalos del día la temperatura aumenta?<br>
-                               d) ¿En qué intervalos del día la temperatura disminuye?</p>
-                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                            
+                            <ol style="padding-left: 20px; margin: 15px 0;">
+                                <li style="margin-bottom: 8px;">¿Cuál es el área inicial al momento de la siembra ($t = 0$)?</li>
+                                <li style="margin-bottom: 8px;">¿En qué semana alcanza la máxima extensión? ¿Cuál es esa área máxima?</li>
+                                <li style="margin-bottom: 8px;">¿Por qué la función decrece después de cierto punto? ¿Qué representa esto?</li>
+                                <li style="margin-bottom: 8px;">¿En qué intervalo de tiempo el crecimiento es más rápido?</li>
+                                <li style="margin-bottom: 8px;">¿Cuál es el dominio e imagen en este contexto real?</li>
+                            </ol>
+                            
+                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Propuesta</button>
                             <div class="solution-text">
                                 <p><strong>Solución:</strong></p>
-                                <p>a) A las 6 am: \(T(6) = 12 \cdot \sin\left(\frac{\pi}{12}(6-6)\right) + 10 = 12 \cdot \sin(0) + 10 = 10°C\)</p>
-                                <p>b) Temperatura máxima: 22°C a las 12:00 (mediodía)</p>
-                                <p>c) La temperatura aumenta desde las 6:00 hasta las 12:00 y desde las 18:00 hasta las 24:00</p>
-                                <p>d) La temperatura disminuye desde las 0:00 hasta las 6:00 y desde las 12:00 hasta las 18:00</p>
+                                <p>1. $A(0) = 50$ hectáreas iniciales.</p>
+                                <p>2. Máximo en vértice de parábola: $t = -\frac{b}{2a} = -\frac{10}{2(-0.5)} = 10$ semanas. $A(10) = 50 + 10(10) - 0.5(10)^2 = 100$ hectáreas.</p>
+                                <p>3. Decrece por cosecha, enfermedades o limitaciones del terreno.</p>
+                                <p>4. Crecimiento más rápido en primeras semanas (pendiente mayor).</p>
+                                <p>5. Dominio: $[0, 20]$ semanas (hasta cosecha). Imagen: $[50, 100]$ hectáreas.</p>
                             </div>
                         </div>
-
-                        <div class="exercise-item">
-                            <h3>Problema 1: Costo de llamadas telefónicas</h3>
-                            <p>Una compañía de telefonía móvil en Córdoba ofrece el siguiente plan: $50 por mes incluye 100 minutos. Cada minuto adicional cuesta $0.80.</p>
-                            <p>a) Define una función por partes \(C(m)\) que represente el costo mensual en función de los minutos consumidos \(m\).<br>
-                               b) Grafica la función.<br>
-                               c) Determina el costo para 80 minutos, 150 minutos y 300 minutos.<br>
-                               d) ¿Es continua la función? Explica.</p>
-                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
-                            <div class="solution-text">
-                                <p><strong>Solución:</strong></p>
-                                <p>a) \(C(m) = 
-                                \begin{cases} 
-                                50 & \text{si } 0 \leq m \leq 100 \\
-                                50 + 0.80(m-100) & \text{si } m > 100
-                                \end{cases}\)</p>
-                                <p>b) Gráfica con dos tramos: una constante hasta 100 minutos, luego una recta con pendiente 0.80</p>
-                                <p>c) Para 80 min: \(C(80) = 50\)<br>
-                                   Para 150 min: \(C(150) = 50 + 0.80(50) = 90\)<br>
-                                   Para 300 min: \(C(300) = 50 + 0.80(200) = 210\)</p>
-                                <p>d) Sí es continua, porque en \(m = 100\) ambos tramos dan el mismo valor: 50.</p>
-                            </div>
-                        </div>
-
-                        <div class="exercise-item">
-                            <h3>Problema 2: Nivel de un embalse</h3>
-                            <p>El Embalse San Roque tiene variaciones estacionales en su nivel de agua. La siguiente gráfica muestra el porcentaje de capacidad a lo largo del año:</p>
-                            <div class="graph-container">
-                                <canvas id="practiceChart3"></canvas>
-                            </div>
-                            <p>a) ¿En qué mes alcanza su máximo nivel? ¿Y su mínimo?<br>
-                               b) Describe los intervalos de crecimiento y decrecimiento.<br>
-                               c) ¿Qué porcentaje de capacidad tiene en marzo? ¿Y en octubre?<br>
-                               d) ¿Por qué crees que ocurren estas variaciones?</p>
-                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
-                            <div class="solution-text">
-                                <p><strong>Solución:</strong></p>
-                                <p>a) Máximo: alrededor de diciembre-enero (85%). Mínimo: alrededor de noviembre (55%).</p>
-                                <p>b) Crece desde noviembre hasta enero. Decrece desde enero hasta noviembre.</p>
-                                <p>c) En marzo: aproximadamente 78%. En octubre: aproximadamente 56%.</p>
-                                <p>d) Las variaciones se deben a las estaciones: en verano hay más lluvias y deshielo que llenan el embalse, mientras que en invierno y primavera hay menor precipitación y mayor consumo.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- PESTAÑA 5: AUTOEVALUACIÓN -->
-                    <div id="tab-quiz" class="tab-content">
-                        <h2>Autoevaluación Rápida</h2>
-                        <p>Selecciona la respuesta correcta para verificar tu comprensión. Al hacer clic, verás si tu respuesta es correcta o incorrecta.</p>
+                        
+                        <h3>Autoevaluación Rápida</h3>
+                        <p>Seleccioná la respuesta correcta para verificar tu comprensión.</p>
 
                         <div class="quiz-item">
-                            <p><strong>1. ¿Qué matemático introdujo por primera vez el término "función"?</strong></p>
+                            <p><strong>1. Una función es creciente en un intervalo si:</strong></p>
                             <div class="quiz-options">
-                                <button onclick="checkAnswer(this, false)">Descartes</button>
-                                <button onclick="checkAnswer(this, true)">Leibniz</button>
-                                <button onclick="checkAnswer(this, false)">Euler</button>
-                                <button onclick="checkAnswer(this, false)">Dirichlet</button>
+                                <button class="quiz-btn" onclick="checkAnswer(this, true)">Al aumentar $x$, también aumenta $f(x)$</button>
+                                <button class="quiz-btn" onclick="checkAnswer(this, false)">Al aumentar $x$, disminuye $f(x)$</button>
+                                <button class="quiz-btn" onclick="checkAnswer(this, false)">$f(x)$ se mantiene constante</button>
+                                <button class="quiz-btn" onclick="checkAnswer(this, false)">La gráfica es simétrica al eje Y</button>
                             </div>
                             <p class="quiz-feedback"></p>
                         </div>
 
                         <div class="quiz-item">
-                            <p><strong>2. El dominio de una función es:</strong></p>
+                            <p><strong>2. El dominio de la función $f(x) = \frac{1}{x-3}$ es:</strong></p>
                             <div class="quiz-options">
-                                <button onclick="checkAnswer(this, false)">Los valores de Y que toma la función</button>
-                                <button onclick="checkAnswer(this, true)">Los valores de X para los cuales la función está definida</button>
-                                <button onclick="checkAnswer(this, false)">Los puntos donde la gráfica corta al eje X</button>
-                                <button onclick="checkAnswer(this, false)">Los valores máximos y mínimos de la función</button>
+                                <button class="quiz-btn" onclick="checkAnswer(this, false)">Todos los números reales</button>
+                                <button class="quiz-btn" onclick="checkAnswer(this, true)">$\mathbb{R} \setminus \{3\}$</button>
+                                <button class="quiz-btn" onclick="checkAnswer(this, false)">Solo números positivos</button>
+                                <button class="quiz-btn" onclick="checkAnswer(this, false)">$[3, +\infty)$</button>
                             </div>
                             <p class="quiz-feedback"></p>
                         </div>
-
-                        <div class="quiz-item">
-                            <p><strong>3. Si al aumentar el valor de X, también aumenta el valor de f(X), la función es:</strong></p>
-                            <div class="quiz-options">
-                                <button onclick="checkAnswer(this, true)">Creciente</button>
-                                <button onclick="checkAnswer(this, false)">Decreciente</button>
-                                <button onclick="checkAnswer(this, false)">Constante</button>
-                                <button onclick="checkAnswer(this, false)">Periódica</button>
-                            </div>
-                            <p class="quiz-feedback"></p>
-                        </div>
-
-                        <div class="quiz-item">
-                            <p><strong>4. Un punto donde la gráfica cambia de cóncava hacia arriba a cóncava hacia abajo se llama:</strong></p>
-                            <div class="quiz-options">
-                                <button onclick="checkAnswer(this, false)">Máximo relativo</button>
-                                <button onclick="checkAnswer(this, false)">Mínimo relativo</button>
-                                <button onclick="checkAnswer(this, true)">Punto de inflexión</button>
-                                <button onclick="checkAnswer(this, false)">Corte con el eje Y</button>
-                            </div>
-                            <p class="quiz-feedback"></p>
-                        </div>
-
-                        <div class="quiz-item">
-                            <p><strong>5. En la función por partes que modela una tarifa eléctrica, un cambio brusco en el precio representaría:</strong></p>
-                            <div class="quiz-options">
-                                <button onclick="checkAnswer(this, false)">Un máximo relativo</button>
-                                <button onclick="checkAnswer(this, true)">Una discontinuidad de salto</button>
-                                <button onclick="checkAnswer(this, false)">Un punto de inflexión</button>
-                                <button onclick="checkAnswer(this, false)">Un cero de la función</button>
-                            </div>
-                            <p class="quiz-feedback"></p>
-                        </div>
-
-                        <div class="quiz-item">
-                            <p><strong>6. La imagen de la función \(f(x) = x^2 + 1\) es:</strong></p>
-                            <div class="quiz-options">
-                                <button onclick="checkAnswer(this, false)">Todos los números reales</button>
-                                <button onclick="checkAnswer(this, true)">\([1, \infty)\)</button>
-                                <button onclick="checkAnswer(this, false)">\([0, \infty)\)</button>
-                                <button onclick="checkAnswer(this, false)">\([-1, 1]\)</button>
-                            </div>
-                            <p class="quiz-feedback"></p>
-                        </div>
-
-                        <div class="quiz-item">
-                            <p><strong>7. ¿Qué información nos da el corte de una gráfica con el eje Y?</strong></p>
-                            <div class="quiz-options">
-                                <button onclick="checkAnswer(this, false)">Los valores donde la función es máxima</button>
-                                <button onclick="checkAnswer(this, true)">El valor de la función cuando x = 0</button>
-                                <button onclick="checkAnswer(this, false)">Los intervalos donde la función crece</button>
-                                <button onclick="checkAnswer(this, false)">Los valores donde la función es cero</button>
-                            </div>
-                            <p class="quiz-feedback"></p>
-                        </div>
-
-                        <div class="quiz-item">
-                            <p><strong>8. Una función definida por partes:</strong></p>
-                            <div class="quiz-options">
-                                <button onclick="checkAnswer(this, false)">Siempre es continua</button>
-                                <button onclick="checkAnswer(this, true)">Usa diferentes fórmulas en diferentes intervalos</button>
-                                <button onclick="checkAnswer(this, false)">Solo puede tener dos partes</button>
-                                <button onclick="checkAnswer(this, false)">Nunca tiene máximos ni mínimos</button>
-                            </div>
-                            <p class="quiz-feedback"></p>
-                        </div>
-
-                        <div class="quiz-item">
-                            <p><strong>9. ¿Cuál es el dominio de la función representada por una gráfica que muestra valores de X desde -5 hasta 5?</strong></p>
-                            <div class="quiz-options">
-                                <button onclick="checkAnswer(this, false)">Solo los números positivos</button>
-                                <button onclick="checkAnswer(this, true)">El intervalo \([-5, 5]\)</button>
-                                <button onclick="checkAnswer(this, false)">Todos los números reales</button>
-                                <button onclick="checkAnswer(this, false)">Solo los números enteros</button>
-                            </div>
-                            <p class="quiz-feedback"></p>
-                        </div>
-
-                        <div class="quiz-item">
-                            <p><strong>10. ¿Por qué es importante el análisis gráfico de funciones en contextos reales como Córdoba?</strong></p>
-                            <div class="quiz-options">
-                                <button onclick="checkAnswer(this, false)">Solo para aprobar exámenes de matemática</button>
-                                <button onclick="checkAnswer(this, true)">Para modelar y comprender fenómenos como el clima, la economía o el consumo</button>
-                                <button onclick="checkAnswer(this, false)">Porque es un tema obligatorio en el curriculum</button>
-                                <button onclick="checkAnswer(this, false)">Para aprender a dibujar mejor</button>
-                            </div>
-                            <p class="quiz-feedback"></p>
+                        
+                        <h3>Rúbrica de Evaluación</h3>
+                        <p>Esta rúbrica te ayudará a autoevaluar tu desempeño en el análisis de funciones:</p>
+                        
+                        <table class="rubrica-table">
+                            <thead>
+                                <tr>
+                                    <th>Criterio</th>
+                                    <th>Avanzado (4)</th>
+                                    <th>Satisfactorio (3)</th>
+                                    <th>Básico (2)</th>
+                                    <th>Inicial (1)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Identificación de Dominio e Imagen</strong></td>
+                                    <td>Determina correctamente incluso en uniones complejas de intervalos</td>
+                                    <td>Determina correctamente con pequeños errores en notación</td>
+                                    <td>Identifica parcialmente con ayuda</td>
+                                    <td>No identifica correctamente</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Análisis de Ceros y Monotonía</strong></td>
+                                    <td>Identifica todos los ceros y describe intervalos con notación precisa</td>
+                                    <td>Identifica la mayoría de los ceros y describe la tendencia general</td>
+                                    <td>Identifica algunos ceros o intervalos con imprecisiones</td>
+                                    <td>No identifica ceros ni describe intervalos correctamente</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Identificación de Discontinuidades y Asíntotas</strong></td>
+                                    <td>Identifica y clasifica correctamente todas, dando sus ecuaciones</td>
+                                    <td>Identifica la mayoría con pequeños errores en clasificación</td>
+                                    <td>Identifica solo las más evidentes sin clasificarlas bien</td>
+                                    <td>No identifica discontinuidades ni asíntotas</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Comunicación Matemática</strong></td>
+                                    <td>Usa terminología y notación matemática de forma precisa y sistemática</td>
+                                    <td>Usa terminología adecuada con pocos errores de notación</td>
+                                    <td>Usa terminología básica con notación deficiente</td>
+                                    <td>No usa terminología matemática apropiada</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="info-activa" style="margin-top: 30px;">
+                            <h4>Reflexión Final</h4>
+                            <p>El análisis gráfico de funciones no es solo un tema escolar, sino una herramienta poderosa para comprender el mundo. En Córdoba, nos ayuda a tomar decisiones informadas sobre agricultura, gestión de recursos, economía y tecnología. Recordá: cada gráfica cuenta una historia sobre cómo se relacionan las variables en situaciones reales.</p>
                         </div>
                     </div>
 
@@ -757,7 +893,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2024 Mates con Agugg_ia. Material didáctico para estudiantes de secundaria de Córdoba, Argentina.</p>
+            <p>&copy; 2024 Mates con Agugg_ia. Secuencia didáctica basada en principios de Educación Matemática Realista (Freudenthal) y Didáctica de la Matemática (Brousseau).</p>
         </div>
     </footer>
 
@@ -765,51 +901,68 @@
     <script>
         // --- LÓGICA DE PESTAÑAS ---
         function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
+            // Ocultar todos los contenidos
+            const tabcontent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].style.display = "none";
                 tabcontent[i].classList.remove("active");
             }
 
-            tablinks = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tablinks.length; i++) {
+            // Desactivar botones
+            const tablinks = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
 
-            document.getElementById(tabName).style.display = "block";
+            // Mostrar el tab actual y activar botón
+            const activeTab = document.getElementById(tabName);
+            activeTab.style.display = "block";
+            
+            // Pequeño timeout para permitir que el display:block se renderice antes de la animación
             setTimeout(() => {
-                document.getElementById(tabName).classList.add("active");
+                activeTab.classList.add("active");
+                // IMPORTANTE: Redimensionar gráficos cuando el tab se vuelve visible
+                // Chart.js a veces tiene problemas si inicializa en display:none
+                resizeCharts();
             }, 10);
+            
             evt.currentTarget.className += " active";
         }
 
         // --- LÓGICA DE SOLUCIONES (ACORDEÓN) ---
         function toggleSolution(btn) {
-            var solution = btn.nextElementSibling;
+            const solution = btn.nextElementSibling;
             if (solution.style.display === "block") {
                 solution.style.display = "none";
-                btn.textContent = "Ver Solución";
+                btn.textContent = "Ver Solución Propuesta";
             } else {
                 solution.style.display = "block";
                 btn.textContent = "Ocultar Solución";
+                // Si hay fórmulas en la solución, forzar re-renderizado de MathJax
+                if (window.MathJax) {
+                    MathJax.typesetPromise([solution]);
+                }
             }
         }
 
         // --- LÓGICA DE QUIZ (AUTOEVALUACIÓN) ---
         function checkAnswer(btn, isCorrect) {
-            var parent = btn.parentElement;
-            var buttons = parent.getElementsByTagName("button");
-            for (var i = 0; i < buttons.length; i++) {
+            const parent = btn.parentElement;
+            const buttons = parent.getElementsByTagName("button");
+            
+            // Deshabilitar todos los botones de esta pregunta
+            for (let i = 0; i < buttons.length; i++) {
                 buttons[i].disabled = true;
+                // Eliminar clases previas
+                buttons[i].classList.remove("correct", "incorrect");
             }
 
-            var feedback = parent.nextElementSibling;
+            const feedback = parent.nextElementSibling;
             feedback.style.display = "block";
 
             if (isCorrect) {
                 btn.classList.add("correct");
-                feedback.textContent = "¡Correcto!";
+                feedback.textContent = "¡Correcto! Muy bien.";
                 feedback.style.color = "#065F46";
             } else {
                 btn.classList.add("incorrect");
@@ -818,315 +971,356 @@
             }
         }
 
+        // Función auxiliar para redimensionar todos los gráficos de Chart.js
+        function resizeCharts() {
+            setTimeout(() => {
+                if (typeof Chart !== 'undefined') {
+                    Chart.instances.forEach(chart => {
+                        chart.resize();
+                    });
+                }
+            }, 100);
+        }
+
         // --- INICIALIZACIÓN DE GRÁFICOS CON CHART.JS ---
         document.addEventListener('DOMContentLoaded', function() {
-            // Gráfico básico para teoría (Pestaña 2)
-            const basicCtx = document.getElementById('basicFunctionChart');
-            if (basicCtx) {
-                new Chart(basicCtx, {
-                    type: 'line',
-                    data: {
-                        labels: Array.from({length: 21}, (_, i) => i - 5),
-                        datasets: [{
-                            label: 'f(x) = x² - 4',
-                            data: Array.from({length: 21}, (_, i) => {
-                                let x = i - 5;
-                                return x*x - 4;
-                            }),
-                            borderColor: '#2563EB',
-                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { title: { display: true, text: 'x' } },
-                            y: { title: { display: true, text: 'f(x)' } }
-                        }
+            
+            // Configuración común para gráficos
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(31, 41, 55, 0.9)',
+                        padding: 10,
+                        cornerRadius: 8,
                     }
-                });
-            }
+                },
+                scales: {
+                    x: { grid: { color: '#F3F4F6' } },
+                    y: { grid: { color: '#F3F4F6' } }
+                }
+            };
 
-            // Gráfico de crecimiento (Pestaña 2)
-            const growthCtx = document.getElementById('growthChart');
-            if (growthCtx) {
-                new Chart(growthCtx, {
-                    type: 'line',
-                    data: {
-                        labels: Array.from({length: 31}, (_, i) => i - 5),
-                        datasets: [{
-                            label: 'f(x)',
-                            data: Array.from({length: 31}, (_, i) => {
-                                let x = i - 5;
-                                return 0.1*x*x*x - 0.6*x*x - 1.5*x + 2;
-                            }),
-                            borderColor: '#10B981',
-                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { title: { display: true, text: 'x' } },
-                            y: { title: { display: true, text: 'f(x)' } }
-                        }
-                    }
+            // Gráfico para prueba de recta vertical (Pestaña 1)
+            const verticalLineCtx = document.getElementById('verticalLineTestChart');
+            if (verticalLineCtx) {
+                // Generar datos para círculo
+                const circleData = Array.from({length: 64}, (_, i) => {
+                    const angle = i * Math.PI / 32;
+                    return {x: 2*Math.cos(angle), y: 2*Math.sin(angle)};
                 });
-            }
+                // Generar datos para parábola
+                const parabolaData = Array.from({length: 21}, (_, i) => {
+                    const x = i/2 - 5;
+                    return {x: x, y: 0.2*x*x};
+                });
 
-            // Gráfico de concavidad (Pestaña 2)
-            const concavityCtx = document.getElementById('concavityChart');
-            if (concavityCtx) {
-                const labels = Array.from({length: 21}, (_, i) => i - 5);
-                new Chart(concavityCtx, {
-                    type: 'line',
+                new Chart(verticalLineCtx, {
+                    type: 'scatter',
                     data: {
-                        labels: labels,
                         datasets: [
                             {
-                                label: 'Cóncava hacia arriba',
-                                data: labels.map(x => 0.2*x*x + 1),
-                                borderColor: '#2563EB',
-                                backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                                borderWidth: 3,
+                                label: 'Círculo (NO es función)',
+                                data: circleData,
+                                borderColor: '#EF4444',
+                                backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                                borderWidth: 2,
+                                showLine: true,
                                 fill: true,
-                                tension: 0
+                                tension: 0,
+                                pointRadius: 0
                             },
                             {
-                                label: 'Cóncava hacia abajo',
-                                data: labels.map(x => -0.2*x*x + 1),
-                                borderColor: '#F59E0B',
-                                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                                label: 'Parábola (SÍ es función)',
+                                data: parabolaData,
+                                borderColor: '#10B981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.2)',
                                 borderWidth: 3,
+                                showLine: true,
                                 fill: true,
-                                tension: 0
+                                tension: 0.4,
+                                pointRadius: 0
                             }
                         ]
                     },
                     options: {
-                        responsive: true,
+                        ...commonOptions,
                         scales: {
-                            x: { title: { display: true, text: 'x' } },
-                            y: { title: { display: true, text: 'f(x)' } }
+                            x: { 
+                                title: { display: true, text: 'x' },
+                                min: -4, max: 4 
+                            },
+                            y: { 
+                                title: { display: true, text: 'y' },
+                                min: -4, max: 4 
+                            }
                         }
                     }
                 });
             }
 
-            // Gráfico ejemplo cúbico (Pestaña 3)
-            const cubicCtx = document.getElementById('cubicExampleChart');
-            if (cubicCtx) {
-                const labels = Array.from({length: 41}, (_, i) => (i/10 - 2).toFixed(1));
-                new Chart(cubicCtx, {
+            // Estación A: Dominio e Imagen (Pestaña 2)
+            const estacionACtx = document.getElementById('estacionAChart');
+            if (estacionACtx) {
+                const labels = Array.from({length: 41}, (_, i) => i/2 - 5);
+                new Chart(estacionACtx, {
                     type: 'line',
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: 'f(x) = x³ - 3x² - x + 3',
+                            label: 'Función por partes',
                             data: labels.map(x => {
-                                x = parseFloat(x);
-                                return x*x*x - 3*x*x - x + 3;
+                                if (x < -3) return 1;
+                                else if (x < 0) return -x;
+                                else if (x < 3) return (x*x)/3;
+                                else return 3;
                             }),
                             borderColor: '#8B5CF6',
                             backgroundColor: 'rgba(139, 92, 246, 0.1)',
                             borderWidth: 3,
                             fill: true,
-                            tension: 0.4
+                            tension: 0.1, // Un poco de suavizado
+                            stepped: false,
+                            pointRadius: 0
                         }]
                     },
                     options: {
-                        responsive: true,
-                        plugins: { legend: { display: false } },
+                        ...commonOptions,
                         scales: {
-                            x: { title: { display: true, text: 'x' } },
-                            y: { title: { display: true, text: 'f(x)' } }
+                            x: { title: { display: true, text: 'x' }, min: -5, max: 5 },
+                            y: { title: { display: true, text: 'f(x)' }, min: -1, max: 4 }
                         }
                     }
                 });
             }
 
-            // Gráfico taxi (Pestaña 3)
-            const taxiCtx = document.getElementById('taxiExampleChart');
-            if (taxiCtx) {
-                new Chart(taxiCtx, {
+            // Estación B: Ceros y Ordenada (Pestaña 2)
+            const estacionBCtx = document.getElementById('estacionBChart');
+            if (estacionBCtx) {
+                const labels = Array.from({length: 41}, (_, i) => i/4 - 5);
+                new Chart(estacionBCtx, {
                     type: 'line',
                     data: {
-                        labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                        labels: labels,
                         datasets: [{
-                            label: 'Costo del taxi ($)',
-                            data: [120, 170, 220, 270, 320, 370, 420, 470, 520, 570, 620],
+                            label: 'f(x) = 0.2x³ - 0.5x² - 1.5x + 2',
+                            data: labels.map(x => 0.2*x*x*x - 0.5*x*x - 1.5*x + 2),
                             borderColor: '#10B981',
                             backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 0
+                        }]
+                    },
+                    options: {
+                        ...commonOptions,
+                        scales: {
+                            x: { title: { display: true, text: 'x' }, min: -5, max: 5 },
+                            y: { title: { display: true, text: 'f(x)' }, min: -3, max: 5 }
+                        }
+                    }
+                });
+            }
+
+            // Estación C: Continuidad y Asíntotas (Pestaña 2)
+            const estacionCCtx = document.getElementById('estacionCChart');
+            if (estacionCCtx) {
+                // Dividimos en dos arrays para evitar la línea vertical de la asíntota
+                const labels1 = Array.from({length: 60}, (_, i) => i/10 - 6); // -6 a 0
+                const labels2 = Array.from({length: 60}, (_, i) => i/10 + 0.1); // 0.1 a 6.1
+                
+                const data1 = labels1.map(x => 1/x);
+                const data2 = labels2.map(x => 1/x);
+
+                new Chart(estacionCCtx, {
+                    type: 'line',
+                    data: {
+                        labels: [...labels1, ...labels2],
+                        datasets: [{
+                            label: 'f(x) = 1/x',
+                            data: [...data1, ...data2],
+                            borderColor: '#F59E0B',
+                            backgroundColor: 'transparent',
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0,
+                            spanGaps: true, // Importante para unir visualmente si es necesario, pero aquí queremos el salto
+                            pointRadius: 0
+                        }]
+                    },
+                    options: {
+                        ...commonOptions,
+                        scales: {
+                            x: { title: { display: true, text: 'x' }, min: -5, max: 5 },
+                            y: { title: { display: true, text: 'f(x)' }, min: -10, max: 10 }
+                        }
+                    }
+                });
+            }
+
+            // Velocidad de auto (Pestaña 3)
+            const velocidadCtx = document.getElementById('velocidadAutoChart');
+            if (velocidadCtx) {
+                const labels = [0, 5, 10, 13, 17, 22, 25, 30];
+                const data = [0, 60, 60, 0, 0, 50, 50, 0];
+                
+                new Chart(velocidadCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Velocidad (km/h)',
+                            data: data,
+                            borderColor: '#2563EB',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
                             borderWidth: 3,
                             fill: true,
                             tension: 0
                         }]
                     },
                     options: {
-                        responsive: true,
+                        ...commonOptions,
                         plugins: { 
                             legend: { display: false },
                             tooltip: {
                                 callbacks: {
-                                    label: function(context) {
-                                        return `Costo: $${context.parsed.y} (${context.parsed.x} km)`;
-                                    }
+                                    label: (context) => `Velocidad: ${context.parsed.y} km/h a los ${context.parsed.x} min`
                                 }
                             }
                         },
                         scales: {
-                            x: { title: { display: true, text: 'Distancia (km)' } },
-                            y: { 
-                                title: { display: true, text: 'Costo ($)' },
-                                beginAtZero: true 
-                            }
+                            x: { title: { display: true, text: 'Tiempo (minutos)' } },
+                            y: { title: { display: true, text: 'Velocidad (km/h)' }, min: 0, max: 70 }
                         }
                     }
                 });
             }
 
-            // Gráfico por partes (Pestaña 3)
-            const piecewiseCtx = document.getElementById('piecewiseExampleChart');
-            if (piecewiseCtx) {
-                const labels = Array.from({length: 31}, (_, i) => i/2 - 4);
-                const data = labels.map(x => {
-                    if (x < -2) return 2;
-                    else if (x < 0) return -x;
-                    else if (x < 2) return x*x/2;
-                    else return 2;
-                });
-                
-                new Chart(piecewiseCtx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Función por partes',
-                            data: data,
-                            borderColor: '#F59E0B',
-                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0,
-                            spanGaps: false
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { title: { display: true, text: 'x' } },
-                            y: { title: { display: true, text: 'f(x)' } }
-                        }
-                    }
-                });
-            }
-
-            // Gráficos para práctica
-            const practiceCtx1 = document.getElementById('practiceChart1');
-            if (practiceCtx1) {
-                const labels = Array.from({length: 41}, (_, i) => i/5 - 4);
-                new Chart(practiceCtx1, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'f(x)',
-                            data: labels.map(x => {
-                                return 0.3*x*x*x*x - 0.8*x*x*x - 2*x*x + 3*x + 1;
-                            }),
-                            borderColor: '#8B5CF6',
-                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { title: { display: true, text: 'x' } },
-                            y: { title: { display: true, text: 'f(x)' } }
-                        }
-                    }
-                });
-            }
-
-            const practiceCtx2 = document.getElementById('practiceChart2');
-            if (practiceCtx2) {
+            // Temperatura diaria (Pestaña 3)
+            const temperaturaCtx = document.getElementById('temperaturaDiaChart');
+            if (temperaturaCtx) {
                 const labels = Array.from({length: 25}, (_, i) => i);
-                new Chart(practiceCtx2, {
+                new Chart(temperaturaCtx, {
                     type: 'line',
                     data: {
                         labels: labels,
                         datasets: [{
                             label: 'Temperatura (°C)',
-                            data: labels.map(h => {
-                                return 12*Math.sin(Math.PI/12*(h-6)) + 10;
-                            }),
+                            data: labels.map(h => 12*Math.sin(Math.PI/12*(h-6)) + 10),
                             borderColor: '#EF4444',
                             backgroundColor: 'rgba(239, 68, 68, 0.1)',
                             borderWidth: 3,
                             fill: true,
-                            tension: 0.4
+                            tension: 0.4,
+                            pointRadius: 0
                         }]
                     },
                     options: {
-                        responsive: true,
-                        plugins: { legend: { display: false } },
+                        ...commonOptions,
                         scales: {
                             x: { 
                                 title: { display: true, text: 'Hora del día' },
-                                ticks: { callback: function(value) { return value + ':00'; } }
+                                ticks: { callback: (value) => value + ':00' } 
                             },
-                            y: { 
-                                title: { display: true, text: 'Temperatura (°C)' },
-                                min: 0,
-                                max: 25
-                            }
+                            y: { title: { display: true, text: 'Temperatura (°C)' }, min: 0, max: 25 }
                         }
                     }
                 });
             }
 
-            const practiceCtx3 = document.getElementById('practiceChart3');
-            if (practiceCtx3) {
-                const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-                const niveles = [85, 82, 78, 72, 68, 65, 63, 60, 58, 56, 55, 75];
-                
-                new Chart(practiceCtx3, {
-                    type: 'line',
+            // Gráfico para desafío de diseño (Pestaña 3) - Gráfico vacío
+            const desafioCtx = document.getElementById('desafioDesignChart');
+            if (desafioCtx) {
+                new Chart(desafioCtx, {
+                    type: 'scatter',
                     data: {
-                        labels: meses,
                         datasets: [{
-                            label: 'Nivel del Embalse (%)',
-                            data: niveles,
-                            borderColor: '#2563EB',
-                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4
+                            label: 'Tu diseño aquí',
+                            data: [],
+                            borderColor: '#8B5CF6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderWidth: 2
                         }]
                     },
                     options: {
-                        responsive: true,
-                        plugins: { legend: { display: false } },
+                        ...commonOptions,
+                        plugins: { tooltip: { enabled: false } },
                         scales: {
-                            x: { title: { display: true, text: 'Mes' } },
-                            y: { 
-                                title: { display: true, text: 'Nivel (%)' },
-                                min: 50,
-                                max: 90
-                            }
+                            x: { title: { display: true, text: 'x' }, min: -6, max: 6 },
+                            y: { title: { display: true, text: 'f(x)' }, min: -2, max: 4 }
+                        }
+                    }
+                });
+            }
+
+            // Evaluación función 1 (Pestaña 5)
+            const eval1Ctx = document.getElementById('evalFunc1Chart');
+            if (eval1Ctx) {
+                // Función racional: (x-3)/((x+2)(x-1))
+                const f1 = (x) => (x-3)/((x+2)*(x-1));
+                
+                // Tres segmentos para evitar líneas verticales en las asíntotas
+                const segment1 = Array.from({length: 30}, (_, i) => i/3 - 5); // -5 a -2.3 (aprox)
+                const segment2 = Array.from({length: 30}, (_, i) => i/30 - 1.9); // -1.9 a 0 (aprox)
+                const segment3 = Array.from({length: 30}, (_, i) => i/30 + 1.1); // 1.1 a 4 (aprox)
+
+                const d1 = segment1.map(x => ({x: x, y: f1(x)}));
+                const d2 = segment2.map(x => ({x: x, y: f1(x)}));
+                const d3 = segment3.map(x => ({x: x, y: f1(x)}));
+
+                new Chart(eval1Ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [...segment1, ...segment2, ...segment3],
+                        datasets: [{
+                            label: 'f(x) = (x-3)/((x+2)(x-1))',
+                            data: [...d1, ...d2, ...d3],
+                            borderColor: '#8B5CF6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.1,
+                            spanGaps: true,
+                            pointRadius: 0
+                        }]
+                    },
+                    options: {
+                        ...commonOptions,
+                        scales: {
+                            x: { title: { display: true, text: 'x' }, min: -5, max: 5 },
+                            y: { title: { display: true, text: 'f(x)' }, min: -10, max: 10 }
+                        }
+                    }
+                });
+            }
+
+            // Evaluación función 2 (Pestaña 5)
+            const eval2Ctx = document.getElementById('evalFunc2Chart');
+            if (eval2Ctx) {
+                const labels = Array.from({length: 21}, (_, i) => i);
+                new Chart(eval2Ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Área cultivada (hectáreas)',
+                            data: labels.map(t => 50 + 10*t - 0.5*t*t),
+                            borderColor: '#10B981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 2
+                        }]
+                    },
+                    options: {
+                        ...commonOptions,
+                        scales: {
+                            x: { title: { display: true, text: 'Tiempo (semanas)' } },
+                            y: { title: { display: true, text: 'Área (hectáreas)' }, min: 40, max: 110 }
                         }
                     }
                 });

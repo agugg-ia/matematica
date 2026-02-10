@@ -495,50 +495,85 @@
         "No enseñamos matemáticas, enseñamos a pensar matemáticamente a través de problemas de la vida real."
     </div>
 </div>
+<!-- PESTAÑA 2 (ACTUALIZADA): CONCEPTOS FUNDAMENTALES -->
+<div id="tab-conceptos-basicos" class="tab-content">
+    <h2>Fase 1.5: Conceptos Fundamentales</h2>
+    <p>Antes de analizar gráficas complejas, necesitamos definir formalmente qué es una función y qué son sus componentes.</p>
 
-                    <!-- PESTAÑA 2 (NUEVA): CONCEPTOS FUNDAMENTALES -->
-                    <div id="tab-conceptos-basicos" class="tab-content">
-                        <h2>Fase 1.5: Conceptos Fundamentales</h2>
-                        <p>Antes de analizar gráficas complejas, necesitamos dominar el vocabulario básico. Esta sección define las herramientas que usarás en las próximas actividades.</p>
+    <!-- NUEVA SECCIÓN: DEFINICIÓN VISUAL DE FUNCIÓN -->
+    <div class="info-activa" style="text-align: center;">
+        <h4>¿Qué es una Función?</h4>
+        <p>Una función es una relación entre dos conjuntos (el de entrada $X$ y el de salida $Y$) que asigna a <strong>cada</strong> elemento de $X$, <strong>un único</strong> elemento de $Y$.</p>
+        
+        <!-- Diagrama Visual de la Máquina -->
+        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 25px 0; flex-wrap: wrap;">
+            <!-- Conjunto Entrada -->
+            <div style="background: #E0E7FF; border: 2px solid var(--primary); border-radius: 50%; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                <span style="font-weight: bold; color: var(--primary-dark);">DOMINIO</span>
+                <span style="font-size: 0.8rem;">(Entradas $x$)</span>
+            </div>
 
-                        <div class="info-activa">
-                            <h4>¿Qué es el Dominio ($D_f$)?</h4>
-                            <p>El <strong>Dominio</strong> de una función es el conjunto de todos los valores posibles de entrada ($x$) para los cuales la función tiene sentido y existe un resultado.</p>
-                            <p style="font-family: monospace; background: #eee; padding: 5px;">Pregunta clave: ¿Qué valores de $x$ puedo "meter" en la fórmula sin que se rompa?</p>
-                        </div>
+            <!-- Flecha y Máquina -->
+            <div style="display: flex; flex-direction: column; align-items: center; min-width: 150px;">
+                <div style="font-size: 24px;">→</div>
+                <div style="background: var(--dark); color: white; padding: 10px 15px; border-radius: 8px; margin: 5px 0; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+                    $f(x)$                 </div>
+                <div style="font-size: 24px;">→</div>
+            </div>
 
-                        <div class="info-activa">
-                            <h4>¿Qué es la Imagen ($I_m$) o Rango?</h4>
-                            <p>La <strong>Imagen</strong> es el conjunto de todos los valores de salida ($y$) que la función produce al utilizar todos los valores del dominio.</p>
-                            <p style="font-family: monospace; background: #eee; padding: 5px;">Pregunta clave: ¿Qué resultados ($y$) puede salir de la máquina?</p>
-                        </div>
+            <!-- Conjunto Salida -->
+            <div style="background: #D1FAE5; border: 2px solid var(--secondary); border-radius: 50%; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                <span style="font-weight: bold; color: #065F46;">IMAGEN</span>
+                <span style="font-size: 0.8rem;">(Salidas $y$)</span>
+            </div>
+        </div>
+        <p style="font-size: 0.9rem; font-style: italic;">Regla de oro: Si metes un valor $x$ en la máquina, nunca te pueden devolver dos valores $y$ distintos.</p>
+    </div>
 
-                        <h3>Visualización del Concepto</h3>
-                        <p>Observemos la función simple $f(x) = x^2$. Analicémosla gráficamente:</p>
-                        
-                        <div class="graph-container">
-                            <canvas id="conceptBasicChart"></canvas>
-                        </div>
+    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #E5E7EB;">
 
-                        <div class="mente-activa">
-                            <h4>Análisis Guiado</h4>
-                            <ol style="padding-left: 20px;">
-                                <li>Mirá la gráfica de arriba ($f(x) = x^2$, una parábola).</li>
-                                <li><strong>Dominio:</strong> ¿La gráfica existe hacia la izquierda y hacia la derecha infinitamente? <br><em>Respuesta: Sí. Por lo tanto, el dominio es todo $\mathbb{R}$.</em></li>
-                                <li><strong>Imagen:</strong> ¿La gráfica baja del eje $X$ hacia valores negativos de $y$? <br><em>Respuesta: No. Lo más bajo que llega es $y=0$. Por lo tanto, la imagen es $y \ge 0$.</em></li>
-                            </ol>
-                        </div>
+    <div class="info-activa">
+        <h4>¿Qué es el Dominio ($D_f$)?</h4>
+        <p>El <strong>Dominio</strong> de una función es el conjunto de todos los valores posibles de entrada ($x$) para los cuales la función tiene sentido y existe un resultado.</p>
+        <p style="font-family: monospace; background: #eee; padding: 5px;">Pregunta clave: ¿Qué valores de $x$ puedo "meter" en la fórmula sin que se rompa?</p>
+    </div>
 
-                        <div class="concept-box">
-                            <h4>Coordenadas: La Dirección Correcta</h4>
-                            <p>Es común confundir Dominio con Imagen. Acordá:</p>
-                            <ul style="padding-left: 20px;">
-                                <li><strong>DOMINIO ($x$)</strong> se lee en el eje <strong>HORIZONTAL</strong> (de izquierda a derecha).</li>
-                                <li><strong>IMAGEN ($y$)</strong> se lee en el eje <strong>VERTICAL</strong> (de abajo hacia arriba).</li>
-                            </ul>
-                        </div>
-                    </div>
+    <div class="info-activa">
+        <h4>¿Qué es la Imagen ($I_m$) o Rango?</h4>
+        <p>La <strong>Imagen</strong> es el conjunto de todos los valores de salida ($y$) que la función produce al utilizar todos los valores del dominio.</p>
+        <p style="font-family: monospace; background: #eee; padding: 5px;">Pregunta clave: ¿Qué resultados ($y$) pueden salir de la máquina?</p>
+    </div>
 
+    <h3>Visualización e Interacción Dinámica</h3>
+    <p>Usaremos una función cuadrática simple. Observá cómo cambia la gráfica y su <strong>Imagen</strong> cuando modificamos su posición vertical.</p>
+    
+    <!-- CONTROLES INTERACTIVOS -->
+    <div class="concept-box" style="background: #fff; border: 2px solid var(--accent);">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+            <label for="sliderK" style="font-weight: bold; font-size: 1.1rem;">
+                Función: $f(x) = x^2 + k$             </label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 0.9rem;">$k =$</span>
+                <input type="range" id="sliderK" min="-3" max="3" step="0.5" value="0" style="width: 150px; cursor: pointer;">
+                <span id="valK" style="font-weight: bold; color: var(--primary); font-size: 1.2rem; min-width: 30px;">0</span>
+            </div>
+        </div>
+        
+        <!-- Gráfico Interactivo -->
+        <div class="graph-container">
+            <canvas id="conceptBasicChart"></canvas>
+        </div>
+
+        <div class="mente-activa">
+            <h4>Analisis Dinámico:</h4>
+            <ul style="padding-left: 20px;">
+                <li><strong>Mueve el deslizador:</strong> Verás que la parábola sube y baja.</li>
+                <li><strong>Observa el Dominio:</strong> ¿Los valores de $x$ cambian? <br><em>No. La gráfica sigue existiendo hacia la izquierda y derecha infinitamente. El dominio sigue siendo todo $\mathbb{R}$.</em></li>
+                <li><strong>Observa la Imagen:</strong> ¿El valor mínimo en $y$ cambia? <br><em>Sí. Si subimos la parábola, la imagen ya no empieza en 0, sino en el nuevo valor más bajo.</em></li>
+            </ul>
+        </div>
+    </div>
+</div>
                     <!-- PESTAÑA 3 (ANTIGUA 2): ANÁLISIS GRÁFICO -->
                     <div id="tab-analisis" class="tab-content">
                         <h2>Fase 2: Análisis Gráfico - Estaciones de Trabajo</h2>
@@ -1168,19 +1203,26 @@
                 });
             }
 
-            // 2. Gráfico Conceptos Básicos (Pestaña 2 NUEVA) - Parábola simple
+                      // 2. Gráfico Conceptos Básicos (Pestaña 2) - VERSIÓN INTERACTIVA
             const conceptBasicCtx = document.getElementById('conceptBasicChart');
             if (conceptBasicCtx) {
-                const labels = Array.from({length: 21}, (_, i) => i/2 - 5);
-                new Chart(conceptBasicCtx, {
+                const labels = Array.from({length: 41}, (_, i) => i/2 - 5);
+                
+                // Función inicial para calcular datos (k = 0 por defecto)
+                const getParabolaData = (k) => {
+                    return labels.map(x => x*x + k);
+                };
+
+                // Inicializar el gráfico
+                const conceptChart = new Chart(conceptBasicCtx, {
                     type: 'line',
                     data: {
                         labels: labels,
                         datasets: [{
-                            label: 'f(x) = x²',
-                            data: labels.map(x => x*x),
+                            label: 'f(x) = x² + k',
+                            data: getParabolaData(0), // Datos iniciales
                             borderColor: '#2563EB',
-                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            backgroundColor: 'rgba(37, 99, 235, 0.2)',
                             borderWidth: 3,
                             fill: true,
                             tension: 0.4,
@@ -1188,13 +1230,51 @@
                         }]
                     },
                     options: {
-                        ...commonOptions,
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: { duration: 0 }, // Desactivar animación para respuesta instantánea al slider
+                        plugins: {
+                            legend: { display: false }
+                        },
                         scales: {
-                            x: { title: { display: true, text: 'x (Dominio)' }, min: -5, max: 5 },
-                            y: { title: { display: true, text: 'y (Imagen)' }, min: -1, max: 10 }
+                            x: { 
+                                title: { display: true, text: 'x (Dominio: Todo ℝ)' }, 
+                                min: -5, max: 5,
+                                grid: { color: '#F3F4F6' }
+                            },
+                            y: { 
+                                title: { display: true, text: 'f(x) (Imagen)' }, 
+                                min: -5, max: 10,
+                                grid: { color: '#F3F4F6' }
+                            }
                         }
                     }
                 });
+
+                // --- LÓGICA DEL DESLIZADOR (SLIDER) ---
+                const sliderK = document.getElementById('sliderK');
+                const valKDisplay = document.getElementById('valK');
+
+                if (sliderK && valKDisplay) {
+                    sliderK.addEventListener('input', function() {
+                        const k = parseFloat(this.value);
+                        
+                        // 1. Actualizar el texto del valor
+                        valKDisplay.textContent = k > 0 ? `+${k}` : k; // Muestra el signo si es positivo
+
+                        // 2. Recalcular los datos de la gráfica
+                        const newData = getParabolaData(k);
+
+                        // 3. Actualizar el gráfico sin destruirlo
+                        conceptChart.data.datasets[0].data = newData;
+                        conceptChart.update();
+                        
+                        // Forzar renderizado de MathJax si lo hubiera en el texto
+                        if(window.MathJax) {
+                            MathJax.typesetPromise();
+                        }
+                    });
+                }
             }
 
             // 3. Estación A (Pestaña 3)

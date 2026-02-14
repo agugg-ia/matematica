@@ -1,0 +1,3040 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Construcción de los Números Reales - 4° Año Secundaria - Mates con Agugg_ia">
+    <title>Números Reales | 4° Año | Mates con Agugg_ia</title>
+    
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --dark: #1F2937;
+            --light: #F3F4F6;
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.7;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Tabs Navigation */
+        .tabs-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 1rem;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .tab-btn {
+            background-color: var(--light);
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tab-btn:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        }
+
+        .tab-btn.new {
+            border: 2px dashed var(--accent);
+        }
+
+        .tab-btn.new.active {
+            border: 2px solid transparent;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography */
+        h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary);
+            display: inline-block;
+        }
+
+        h3 {
+            color: var(--secondary);
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin: 1.5rem 0 0.8rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        /* Quote Box */
+        .quote-box {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            border-left: 5px solid var(--primary);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-style: italic;
+        }
+
+        .quote-box .author {
+            text-align: right;
+            font-style: normal;
+            color: var(--gray);
+            margin-top: 0.5rem;
+        }
+
+        /* Concept Box */
+        .concept-box {
+            background-color: #EBF5FB;
+            border: 1px solid #AED6F1;
+            border-left: 5px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: var(--radius);
+        }
+
+        .concept-box h4 {
+            color: var(--primary);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Activity Box */
+        .activity-box {
+            background-color: #F0FFF4;
+            border: 1px solid #C3E6CB;
+            border-left: 5px solid var(--secondary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: var(--radius);
+        }
+
+        .activity-box h4 {
+            color: var(--secondary);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Solved Example */
+        .solved-example {
+            background-color: #FFFBEB;
+            border: 1px solid #FCD34D;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: var(--radius);
+        }
+
+        .solved-example h4 {
+            color: var(--accent);
+            margin-top: 0;
+            border-bottom: 1px dashed #FCD34D;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            background-color: #FEF2F2;
+            border-left: 5px solid #EF4444;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        /* Success Box */
+        .success-box {
+            background: linear-gradient(135deg, #F0FFF4 0%, #C6F6D5 100%);
+            border-left: 5px solid var(--secondary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
+            border-left: 5px solid #8B5CF6;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        /* External Resources */
+        .resources-section {
+            background-color: #FFFBEB;
+            border: 1px solid #FCD34D;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: var(--radius);
+        }
+
+        .resources-section h4 {
+            color: var(--accent);
+            margin-top: 0;
+        }
+
+        .resources-section ul {
+            list-style: none;
+        }
+
+        .resources-section li {
+            padding: 0.5rem 0;
+        }
+
+        .resources-section a {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .resources-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Property Grid */
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .property-card {
+            background: white;
+            border: 1px solid #E5E7EB;
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .property-card:hover {
+            box-shadow: var(--shadow);
+        }
+
+        .property-card h5 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .property-card .formula {
+            text-align: center;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+
+        .property-card p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0;
+        }
+
+        /* Exercise Item */
+        .exercise-item {
+            background: white;
+            border: 1px solid #E5E7EB;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border-radius: var(--radius);
+            position: relative;
+        }
+
+        .exercise-item .number {
+            position: absolute;
+            top: 1rem;
+            left: -15px;
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .exercise-item .question {
+            margin-left: 20px;
+            margin-bottom: 1rem;
+        }
+
+        .btn-solution {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .btn-solution:hover {
+            background-color: #D97706;
+            transform: translateY(-2px);
+        }
+
+        .solution-text {
+            display: none;
+            margin: 1rem 0 0 20px;
+            padding: 1rem;
+            background-color: #F0FFF4;
+            border-left: 4px solid var(--secondary);
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Quiz */
+        .quiz-item {
+            background: white;
+            border: 1px solid #E5E7EB;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: var(--radius);
+        }
+
+        .quiz-item .question {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-options label {
+            display: block;
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0;
+            background: var(--light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-options label:hover {
+            background: #E0E7FF;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .quiz-feedback {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .quiz-feedback.correct {
+            background-color: #F0FFF4;
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .quiz-feedback.incorrect {
+            background-color: #FEF2F2;
+            border: 1px solid #EF4444;
+            color: #EF4444;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-card {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .info-card .card-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .info-card .card-header h4 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card .card-body {
+            padding: 1.5rem;
+        }
+
+        .info-card .card-footer {
+            padding: 1rem 1.5rem;
+            background: var(--light);
+        }
+
+        /* Demonstration Steps */
+        .demo-steps {
+            margin: 2rem 0;
+        }
+
+        .demo-step {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .step-number.blue { background: var(--primary); }
+        .step-number.green { background: var(--secondary); }
+        .step-number.amber { background: var(--accent); }
+        .step-number.red { background: #EF4444; }
+        .step-number.purple { background: #8B5CF6; }
+
+        .step-content h4 {
+            margin: 0 0 0.5rem 0;
+        }
+
+        .step-content p {
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-box {
+            background: var(--light);
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+
+        /* Number Line Visual */
+        .number-line-visual {
+            background: white;
+            border: 1px solid #E5E7EB;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+
+        .number-line-svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Section Divider */
+        .section-divider {
+            border: 0;
+            border-top: 2px dashed #E5E7EB;
+            margin: 2rem 0;
+        }
+
+        /* Progress Indicator */
+        .progress-section {
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin: 1.5rem 0;
+        }
+
+        .progress-section h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .topic-checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .topic-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .topic-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: #D1D5DB;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        footer p {
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tabs-nav {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .tab-content {
+                padding: 1.5rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+            
+            .demo-step {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .exercise-item .number {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 0.5rem;
+            }
+            
+            .exercise-item .question {
+                margin-left: 0;
+            }
+            
+            .btn-solution {
+                margin-left: 0;
+            }
+            
+            .solution-text {
+                margin-left: 0;
+            }
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Math display */
+        .katex-display {
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            border: 1px solid #E5E7EB;
+            padding: 0.8rem 1rem;
+            text-align: center;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: var(--light);
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-new {
+            background: var(--accent);
+            color: white;
+        }
+
+        .badge-expanded {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .badge-corrected {
+            background: #EF4444;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <div class="logo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Mates con Agugg_ia
+        </div>
+        <div class="breadcrumb">
+            <a href="#">Inicio</a> / <a href="#">Secundaria</a> / 4° Año / Números Reales
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- Tabs Navigation -->
+    <nav class="tabs-nav">
+        <button class="tab-btn active" onclick="openTab(event, 'tab1')">
+            📖 1. Introducción
+        </button>
+        <button class="tab-btn" onclick="openTab(event, 'tab2')">
+            ∞ 2. Irracionales <span class="badge badge-expanded">Expandido</span>
+        </button>
+        <button class="tab-btn" onclick="openTab(event, 'tab3')">
+            √ 3. Demostración
+        </button>
+        <button class="tab-btn" onclick="openTab(event, 'tab4')">
+            📊 4. Densidad <span class="badge badge-expanded">Expandido</span>
+        </button>
+        <button class="tab-btn" onclick="openTab(event, 'tab5')">
+            ⚙️ 5. Axiomas
+        </button>
+        <button class="tab-btn new" onclick="openTab(event, 'tab6')">
+            📏 6. Intervalos <span class="badge badge-new">Nuevo</span>
+        </button>
+        <button class="tab-btn new" onclick="openTab(event, 'tab7')">
+            |x| 7. Valor Absoluto <span class="badge badge-corrected">Corregido</span>
+        </button>
+        <button class="tab-btn" onclick="openTab(event, 'tab8')">
+            ✅ 8. Práctica Final <span class="badge badge-expanded">Completo</span>
+        </button>
+    </nav>
+
+    <!-- ==================== TAB 1: Introducción e Historia ==================== -->
+    <div id="tab1" class="tab-content active">
+        <h2>Introducción a los Números Reales</h2>
+        
+        <div class="quote-box">
+            "El libro de la naturaleza está escrito en el lenguaje de las matemáticas."
+            <div class="author">— Galileo Galilei</div>
+        </div>
+
+        <div class="concept-box">
+            <h4>📚 ¿Qué son los Números Reales?</h4>
+            <p>Los <strong>números reales</strong> ($\mathbb{R}$) son el conjunto de todos los números que pueden representarse en una recta numérica. Incluyen:</p>
+            <ul>
+                <li><strong>Números racionales</strong> ($\mathbb{Q}$): fracciones, decimales finitos o periódicos</li>
+                <li><strong>Números irracionales</strong> ($\mathbb{I}$): decimales infinitos no periódicos</li>
+            </ul>
+            <p style="text-align: center; margin-top: 1rem;">
+                $$\mathbb{R} = \mathbb{Q} \cup \mathbb{I}$$
+            </p>
+        </div>
+
+        <h3>🏛️ La Crisis de los Pitagóricos</h3>
+        
+        <p>En el siglo VI a.C., los <strong>pitagóricos</strong> creían que todas las magnitudes podían expresarse como razones de números enteros (fracciones). Esta creencia era fundamental para su filosofía: "Todo es número".</p>
+
+        <div class="warning-box">
+            <h4>⚠️ El Descubrimiento de Hipaso de Metaponto</h4>
+            <p><strong>Hipaso de Metaponto</strong> (aprox. 450 a.C.) descubrió que la diagonal de un cuadrado de lado 1 no puede expresarse como fracción. Demostró que $\sqrt{2}$ es <strong>inconmensurable</strong> con el lado del cuadrado.</p>
+            <p>Este descubrimiento provocó una crisis en la escuela pitagórica. La leyenda cuenta que Hipaso fue expulsado e incluso algunos afirman que fue arrojado al mar por revelar este secreto.</p>
+        </div>
+
+        <p>El descubrimiento de los números irracionales demostró que existen magnitudes que <em>no pueden representarse como fracciones</em>. Esto llevó a los griegos a desarrollar una teoría más rigurosa de las proporciones y sentó las bases para el concepto moderno de número real.</p>
+
+        <div class="solved-example">
+            <h4>💡 ¿Por qué fue tan importante este descubrimiento?</h4>
+            <p>Antes de este hallazgo, se creía que cualquier magnitud podía medirse con una "unidad común". La existencia de $\sqrt{2}$ como número irracional demostró que hay longitudes que no pueden expresarse como fracción de enteros, revolucionando la matemática griega.</p>
+        </div>
+
+        <h3>📊 Clasificación de los Números Reales</h3>
+        
+        <div class="property-grid">
+            <div class="property-card">
+                <h5>Naturales ($\mathbb{N}$)</h5>
+                <div class="formula">$\{1, 2, 3, 4, 5, ...\}$</div>
+                <p>Números para contar. No incluyen el cero ni negativos.</p>
+            </div>
+            <div class="property-card">
+                <h5>Enteros ($\mathbb{Z}$)</h5>
+                <div class="formula">$\{..., -2, -1, 0, 1, 2, ...\}$</div>
+                <p>Incluye naturales, sus opuestos y el cero.</p>
+            </div>
+            <div class="property-card">
+                <h5>Racionales ($\mathbb{Q}$)</h5>
+                <div class="formula">$\frac{a}{b}$ donde $a, b \in \mathbb{Z}$</div>
+                <p>Fracciones y decimales finitos o periódicos.</p>
+            </div>
+            <div class="property-card">
+                <h5>Irracionales ($\mathbb{I}$)</h5>
+                <div class="formula">$\sqrt{2}, \pi, e, \varphi...$</div>
+                <p>Decimales infinitos no periódicos.</p>
+            </div>
+        </div>
+
+        <div class="resources-section">
+            <h4>📚 Recursos Externos</h4>
+            <p>Para ampliar tus conocimientos:</p>
+            <ul>
+                <li><a href="https://www.youtube.com/watch?v=p_k4deZWaBo" target="_blank">🎬 Video: El misterio de la raíz de 2</a></li>
+                <li><a href="https://es.wikipedia.org/wiki/N%C3%BAmero_irracional" target="_blank">📖 Wikipedia: Número Irracional</a></li>
+                <li><a href="https://es.wikipedia.org/wiki/Hipaso_de_Metaponto" target="_blank">📖 Wikipedia: Hipaso de Metaponto</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 2: Los Irracionales (EXPANDIDO) ==================== -->
+    <div id="tab2" class="tab-content">
+        <h2>El Mundo de los Irracionales <span class="badge badge-expanded">Expandido</span></h2>
+
+        <div class="concept-box">
+            <h4>📐 Definición de Número Irracional</h4>
+            <p>Un <strong>número irracional</strong> es aquel que <em>no puede expresarse como una fracción</em> $\frac{a}{b}$ donde $a, b \in \mathbb{Z}$ y $b \neq 0$.</p>
+            <p>Su representación decimal es <strong>infinita y no periódica</strong>.</p>
+            <div class="formula-box" style="display: block; margin-top: 1rem;">
+                <p>$\sqrt{2} = 1.41421356237...$</p>
+                <p>$\pi = 3.14159265359...$</p>
+                <p>$e = 2.71828182845...$</p>
+            </div>
+        </div>
+
+        <h3>🌟 Los Tres Irracionales Famosos</h3>
+
+        <div class="cards-grid">
+            <div class="info-card">
+                <div class="card-header" style="border-left: 4px solid #3B82F6;">
+                    <h4 style="color: #3B82F6;"><span style="font-size: 1.8rem;">π</span> Pi ≈ 3.14159...</h4>
+                </div>
+                <div class="card-body">
+                    <p>El número $\pi$ es la razón entre la circunferencia y su diámetro.</p>
+                    <p style="text-align: center;">$$C = \pi \cdot d = 2\pi r$$</p>
+                </div>
+                <div class="card-footer">
+                    <strong>Aplicaciones:</strong> Áreas de círculos, ondas, física, ingeniería.
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header" style="border-left: 4px solid #10B981;">
+                    <h4 style="color: #10B981;"><span style="font-size: 1.8rem;">e</span> Euler ≈ 2.71828...</h4>
+                </div>
+                <div class="card-body">
+                    <p>Base de los logaritmos naturales.</p>
+                    <p style="text-align: center;">$$e = \lim_{n \to \infty} \left(1 + \frac{1}{n}\right)^n$$</p>
+                </div>
+                <div class="card-footer">
+                    <strong>Aplicaciones:</strong> Interés compuesto, crecimiento poblacional.
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header" style="border-left: 4px solid #F59E0B;">
+                    <h4 style="color: #F59E0B;"><span style="font-size: 1.8rem;">φ</span> Phi ≈ 1.61803...</h4>
+                </div>
+                <div class="card-body">
+                    <p>La proporción áurea aparece en arte y naturaleza.</p>
+                    <p style="text-align: center;">$$\varphi = \frac{1 + \sqrt{5}}{2}$$</p>
+                </div>
+                <div class="card-footer">
+                    <strong>Aplicaciones:</strong> Arte, arquitectura, Fibonacci.
+                </div>
+            </div>
+        </div>
+
+        <h3>🔧 Construcción de Números Irracionales</h3>
+        
+        <div class="solved-example">
+            <h4>Patrón creciente de ceros</h4>
+            <p><strong>Número:</strong> 0.101001000100001...</p>
+            <p><strong>Regla:</strong> Escribo un "1", luego un "0", luego dos "0", luego tres "0", etc.</p>
+            <p><strong>¿Por qué es irracional?</strong> La cantidad de ceros crece infinitamente, jamás se formará un período.</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- ==================== EJEMPLOS RESUELTOS - PESTAÑA 2 ==================== -->
+        <h3>📝 Ejemplos Resueltos - Números Irracionales</h3>
+        
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 1: Clasificación de $\sqrt{36}$</h4>
+            <p><strong>Enunciado:</strong> ¿Es $\sqrt{36}$ racional o irracional?</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Calculamos el valor de la raíz cuadrada.</p>
+            <p>$\sqrt{36} = 6$</p>
+            <p><strong>Paso 2:</strong> Identificamos el tipo de número.</p>
+            <p>El 6 es un número entero (pertenece a $\mathbb{Z}$).</p>
+            <p><strong>Paso 3:</strong> Recordamos que todo entero es racional.</p>
+            <p>Como $6 = \frac{6}{1}$, es una fracción de enteros.</p>
+            <p><strong>Respuesta:</strong> $\sqrt{36}$ es un número <strong>RACIONAL</strong> (pertenece a $\mathbb{Q}$).</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 2: Clasificación de $\sqrt{18}$</h4>
+            <p><strong>Enunciado:</strong> ¿Es $\sqrt{18}$ racional o irracional?</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Verificamos si 18 es un cuadrado perfecto.</p>
+            <p>$4^2 = 16$ y $5^2 = 25$, entonces 18 NO es cuadrado perfecto.</p>
+            <p><strong>Paso 2:</strong> Simplificamos la raíz.</p>
+            <p>$\sqrt{18} = \sqrt{9 \times 2} = \sqrt{9} \times \sqrt{2} = 3\sqrt{2}$</p>
+            <p><strong>Paso 3:</strong> Analizamos el resultado.</p>
+            <p>$\sqrt{2}$ es irracional (demostrado por los griegos).</p>
+            <p>El producto de un racional (3) por un irracional ($\sqrt{2}$) es irracional.</p>
+            <p><strong>Respuesta:</strong> $\sqrt{18}$ es un número <strong>IRRACIONAL</strong>.</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 3: Decimal periódico a fracción</h4>
+            <p><strong>Enunciado:</strong> Demuestra que $0.666...$ es racional expresándolo como fracción.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Llamamos $x$ al número.</p>
+            <p>$x = 0.666...$</p>
+            <p><strong>Paso 2:</strong> Multiplicamos por 10 (un dígito en el período).</p>
+            <p>$10x = 6.666...$</p>
+            <p><strong>Paso 3:</strong> Restamos la ecuación original.</p>
+            <p>$10x - x = 6.666... - 0.666...$</p>
+            <p>$9x = 6$</p>
+            <p><strong>Paso 4:</strong> Despejamos $x$.</p>
+            <p>$x = \frac{6}{9} = \frac{2}{3}$</p>
+            <p><strong>Respuesta:</strong> $0.666... = \frac{2}{3}$, por lo tanto es <strong>RACIONAL</strong>.</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 4: Construcción de un irracional</h4>
+            <p><strong>Enunciado:</strong> Construye un número irracional usando el patrón de los naturales.</p>
+            <p><strong>Solución paso a paso:</strong>
+            <p><strong>Paso 1:</strong> Escribimos los números naturales en orden.</p>
+            <p>$1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, ...$</p>
+            <p><strong>Paso 2:</strong> Los concatenamos después del punto decimal.</p>
+            <p>$0.123456789101112131415...$</p>
+            <p><strong>Paso 3:</strong> Verificamos que no tiene período.</p>
+            <p>Cada dígito depende de qué número natural estemos escribiendo, no hay repetición periódica.</p>
+            <p><strong>Respuesta:</strong> $0.123456789101112...$ (Constante de Champernowne) es <strong>IRRACIONAL</strong>.</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 5: Producto de irracionales</h4>
+            <p><strong>Enunciado:</strong> ¿El producto de dos irracionales siempre es irracional?</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Analizamos con ejemplos.</p>
+            <p>Ejemplo A: $\sqrt{2} \times \sqrt{3} = \sqrt{6}$ (irracional × irracional = irracional)</p>
+            <p>Ejemplo B: $\sqrt{2} \times \sqrt{8} = \sqrt{16} = 4$ (irracional × irracional = RACIONAL)</p>
+            <p><strong>Paso 2:</strong> Concluimos.</p>
+            <p>El producto de irracionales <strong>NO siempre es irracional</strong>.</p>
+            <p><strong>Respuesta:</strong> <strong>FALSO</strong>. El producto puede ser racional o irracional, depende de los números específicos.</p>
+        </div>
+
+        <hr class="section-divider">
+        
+        <h3>🎯 ACTIVIDADES - Números Irracionales</h3>
+        <p><em>Resuelve los siguientes ejercicios. Haz clic en "Ver Solución" para comprobar.</em></p>
+
+        <!-- Ejercicios propuestos -->
+        <h4>Ejercicio 1: Clasificación de Números</h4>
+        
+        <div class="exercise-item">
+            <div class="number">1</div>
+            <div class="question">
+                Clasifica $\sqrt{16}$ como Racional (Q) o Irracional (I).
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr1')">Ver Solución</button>
+            <div id="irr1" class="solution-text">
+                <strong>Racional (Q).</strong> $\sqrt{16} = 4$, que es un número entero. Todo entero es racional.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">2</div>
+            <div class="question">
+                Clasifica $\sqrt{20}$ como Racional (Q) o Irracional (I).
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr2')">Ver Solución</button>
+            <div id="irr2" class="solution-text">
+                <strong>Ir racional (I).</strong> 20 no es un cuadrado perfecto. $\sqrt{20} = 2\sqrt{5} \approx 4.4721...$ (decimal infinito no periódico).
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">3</div>
+            <div class="question">
+                Clasifica $0.333...$ como Racional (Q) o Irracional (I).
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr3')">Ver Solución</button>
+            <div id="irr3" class="solution-text">
+                <strong>Racional (Q).</strong> Todo decimal periódico es racional. $0.333... = \frac{1}{3}$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">4</div>
+            <div class="question">
+                Clasifica $\frac{\pi}{2}$ como Racional (Q) o Irracional (I).
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr4')">Ver Solución</button>
+            <div id="irr4" class="solution-text">
+                <strong>Ir racional (I).</strong> El producto de un irracional ($\pi$) por un racional no cero ($\frac{1}{2}$) siempre es irracional.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">5</div>
+            <div class="question">
+                Clasifica $3.1416$ como Racional (Q) o Irracional (I).
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr5')">Ver Solución</button>
+            <div id="irr5" class="solution-text">
+                <strong>Racional (Q).</strong> Es un decimal finito. Puede escribirse como $\frac{31416}{10000}$. <strong>OJO:</strong> ¡No es $\pi$!
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">6</div>
+            <div class="question">
+                Clasifica $\sqrt[3]{8}$ como Racional (Q) o Irracional (I).
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr6')">Ver Solución</button>
+            <div id="irr6" class="solution-text">
+                <strong>Racional (Q).</strong> $\sqrt[3]{8} = 2$, que es un entero.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">7</div>
+            <div class="question">
+                Clasifica $e^2$ como Racional (Q) o Irracional (I).
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr7')">Ver Solución</button>
+            <div id="irr7" class="solution-text">
+                <strong>Ir racional (I).</strong> $e$ es irracional y al elevarlo al cuadrado sigue siendo irracional.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">8</div>
+            <div class="question">
+                Clasifica $\sqrt{2} \cdot \sqrt{8}$ como Racional (Q) o Irracional (I).
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr8')">Ver Solución</button>
+            <div id="irr8" class="solution-text">
+                <strong>Racional (Q).</strong> $\sqrt{2} \cdot \sqrt{8} = \sqrt{16} = 4$. <strong>Cuidado:</strong> El producto de irracionales puede ser racional.
+            </div>
+        </div>
+
+        <h4>Ejercicio 2: Construcción de Irracionales</h4>
+
+        <div class="exercise-item">
+            <div class="number">9</div>
+            <div class="question">
+                Inventa un número irracional usando un patrón no periódico. Escribe los primeros 15 dígitos.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr9')">Ver Ejemplo</button>
+            <div id="irr9" class="solution-text">
+                <strong>Ejemplo:</strong> 0.123456789101112... (Constante de Champernowne)<br>
+                <strong>Otro ejemplo:</strong> 0.01001000100001... (crecen los ceros entre unos)
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">10</div>
+            <div class="question">
+                ¿Por qué $0.101001000100001...$ es irracional?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr10')">Ver Solución</button>
+            <div id="irr10" class="solution-text">
+                Porque la cantidad de ceros entre cada "1" crece indefinidamente, por lo que nunca se forma un período que se repita. Un número racional siempre tiene un período en su expansión decimal.
+            </div>
+        </div>
+
+        <h4>Ejercicio 3: Representación en la Recta Numérica</h4>
+
+        <div class="exercise-item">
+            <div class="number">11</div>
+            <div class="question">
+                Explica cómo ubicarías $\sqrt{5}$ en la recta numérica usando construcción geométrica.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr11')">Ver Solución</button>
+            <div id="irr11" class="solution-text">
+                Usando el Teorema de Pitágoras:<br>
+                1. Construyo un triángulo rectángulo con catetos 1 y 2.<br>
+                2. La hipotenusa mide $\sqrt{1^2 + 2^2} = \sqrt{5}$.<br>
+                3. Con un compás, traslado esa longitud a la recta numérica.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">12</div>
+            <div class="question">
+                Ubica aproximadamente en la recta: $\sqrt{2}$, $\sqrt{3}$, y $\sqrt{5}$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr12')">Ver Solución</button>
+            <div id="irr12" class="solution-text">
+                $\sqrt{2} \approx 1.41$ (entre 1 y 2, más cerca de 1)<br>
+                $\sqrt{3} \approx 1.73$ (entre 1 y 2, más cerca de 2)<br>
+                $\sqrt{5} \approx 2.24$ (entre 2 y 3)
+            </div>
+        </div>
+
+        <h4>Ejercicio 4: Problemas de Aplicación</h4>
+
+        <div class="exercise-item">
+            <div class="number">13</div>
+            <div class="question">
+                Encuentra un número irracional entre $1.4$ y $1.5$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr13')">Ver Solución</button>
+            <div id="irr13" class="solution-text">
+                $\sqrt{2} \approx 1.414...$ está entre 1.4 y 1.5.<br>
+                También: $1.40400400040000...$ (patrón no periódico)
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">14</div>
+            <div class="question">
+                ¿Es posible que la suma de dos irracionales sea racional? Justifica con un ejemplo.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr14')">Ver Solución</button>
+            <div id="irr14" class="solution-text">
+                <strong>Sí, es posible.</strong> Ejemplo: $\sqrt{2} + (-\sqrt{2}) = 0$, que es racional.<br>
+                Otro ejemplo: $(1 + \sqrt{2}) + (1 - \sqrt{2}) = 2$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">15</div>
+            <div class="question">
+                ¿Cuántos números irracionales hay entre $\sqrt{2}$ y $\sqrt{3}$? ¿Puedes nombrar uno?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('irr15')">Ver Solución</button>
+            <div id="irr15" class="solution-text">
+                <strong>Infinitos.</strong> Los irracionales son densos en $\mathbb{R}$.<br>
+                Ejemplos: $\sqrt{2.5}$, $\frac{\sqrt{2}+\sqrt{3}}{2}$, $\pi - 1.7$, etc.
+            </div>
+        </div>
+
+        <div class="activity-box">
+            <h4>🎯 Actividad Grupal: Investigación</h4>
+            <p>Investiga y responde en grupo:</p>
+            <ol>
+                <li>¿Qué relación hay entre $\varphi$ (número áureo) y la sucesión de Fibonacci?</li>
+                <li>¿Por qué $e$ se llama "número de Euler" y cuál es su importancia en el cálculo?</li>
+                <li>Busca ejemplos de $\pi$ en la naturaleza y la arquitectura.</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 3: Demostración ==================== -->
+    <div id="tab3" class="tab-content">
+        <h2>Demostración: $\sqrt{2}$ es Irracional</h2>
+        
+        <div class="concept-box">
+            <h4>📐 Método: Reducción al Absurdo</h4>
+            <p>Demostraremos que $\sqrt{2}$ es irracional suponiendo lo contrario y llegando a una contradicción.</p>
+        </div>
+
+        <div class="demo-steps">
+            <div class="demo-step">
+                <div class="step-number blue">1</div>
+                <div class="step-content">
+                    <h4>Hipótesis (Suposición inicial)</h4>
+                    <p>Supongamos que $\sqrt{2}$ es racional.</p>
+                    <div class="formula-box">$\sqrt{2} = \frac{a}{b}$</div>
+                    <p>donde $a, b \in \mathbb{Z}$, $b \neq 0$, y la fracción está <strong>simplificada</strong> (mcd(a,b) = 1).</p>
+                </div>
+            </div>
+
+            <div class="demo-step">
+                <div class="step-number blue">2</div>
+                <div class="step-content">
+                    <h4>Elevamos al cuadrado</h4>
+                    <div class="formula-box">$2 = \frac{a^2}{b^2}$</div>
+                    <div class="formula-box">$2b^2 = a^2$</div>
+                </div>
+            </div>
+
+            <div class="demo-step">
+                <div class="step-number green">3</div>
+                <div class="step-content">
+                    <h4>Primera conclusión importante</h4>
+                    <p>Si $a^2 = 2b^2$, entonces $a^2$ es par.</p>
+                    <p>Por lo tanto, <strong>$a$ también es par</strong>.</p>
+                    <div class="formula-box">$a = 2k$, donde $k \in \mathbb{Z}$</div>
+                </div>
+            </div>
+
+            <div class="demo-step">
+                <div class="step-number green">4</div>
+                <div class="step-content">
+                    <h4>Sustituimos en la ecuación</h4>
+                    <div class="formula-box">$a^2 = 2b^2$</div>
+                    <div class="formula-box">$(2k)^2 = 2b^2$</div>
+                    <div class="formula-box">$4k^2 = 2b^2$</div>
+                    <div class="formula-box">$b^2 = 2k^2$</div>
+                </div>
+            </div>
+
+            <div class="demo-step">
+                <div class="step-number amber">5</div>
+                <div class="step-content">
+                    <h4>Segunda conclusión</h4>
+                    <p>Si $b^2 = 2k^2$, entonces $b^2$ es par.</p>
+                    <p>Por lo tanto, <strong>$b$ también es par</strong>.</p>
+                    <div class="formula-box">$b = 2m$, donde $m \in \mathbb{Z}$</div>
+                </div>
+            </div>
+
+            <div class="demo-step">
+                <div class="step-number red">6</div>
+                <div class="step-content">
+                    <h4>¡Contradicción!</h4>
+                    <div class="warning-box">
+                        <p>Si $a$ y $b$ son ambos pares, entonces la fracción $\frac{a}{b}$ <strong>NO está simplificada</strong>.</p>
+                        <p>Ambos son divisibles por 2, lo cual contradice nuestra hipótesis inicial de que mcd(a,b) = 1.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="success-box">
+            <h4>✅ Conclusión</h4>
+            <p>La suposición inicial de que $\sqrt{2}$ es racional nos lleva a una contradicción.</p>
+            <p style="text-align: center; font-size: 1.2rem;"><strong>Por lo tanto, $\sqrt{2}$ es IRRACIONAL.</strong></p>
+            <p style="text-align: center;">$$\sqrt{2} \notin \mathbb{Q}$$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>💡 ¿Podemos usar el mismo método para otros números?</h4>
+            <p>Sí, este método se puede aplicar para demostrar que $\sqrt{3}$, $\sqrt{5}$, $\sqrt{7}$ y en general $\sqrt{p}$ (donde p es primo) son irracionales.</p>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 4: Densidad y Completitud ==================== -->
+    <div id="tab4" class="tab-content">
+        <h2>Densidad y Completitud de $\mathbb{R}$ <span class="badge badge-expanded">Expandido</span></h2>
+
+        <h3>📍 Densidad de los Racionales</h3>
+        
+        <div class="concept-box">
+            <h4>Propiedad de Densidad de $\mathbb{Q}$</h4>
+            <p>Entre dos números racionales cualesquiera, <strong>siempre existe otro número racional</strong>.</p>
+            <p>Si $p, q \in \mathbb{Q}$ con $p < q$, entonces:</p>
+            <p style="text-align: center;">$$\frac{p + q}{2} \in \mathbb{Q} \text{ y } p < \frac{p + q}{2} < q$$</p>
+            <p>Este proceso puede repetirse infinitamente: ¡hay infinitos racionales entre cualesquiera dos racionales!</p>
+        </div>
+
+        <h3>📍 Densidad de los Irracionales</h3>
+        
+        <p>Los números irracionales también son densos en $\mathbb{R}$. Entre dos números reales cualesquiera, existe al menos un número irracional.</p>
+
+        <div class="concept-box">
+            <h4>Método para encontrar un irracional</h4>
+            <p>Entre $a$ y $b$ (con $a < b$), podemos usar:</p>
+            <p style="text-align: center;">$$a + \frac{b-a}{\sqrt{2}}$$</p>
+            <p>Este número es irracional y está entre $a$ y $b$.</p>
+        </div>
+
+        <h3>🔲 Completitud de $\mathbb{R}$</h3>
+
+        <div class="concept-box">
+            <h4>Axioma del Supremo</h4>
+            <p>Todo conjunto no vacío de números reales que tiene cota superior tiene un <strong>supremo</strong> (mínima cota superior) que es un número real.</p>
+        </div>
+
+        <p>Este axioma es lo que distingue a $\mathbb{R}$ de $\mathbb{Q}$. Los racionales NO son completos:</p>
+
+        <div class="warning-box">
+            <h4>Ejemplo en $\mathbb{Q}$</h4>
+            <p>El conjunto $\{x \in \mathbb{Q} : x^2 < 2\}$ tiene cotas superiores en $\mathbb{Q}$, pero <strong>no tiene supremo en $\mathbb{Q}$</strong>.</p>
+        </div>
+
+        <div class="success-box">
+            <h4>En $\mathbb{R}$</h4>
+            <p>El mismo conjunto tiene supremo $\sqrt{2}$, que pertenece a $\mathbb{R}$.</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- ==================== EJEMPLOS RESUELTOS - PESTAÑA 4 ==================== -->
+        <h3>📝 Ejemplos Resueltos - Densidad</h3>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 1: Encontrar racional entre dos racionales</h4>
+            <p><strong>Enunciado:</strong> Encuentra un número racional entre $\frac{1}{4}$ y $\frac{1}{3}$.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Identificamos los dos racionales.</p>
+            <p>$p = \frac{1}{4}$ y $q = \frac{1}{3}$</p>
+            <p><strong>Paso 2:</strong> Calculamos el promedio.</p>
+            <p>$\frac{p + q}{2} = \frac{\frac{1}{4} + \frac{1}{3}}{2}$</p>
+            <p><strong>Paso 3:</strong> Resolvemos la suma de fracciones.</p>
+            <p>$\frac{1}{4} + \frac{1}{3} = \frac{3}{12} + \frac{4}{12} = \frac{7}{12}$</p>
+            <p><strong>Paso 4:</strong> Dividimos entre 2.</p>
+            <p>$\frac{7}{12} \div 2 = \frac{7}{12} \times \frac{1}{2} = \frac{7}{24}$</p>
+            <p><strong>Verificación:</strong> $\frac{1}{4} = \frac{6}{24} < \frac{7}{24} < \frac{8}{24} = \frac{1}{3}$ ✓</p>
+            <p><strong>Respuesta:</strong> $\frac{7}{24}$ es un racional entre $\frac{1}{4}$ y $\frac{1}{3}$.</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 2: Encontrar irracional entre dos enteros</h4>
+            <p><strong>Enunciado:</strong> Encuentra un número irracional entre 2 y 3.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Buscamos raíces de números que no sean cuadrados perfectos.</p>
+            <p>Entre $4 = 2^2$ y $9 = 3^2$ están los números 5, 6, 7, 8.</p>
+            <p><strong>Paso 2:</strong> Calculamos sus raíces cuadradas.</p>
+            <p>$\sqrt{5} \approx 2.236$</p>
+            <p>$\sqrt{6} \approx 2.449$</p>
+            <p>$\sqrt{7} \approx 2.646$</p>
+            <p>$\sqrt{8} \approx 2.828$</p>
+            <p><strong>Paso 3:</strong> Verificamos que están en el intervalo.</p>
+            <p>Todas están entre 2 y 3.</p>
+            <p><strong>Respuesta:</strong> $\sqrt{5}$, $\sqrt{6}$, $\sqrt{7}$, $\sqrt{8}$ son irracionales entre 2 y 3.</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 3: Encontrar irracional usando fórmula</h4>
+            <p><strong>Enunciado:</strong> Usa la fórmula $a + \frac{b-a}{\sqrt{2}}$ para encontrar un irracional entre 5 y 7.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Identificamos $a = 5$ y $b = 7$.</p>
+            <p><strong>Paso 2:</strong> Aplicamos la fórmula.</p>
+            <p>$x = 5 + \frac{7-5}{\sqrt{2}} = 5 + \frac{2}{\sqrt{2}}$</p>
+            <p><strong>Paso 3:</strong> Simplificamos.</p>
+            <p>$\frac{2}{\sqrt{2}} = \frac{2\sqrt{2}}{2} = \sqrt{2} \approx 1.414$</p>
+            <p>$x = 5 + \sqrt{2} \approx 5 + 1.414 = 6.414$</p>
+            <p><strong>Paso 4:</strong> Verificamos.</p>
+            <p>$5 < 6.414 < 7$ ✓</p>
+            <p><strong>Respuesta:</strong> $5 + \sqrt{2} \approx 6.414$ es irracional y está entre 5 y 7.</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 4: Densidad aplicada</h4>
+            <p><strong>Enunciado:</strong> Encuentra TRES números racionales entre $\frac{1}{2}$ y $\frac{3}{4}$.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Convertimos a común denominador.</p>
+            <p>$\frac{1}{2} = \frac{4}{8}$ y $\frac{3}{4} = \frac{6}{8}$</p>
+            <p><strong>Paso 2:</strong> Identificamos los racionales entre ellos.</p>
+            <p>Entre $\frac{4}{8}$ y $\frac{6}{8}$ está $\frac{5}{8}$.</p>
+            <p><strong>Paso 3:</strong> Ampliamos el denominador para encontrar más.</p>
+            <p>Con denominador 16: $\frac{1}{2} = \frac{8}{16}$ y $\frac{3}{4} = \frac{12}{16}$</p>
+            <p>Entre ellos: $\frac{9}{16}$, $\frac{10}{16} = \frac{5}{8}$, $\frac{11}{16}$</p>
+            <p><strong>Respuesta:</strong> Tres racionales son $\frac{9}{16}$, $\frac{5}{8}$, $\frac{11}{16}$.</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 5: Suma de irracionales</h4>
+            <p><strong>Enunciado:</strong> ¿La suma de dos irracionales siempre es irracional?</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Analizamos con ejemplos concretos.</p>
+            <p>Ejemplo A: $\sqrt{2} + \sqrt{3} \approx 3.146...$ (irracional)</p>
+            <p>Ejemplo B: $\sqrt{2} + (-\sqrt{2}) = 0$ (RACIONAL)</p>
+            <p>Ejemplo C: $\pi + (4-\pi) = 4$ (RACIONAL)</p>
+            <p><strong>Paso 2:</strong> Concluimos.</p>
+            <p>La suma de irracionales <strong>NO siempre es irracional</strong>.</p>
+            <p><strong>Respuesta:</strong> <strong>FALSO</strong>. Depende de los números específicos. La suma puede ser racional o irracional.</p>
+        </div>
+
+        <hr class="section-divider">
+        
+        <h3>🎯 ACTIVIDADES - Densidad y Completitud</h3>
+
+        <h4>Ejercicio 1: Densidad de Racionales</h4>
+
+        <div class="exercise-item">
+            <div class="number">1</div>
+            <div class="question">
+                Encuentra un número racional entre $\frac{1}{4}$ y $\frac{1}{3}$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens1')">Ver Solución</button>
+            <div id="dens1" class="solution-text">
+                Calculamos el promedio: $\frac{\frac{1}{4} + \frac{1}{3}}{2} = \frac{\frac{3}{12} + \frac{4}{12}}{2} = \frac{\frac{7}{12}}{2} = \frac{7}{24}$<br>
+                Verificación: $\frac{1}{4} = \frac{6}{24} < \frac{7}{24} < \frac{8}{24} = \frac{1}{3}$ ✓
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">2</div>
+            <div class="question">
+                Encuentra tres números racionales entre $\frac{1}{2}$ y $\frac{3}{4}$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens2')">Ver Solución</button>
+            <div id="dens2" class="solution-text">
+                $\frac{1}{2} = \frac{4}{8}$ y $\frac{3}{4} = \frac{6}{8}$<br>
+                Tres racionales entre ellos: $\frac{5}{8}$, $\frac{9}{16}$, $\frac{11}{16}$<br>
+                (Hay infinitas respuestas posibles)
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">3</div>
+            <div class="question">
+                Encuentra un número racional entre $0.5$ y $0.6$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens3')">Ver Solución</button>
+            <div id="dens3" class="solution-text">
+                Promedio: $\frac{0.5 + 0.6}{2} = 0.55 = \frac{55}{100} = \frac{11}{20}$<br>
+                También válido: $0.51$, $0.52$, $0.53$, etc.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">4</div>
+            <div class="question">
+                ¿Cuántos números racionales hay entre $\frac{1}{5}$ y $\frac{1}{4}$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens4')">Ver Solución</button>
+            <div id="dens4" class="solution-text">
+                <strong>Infinitos.</strong> Por la propiedad de densidad, entre dos racionales cualesquiera hay infinitos racionales.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">5</div>
+            <div class="question">
+                Encuentra un número racional entre $\frac{2}{3}$ y $\frac{5}{7}$ usando el promedio.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens5')">Ver Solución</button>
+            <div id="dens5" class="solution-text">
+                $\frac{2}{3} = \frac{14}{21}$ y $\frac{5}{7} = \frac{15}{21}$<br>
+                Promedio: $\frac{\frac{14}{21} + \frac{15}{21}}{2} = \frac{\frac{29}{21}}{2} = \frac{29}{42}$<br>
+                Verificación: $\frac{2}{3} \approx 0.667 < \frac{29}{42} \approx 0.690 < \frac{5}{7} \approx 0.714$ ✓
+            </div>
+        </div>
+
+        <h4>Ejercicio 2: Densidad de Irracionales</h4>
+
+        <div class="exercise-item">
+            <div class="number">6</div>
+            <div class="question">
+                Encuentra un número irracional entre $1$ y $2$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens6')">Ver Solución</button>
+            <div id="dens6" class="solution-text">
+                $\sqrt{2} \approx 1.414...$ está entre 1 y 2.<br>
+                También: $1 + \frac{1}{\sqrt{2}} \approx 1.707$<br>
+                O: $\sqrt{3} \approx 1.732$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">7</div>
+            <div class="question">
+                Encuentra un número irracional entre $2.5$ y $3$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens7')">Ver Solución</button>
+            <div id="dens7" class="solution-text">
+                $\sqrt{7} \approx 2.646$ está entre 2.5 y 3.<br>
+                También: $2.5 + \frac{0.5}{\sqrt{2}} \approx 2.5 + 0.354 = 2.854$<br>
+                O: $\sqrt{8} \approx 2.828$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">8</div>
+            <div class="question">
+                ¿Cuántos números irracionales hay entre $\sqrt{2}$ y $\sqrt{3}$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens8')">Ver Solución</button>
+            <div id="dens8" class="solution-text">
+                <strong>Infinitos.</strong> Los irracionales son densos en $\mathbb{R}$.<br>
+                Ejemplos: $\sqrt{2.5}$, $\frac{\sqrt{2}+\sqrt{3}}{2}$, $\sqrt{2} + 0.01$, etc.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">9</div>
+            <div class="question">
+                Demuestra que existe un irracional entre cualquier par de racionales distintos.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens9')">Ver Solución</button>
+            <div id="dens9" class="solution-text">
+                Sea $r_1 < r_2$ dos racionales.<br>
+                El número $r_1 + \frac{r_2-r_1}{\sqrt{2}}$ es irracional porque:<br>
+                - $\frac{r_2-r_1}{\sqrt{2}}$ es irracional (racional dividido irracional)<br>
+                - Suma de racional e irracional es irracional<br>
+                Además: $r_1 < r_1 + \frac{r_2-r_1}{\sqrt{2}} < r_1 + (r_2-r_1) = r_2$ ✓
+            </div>
+        </div>
+
+        <h4>Ejercicio 3: Completitud</h4>
+
+        <div class="exercise-item">
+            <div class="number">10</div>
+            <div class="question">
+                ¿Por qué el conjunto $\{x \in \mathbb{Q} : x^2 < 2\}$ no tiene supremo en $\mathbb{Q}$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens10')">Ver Solución</button>
+            <div id="dens10" class="solution-text">
+                El supremo natural de este conjunto es $\sqrt{2}$.<br>
+                Pero $\sqrt{2} \notin \mathbb{Q}$ (es irracional).<br>
+                En $\mathbb{Q}$, para cualquier racional $r$ con $r^2 < 2$, existe otro racional $s$ con $r < s$ y $s^2 < 2$.<br>
+                Por eso no hay un "máximo" racional menor cuya raíz cuadrada sea menor que 2.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">11</div>
+            <div class="question">
+                ¿Qué significa que $\mathbb{R}$ sea "completo"?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens11')">Ver Solución</button>
+            <div id="dens11" class="solution-text">
+                Significa que $\mathbb{R}$ "no tiene huecos".<br>
+                Geométricamente: cada punto de la recta numérica corresponde a exactamente un número real.<br>
+                Algebraicamente: toda sucesión creciente y acotada converge a un número real.<br>
+                Esto permite resolver ecuaciones como $x^2 = 2$ dentro de $\mathbb{R}$.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">12</div>
+            <div class="question">
+                ¿Por qué la ecuación $x^2 = -1$ no tiene solución en $\mathbb{R}$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens12')">Ver Solución</button>
+            <div id="dens12" class="solution-text">
+                En $\mathbb{R}$, todo número elevado al cuadrado es $\geq 0$.<br>
+                Por lo tanto, no existe $x \in \mathbb{R}$ tal que $x^2 = -1$.<br>
+                Esto nos lleva a definir los <strong>números complejos</strong> $\mathbb{C}$, donde $i^2 = -1$.
+            </div>
+        </div>
+
+        <h4>Ejercicio 4: Problemas de Aplicación</h4>
+
+        <div class="exercise-item">
+            <div class="number">13</div>
+            <div class="question">
+                Sea el conjunto $A = \{x \in \mathbb{R} : 0 \leq x \leq 5\}$. ¿Cuál es el supremo de $A$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens13')">Ver Solución</button>
+            <div id="dens13" class="solution-text">
+                El supremo de $A$ es $\mathbf{5}$.<br>
+                - 5 es cota superior (todo elemento de $A$ es $\leq 5$)<br>
+                - Es la mínima cota superior (no hay número menor que 5 que sea cota superior)<br>
+                Además, 5 pertenece al conjunto, así que también es el máximo.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">14</div>
+            <div class="question">
+                Encuentra dos números irracionales $a$ y $b$ tales que $a + b$ sea racional.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens14')">Ver Solución</button>
+            <div id="dens14" class="solution-text">
+                <strong>Ejemplo 1:</strong> $a = \sqrt{2}$, $b = -\sqrt{2}$ → $a + b = 0$<br>
+                <strong>Ejemplo 2:</strong> $a = 1 + \sqrt{2}$, $b = 1 - \sqrt{2}$ → $a + b = 2$<br>
+                <strong>Ejemplo 3:</strong> $a = \pi$, $b = 4 - \pi$ → $a + b = 4$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">15</div>
+            <div class="question">
+                Entre $1.41$ y $1.42$, ¿hay más racionales o más irracionales?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('dens15')">Ver Solución</button>
+            <div id="dens15" class="solution-text">
+                <strong>Hay infinitos de ambos tipos.</strong><br>
+                Tanto $\mathbb{Q}$ como $\mathbb{I}$ son densos en $\mathbb{R}$.<br>
+                Entre dos reales cualesquiera hay infinitos racionales E infinitos irracionales.<br>
+                De hecho, hay "más" irracionales en el sentido de que $\mathbb{I}$ es no numerable mientras que $\mathbb{Q}$ es numerable.
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h4>📌 Resumen Clave</h4>
+            <p><strong>Densidad:</strong> Entre dos reales cualesquiera hay infinitos racionales e infinitos irracionales.</p>
+            <p><strong>Completitud:</strong> $\mathbb{R}$ no tiene huecos; toda sucesión acotada converge a un real.</p>
+            <p><strong>Consecuencia:</strong> Podemos representar $\mathbb{R}$ completamente en una recta numérica.</p>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 5: Operaciones y Axiomas ==================== -->
+    <div id="tab5" class="tab-content">
+        <h2>Operaciones y Axiomas en $\mathbb{R}$</h2>
+
+        <p>Los números reales cumplen leyes estrictas que garantizan que las operaciones funcionen como esperamos.</p>
+
+        <h3>➕ Propiedades de la Suma</h3>
+
+        <div class="property-grid">
+            <div class="property-card">
+                <h5>Clausura</h5>
+                <div class="formula">$a + b \in \mathbb{R}$</div>
+                <p>La suma de dos reales es real.</p>
+            </div>
+            <div class="property-card">
+                <h5>Asociativa</h5>
+                <div class="formula">$(a + b) + c = a + (b + c)$</div>
+                <p>El agrupamiento no altera el resultado.</p>
+            </div>
+            <div class="property-card">
+                <h5>Conmutativa</h5>
+                <div class="formula">$a + b = b + a$</div>
+                <p>El orden no altera la suma.</p>
+            </div>
+            <div class="property-card">
+                <h5>Elemento Neutro</h5>
+                <div class="formula">$a + 0 = a$</div>
+                <p>El cero es el neutro aditivo.</p>
+            </div>
+            <div class="property-card">
+                <h5>Inverso Aditivo</h5>
+                <div class="formula">$a + (-a) = 0$</div>
+                <p>Todo real tiene opuesto.</p>
+            </div>
+        </div>
+
+        <h3>✖️ Propiedades del Producto</h3>
+
+        <div class="property-grid">
+            <div class="property-card">
+                <h5>Clausura</h5>
+                <div class="formula">$a \cdot b \in \mathbb{R}$</div>
+                <p>El producto de dos reales es real.</p>
+            </div>
+            <div class="property-card">
+                <h5>Asociativa</h5>
+                <div class="formula">$(a \cdot b) \cdot c = a \cdot (b \cdot c)$</div>
+                <p>El agrupamiento no altera el resultado.</p>
+            </div>
+            <div class="property-card">
+                <h5>Conmutativa</h5>
+                <div class="formula">$a \cdot b = b \cdot a$</div>
+                <p>El orden no altera el producto.</p>
+            </div>
+            <div class="property-card">
+                <h5>Elemento Neutro</h5>
+                <div class="formula">$a \cdot 1 = a$</div>
+                <p>El uno es el neutro multiplicativo.</p>
+            </div>
+            <div class="property-card">
+                <h5>Inverso Multiplicativo</h5>
+                <div class="formula">$a \cdot \frac{1}{a} = 1$</div>
+                <p>Todo real ≠ 0 tiene inverso.</p>
+            </div>
+        </div>
+
+        <h3>🔗 Propiedad Distributiva</h3>
+        
+        <div class="concept-box" style="background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%); border-left-color: var(--accent);">
+            <h4 style="color: var(--accent);">El Puente entre Suma y Producto</h4>
+            <p style="text-align: center; font-size: 1.3rem;">
+                $$a \cdot (b + c) = a \cdot b + a \cdot c$$
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- ==================== EJEMPLOS RESUELTOS - PESTAÑA 5 ==================== -->
+        <h3>📝 Ejemplos Resueltos - Operaciones y Axiomas</h3>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 1: Aplicar la distributiva</h4>
+            <p><strong>Enunciado:</strong> Simplifica $5(x + 2)$ usando la propiedad distributiva.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Identificamos la estructura.</p>
+            <p>Tenemos un factor ($5$) multiplicando una suma ($(x + 2)$).</p>
+            <p><strong>Paso 2:</strong> Aplicamos la propiedad distributiva: $a(b + c) = ab + ac$</p>
+            <p>$5(x + 2) = 5 \cdot x + 5 \cdot 2$</p>
+            <p><strong>Paso 3:</strong> Realizamos las multiplicaciones.</p>
+            <p>$5 \cdot x = 5x$ y $5 \cdot 2 = 10$</p>
+            <p><strong>Respuesta:</strong> $5(x + 2) = \mathbf{5x + 10}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 2: Simplificar expresión algebraica</h4>
+            <p><strong>Enunciado:</strong> Simplifica $3(x + 4) - 2x + 1$</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Aplicamos distributiva al primer término.</p>
+            <p>$3(x + 4) = 3x + 12$</p>
+            <p><strong>Paso 2:</strong> Reescribimos la expresión completa.</p>
+            <p>$3x + 12 - 2x + 1$</p>
+            <p><strong>Paso 3:</strong> Agrupamos términos semejantes usando conmutativa y asociativa.</p>
+            <p>Términos con $x$: $3x - 2x = x$</p>
+            <p>Términos constantes: $12 + 1 = 13$</p>
+            <p><strong>Respuesta:</strong> $3(x + 4) - 2x + 1 = \mathbf{x + 13}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 3: Inverso aditivo</h4>
+            <p><strong>Enunciado:</strong> ¿Cuál es el inverso aditivo de $-\frac{3}{4}$?</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Recordamos la definición.</p>
+            <p>El inverso aditivo de un número $a$ es el número que sumado con $a$ da 0.</p>
+            <p><strong>Paso 2:</strong> Buscamos el número que sumado con $-\frac{3}{4}$ dé cero.</p>
+            <p>$-\frac{3}{4} + ? = 0$</p>
+            <p><strong>Paso 3:</strong> Resolvemos.</p>
+            <p>$? = 0 - (-\frac{3}{4}) = 0 + \frac{3}{4} = \frac{3}{4}$</p>
+            <p><strong>Verificación:</strong> $-\frac{3}{4} + \frac{3}{4} = \frac{-3 + 3}{4} = \frac{0}{4} = 0$ ✓</p>
+            <p><strong>Respuesta:</strong> El inverso aditivo de $-\frac{3}{4}$ es $\mathbf{\frac{3}{4}}$.</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 4: Propiedad del signo menos</h4>
+            <p><strong>Enunciado:</strong> Simplifica $-(m - 5)$</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Interpretamos el signo menos.</p>
+            <p>El signo menos delante del paréntesis es $-1$ multiplicando.</p>
+            <p>$-(m - 5) = -1 \cdot (m - 5)$</p>
+            <p><strong>Paso 2:</strong> Aplicamos distributiva.</p>
+            <p>$-1 \cdot m + (-1) \cdot (-5)$</p>
+            <p><strong>Paso 3:</strong> Realizamos las multiplicaciones.</p>
+            <p>$-1 \cdot m = -m$</p>
+            <p>$-1 \cdot (-5) = +5$ (menos por menos da más)</p>
+            <p><strong>Respuesta:</strong> $-(m - 5) = \mathbf{-m + 5}$ o también $\mathbf{5 - m}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 5: Propiedad del cero</h4>
+            <p><strong>Enunciado:</strong> Si $x \cdot y = 0$ y sabemos que $x \neq 0$, ¿qué podemos concluir?</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Recordamos la propiedad de los cuerpos.</p>
+            <p>En $\mathbb{R}$ (que es un cuerpo), NO existen divisores de cero.</p>
+            <p><strong>Paso 2:</strong> Aplicamos la propiedad.</p>
+            <p>Si el producto de dos números es cero, al menos uno de ellos debe ser cero.</p>
+            <p><strong>Paso 3:</strong> Como $x \neq 0$, deducimos.</p>
+            <p>Entonces necesariamente $y = 0$.</p>
+            <p><strong>Respuesta:</strong> Si $x \neq 0$, entonces $y$ <strong>necesariamente es cero</strong>.</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <h3>🎯 Ejercicios Prácticos</h3>
+
+        <div class="exercise-item">
+            <div class="number">1</div>
+            <div class="question">
+                <strong>Simplificar:</strong> $5(x + 2)$ usando la propiedad distributiva.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('ax1')">Ver Solución</button>
+            <div id="ax1" class="solution-text">
+                Aplicando la distributiva: $5 \cdot x + 5 \cdot 2 = \mathbf{5x + 10}$.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">2</div>
+            <div class="question">
+                <strong>Justificar:</strong> ¿Por qué $3 + (4 + 5) = (3 + 4) + 5$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('ax2')">Ver Solución</button>
+            <div id="ax2" class="solution-text">
+                Se cumple gracias a la <strong>Propiedad Asociativa</strong> de la suma. El orden de agrupación no altera el resultado.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">3</div>
+            <div class="question">
+                <strong>Simplificar:</strong> $7y + 2 - 7y$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('ax3')">Ver Solución</button>
+            <div id="ax3" class="solution-text">
+                Usando conmutativa y asociativa: $(7y - 7y) + 2 = 0 + 2 = \mathbf{2}$.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">4</div>
+            <div class="question">
+                <strong>Calcular:</strong> ¿Cuál es el inverso aditivo de $-\frac{3}{4}$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('ax4')">Ver Solución</button>
+            <div id="ax4" class="solution-text">
+                El inverso aditivo es el número que sumado da 0. Es $-\left(-\frac{3}{4}\right) = \mathbf{\frac{3}{4}}$.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">5</div>
+            <div class="question">
+                <strong>Justificar:</strong> ¿Qué propiedad asegura que $a \cdot b = b \cdot a$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('ax5')">Ver Solución</button>
+            <div id="ax5" class="solution-text">
+                La <strong>Propiedad Conmutativa</strong> de la multiplicación. El orden de los factores no altera el producto.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">6</div>
+            <div class="question">
+                <strong>Simplificar:</strong> $-(m - 5)$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('ax6')">Ver Solución</button>
+            <div id="ax6" class="solution-text">
+                Esto es $-1 \cdot (m - 5)$. Aplicamos distributiva: $-1 \cdot m + (-1) \cdot (-5) = \mathbf{-m + 5}$.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">7</div>
+            <div class="question">
+                <strong>Justificar:</strong> Si $x \cdot y = 0$, ¿qué podemos asegurar sobre $x$ o $y$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('ax7')">Ver Solución</button>
+            <div id="ax7" class="solution-text">
+                Podemos asegurar que <strong>al menos uno de ellos es cero</strong>. Esto es una consecuencia del axioma de que $\mathbb{R}$ es un cuerpo (sin divisores de cero).
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">8</div>
+            <div class="question">
+                <strong>Simplificar:</strong> $2(a + 3) + 4a$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('ax8')">Ver Solución</button>
+            <div id="ax8" class="solution-text">
+                Primero distribuimos el 2: $2a + 6 + 4a$. Luego agrupamos términos semejantes: $(2a + 4a) + 6 = \mathbf{6a + 6}$.
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 6: Intervalos ==================== -->
+    <div id="tab6" class="tab-content">
+        <h2>Intervalos en la Recta Real <span class="badge badge-new">Nuevo</span></h2>
+
+        <div class="concept-box">
+            <h4>📏 ¿Qué es un Intervalo?</h4>
+            <p>Un <strong>intervalo</strong> es un subconjunto de números reales que incluye todos los números entre dos valores dados (los extremos), y puede incluir o no estos extremos.</p>
+        </div>
+
+        <h3>📊 Tipos de Intervalos</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Notación</th>
+                    <th>Descripción</th>
+                    <th>Ejemplo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Abierto</strong></td>
+                    <td>$(a, b)$</td>
+                    <td>$a < x < b$ (sin extremos)</td>
+                    <td>$(1, 5) = \{x : 1 < x < 5\}$</td>
+                </tr>
+                <tr>
+                    <td><strong>Cerrado</strong></td>
+                    <td>$[a, b]$</td>
+                    <td>$a \leq x \leq b$ (con extremos)</td>
+                    <td>$[1, 5] = \{x : 1 \leq x \leq 5\}$</td>
+                </tr>
+                <tr>
+                    <td><strong>Semiabierto izq.</strong></td>
+                    <td>$(a, b]$</td>
+                    <td>$a < x \leq b$</td>
+                    <td>$(1, 5] = \{x : 1 < x \leq 5\}$</td>
+                </tr>
+                <tr>
+                    <td><strong>Semiabierto der.</strong></td>
+                    <td>$[a, b)$</td>
+                    <td>$a \leq x < b$</td>
+                    <td>$[1, 5) = \{x : 1 \leq x < 5\}$</td>
+                </tr>
+                <tr>
+                    <td><strong>Infinito a la der.</strong></td>
+                    <td>$[a, +\infty)$</td>
+                    <td>$x \geq a$</td>
+                    <td>$[0, +\infty) = \{x : x \geq 0\}$</td>
+                </tr>
+                <tr>
+                    <td><strong>Infinito a la izq.</strong></td>
+                    <td>$(-\infty, b]$</td>
+                    <td>$x \leq b$</td>
+                    <td>$(-\infty, 0] = \{x : x \leq 0\}$</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>📐 Representación Gráfica</h3>
+
+        <div class="number-line-visual">
+            <p><strong>Intervalo Cerrado $[1, 4]$:</strong></p>
+            <svg class="number-line-svg" viewBox="0 0 400 60" width="400" height="60">
+                <line x1="20" y1="30" x2="380" y2="30" stroke="#333" stroke-width="2"/>
+                <polygon points="380,30 370,25 370,35" fill="#333"/>
+                <polygon points="20,30 30,25 30,35" fill="#333"/>
+                <line x1="80" y1="30" x2="260" y2="30" stroke="#2563EB" stroke-width="4"/>
+                <circle cx="80" cy="30" r="6" fill="#2563EB"/>
+                <circle cx="260" cy="30" r="6" fill="#2563EB"/>
+                <text x="80" y="55" text-anchor="middle" font-size="12">1</text>
+                <text x="260" y="55" text-anchor="middle" font-size="12">4</text>
+                <text x="170" y="20" text-anchor="middle" font-size="11" fill="#2563EB">[1, 4]</text>
+            </svg>
+        </div>
+
+        <div class="number-line-visual">
+            <p><strong>Intervalo Abierto $(1, 4)$:</strong></p>
+            <svg class="number-line-svg" viewBox="0 0 400 60" width="400" height="60">
+                <line x1="20" y1="30" x2="380" y2="30" stroke="#333" stroke-width="2"/>
+                <polygon points="380,30 370,25 370,35" fill="#333"/>
+                <polygon points="20,30 30,25 30,35" fill="#333"/>
+                <line x1="80" y1="30" x2="260" y2="30" stroke="#10B981" stroke-width="4"/>
+                <circle cx="80" cy="30" r="6" fill="white" stroke="#10B981" stroke-width="2"/>
+                <circle cx="260" cy="30" r="6" fill="white" stroke="#10B981" stroke-width="2"/>
+                <text x="80" y="55" text-anchor="middle" font-size="12">1</text>
+                <text x="260" y="55" text-anchor="middle" font-size="12">4</text>
+                <text x="170" y="20" text-anchor="middle" font-size="11" fill="#10B981">$(1, 4)$</text>
+            </svg>
+        </div>
+
+        <h3>🔗 Operaciones con Intervalos</h3>
+
+        <div class="concept-box">
+            <h4>Unión de Intervalos ($\cup$)</h4>
+            <p>La <strong>unión</strong> $A \cup B$ contiene todos los elementos que pertenecen a $A$ <em>o</em> a $B$ (o a ambos).</p>
+            <p><strong>Ejemplo:</strong> $[1, 3] \cup [2, 5] = [1, 5]$</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>Intersección de Intervalos ($\cap$)</h4>
+            <p>La <strong>intersección</strong> $A \cap B$ contiene solo los elementos que pertenecen a $A$ <em>y</em> a $B$ simultáneamente.</p>
+            <p><strong>Ejemplo:</strong> $[1, 3] \cap [2, 5] = [2, 3]$</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- ==================== EJEMPLOS RESUELTOS - PESTAÑA 6 ==================== -->
+        <h3>📝 Ejemplos Resueltos - Intervalos</h3>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 1: Unión de intervalos</h4>
+            <p><strong>Enunciado:</strong> Calcula $[1, 4] \cup [3, 6]$.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Identificamos los intervalos.</p>
+            <p>$A = [1, 4]$ incluye todos los reales desde 1 hasta 4 (inclusive).</p>
+            <p>$B = [3, 6]$ incluye todos los reales desde 3 hasta 6 (inclusive).</p>
+            <p><strong>Paso 2:</strong> Analizamos si se superponen.</p>
+            <p>$A$ termina en 4 y $B$ empieza en 3. Como $3 < 4$, se superponen en $[3, 4]$.</p>
+            <p><strong>Paso 3:</strong> Formamos la unión.</p>
+            <p>La unión abarca desde el extremo más izquierdo (1) hasta el más derecho (6).</p>
+            <p><strong>Respuesta:</strong> $[1, 4] \cup [3, 6] = \mathbf{[1, 6]}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 2: Intersección de intervalos</h4>
+            <p><strong>Enunciado:</strong> Calcula $[1, 5] \cap [2, 6]$.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Identificamos los extremos.</p>
+            <p>$[1, 5]$: desde 1 hasta 5.</p>
+            <p>$[2, 6]$: desde 2 hasta 6.</p>
+            <p><strong>Paso 2:</strong> Buscamos la parte común.</p>
+            <p>El inicio de la intersección es el mayor de los extremos izquierdos: $\max(1, 2) = 2$.</p>
+            <p>El final de la intersección es el menor de los extremos derechos: $\min(5, 6) = 5$.</p>
+            <p><strong>Paso 3:</strong> Verificamos.</p>
+            <p>Los números que están en AMBOS intervalos son los que van de 2 a 5.</p>
+            <p><strong>Respuesta:</strong> $[1, 5] \cap [2, 6] = \mathbf{[2, 5]}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 3: Intervalos semiabiertos</h4>
+            <p><strong>Enunciado:</strong> Calcula $(0, 5) \cap [2, 7]$.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Analizamos los extremos izquierdos.</p>
+            <p>$(0, 5)$ empieza en 0 (NO incluido, paréntesis).</p>
+            <p>$[2, 7]$ empieza en 2 (SÍ incluido, corchete).</p>
+            <p><strong>Paso 2:</strong> Determinamos el extremo izquierdo.</p>
+            <p>El mayor es 2. Como 2 está incluido en $[2, 7]$, queda incluido: <strong>[</strong>2</p>
+            <p><strong>Paso 3:</strong> Analizamos los extremos derechos.</p>
+            <p>$(0, 5)$ termina en 5 (NO incluido).</p>
+            <p>$[2, 7]$ termina en 7 (SÍ incluido).</p>
+            <p>El menor es 5. Como NO está incluido en $(0, 5)$, NO se incluye: 5<strong>)</strong></p>
+            <p><strong>Respuesta:</strong> $(0, 5) \cap [2, 7] = \mathbf{[2, 5)}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 4: Intervalos infinitos</h4>
+            <p><strong>Enunciado:</strong> Escribe en notación de intervalo: "todos los números mayores o iguales a -3".</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Identificamos el punto de partida.</p>
+            <p>Empezamos en -3.</p>
+            <p><strong>Paso 2:</strong> Determinamos si está incluido.</p>
+            <p>"Mayor o igual" significa que -3 SÍ está incluido → corchete <strong>[</strong></p>
+            <p><strong>Paso 3:</strong> Determinamos el extremo derecho.</p>
+            <p>"Todos los mayores" significa que no hay límite superior → infinito.</p>
+            <p>Con infinito SIEMPRE se usa paréntesis <strong>)</strong></p>
+            <p><strong>Respuesta:</strong> $\mathbf{[-3, +\infty)}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 5: Intervalos disjuntos</h4>
+            <p><strong>Enunciado:</strong> ¿Cuál es la unión de $(0, 2) \cup [5, 8]$?</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Verificamos si se superponen.</p>
+            <p>$(0, 2)$ termina en 2.</p>
+            <p>$[5, 8]$ empieza en 5.</p>
+            <p>Como $2 < 5$, NO se superponen. Hay un "hueco" entre 2 y 5.</p>
+            <p><strong>Paso 2:</strong> No se pueden unir en un solo intervalo.</p>
+            <p>La unión queda como dos intervalos separados.</p>
+            <p><strong>Respuesta:</strong> $(0, 2) \cup [5, 8] = \mathbf{(0, 2) \cup [5, 8]}$ (no se simplifica)</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <h3>🎯 ACTIVIDADES - Intervalos</h3>
+
+        <h4>Ejercicio 1: Identificación de Intervalos</h4>
+
+        <div class="exercise-item">
+            <div class="number">1</div>
+            <div class="question">
+                Escribe en notación de intervalo: "todos los números mayores o iguales a -2".
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('int1')">Ver Solución</button>
+            <div id="int1" class="solution-text">
+                $[-2, +\infty)$<br>
+                Es cerrado en -2 (incluye el -2) y siempre se usa paréntesis con $\infty$.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">2</div>
+            <div class="question">
+                Escribe en notación de intervalo: "números entre 0 y 10, sin incluir los extremos".
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('int2')">Ver Solución</button>
+            <div id="int2" class="solution-text">
+                $(0, 10)$<br>
+                Es abierto en ambos extremos (paréntesis).
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">3</div>
+            <div class="question">
+                ¿Qué significa el intervalo $(-\infty, 5]$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('int3')">Ver Solución</button>
+            <div id="int3" class="solution-text">
+                Significa todos los números reales menores o iguales a 5.<br>
+                Incluye el 5 (corchete) y extiende hacia menos infinito.
+            </div>
+        </div>
+
+        <h4>Ejercicio 2: Unión e Intersección</h4>
+
+        <div class="exercise-item">
+            <div class="number">4</div>
+            <div class="question">
+                Calcula $[1, 5] \cup [3, 7]$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('int4')">Ver Solución</button>
+            <div id="int4" class="solution-text">
+                $[1, 7]$<br>
+                La unión toma el menor extremo izquierdo y el mayor extremo derecho.<br>
+                Como los intervalos se superponen (del 3 al 5), se unen en un solo intervalo.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">5</div>
+            <div class="question">
+                Calcula $[1, 5] \cap [3, 7]$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('int5')">Ver Solución</button>
+            <div id="int5" class="solution-text">
+                $[3, 5]$<br>
+                La intersección toma el mayor extremo izquierdo y el menor extremo derecho.<br>
+                Solo queda lo que está en AMBOS intervalos.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">6</div>
+            <div class="question">
+                Calcula $(0, 3) \cup [5, 8]$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('int6')">Ver Solución</button>
+            <div id="int6" class="solution-text">
+                $(0, 3) \cup [5, 8]$<br>
+                <strong>No se pueden unir</strong> porque no son adyacentes (hay un "hueco" entre 3 y 5).<br>
+                El resultado es la unión de dos intervalos separados.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">7</div>
+            <div class="question">
+                Calcula $(0, 5) \cap [3, 7]$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('int7')">Ver Solución</button>
+            <div id="int7" class="solution-text">
+                $[3, 5)$<br>
+                - Extremo izquierdo: el mayor entre 0 (abierto) y 3 (cerrado) → 3 cerrado<br>
+                - Extremo derecho: el menor entre 5 (abierto) y 7 (cerrado) → 5 abierto
+            </div>
+        </div>
+
+        <h4>Ejercicio 3: Representación Gráfica</h4>
+
+        <div class="exercise-item">
+            <div class="number">8</div>
+            <div class="question">
+                Representa gráficamente en una recta numérica el intervalo $[-2, 3)$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('int8')">Ver Solución</button>
+            <div id="int8" class="solution-text">
+                <p>- Dibuja una recta numérica con los puntos -2 y 3 marcados.</p>
+                <p>- En -2: dibuja un <strong>punto relleno</strong> (porque está incluido con [ )</p>
+                <p>- En 3: dibuja un <strong>círculo vacío</strong> (porque NO está incluido con ) )</p>
+                <p>- Sombrea la región entre -2 y 3.</p>
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">9</div>
+            <div class="question">
+                ¿El número 2.9999... pertenece al intervalo $[1, 3)$? ¿Y el 3?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('int9')">Ver Solución</button>
+            <div id="int9" class="solution-text">
+                - $2.9999... = 3$ (son el mismo número).<br>
+                - <strong>NO pertenece</strong> al intervalo $[1, 3)$ porque el 3 NO está incluido (paréntesis).<br>
+                - Si el intervalo fuera $[1, 3]$, entonces sí pertenecería.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">10</div>
+            <div class="question">
+                Escribe la desigualdad que representa el intervalo $(-1, 4]$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('int10')">Ver Solución</button>
+            <div id="int10" class="solution-text">
+                $-1 < x \leq 4$<br>
+                - El paréntesis en -1 significa que x es <strong>mayor que</strong> -1 (no igual).<br>
+                - El corchete en 4 significa que x es <strong>menor o igual</strong> que 4.
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 7: Valor Absoluto (CORREGIDO) ==================== -->
+    <div id="tab7" class="tab-content">
+        <h2>Valor Absoluto <span class="badge badge-corrected">Corregido</span></h2>
+
+        <div class="concept-box">
+            <h4>|x| Definición de Valor Absoluto</h4>
+            <p>El <strong>valor absoluto</strong> de un número real $x$, denotado $|x|$, se define como:</p>
+            <p style="text-align: center;">
+                $$|x| = \begin{cases} x & \text{si } x \geq 0 \\ -x & \text{si } x < 0 \end{cases}$$
+            </p>
+        </div>
+
+        <h3>📐 Interpretación Geométrica</h3>
+
+        <div class="info-box">
+            <h4>📏 El Valor Absoluto como Distancia</h4>
+            <p>Geométricamente, $|x|$ representa la <strong>distancia</strong> del número $x$ al origen (cero) en la recta numérica.</p>
+            <p>Por eso siempre es <strong>no negativo</strong>: $|x| \geq 0$ para todo $x \in \mathbb{R}$.</p>
+        </div>
+
+        <!-- CORRECCIÓN: Cambiado el ejemplo para ser consistente -->
+        <div class="number-line-visual">
+            <p><strong>Ejemplo CORREGIDO:</strong> El -3 y el +3 ambos están a distancia 3 del cero.</p>
+            <svg class="number-line-svg" viewBox="0 0 400 80" width="400" height="80">
+                <line x1="20" y1="40" x2="380" y2="40" stroke="#333" stroke-width="2"/>
+                <polygon points="380,40 370,35 370,45" fill="#333"/>
+                <polygon points="20,40 30,35 30,45" fill="#333"/>
+                <!-- Zero point -->
+                <circle cx="200" cy="40" r="4" fill="#333"/>
+                <text x="200" y="60" text-anchor="middle" font-size="12">0</text>
+                <!-- -3 -->
+                <circle cx="80" cy="40" r="4" fill="#EF4444"/>
+                <text x="80" y="60" text-anchor="middle" font-size="12">-3</text>
+                <text x="80" y="25" text-anchor="middle" font-size="11" fill="#EF4444">|-3| = 3</text>
+                <!-- +3 -->
+                <circle cx="320" cy="40" r="4" fill="#10B981"/>
+                <text x="320" y="60" text-anchor="middle" font-size="12">3</text>
+                <text x="320" y="25" text-anchor="middle" font-size="11" fill="#10B981">|3| = 3</text>
+            </svg>
+            <p><strong>Ambos puntos están a distancia 3 del cero.</strong></p>
+            <p style="font-size: 0.9rem; color: #6B7280;">
+                <em>Nota: El valor absoluto de un número y su opuesto es siempre el mismo.</em>
+            </p>
+        </div>
+
+        <!-- Ejemplo adicional aclaratorio -->
+        <div class="solved-example">
+            <h4>Ejemplo aclaratorio</h4>
+            <p>Observa que:</p>
+            <ul>
+                <li>$|{-3}| = 3$ (distancia de -3 al cero)</li>
+                <li>$|{3}| = 3$ (distancia de 3 al cero)</li>
+                <li>$|{-7}| = 7$ (distancia de -7 al cero)</li>
+                <li>$|{7}| = 7$ (distancia de 7 al cero)</li>
+            </ul>
+            <p><strong>Conclusión:</strong> Dos números opuestos tienen el mismo valor absoluto.</p>
+        </div>
+
+        <h3>📊 Propiedades del Valor Absoluto</h3>
+
+        <div class="property-grid">
+            <div class="property-card">
+                <h5>No negatividad</h5>
+                <div class="formula">$|x| \geq 0$</div>
+                <p>El valor absoluto nunca es negativo.</p>
+            </div>
+            <div class="property-card">
+                <h5>Definición alternativa</h5>
+                <div class="formula">$|x| = \sqrt{x^2}$</div>
+                <p>El valor absoluto es la raíz del cuadrado.</p>
+            </div>
+            <div class="property-card">
+                <h5>Simetría</h5>
+                <div class="formula">$|-x| = |x|$</div>
+                <p>Opuestos tienen igual valor absoluto.</p>
+            </div>
+            <div class="property-card">
+                <h5>Identidad</h5>
+                <div class="formula">$|x| = 0 \Leftrightarrow x = 0$</div>
+                <p>Solo el cero tiene valor absoluto cero.</p>
+            </div>
+            <div class="property-card">
+                <h5>Multiplicatividad</h5>
+                <div class="formula">$|x \cdot y| = |x| \cdot |y|$</div>
+                <p>El producto de absolutos es el absoluto del producto.</p>
+            </div>
+            <div class="property-card">
+                <h5>Desigualdad triangular</h5>
+                <div class="formula">$|x + y| \leq |x| + |y|$</div>
+                <p>Fundamental en matemática avanzada.</p>
+            </div>
+        </div>
+
+        <h3>🔗 Relación entre Valor Absoluto e Intervalos</h3>
+
+        <div class="concept-box">
+            <h4>Distancia entre dos puntos</h4>
+            <p>La distancia entre dos números $a$ y $b$ en la recta real es:</p>
+            <p style="text-align: center;">$$\text{dist}(a, b) = |a - b| = |b - a|$$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo: Intervalos expresados con valor absoluto</h4>
+            <p>La expresión $|x - 3| < 5$ significa:</p>
+            <p style="text-align: center;">$$-5 < x - 3 < 5$$</p>
+            <p>Sumando 3 en todas partes:</p>
+            <p style="text-align: center;">$$-2 < x < 8$$</p>
+            <p>Es decir, el intervalo <strong>$(-2, 8)$</strong>.</p>
+            <p><strong>Interpretación:</strong> Todos los puntos a distancia menor que 5 del punto 3.</p>
+        </div>
+
+        <div class="info-box">
+            <h4>📌 Fórmula General</h4>
+            <p>La expresión $|x - c| < r$ representa el intervalo abierto $(c - r, c + r)$.</p>
+            <p>Es decir, todos los puntos a distancia menor que $r$ del centro $c$.</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- ==================== EJEMPLOS RESUELTOS - PESTAÑA 7 ==================== -->
+        <h3>📝 Ejemplos Resueltos - Valor Absoluto</h3>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 1: Cálculo básico</h4>
+            <p><strong>Enunciado:</strong> Calcula $|-7|$.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Identificamos el signo del número.</p>
+            <p>$-7 < 0$ (es negativo)</p>
+            <p><strong>Paso 2:</strong> Aplicamos la definición.</p>
+            <p>Como $x < 0$, entonces $|x| = -x$</p>
+            <p>$|-7| = -(-7) = 7$</p>
+            <p><strong>Respuesta:</strong> $|-7| = \mathbf{7}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 2: Expresiones con operaciones</h4>
+            <p><strong>Enunciado:</strong> Calcula $|3 - 8|$.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Resolvemos la operación dentro del valor absoluto.</p>
+            <p>$3 - 8 = -5$</p>
+            <p><strong>Paso 2:</strong> Aplicamos valor absoluto.</p>
+            <p>$|-5| = 5$</p>
+            <p><strong>Respuesta:</strong> $|3 - 8| = \mathbf{5}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 3: Ecuación simple</h4>
+            <p><strong>Enunciado:</strong> Resuelve $|x| = 5$.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Interpretamos geométricamente.</p>
+            <p>Buscamos números que estén a distancia 5 del cero.</p>
+            <p><strong>Paso 2:</strong> Identificamos las soluciones.</p>
+            <p>Hacia la derecha: $x = 5$</p>
+            <p>Hacia la izquierda: $x = -5$</p>
+            <p><strong>Verificación:</strong> $|5| = 5$ ✓ y $|-5| = 5$ ✓</p>
+            <p><strong>Respuesta:</strong> $x = \mathbf{5}$ o $x = \mathbf{-5}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 4: Desigualdad con valor absoluto</h4>
+            <p><strong>Enunciado:</strong> Resuelve $|x| < 4$ y exprésalo como intervalo.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Interpretamos geométricamente.</p>
+            <p>Buscamos puntos a distancia MENOR que 4 del origen.</p>
+            <p><strong>Paso 2:</strong> Escribimos la desigualdad equivalente.</p>
+            <p>$-4 < x < 4$</p>
+            <p><strong>Paso 3:</strong> Expresamos como intervalo.</p>
+            <p>Los extremos NO están incluidos (desigualdad estricta < ).</p>
+            <p><strong>Respuesta:</strong> El intervalo es $\mathbf{(-4, 4)}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 5: Distancia entre dos puntos</h4>
+            <p><strong>Enunciado:</strong> ¿Cuál es la distancia entre -5 y 3 en la recta numérica?</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Usamos la fórmula de distancia.</p>
+            <p>$\text{dist}(a, b) = |a - b|$</p>
+            <p><strong>Paso 2:</strong> Sustituimos los valores.</p>
+            <p>$\text{dist}(-5, 3) = |{-5} - 3| = |{-8}| = 8$</p>
+            <p><strong>Verificación:</strong> También podemos calcular $|3 - ({-5})| = |3 + 5| = |8| = 8$</p>
+            <p><strong>Respuesta:</strong> La distancia entre -5 y 3 es $\mathbf{8}$ unidades.</p>
+        </div>
+
+        <hr class="section-divider">
+        
+        <h3>🎯 ACTIVIDADES - Valor Absoluto</h3>
+
+        <h4>Ejercicio 1: Cálculo de Valor Absoluto</h4>
+
+        <div class="exercise-item">
+            <div class="number">1</div>
+            <div class="question">
+                Calcula $|-7|$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('va1')">Ver Solución</button>
+            <div id="va1" class="solution-text">
+                $|-7| = \mathbf{7}$<br>
+                Por definición: como -7 < 0, entonces $|-7| = -(-7) = 7$.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">2</div>
+            <div class="question">
+                Calcula $|3 - 8|$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('va2')">Ver Solución</button>
+            <div id="va2" class="solution-text">
+                $|3 - 8| = |-5| = \mathbf{5}$<br>
+                Primero resolvemos la resta, luego aplicamos valor absoluto.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">3</div>
+            <div class="question">
+                Calcula $|\pi - 4|$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('va3')">Ver Solución</button>
+            <div id="va3" class="solution-text">
+                Como $\pi \approx 3.14 < 4$, tenemos $\pi - 4 < 0$.<br>
+                $|\pi - 4| = |-(4 - \pi)| = 4 - \pi \approx \mathbf{0.86}$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">4</div>
+            <div class="question">
+                ¿Para qué valores de $x$ se cumple $|x| = 5$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('va4')">Ver Solución</button>
+            <div id="va4" class="solution-text">
+                $x = \mathbf{5}$ o $x = \mathbf{-5}$<br>
+                Son los dos números que están a distancia 5 del cero.<br>
+                En general: $|x| = a$ tiene solución $x = a$ o $x = -a$ (si $a > 0$).
+            </div>
+        </div>
+
+        <h4>Ejercicio 2: Ecuaciones con Valor Absoluto</h4>
+
+        <div class="exercise-item">
+            <div class="number">5</div>
+            <div class="question">
+                Resuelve $|x - 2| = 3$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('va5')">Ver Solución</button>
+            <div id="va5" class="solution-text">
+                $|x - 2| = 3$ significa que la distancia de $x$ a 2 es 3.<br>
+                Entonces: $x - 2 = 3$ o $x - 2 = -3$<br>
+                $x = 5$ o $x = -1$<br>
+                <strong>Solución:</strong> $x \in \{-1, 5\}$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">6</div>
+            <div class="question">
+                Resuelve $|2x + 1| = 7$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('va6')">Ver Solución</button>
+            <div id="va6" class="solution-text">
+                $2x + 1 = 7$ o $2x + 1 = -7$<br>
+                Caso 1: $2x = 6 \Rightarrow x = 3$<br>
+                Caso 2: $2x = -8 \Rightarrow x = -4$<br>
+                <strong>Solución:</strong> $x \in \{-4, 3\}$
+            </div>
+        </div>
+
+        <h4>Ejercicio 3: Desigualdades con Valor Absoluto</h4>
+
+        <div class="exercise-item">
+            <div class="number">7</div>
+            <div class="question">
+                Resuelve $|x| < 4$ y exprésalo como intervalo.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('va7')">Ver Solución</button>
+            <div id="va7" class="solution-text">
+                $|x| < 4$ significa $-4 < x < 4$<br>
+                <strong>Intervalo:</strong> $(-4, 4)$<br>
+                Son todos los puntos a distancia menor que 4 del origen.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">8</div>
+            <div class="question">
+                Resuelve $|x - 3| \leq 2$ y exprésalo como intervalo.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('va8')">Ver Solución</button>
+            <div id="va8" class="solution-text">
+                $|x - 3| \leq 2$ significa $-2 \leq x - 3 \leq 2$<br>
+                Sumando 3: $1 \leq x \leq 5$<br>
+                <strong>Intervalo:</strong> $[1, 5]$<br>
+                Son todos los puntos a distancia menor o igual que 2 del punto 3.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">9</div>
+            <div class="question">
+                Resuelve $|x + 2| < 5$ y exprésalo como intervalo.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('va9')">Ver Solución</button>
+            <div id="va9" class="solution-text">
+                $|x + 2| < 5$ significa $-5 < x + 2 < 5$<br>
+                Restando 2: $-7 < x < 3$<br>
+                <strong>Intervalo:</strong> $(-7, 3)$<br>
+                Nota: $|x + 2| = |x - (-2)|$, es distancia al punto -2.
+            </div>
+        </div>
+
+        <h4>Ejercicio 4: Distancia en la Recta</h4>
+
+        <div class="exercise-item">
+            <div class="number">10</div>
+            <div class="question">
+                ¿Cuál es la distancia entre -3 y 7 en la recta numérica?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('va10')">Ver Solución</button>
+            <div id="va10" class="solution-text">
+                $\text{dist}(-3, 7) = |-3 - 7| = |-10| = \mathbf{10}$<br>
+                También: $|7 - (-3)| = |7 + 3| = |10| = 10$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">11</div>
+            <div class="question">
+                Encuentra todos los números reales que están a distancia menor o igual que 3 del número 5.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('va11')">Ver Solución</button>
+            <div id="va11" class="solution-text">
+                Buscamos $x$ tal que $|x - 5| \leq 3$<br>
+                Esto significa: $-3 \leq x - 5 \leq 3$<br>
+                Sumando 5: $2 \leq x \leq 8$<br>
+                <strong>Respuesta:</strong> El intervalo $[2, 8]$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">12</div>
+            <div class="question">
+                Escribe con valor absoluto: "números a distancia menor que 4 del punto -1".
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('va12')">Ver Solución</button>
+            <div id="va12" class="solution-text">
+                <strong>$|x - (-1)| < 4$</strong> o equivalentemente <strong>$|x + 1| < 4$</strong><br>
+                Esto representa el intervalo $(-5, 3)$.
+            </div>
+        </div>
+
+        <div class="activity-box">
+            <h4>🎯 Actividad de Integración</h4>
+            <p>Completa la siguiente tabla:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Expresión con | |</th>
+                        <th>Desigualdad</th>
+                        <th>Intervalo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>$|x| < 6$</td>
+                        <td>$-6 < x < 6$</td>
+                        <td>$(-6, 6)$</td>
+                    </tr>
+                    <tr>
+                        <td>$|x - 2| \leq 3$</td>
+                        <td>$-1 \leq x \leq 5$</td>
+                        <td>$[-1, 5]$</td>
+                    </tr>
+                    <tr>
+                        <td>$|x + 4| < 1$</td>
+                        <td>¿?</td>
+                        <td>¿?</td>
+                    </tr>
+                    <tr>
+                        <td>¿?</td>
+                        <td>$3 < x < 9$</td>
+                        <td>$(3, 9)$</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Completa las filas vacías y verifica tus respuestas.</strong></p>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 8: Práctica Final ==================== -->
+    <div id="tab8" class="tab-content">
+        <h2>Práctica Final - Evaluación Integral <span class="badge badge-expanded">Completo</span></h2>
+
+        <div class="progress-section">
+            <h4>📋 Temas a Evaluar</h4>
+            <p>Esta sección recupera <strong>todos los contenidos</strong> vistos en esta unidad:</p>
+            <div class="topic-checklist">
+                <div class="topic-item">
+                    <input type="checkbox" id="t1"><label for="t1">Clasificación de números reales</label>
+                </div>
+                <div class="topic-item">
+                    <input type="checkbox" id="t2"><label for="t2">Números irracionales</label>
+                </div>
+                <div class="topic-item">
+                    <input type="checkbox" id="t3"><label for="t3">Densidad y completitud</label>
+                </div>
+                <div class="topic-item">
+                    <input type="checkbox" id="t4"><label for="t4">Operaciones y axiomas</label>
+                </div>
+                <div class="topic-item">
+                    <input type="checkbox" id="t5"><label for="t5">Intervalos en la recta</label>
+                </div>
+                <div class="topic-item">
+                    <input type="checkbox" id="t6"><label for="t6">Valor absoluto</label>
+                </div>
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- ==================== EJEMPLOS RESUELTOS - PESTAÑA 8 ==================== -->
+        <h3>📝 Ejemplos Resueltos - Práctica Integral</h3>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 1: Clasificación completa</h4>
+            <p><strong>Enunciado:</strong> Clasifica $\sqrt{18}$ en el conjunto más específico posible.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Verificamos si es cuadrado perfecto.</p>
+            <p>$4^2 = 16$ y $5^2 = 25$. 18 NO es cuadrado perfecto.</p>
+            <p><strong>Paso 2:</strong> Simplificamos la raíz.</p>
+            <p>$\sqrt{18} = \sqrt{9 \times 2} = 3\sqrt{2}$</p>
+            <p><strong>Paso 3:</strong> Analizamos el resultado.</p>
+            <p>$\sqrt{2}$ es irracional. El producto de racional (3) por irracional es irracional.</p>
+            <p><strong>Respuesta:</strong> $\sqrt{18}$ es <strong>IRRACIONAL</strong> ($\mathbb{I}$)</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 2: Densidad aplicada</h4>
+            <p><strong>Enunciado:</strong> Encuentra un irracional entre 2 y 2.5.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Buscamos raíces de números entre 4 y 6.25.</p>
+            <p>$\sqrt{5} \approx 2.236$ está entre 2 y 2.5</p>
+            <p><strong>Paso 2:</strong> Verificamos.</p>
+            <p>$2 < 2.236 < 2.5$ ✓</p>
+            <p><strong>Respuesta:</strong> $\sqrt{5} \approx 2.236$ es irracional entre 2 y 2.5.</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 3: Operaciones con intervalos</h4>
+            <p><strong>Enunciado:</strong> Calcula $[1, 4] \cup [3, 6]$ y $[1, 4] \cap [3, 6]$.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Para la UNIÓN:</strong></p>
+            <p>Los intervalos se superponen (de 3 a 4).</p>
+            <p>Tomamos el extremo más izquierdo (1) y el más derecho (6).</p>
+            <p>$[1, 4] \cup [3, 6] = [1, 6]$</p>
+            <p><strong>Para la INTERSECCIÓN:</strong></p>
+            <p>La parte común va de 3 a 4.</p>
+            <p>$[1, 4] \cap [3, 6] = [3, 4]$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 4: Valor absoluto e intervalo</h4>
+            <p><strong>Enunciado:</strong> Expresa $|x - 3| \leq 2$ como intervalo.</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Escribimos la desigualdad equivalente.</p>
+            <p>$-2 \leq x - 3 \leq 2$</p>
+            <p><strong>Paso 2:</strong> Sumamos 3 en todas partes.</p>
+            <p>$-2 + 3 \leq x \leq 2 + 3$</p>
+            <p>$1 \leq x \leq 5$</p>
+            <p><strong>Respuesta:</strong> El intervalo es $\mathbf{[1, 5]}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Resuelto 5: Distancia en la recta</h4>
+            <p><strong>Enunciado:</strong> ¿Cuál es la distancia entre -5 y 3?</p>
+            <p><strong>Solución paso a paso:</strong></p>
+            <p><strong>Paso 1:</strong> Usamos la fórmula.</p>
+            <p>$\text{dist}(a, b) = |a - b|$</p>
+            <p><strong>Paso 2:</strong> Calculamos.</p>
+            <p>$\text{dist}(-5, 3) = |-5 - 3| = |-8| = 8$</p>
+            <p><strong>Respuesta:</strong> La distancia es $\mathbf{8}$ unidades.</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- SECCIÓN 1: Clasificación de Números -->
+        <h3>📊 Sección 1: Clasificación de Números Reales</h3>
+
+        <div class="exercise-item">
+            <div class="number">1</div>
+            <div class="question">
+                Clasifica cada número en el conjunto más específico posible (N, Z, Q, I):<br>
+                a) $-5$ &nbsp;&nbsp; b) $\frac{2}{3}$ &nbsp;&nbsp; c) $\sqrt{25}$ &nbsp;&nbsp; d) $\sqrt{12}$ &nbsp;&nbsp; e) $0$
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final1')">Ver Solución</button>
+            <div id="final1" class="solution-text">
+                a) $-5$: <strong>Entero (Z)</strong> - también es racional, pero el más específico es entero<br>
+                b) $\frac{2}{3}$: <strong>Racional (Q)</strong> - fracción de enteros<br>
+                c) $\sqrt{25} = 5$: <strong>Natural (N)</strong> - también es Z y Q<br>
+                d) $\sqrt{12} = 2\sqrt{3}$: <strong>Ir racional (I)</strong> - 12 no es cuadrado perfecto<br>
+                e) $0$: <strong>Entero (Z)</strong> - ni positivo ni negativo
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">2</div>
+            <div class="question">
+                ¿Es correcto decir que $\sqrt{16}$ es irracional? Justifica.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final2')">Ver Solución</button>
+            <div id="final2" class="solution-text">
+                <strong>Incorrecto.</strong> $\sqrt{16} = 4$, que es un número natural (y por tanto también entero y racional).<br>
+                Solo las raíces de números que NO son cuadrados perfectos son irracionales.
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: Irracionales -->
+        <h3>∞ Sección 2: Números Irracionales</h3>
+
+        <div class="exercise-item">
+            <div class="number">3</div>
+            <div class="question">
+                ¿Por qué $0.101001000100001...$ es irracional?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final3')">Ver Solución</button>
+            <div id="final3" class="solution-text">
+                Porque su expansión decimal es <strong>infinita y no periódica</strong>.<br>
+                La cantidad de ceros entre cada "1" crece indefinidamente, por lo que nunca se forma un período que se repita.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">4</div>
+            <div class="question">
+                Encuentra un irracional entre $2$ y $2.5$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final4')">Ver Solución</button>
+            <div id="final4" class="solution-text">
+                Varios ejemplos válidos:<br>
+                - $\sqrt{5} \approx 2.236$<br>
+                - $2 + \frac{0.5}{\sqrt{2}} \approx 2.354$<br>
+                - $\sqrt{6} \approx 2.449$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">5</div>
+            <div class="question">
+                ¿La suma de dos irracionales siempre es irracional? Justifica con ejemplos.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final5')">Ver Solución</button>
+            <div id="final5" class="solution-text">
+                <strong>No siempre.</strong> Ejemplos:<br>
+                - $\sqrt{2} + \sqrt{2} = 2\sqrt{2}$ (irracional) ✓<br>
+                - $\sqrt{2} + (-\sqrt{2}) = 0$ (racional) ✓<br>
+                - $\pi + (4-\pi) = 4$ (racional) ✓<br>
+                La suma puede ser racional o irracional, depende de los números.
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: Densidad y Completitud -->
+        <h3>📍 Sección 3: Densidad y Completitud</h3>
+
+        <div class="exercise-item">
+            <div class="number">6</div>
+            <div class="question">
+                Encuentra un número racional entre $\frac{1}{3}$ y $\frac{1}{2}$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final6')">Ver Solución</button>
+            <div id="final6" class="solution-text">
+                Promedio: $\frac{\frac{1}{3} + \frac{1}{2}}{2} = \frac{\frac{2}{6} + \frac{3}{6}}{2} = \frac{\frac{5}{6}}{2} = \frac{5}{12}$<br>
+                Verificación: $\frac{1}{3} = \frac{4}{12} < \frac{5}{12} < \frac{6}{12} = \frac{1}{2}$ ✓
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">7</div>
+            <div class="question">
+                ¿Cuántos números irracionales hay entre $\sqrt{2}$ y $\sqrt{3}$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final7')">Ver Solución</button>
+            <div id="final7" class="solution-text">
+                <strong>Infinitos.</strong> Los irracionales son densos en $\mathbb{R}$.<br>
+                Entre dos reales cualesquiera hay infinitos irracionales (y también infinitos racionales).
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">8</div>
+            <div class="question">
+                ¿Qué significa que $\mathbb{R}$ sea "completo" pero $\mathbb{Q}$ no lo sea?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final8')">Ver Solución</button>
+            <div id="final8" class="solution-text">
+                <strong>$\mathbb{R}$ es completo:</strong> No tiene "huecos". Cada punto de la recta corresponde a un real.<br>
+                <strong>$\mathbb{Q}$ no es completo:</strong> Tiene huecos. Por ejemplo, el punto correspondiente a $\sqrt{2}$ no está en $\mathbb{Q}$.
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: Operaciones y Axiomas -->
+        <h3>⚙️ Sección 4: Operaciones y Axiomas</h3>
+
+        <div class="exercise-item">
+            <div class="number">9</div>
+            <div class="question">
+                Simplifica usando propiedades: $3(x + 4) - 2x + 1$
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final9')">Ver Solución</button>
+            <div id="final9" class="solution-text">
+                Aplico distributiva: $3x + 12 - 2x + 1$<br>
+                Agrupo términos semejantes: $(3x - 2x) + (12 + 1)$<br>
+                <strong>Resultado:</strong> $x + 13$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">10</div>
+            <div class="question">
+                ¿Qué propiedad justifica que $5 + (-5) = 0$?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final10')">Ver Solución</button>
+            <div id="final10" class="solution-text">
+                La propiedad del <strong>inverso aditivo</strong>: todo número real $a$ tiene un opuesto $-a$ tal que $a + (-a) = 0$.
+            </div>
+        </div>
+
+        <!-- SECCIÓN 5: Intervalos -->
+        <h3>📏 Sección 5: Intervalos</h3>
+
+        <div class="exercise-item">
+            <div class="number">11</div>
+            <div class="question">
+                Calcula $[1, 4] \cup [2, 6]$ y $[1, 4] \cap [2, 6]$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final11')">Ver Solución</button>
+            <div id="final11" class="solution-text">
+                <strong>Unión:</strong> $[1, 4] \cup [2, 6] = [1, 6]$<br>
+                <strong>Intersección:</strong> $[1, 4] \cap [2, 6] = [2, 4]$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">12</div>
+            <div class="question">
+                Representa en la recta numérica: $(-2, 3]$
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final12')">Ver Solución</button>
+            <div id="final12" class="solution-text">
+                - Círculo <strong>vacío</strong> en -2 (no incluido, paréntesis)<br>
+                - Círculo <strong>relleno</strong> en 3 (incluido, corchete)<br>
+                - Sombrear la región entre -2 y 3
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">13</div>
+            <div class="question">
+                Escribe como intervalo: "números mayores o iguales a 0".
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final13')">Ver Solución</button>
+            <div id="final13" class="solution-text">
+                $[0, +\infty)$<br>
+                Corchete en 0 (incluido), paréntesis en $\infty$ (siempre).
+            </div>
+        </div>
+
+        <!-- SECCIÓN 6: Valor Absoluto -->
+        <h3>|x| Sección 6: Valor Absoluto</h3>
+
+        <div class="exercise-item">
+            <div class="number">14</div>
+            <div class="question">
+                Resuelve $|x - 4| = 2$.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final14')">Ver Solución</button>
+            <div id="final14" class="solution-text">
+                $x - 4 = 2$ o $x - 4 = -2$<br>
+                $x = 6$ o $x = 2$<br>
+                <strong>Solución:</strong> $x \in \{2, 6\}$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">15</div>
+            <div class="question">
+                Expresa $|x - 2| < 3$ como intervalo.
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final15')">Ver Solución</button>
+            <div id="final15" class="solution-text">
+                $|x - 2| < 3$ significa $-3 < x - 2 < 3$<br>
+                Sumando 2: $-1 < x < 5$<br>
+                <strong>Intervalo:</strong> $(-1, 5)$
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">16</div>
+            <div class="question">
+                ¿Cuál es la distancia entre -5 y 3 en la recta numérica?
+            </div>
+            <button class="btn-solution" onclick="toggleSolution('final16')">Ver Solución</button>
+            <div id="final16" class="solution-text">
+                $\text{dist}(-5, 3) = |-5 - 3| = |-8| = 8$<br>
+                También: $|3 - (-5)| = |8| = 8$
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- Quiz Final -->
+        <h3>✅ Quiz de Opción Múltiple</h3>
+
+        <div class="quiz-item">
+            <p class="question">1. ¿Cuál de los siguientes números es irracional?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="qfinal1" value="a" onclick="checkQuiz('qfinal1', 'd')"> $0.25$</label>
+                <label><input type="radio" name="qfinal1" value="b" onclick="checkQuiz('qfinal1', 'd')"> $\frac{1}{3}$</label>
+                <label><input type="radio" name="qfinal1" value="c" onclick="checkQuiz('qfinal1', 'd')"> $\sqrt{9}$</label>
+                <label><input type="radio" name="qfinal1" value="d" onclick="checkQuiz('qfinal1', 'd')"> $\sqrt{7}$</label>
+            </div>
+            <div id="feedback-qfinal1" class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-item">
+            <p class="question">2. El intervalo $(-2, 5]$ incluye:</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="qfinal2" value="a" onclick="checkQuiz('qfinal2', 'c')"> Al -2 y al 5</label>
+                <label><input type="radio" name="qfinal2" value="b" onclick="checkQuiz('qfinal2', 'c')"> Al -2 pero no al 5</label>
+                <label><input type="radio" name="qfinal2" value="c" onclick="checkQuiz('qfinal2', 'c')"> Al 5 pero no al -2</label>
+                <label><input type="radio" name="qfinal2" value="d" onclick="checkQuiz('qfinal2', 'c')"> Ni al -2 ni al 5</label>
+            </div>
+            <div id="feedback-qfinal2" class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-item">
+            <p class="question">3. ¿Cuánto vale $|-3 + 7|$?</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="qfinal3" value="a" onclick="checkQuiz('qfinal3', 'b')"> $-4$</label>
+                <label><input type="radio" name="qfinal3" value="b" onclick="checkQuiz('qfinal3', 'b')"> $4$</label>
+                <label><input type="radio" name="qfinal3" value="c" onclick="checkQuiz('qfinal3', 'b')"> $10$</label>
+                <label><input type="radio" name="qfinal3" value="d" onclick="checkQuiz('qfinal3', 'b')"> $-10$</label>
+            </div>
+            <div id="feedback-qfinal3" class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-item">
+            <p class="question">4. Entre $\sqrt{2}$ y $\sqrt{3}$ hay:</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="qfinal4" value="a" onclick="checkQuiz('qfinal4', 'd')"> Un solo número racional</label>
+                <label><input type="radio" name="qfinal4" value="b" onclick="checkQuiz('qfinal4', 'd')"> Un solo número irracional</label>
+                <label><input type="radio" name="qfinal4" value="c" onclick="checkQuiz('qfinal4', 'd')"> Exactamente 10 números</label>
+                <label><input type="radio" name="qfinal4" value="d" onclick="checkQuiz('qfinal4', 'd')"> Infinitos números de ambos tipos</label>
+            </div>
+            <div id="feedback-qfinal4" class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-item">
+            <p class="question">5. La expresión $|x - 3| \leq 2$ representa el intervalo:</p>
+            <div class="quiz-options">
+                <label><input type="radio" name="qfinal5" value="a" onclick="checkQuiz('qfinal5', 'b')"> $(1, 5)$</label>
+                <label><input type="radio" name="qfinal5" value="b" onclick="checkQuiz('qfinal5', 'b')"> $[1, 5]$</label>
+                <label><input type="radio" name="qfinal5" value="c" onclick="checkQuiz('qfinal5', 'b')"> $[-5, 5]$</label>
+                <label><input type="radio" name="qval5" value="d" onclick="checkQuiz('qfinal5', 'b')"> $(3, 5]$</label>
+            </div>
+            <div id="feedback-qfinal5" class="quiz-feedback"></div>
+        </div>
+
+        <div class="success-box" style="margin-top: 2rem;">
+            <h4>🎉 ¡Felicitaciones por completar la unidad!</h4>
+            <p>Has trabajado con los conceptos fundamentales de los números reales:</p>
+            <ul>
+                <li>Clasificación de números (N, Z, Q, I, R)</li>
+                <li>Números irracionales y sus propiedades</li>
+                <li>Densidad y completitud de $\mathbb{R}$</li>
+                <li>Operaciones y axiomas</li>
+                <li>Intervalos en la recta real</li>
+                <li>Valor absoluto y distancia</li>
+            </ul>
+            <p><strong>¡Sigue practicando para afianzar estos conocimientos!</strong></p>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 Mates con Agugg_ia - Diseño Curricular Provincia de Córdoba</p>
+    <p style="margin-top: 0.5rem; font-size: 0.9rem;">Plataforma educativa para el nivel secundario</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem; color: #9CA3AF;">Basado en el Marco Nacional para la Mejora del Aprendizaje en Matemática</p>
+</footer>
+
+<script>
+    // Tab Navigation
+    function openTab(evt, tabName) {
+        var tabContent = document.getElementsByClassName("tab-content");
+        for (var i = 0; i < tabContent.length; i++) {
+            tabContent[i].style.display = "none";
+            tabContent[i].classList.remove("active");
+        }
+        var tabLinks = document.getElementsByClassName("tab-btn");
+        for (var i = 0; i < tabLinks.length; i++) {
+            tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        setTimeout(() => document.getElementById(tabName).classList.add("active"), 10);
+        evt.currentTarget.className += " active";
+        
+        // Re-render KaTeX when switching tabs
+        if (typeof renderMathInElement !== 'undefined') {
+            renderMathInElement(document.getElementById(tabName), {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        }
+    }
+
+    // Toggle Solution
+    function toggleSolution(id) {
+        var el = document.getElementById(id);
+        if (el.style.display === "block") {
+            el.style.display = "none";
+        } else {
+            el.style.display = "block";
+        }
+    }
+
+    // Quiz Checker
+    function checkQuiz(name, correctVal) {
+        var options = document.getElementsByName(name);
+        var selectedVal = null;
+        for(var i = 0; i < options.length; i++) {
+            if(options[i].checked) {
+                selectedVal = options[i].value;
+            }
+        }
+        
+        var feedback = document.getElementById('feedback-' + name);
+        
+        if(selectedVal === correctVal) {
+            feedback.innerHTML = "✅ ¡Correcto! Muy bien.";
+            feedback.className = "quiz-feedback correct";
+        } else {
+            feedback.innerHTML = "❌ Incorrecto. Revisa el contenido e intenta de nuevo.";
+            feedback.className = "quiz-feedback incorrect";
+        }
+        feedback.style.display = "block";
+    }
+
+    // Initialize KaTeX on page load
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof renderMathInElement !== 'undefined') {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

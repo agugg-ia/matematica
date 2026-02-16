@@ -3,1634 +3,1327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análisis Gráfico de Funciones | Mates con Agugg_ia</title>
+    <meta name="description" content="Funciones - 4° Año Secundaria - Mates con Agugg_ia">
+    <title>Funciones | 4° Año | Mates con Agugg_ia</title>
     
-    <!-- 0. CONFIGURACIÓN DE MATHJAX -->
-    <script>
-        window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                processEscapes: true
-            },
-            options: {
-                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
-            }
-        };
-    </script>
-
-    <!-- 1. LIBRERÍA MATHJAX -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- KaTeX para fórmulas matemáticas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     
-    <!-- Chart.js para gráficos -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <!-- JSXGraph para gráficos interactivos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.8.0/distrib/jsxgraph.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsxgraph@1.8.0/distrib/jsxgraphcore.js"></script>
+    
     <style>
-        /* --- VARIABLES CSS Y ESTILOS GENERALES --- */
         :root {
-            --primary: #2563EB;      
+            --primary: #2563EB;
             --primary-dark: #1E40AF;
-            --secondary: #10B981;    
-            --accent: #F59E0B;       
-            --dark: #1F2937;         
-            --light: #F3F4F6;        
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --dark: #1F2937;
+            --light: #F3F4F6;
             --white: #ffffff;
             --gray: #6B7280;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --radius: 12px;
-            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: var(--font-main);
-            color: var(--dark);
-            background-color: #F9FAFB;
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
-        ul { list-style: none; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-
-        /* --- HEADER --- */
-        header {
-            background-color: var(--white);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-        .logo {
-            font-size: 1.3rem; 
-            font-weight: 800;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .logo:hover { opacity: 0.8; }
-        .logo span { color: var(--dark); }
-
-        /* --- CONTENEDOR PRINCIPAL DE LECCIÓN --- */
-        .lesson-container {
-            max-width: 1000px;
-            margin: 40px auto;
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            min-height: 600px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .lesson-header {
-            padding: 30px 40px;
-            background: linear-gradient(to right, #EFF6FF, #ffffff);
-            border-bottom: 1px solid #E5E7EB;
-        }
-        
-        .lesson-nav {
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-        .lesson-nav a { color: var(--primary); font-weight: 600; }
-        .lesson-nav a:hover { text-decoration: underline; }
-
-        .lesson-title { font-size: 2.2rem; color: var(--primary-dark); line-height: 1.2; }
-
-        /* --- SISTEMA DE PESTAÑAS (TABS) --- */
-        .tabs-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            flex-grow: 1;
-        }
-
-        /* Botones de navegación de pestañas */
-        .tabs-nav {
-            display: flex;
-            background-color: #f3f4f6;
-            border-bottom: 1px solid #e5e7eb;
-            overflow-x: auto;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 20px 10px; /* Padding reducido para acomodar más pestañas */
-            border: none;
-            background: none;
-            cursor: pointer;
-            font-size: 0.9rem; /* Texto ligeramente más pequeño */
-            font-weight: 600;
-            color: var(--gray);
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            border-bottom: 4px solid transparent;
-            font-family: inherit;
-        }
-
-        .tab-btn:hover { background-color: #e5e7eb; color: var(--primary); }
-        
-        .tab-btn.active {
-            color: var(--primary);
-            background-color: var(--white);
-            border-bottom-color: var(--primary);
-        }
-
-        /* Paneles de contenido */
-        .tab-content {
-            padding: 40px;
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--dark); background-color: var(--light); line-height: 1.7; }
+        header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 1.5rem; position: sticky; top: 0; z-index: 1000; box-shadow: var(--shadow); }
+        .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .breadcrumb { font-size: 0.9rem; opacity: 0.9; }
+        .breadcrumb a { color: white; text-decoration: none; }
+        main { max-width: 1400px; margin: 0 auto; padding: 2rem 1rem; }
+        .tabs-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; padding: 1rem; background: white; border-radius: var(--radius); box-shadow: var(--shadow); }
+        .tab-btn { background-color: var(--light); border: none; padding: 12px 20px; cursor: pointer; border-radius: 25px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; color: var(--dark); }
+        .tab-btn:hover { background-color: #e0e0e0; transform: translateY(-2px); }
+        .tab-btn.active { background-color: var(--primary); color: white; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); }
+        .tab-content { display: none; background-color: white; padding: 2.5rem; border-radius: var(--radius); box-shadow: var(--shadow); animation: fadeIn 0.4s ease; }
         .tab-content.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- ESTILOS ESPECÍFICOS DE CONTENIDO --- */
-        h2 { color: var(--primary); margin-bottom: 15px; font-size: 1.8rem; margin-top: 20px; }
-        h3 { color: var(--dark); margin-bottom: 10px; font-size: 1.4rem; margin-top: 20px; }
-        h4 { font-size: 1.1rem; margin-bottom: 10px; }
-        p { margin-bottom: 15px; font-size: 1.05rem; color: #374151; text-align: justify; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        h2 { color: var(--primary); font-size: 2rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 3px solid var(--primary); display: inline-block; }
+        h3 { color: var(--secondary); font-size: 1.4rem; margin: 2rem 0 1rem; }
+        h4 { color: var(--accent); font-size: 1.2rem; margin: 1.5rem 0 0.8rem; }
+        p { margin-bottom: 1rem; text-align: justify; }
+        .quote-box { background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border-left: 5px solid var(--primary); padding: 1.5rem 2rem; margin: 2rem 0; border-radius: 0 var(--radius) var(--radius) 0; font-style: italic; }
+        .quote-box .author { text-align: right; font-style: normal; color: var(--gray); margin-top: 0.5rem; }
+        .concept-box { background-color: #EBF5FB; border: 1px solid #AED6F1; border-left: 5px solid var(--primary); padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
+        .concept-box h4 { color: var(--primary); margin-top: 0; }
+        .solved-example { background-color: #FFFBEB; border: 1px solid #FCD34D; padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
+        .solved-example h4 { color: var(--accent); margin-top: 0; border-bottom: 1px dashed #FCD34D; padding-bottom: 0.5rem; }
+        .warning-box { background-color: #FEF2F2; border-left: 5px solid #EF4444; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
+        .success-box { background: linear-gradient(135deg, #F0FFF4 0%, #C6F6D5 100%); border-left: 5px solid var(--secondary); padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
+        .theory-highlight { background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border-left: 5px solid var(--accent); padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
+        .theory-highlight h4 { color: #92400E; margin-top: 0; }
+        .history-box { background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%); border: 1px solid #C4B5FD; padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
+        .history-box h4 { color: #7C3AED; margin-top: 0; }
+        .pedagogy-box { background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); border: 2px solid #10B981; padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
+        .pedagogy-box h4 { color: #065F46; margin-top: 0; }
+        .pedagogy-box::before { content: "📚 Para el docente: "; font-weight: bold; color: #065F46; }
+        .property-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .property-card { background: white; border: 1px solid #E5E7EB; padding: 1.2rem; border-radius: var(--radius); }
+        .property-card h5 { color: var(--primary); margin-bottom: 0.5rem; }
+        .property-card .formula { text-align: center; padding: 1rem; background: var(--light); border-radius: 8px; margin: 0.5rem 0; }
+        .exercise-item { background: white; border: 1px solid #E5E7EB; padding: 1.2rem; margin-bottom: 1rem; border-radius: var(--radius); position: relative; }
+        .exercise-item .number { position: absolute; top: 1rem; left: -15px; background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .exercise-item .question { margin-left: 20px; margin-bottom: 1rem; }
+        .btn-solution { background-color: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: 600; margin-left: 20px; }
+        .btn-solution:hover { background-color: #D97706; }
+        .solution-text { display: none; margin: 1rem 0 0 20px; padding: 1rem; background-color: #F0FFF4; border-left: 4px solid var(--secondary); border-radius: 0 8px 8px 0; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
+        .info-card { background: white; border: 1px solid #E5E7EB; border-radius: var(--radius); overflow: hidden; }
+        .info-card .card-header { padding: 1rem 1.5rem; border-bottom: 1px solid #E5E7EB; }
+        .info-card .card-body { padding: 1.5rem; }
+        footer { background-color: var(--dark); color: #D1D5DB; padding: 2rem 1rem; margin-top: 3rem; text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+        th, td { border: 1px solid #E5E7EB; padding: 0.8rem 1rem; text-align: center; }
+        th { background-color: var(--primary); color: white; }
+        tr:nth-child(even) { background-color: var(--light); }
+        .step { padding: 0.5rem 0; border-left: 3px solid var(--accent); padding-left: 1rem; margin: 0.5rem 0; }
+        .step-number { display: inline-block; width: 24px; height: 24px; background: var(--primary); color: white; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.8rem; margin-right: 0.5rem; }
         
-        .intro-quote {
-            font-style: italic;
-            border-left: 4px solid var(--accent);
-            padding-left: 20px;
-            color: var(--gray);
-            margin: 20px 0;
-            background: #FFFBEB;
-            padding: 20px;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .info-activa {
-            background: #EFF6FF;
-            border-left: 4px solid var(--primary);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-        }
+        /* JSXGraph containers */
+        .jxgbox-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; margin: 2rem 0; }
+        .jxgbox-wrapper { display: flex; flex-direction: column; align-items: center; }
+        .jxgbox { border: 2px solid #E5E7EB; border-radius: var(--radius); background: #FAFAFA; }
+        .jxgbox-label { font-weight: 600; color: var(--primary); margin-top: 0.5rem; font-size: 0.95rem; }
+        .jxgbox-large { width: 500px; height: 400px; }
+        .jxgbox-medium { width: 400px; height: 320px; }
+        .jxgbox-small { width: 280px; height: 250px; }
+        .figure-section { background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); padding: 1.5rem; border-radius: var(--radius); margin: 1.5rem 0; border: 1px solid #e2e8f0; }
+        .figure-title { font-weight: 600; color: var(--secondary); margin-bottom: 1rem; text-align: center; font-size: 1.1rem; }
         
-        .mente-activa {
-            background: #FEF3C7;
-            border-left: 4px solid var(--accent);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-        }
+        /* Multiple representations grid */
+        .representations-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        .representation-card { background: white; border: 2px solid #E5E7EB; border-radius: var(--radius); padding: 1.5rem; text-align: center; }
+        .representation-card h5 { color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem; }
+        .representation-card.algebraic { border-color: #3B82F6; }
+        .representation-card.numeric { border-color: #10B981; }
+        .representation-card.graphic { border-color: #F59E0B; }
+        .representation-card.verbal { border-color: #8B5CF6; }
         
-        .info-activa h4, .mente-activa h4 {
-            margin-top: 0;
-            color: var(--primary-dark);
-        }
-
-        .estacion-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
+        /* Interactive exploration */
+        .exploration-box { background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border: 2px dashed var(--accent); padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); text-align: center; }
+        .exploration-box h4 { color: #92400E; margin-bottom: 1rem; }
         
-        .estacion-card {
-            border: 2px solid #E5E7EB;
-            border-radius: 10px;
-            padding: 20px;
-            background: #FAFAFA;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .estacion-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        
-        .estacion-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary);
-        }
-        
-        .estacion-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-        
-        .graph-container {
-            margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #E5E7EB;
-            border-radius: 8px;
-            background: #FAFAFA;
-            position: relative;
-            height: 300px;
-            width: 100%;
-        }
-
-        .situacion-real {
-            background: #ECFDF5;
-            border: 1px solid #10B981;
-            border-radius: 10px;
-            padding: 25px;
-            margin: 25px 0;
-        }
-        
-        .desafio-creativo {
-            background: #FEF3C7;
-            border: 2px dashed var(--accent);
-            border-radius: 10px;
-            padding: 25px;
-            margin: 25px 0;
-        }
-        
-        .validacion-pares {
-            background: #EFF6FF;
-            border: 2px solid var(--primary);
-            border-radius: 10px;
-            padding: 25px;
-            margin: 25px 0;
-        }
-
-        .concept-box {
-            background: #EFF6FF;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border: 1px solid #DBEAFE;
-        }
-        
-        .aplicacion-contexto {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
-        }
-        
-        .app-card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            border-top: 4px solid var(--secondary);
-        }
-
-        .exercise-item {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px dashed #D1D5DB;
-        }
-        .solution-toggle {
-            background: var(--white);
-            border: 1px solid var(--secondary);
-            color: var(--secondary);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.2s;
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
-        .solution-toggle:hover { background: var(--secondary); color: white; }
-        .solution-text {
-            display: none;
-            margin-top: 15px;
-            padding: 15px;
-            background: #ECFDF5;
-            border-radius: 6px;
-            border: 1px solid #10B981;
-        }
-
-        .quiz-item { margin-bottom: 25px; }
-        .quiz-options button {
-            display: block;
-            width: 100%;
-            text-align: left;
-            padding: 12px 15px;
-            margin: 5px 0;
-            background: white;
-            border: 1px solid #D1D5DB;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-family: inherit;
-        }
-        .quiz-options button:hover { background-color: #F3F4F6; }
-        
-        .quiz-btn.correct { background-color: #D1FAE5; border-color: #10B981; color: #065F46; }
-        .quiz-btn.incorrect { background-color: #FEE2E2; border-color: #EF4444; color: #991B1B; }
-        .quiz-feedback { margin-top: 8px; font-weight: 600; font-size: 0.9rem; display: none; min-height: 1.5em; }
-
-        .rubrica-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 0.9rem;
-        }
-        
-        .rubrica-table th, .rubrica-table td {
-            border: 1px solid #E5E7EB;
-            padding: 12px;
-            text-align: left;
-        }
-        
-        .rubrica-table th {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .rubrica-table tr:nth-child(even) {
-            background-color: #F9FAFB;
-        }
-
-        footer {
-            background-color: var(--dark);
-            color: #D1D5DB;
-            padding: 20px 0;
-            margin-top: auto;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .lesson-title { font-size: 1.8rem; }
-            .tab-content { padding: 25px; }
-            .tabs-nav { flex-wrap: wrap; }
-            .tab-btn { flex: 1 0 auto; min-width: 120px; }
-            .estacion-container { grid-template-columns: 1fr; }
-            .graph-container { height: 250px; }
+            .tabs-nav { flex-direction: column; }
+            .tab-btn { width: 100%; }
+            .header-content { flex-direction: column; }
+            .jxgbox { width: 100% !important; max-width: 320px; height: 280px !important; }
+            .jxgbox-large, .jxgbox-medium { height: 300px !important; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo" onclick="window.location.href='index.html'">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M12 2V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M4 7L12 2L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M4 17L12 22L20 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span>Mates con Agugg_ia</span>
-                </div>
-            </nav>
+<header>
+    <div class="header-content">
+        <div class="logo">
+            <svg viewBox="0 0 24 24" fill="none" width="40" height="40">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
+                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            Mates con Agugg_ia
         </div>
-    </header>
-
-    <main>
-        <div class="container">
-            <div class="lesson-container">
-                <!-- Cabecera de la lección -->
-                <div class="lesson-header">
-                    <div class="lesson-nav">
-                        <a href="index.html">← Volver al Inicio</a> | <a href="index.html#vista-cursos">Ver Cursos</a>
-                    </div>
-                    <h1 class="lesson-title">Análisis Gráfico de Funciones</h1>
-                    <p style="color: var(--gray); margin-top: 10px;">Una secuencia didáctica basada en resolución de problemas y análisis cualitativo</p>
-                </div>
-
-                <!-- NAVEGACIÓN DE PESTAÑAS -->
-                <div class="tabs-container">
-                    <div class="tabs-nav">
-                        <button class="tab-btn active" onclick="openTab(event, 'tab-intro')">1. Introducción</button>
-                        <!-- NUEVA PESTAÑA: Conceptos Básicos -->
-                        <button class="tab-btn" onclick="openTab(event, 'tab-conceptos-basicos')">2. Conceptos Básicos</button>
-                        <!-- ANTIGUA PESTAÑA 2 AHORA ES 3 -->
-                        <button class="tab-btn" onclick="openTab(event, 'tab-analisis')">3. Análisis Gráfico</button>
-                        <!-- NUEVA PESTAÑA: Comportamiento -->
-                        <button class="tab-btn" onclick="openTab(event, 'tab-comportamiento')">4. Comportamiento</button>
-                        <!-- ANTIGUA PESTAÑA 3 AHORA ES 5 -->
-                        <button class="tab-btn" onclick="openTab(event, 'tab-aplicaciones')">5. Aplicaciones</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-teoria')">6. Teoría</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-practica')">7. Evaluación</button>
-                    </div>
-
-                    <!-- PESTAÑA 1: INTRODUCCIÓN Y CONTEXTO (MEJORADA) -->
-<div id="tab-intro" class="tab-content active">
-    <h2>Fase 1: Reactivación y Contextualización</h2>
-    
-    <div class="info-activa">
-        <h4>InfoActiva: La Función como Máquina</h4>
-        <p>Imagina una función como una máquina que procesa valores. Introducimos un valor de entrada ($x$) en la máquina, esta aplica una regla específica (la fórmula) y nos entrega un único valor de salida ($y$).</p>
-        <p>Ejemplo: Si la máquina es $f(x) = 2x + 3$, cuando ingresamos $x = 4$, obtenemos $f(4) = 2(4) + 3 = 11$.</p>
+        <div class="breadcrumb">
+            <a href="#">Inicio</a> / <a href="#">Secundaria</a> / 4° Año / Funciones
+        </div>
     </div>
-    
-    <h3>Variables en la vida cotidiana</h3>
-    <div class="concept-box">
-        <h4>¿El dinero en tu billetera es una función del tiempo?</h4>
-        <p>Piensa en tu dinero durante un mes. ¿Siempre aumenta cuando pasa el tiempo? No, porque gastas dinero. Por lo tanto, el dinero en función del tiempo puede ser <strong>creciente</strong> (cuando recibís dinero) o <strong>decreciente</strong> (cuando gastás).</p>
-    </div>
-    
-    <div class="concept-box">
-        <h4>Distancia recorrida en bicicleta</h4>
-        <p>La distancia que recorrés en bici depende de dos variables: la velocidad y el tiempo. Si pedaleás a 15 km/h durante 2 horas, la distancia es $15 \times 2 = 30$ km. Aquí, la distancia <strong>depende</strong> de la velocidad y el tiempo.</p>
-    </div>
-    
-    <div class="mente-activa">
-        <h4>menteACTIVA: Prueba de la Recta Vertical</h4>
-        <p>¿Cómo saber si una gráfica representa una función? Trazá mentalmente rectas verticales sobre la gráfica. Si cada recta vertical corta a la gráfica en <strong>un solo punto</strong>, entonces es una función. Si alguna recta vertical la corta en dos o más puntos, NO es una función.</p>
+</header>
+
+<main>
+    <nav class="tabs-nav">
+        <button class="tab-btn active" onclick="openTab(event, 'tab1')">📖 1. Concepto de Función</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab2')">📊 2. Función Lineal</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab3')">📐 3. Función Cuadrática</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab4')">🔄 4. Dominio y Rango</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab5')">🔧 5. Operaciones</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab6')">✅ 6. Práctica Integral</button>
+    </nav>
+
+    <!-- ==================== TAB 1: Concepto de Función ==================== -->
+    <div id="tab1" class="tab-content active">
+        <h2>Concepto de Función</h2>
         
-        <!-- CONTENEDOR DEL GRÁFICO FORZADO A SER CUADRADO PARA QUE EL CÍRCULO NO SE VEA COMO ELIPSE -->
-        <div class="graph-container" style="aspect-ratio: 1/1; max-width: 400px; margin: 20px auto;">
-            <canvas id="verticalLineTestChart"></canvas>
-        </div>
-        
-        <div style="background: rgba(255,255,255,0.6); padding: 15px; border-radius: 8px; margin-top: 10px;">
-            <p style="margin-bottom: 0;"><strong>Pregunta:</strong> ¿El círculo $x^2 + y^2 = 4$ es una función?</p>
-            <p style="margin-bottom: 0; font-weight: bold; color: #B91C1C;"><em>Respuesta: No.</em></p>
-            <p style="font-size: 0.9rem;">Porque al trazar una recta vertical en $x = 0$ (el eje Y), la gráfica corta en dos puntos: $(0, 2)$ y $(0, -2)$. Un mismo valor de $x$ tiene dos salidas $y$ diferentes.</p>
-        </div>
-    </div>
-    
-    <h3>Contexto cordobés</h3>
-    <div class="concept-box">
-        <p>En Córdoba, encontramos relaciones funcionales en:</p>
-        <ul style="padding-left: 20px; margin: 15px 0;">
-            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Agricultura:</strong> Rendimiento de cultivos según las lluvias en las sierras.</li>
-            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Turismo:</strong> Cantidad de turistas en función de la época del año.</li>
-            <li style="margin-bottom: 8px; list-style-type: disc;">• <strong>Economía local:</strong> Producción de maní o soja en función de la inversión.</li>
-        </ul>
-    </div>
-    
-    <div class="intro-quote">
-        "No enseñamos matemáticas, enseñamos a pensar matemáticamente a través de problemas de la vida real."
-    </div>
-</div>
-<!-- PESTAÑA 2 (ACTUALIZADA): CONCEPTOS FUNDAMENTALES -->
-<div id="tab-conceptos-basicos" class="tab-content">
-    <h2>Fase 1.5: Conceptos Fundamentales</h2>
-    <p>Antes de analizar gráficas complejas, necesitamos definir formalmente qué es una función y qué son sus componentes.</p>
-
-    <!-- NUEVA SECCIÓN: DEFINICIÓN VISUAL DE FUNCIÓN -->
-    <div class="info-activa" style="text-align: center;">
-        <h4>¿Qué es una Función?</h4>
-        <p>Una función es una relación entre dos conjuntos (el de entrada $X$ y el de salida $Y$) que asigna a <strong>cada</strong> elemento de $X$, <strong>un único</strong> elemento de $Y$.</p>
-        
-        <!-- Diagrama Visual de la Máquina -->
-        <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 25px 0; flex-wrap: wrap;">
-            <!-- Conjunto Entrada -->
-            <div style="background: #E0E7FF; border: 2px solid var(--primary); border-radius: 50%; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
-                <span style="font-weight: bold; color: var(--primary-dark);">DOMINIO</span>
-                <span style="font-size: 0.8rem;">(Entradas $x$)</span>
-            </div>
-
-            <!-- Flecha y Máquina -->
-            <div style="display: flex; flex-direction: column; align-items: center; min-width: 150px;">
-                <div style="font-size: 24px;">→</div>
-                <div style="background: var(--dark); color: white; padding: 10px 15px; border-radius: 8px; margin: 5px 0; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
-                    $f(x)$                 </div>
-                <div style="font-size: 24px;">→</div>
-            </div>
-
-            <!-- Conjunto Salida -->
-            <div style="background: #D1FAE5; border: 2px solid var(--secondary); border-radius: 50%; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
-                <span style="font-weight: bold; color: #065F46;">IMAGEN</span>
-                <span style="font-size: 0.8rem;">(Salidas $y$)</span>
-            </div>
-        </div>
-        <p style="font-size: 0.9rem; font-style: italic;">Regla de oro: Si metes un valor $x$ en la máquina, nunca te pueden devolver dos valores $y$ distintos.</p>
-    </div>
-
-    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #E5E7EB;">
-
-    <div class="info-activa">
-        <h4>¿Qué es el Dominio ($D_f$)?</h4>
-        <p>El <strong>Dominio</strong> de una función es el conjunto de todos los valores posibles de entrada ($x$) para los cuales la función tiene sentido y existe un resultado.</p>
-        <p style="font-family: monospace; background: #eee; padding: 5px;">Pregunta clave: ¿Qué valores de $x$ puedo "meter" en la fórmula sin que se rompa?</p>
-    </div>
-
-    <div class="info-activa">
-        <h4>¿Qué es la Imagen ($I_m$) o Rango?</h4>
-        <p>La <strong>Imagen</strong> es el conjunto de todos los valores de salida ($y$) que la función produce al utilizar todos los valores del dominio.</p>
-        <p style="font-family: monospace; background: #eee; padding: 5px;">Pregunta clave: ¿Qué resultados ($y$) pueden salir de la máquina?</p>
-    </div>
-
-    <h3>Visualización e Interacción Dinámica</h3>
-    <p>Usaremos una función cuadrática simple. Observá cómo cambia la gráfica y su <strong>Imagen</strong> cuando modificamos su posición vertical.</p>
-    
-    <!-- CONTROLES INTERACTIVOS -->
-    <div class="concept-box" style="background: #fff; border: 2px solid var(--accent);">
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
-            <label for="sliderK" style="font-weight: bold; font-size: 1.1rem;">
-                Función: $f(x) = x^2 + k$             </label>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 0.9rem;">$k =$</span>
-                <input type="range" id="sliderK" min="-3" max="3" step="0.5" value="0" style="width: 150px; cursor: pointer;">
-                <span id="valK" style="font-weight: bold; color: var(--primary); font-size: 1.2rem; min-width: 30px;">0</span>
-            </div>
-        </div>
-        
-        <!-- Gráfico Interactivo -->
-        <div class="graph-container">
-            <canvas id="conceptBasicChart"></canvas>
+        <div class="quote-box">
+            "Una función es como una máquina: recibes una entrada, se aplica una regla, y obtienes exactamente una salida. Cada entrada tiene una única salida correspondiente."
+            <div class="author">— Analogía didáctica fundamental</div>
         </div>
 
-        <div class="mente-activa">
-            <h4>Analisis Dinámico:</h4>
-            <ul style="padding-left: 20px;">
-                <li><strong>Mueve el deslizador:</strong> Verás que la parábola sube y baja.</li>
-                <li><strong>Observa el Dominio:</strong> ¿Los valores de $x$ cambian? <br><em>No. La gráfica sigue existiendo hacia la izquierda y derecha infinitamente. El dominio sigue siendo todo $\mathbb{R}$.</em></li>
-                <li><strong>Observa la Imagen:</strong> ¿El valor mínimo en $y$ cambia? <br><em>Sí. Si subimos la parábola, la imagen ya no empieza en 0, sino en el nuevo valor más bajo.</em></li>
+        <div class="pedagogy-box">
+            <h4>Enfoque pedagógico</h4>
+            <p>Según investigaciones de Tall & Vinner (1981) sobre "concept image" y "concept definition", los estudiantes construyen una imagen mental del concepto que puede diferir de la definición formal. Es crucial conectar múltiples representaciones (algebraica, numérica, gráfica y verbal) para desarrollar una comprensión robusta. Estudios como los de Hitt (2003) demuestran que el trabajo con situaciones reales antes de la formalización mejora significativamente la comprensión conceptual.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>📚 Definición Formal</h4>
+            <p>Una <strong>función</strong> $f$ de un conjunto $A$ (dominio) a un conjunto $B$ (codominio) es una relación que asigna a cada elemento $x \in A$ <strong>exactamente un</strong> elemento $y \in B$.</p>
+            <p>Se denota: $f: A \rightarrow B$ o $y = f(x)$</p>
+            <ul>
+                <li><strong>$x$</strong> = variable independiente (entrada, argumento)</li>
+                <li><strong>$y$</strong> = variable dependiente (salida, imagen)</li>
+                <li><strong>$f(x)$</strong> = valor de la función en $x$ (se lee "efe de equis")</li>
             </ul>
         </div>
-    </div>
-</div>
-                    <!-- PESTAÑA 3 (ANTIGUA 2): ANÁLISIS GRÁFICO -->
-                    <div id="tab-analisis" class="tab-content">
-                        <h2>Fase 2: Análisis Gráfico - Estaciones de Trabajo</h2>
-                        <p>Ya conocés los conceptos de Dominio e Imagen. Ahora, trabajá en grupos rotativos por estas estaciones. Cada estación presenta una situación de acción donde debés analizar gráficas diversas.</p>
-                        
-                        <div class="estacion-container">
-                            <!-- Estación A -->
-                            <div class="estacion-card">
-                                <div class="estacion-header">
-                                    <div class="estacion-icon">A</div>
-                                    <h3>Estación A: Dominio e Imagen</h3>
-                                </div>
-                                <p><strong>Objetivo:</strong> Identificar los conjuntos de valores de entrada ($D_f$) y salida ($I_m$).</p>
-                                
-                                <div class="graph-container">
-                                    <canvas id="estacionAChart"></canvas>
-                                </div>
-                                
-                                <div class="mente-activa" style="margin-top: 15px;">
-                                    <h4>Preguntas para analizar:</h4>
-                                    <ol style="padding-left: 20px;">
-                                        <li>¿Para qué valores de $x$ existe la gráfica?</li>
-                                        <li>¿Qué valores de $y$ toma la función?</li>
-                                        <li>¿Hay restricciones en el dominio? ¿Por qué?</li>
-                                        <li>Expresá el dominio e imagen usando notación de intervalos.</li>
-                                    </ol>
-                                </div>
-                            </div>
-                            
-                            <!-- Estación B -->
-                            <div class="estacion-card">
-                                <div class="estacion-header">
-                                    <div class="estacion-icon">B</div>
-                                    <h3>Estación B: Ceros y Ordenada al Origen</h3>
-                                </div>
-                                <p><strong>Objetivo:</strong> Determinar analíticamente los puntos donde $f(x) = 0$ (raíces) y donde corta al eje $y$.</p>
-                                
-                                <div class="graph-container">
-                                    <canvas id="estacionBChart"></canvas>
-                                </div>
-                                
-                                <div class="mente-activa" style="margin-top: 15px;">
-                                    <h4>Preguntas para analizar:</h4>
-                                    <ol style="padding-left: 20px;">
-                                        <li>¿En qué puntos la gráfica corta al eje X?</li>
-                                        <li>¿Cuál es el valor de $f(0)$?</li>
-                                        <li>¿Qué significado tienen los ceros en el contexto de la función?</li>
-                                        <li>¿Cómo se relacionan los ceros con la factorización de la función?</li>
-                                    </ol>
-                                </div>
-                            </div>
-                            
-                            <!-- Estación C -->
-                            <div class="estacion-card">
-                                <div class="estacion-header">
-                                    <div class="estacion-icon">C</div>
-                                    <h3>Estación C: Continuidad y Asíntotas</h3>
-                                </div>
-                                <p><strong>Objetivo:</strong> Describir el comportamiento de la función cerca de puntos problemáticos.</p>
-                                
-                                <div class="graph-container">
-                                    <canvas id="estacionCChart"></canvas>
-                                </div>
-                                
-                                <div class="mente-activa" style="margin-top: 15px;">
-                                    <h4>Preguntas para analizar:</h4>
-                                    <ol style="padding-left: 20px;">
-                                        <li>¿La función es continua en todo su dominio?</li>
-                                        <li>¿Hay "saltos" o "huecos" en la gráfica?</li>
-                                        <li>¿La función se acerca a alguna línea recta sin tocarla?</li>
-                                        <li>¿Qué tipo de discontinuidad presenta?</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="info-activa">
-                            <h4>InfoActiva: Notación Matemática Precisa</h4>
-                            <p>En el análisis de funciones es fundamental usar la notación correcta:</p>
-                            <ul style="padding-left: 20px; margin: 10px 0;">
-                                <li style="margin-bottom: 5px;">• Dominio: $D_f = \{x \in \mathbb{R} / \text{condición}\}$ o $D_f = [a, b] \cup (c, d]$</li>
-                                <li style="margin-bottom: 5px;">• Crecimiento: $f$ es creciente en $[a, b]$ si $\forall x_1, x_2 \in [a, b], x_1 < x_2 \Rightarrow f(x_1) \leq f(x_2)$</li>
-                                <li style="margin-bottom: 5px;">• Paridad: $f$ es par si $f(-x) = f(x)$ (simétrica al eje Y)</li>
-                                <li style="margin-bottom: 5px;">• $f$ es impar si $f(-x) = -f(x)$ (simétrica al origen)</li>
-                            </ul>
-                        </div>
-                    </div>
 
-                    <!-- PESTAÑA 4 (NUEVA): COMPORTAMIENTO Y CUALIDADES -->
-                    <div id="tab-comportamiento" class="tab-content">
-                        <h2>Fase 2.5: Comportamiento y Cualidades de las Funciones</h2>
-                        <p>Antes de pasar a problemas reales como la velocidad de un auto o la temperatura, necesitamos entender cómo se "mueve" una función.</p>
+        <h3>🔗 Las Cuatro Representaciones de una Función</h3>
+        
+        <div class="pedagogy-box">
+            <h4>Importancia de las múltiples representaciones</h4>
+            <p>La investigación en educación matemática (Janvier, 1987; Duval, 2006) muestra que la comprensión profunda requiere traducir entre representaciones. Un estudiante que solo maneja la representación algebraica tiene una comprensión limitada. El dominio de un concepto se evidencia cuando se puede pasar fluidamente entre representaciones.</p>
+        </div>
 
-                        <div class="estacion-container">
-                            <!-- Tarjeta Monotonía -->
-                            <div class="estacion-card">
-                                <div class="estacion-header">
-                                    <div class="estacion-icon" style="background-color: var(--secondary);">M</div>
-                                    <h3>Monotonía: ¿Sube o Baja?</h3>
-                                </div>
-                                <p>Analizamos la tendencia general de la gráfica al movernos de izquierda a derecha.</p>
-                                <ul style="padding-left: 20px; margin-bottom: 10px;">
-                                    <li><strong>Creciente:</strong> Cuando $x$ aumenta, $y$ también aumenta (la gráfica sube).</li>
-                                    <li><strong>Decreciente:</strong> Cuando $x$ aumenta, $y$ disminuye (la gráfica baja).</li>
-                                </ul>
-                                <div class="graph-container" style="height: 200px;">
-                                    <canvas id="monoChart"></canvas>
-                                </div>
-                            </div>
-
-                            <!-- Tarjeta Continuidad -->
-                            <div class="estacion-card">
-                                <div class="estacion-header">
-                                    <div class="estacion-icon" style="background-color: var(--accent);">C</div>
-                                    <h3>Continuidad: ¿Está Rota?</h3>
-                                </div>
-                                <p>Una función es continua en un intervalo si su gráfica se puede dibujar <strong>sin levantar el lápiz</strong> del papel.</p>
-                                <p>Si hay un "salto" o un "hueco", hablamos de <strong>Discontinuidad</strong>.</p>
-                                <div class="graph-container" style="height: 200px;">
-                                    <canvas id="continuityChart"></canvas>
-                                </div>
-                            </div>
-
-                            <!-- Tarjeta Límites/Asíntotas -->
-                            <div class="estacion-card">
-                                <div class="estacion-header">
-                                    <div class="estacion-icon" style="background-color: #EF4444;">L</div>
-                                    <h3>Límites y Asíntotas</h3>
-                                </div>
-                                <p>A veces las funciones no llegan a un valor, sino que se acercan infinitamente a una línea recta.</p>
-                                <p>Esa línea recta se llama <strong>Asíntota</strong>. Imaginá que caminás hacia una pared, acercándote cada vez más, pero nunca la tocás.</p>
-                                <div class="graph-container" style="height: 200px;">
-                                    <canvas id="asymptoteChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mente-activa">
-                            <h4>Conectando Conceptos</h4>
-                            <p>Cuando analicemos la velocidad de un auto en la próxima pestaña, preguntarás:</p>
-                            <ul style="padding-left: 20px; margin-top: 10px;">
-                                <li>¿En qué tramo la velocidad era <strong>creciente</strong> (acelerando)?</li>
-                                <li>¿El auto se detuvo bruscamente (<strong>discontinuidad</strong>) o frenó suavemente (<strong>continuidad</strong>)?</li>
-                                <li>¿La velocidad tiende a estabilizarse en algún valor (<strong>asíntota horizontal</strong>)?</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- PESTAÑA 5 (ANTIGUA 3): APLICACIONES Y MODELIZACIÓN -->
-                    <div id="tab-aplicaciones" class="tab-content">
-                        <h2>Fase 3: Interpretación en Contexto y Validación</h2>
-                        
-                        <div class="situacion-real">
-                            <h3>Actividad 3.1: Análisis de Situaciones Reales</h3>
-                            <p><strong>Contexto:</strong> Un automóvil se desplaza por la ciudad de Córdoba. La siguiente gráfica muestra su velocidad en km/h en función del tiempo en minutos.</p>
-                            
-                            <div class="graph-container">
-                                <canvas id="velocidadAutoChart"></canvas>
-                            </div>
-                            
-                            <div class="mente-activa" style="margin-top: 20px;">
-                                <h4>Preguntas para interpretar:</h4>
-                                <ol style="padding-left: 20px;">
-                                    <li>¿En qué intervalos el auto acelera (velocidad creciente)?</li>
-                                    <li>¿Cuándo frena (velocidad decreciente)?</li>
-                                    <li>¿En qué momentos está detenido?</li>
-                                    <li>¿Qué significa el máximo absoluto de la gráfica en este contexto?</li>
-                                    <li>¿Por qué hay segmentos horizontales? ¿Qué representan?</li>
-                                </ol>
-                            </div>
-                        </div>
-                        
-                        <div class="situacion-real">
-                            <h3>Temperatura en un día en Córdoba</h3>
-                            <p>La siguiente gráfica muestra cómo varía la temperatura a lo largo de un día típico.</p>
-                            
-                            <div class="graph-container">
-                                <canvas id="temperaturaDiaChart"></canvas>
-                            </div>
-                            
-                            <div class="mente-activa" style="margin-top: 20px;">
-                                <h4>Preguntas para interpretar:</h4>
-                                <ol style="padding-left: 20px;">
-                                    <li>¿A qué hora se alcanza la temperatura máxima? ¿Y la mínima?</li>
-                                    <li>¿En qué horarios la temperatura aumenta más rápidamente?</li>
-                                    <li>¿Cómo modelarías esta situación con una función trigonométrica?</li>
-                                    <li>¿Qué variables externas podrían afectar esta gráfica?</li>
-                                </ol>
-                            </div>
-                        </div>
-                        
-                        <div class="desafio-creativo">
-                            <h3>Actividad 3.2: Desafío de Diseño Creativo</h3>
-                            <p><strong>Consigna:</strong> Diseñá la gráfica de una función que cumpla TODAS estas condiciones:</p>
-                            <ul style="padding-left: 20px; margin: 15px 0;">
-                                <li style="margin-bottom: 8px;">• Dominio: $[-5, 5]$</li>
-                                <li style="margin-bottom: 8px;">• Tiene una asíntota horizontal en $y = 1$ cuando $x \to +\infty$</li>
-                                <li style="margin-bottom: 8px;">• Presenta una discontinuidad de salto en $x = 1$</li>
-                                <li style="margin-bottom: 8px;">• Tiene exactamente dos ceros (raíces)</li>
-                                <li style="margin-bottom: 8px;">• Es creciente en $(-5, -2)$ y decreciente en $(2, 5)$</li>
-                                <li style="margin-bottom: 8px;">• Alcanza un máximo relativo en $x = -2$</li>
-                            </ul>
-                            
-                            <div class="graph-container">
-                                <canvas id="desafioDesignChart"></canvas>
-                                <p style="text-align: center; margin-top: 10px; font-style: italic; font-size: 0.9rem;">Espacio para que dibujes tu función (en papel) o la diseñes usando software</p>
-                            </div>
-                        </div>
-                        
-                        <div class="validacion-pares">
-                            <h3>Validación entre Pares</h3>
-                            <p><strong>Instrucciones:</strong> Intercambiá tu diseño con otro grupo. Validá si la función del otro grupo cumple todas las condiciones solicitadas. Completá la siguiente tabla de validación:</p>
-                            
-                            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-                                <thead>
-                                    <tr style="background-color: #E5E7EB;">
-                                        <th style="padding: 10px; border: 1px solid #ccc;">Condición</th>
-                                        <th style="padding: 10px; border: 1px solid #ccc;">¿Se cumple?</th>
-                                        <th style="padding: 10px; border: 1px solid #ccc;">Observaciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="padding: 10px; border: 1px solid #ccc;">Dominio $[-5, 5]$</td>
-                                        <td style="padding: 10px; border: 1px solid #ccc;">□ Sí □ No</td>
-                                        <td style="padding: 10px; border: 1px solid #ccc;"></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 10px; border: 1px solid #ccc;">Asíntota horizontal $y=1$</td>
-                                        <td style="padding: 10px; border: 1px solid #ccc;">□ Sí □ No</td>
-                                        <td style="padding: 10px; border: 1px solid #ccc;"></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 10px; border: 1px solid #ccc;">Discontinuidad en $x=1$</td>
-                                        <td style="padding: 10px; border: 1px solid #ccc;">□ Sí □ No</td>
-                                        <td style="padding: 10px; border: 1px solid #ccc;"></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 10px; border: 1px solid #ccc;">Dos ceros</td>
-                                        <td style="padding: 10px; border: 1px solid #ccc;">□ Sí □ No</td>
-                                        <td style="padding: 10px; border: 1px solid #ccc;"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            
-                            <p><strong>Reflexión:</strong> ¿Qué fue más difícil, diseñar la función o validar la de otro grupo? ¿Por qué?</p>
-                        </div>
-                    </div>
-
-                    <!-- PESTAÑA 6 (ANTIGUA 4): TEORÍA Y FORMALIZACIÓN -->
-                    <div id="tab-teoria" class="tab-content">
-                        <h2>Fase 4: Institucionalización del Saber</h2>
-                        <p>Ahora vinculamos las producciones libres de los alumnos con los nombres y definiciones formales de los objetos matemáticos.</p>
-                        
-                        <div class="info-activa">
-                            <h4>Definiciones Formales</h4>
-                            <p><strong>Función:</strong> Dados dos conjuntos $A$ y $B$, una función $f: A \rightarrow B$ es una relación que asigna a cada elemento $x \in A$ un único elemento $f(x) \in B$.</p>
-                            <p><strong>Dominio ($D_f$):</strong> Conjunto de valores de entrada para los cuales la función está definida.</p>
-                            <p><strong>Imagen ($I_m$):</strong> Conjunto de valores de salida que toma la función.</p>
-                            <p><strong>Función continua:</strong> Una función es continua en un punto si el límite cuando $x$ tiende al punto coincide con el valor de la función en ese punto.</p>
-                        </div>
-                        
-                        <h3>Utilidad de las Funciones en Diversos Campos</h3>
-                        
-                        <div class="aplicacion-contexto">
-                            <div class="app-card">
-                                <h4>Tecnología</h4>
-                                <p>Las funciones sinusoidales modelan señales de Wi-Fi, televisión y radio. La función $f(t) = A \cdot \sin(\omega t + \phi)$ describe cómo varía una señal electromagnética con el tiempo.</p>
-                            </div>
-                            
-                            <div class="app-card">
-                                <h4>Redes Sociales</h4>
-                                <p>En Facebook, la cantidad de amigos conectados en función de la hora del día sigue un patrón que puede modelarse para maximizar el alcance de una publicación.</p>
-                            </div>
-                            
-                            <div class="app-card">
-                                <h4>Economía</h4>
-                                <p>Las funciones de oferta y demanda $O(p)$ y $D(p)$ dependen del precio $p$. El punto donde se cortan determina el precio de equilibrio del mercado.</p>
-                            </div>
-                            
-                            <div class="app-card">
-                                <h4>Medio Ambiente</h4>
-                                <p>En Córdoba, el nivel de los embalses como función de las precipitaciones ayuda a gestionar recursos hídricos para la agricultura y el consumo.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="mente-activa">
-                            <h4>Perspectiva Histórica</h4>
-                            <p>La noción de función evolucionó a lo largo de siglos:</p>
-                            <ul style="padding-left: 20px; margin: 15px 0;">
-                                <li style="margin-bottom: 8px;"><strong>Diofanto (s. III):</strong> Usaba abreviaturas para cantidades desconocidas, precursor del álgebra simbólica.</li>
-                                <li style="margin-bottom: 8px;"><strong>Galileo (s. XVI-XVII):</strong> Estudiaba el movimiento mediante relaciones entre variables.</li>
-                                <li style="margin-bottom: 8px;"><strong>Euler (s. XVIII):</strong> Introdujo la notación $f(x)$ y clasificó funciones en algebraicas y trascendentes.</li>
-                                <li style="margin-bottom: 8px;"><strong>Dirichlet (s. XIX):</strong> Dio la definición moderna: "y es función de x si a cada valor de x le corresponde un único valor de y".</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="concept-box">
-                            <h4>Protocolo de Análisis Gráfico</h4>
-                            <p>Seguí estos pasos para analizar cualquier función gráficamente:</p>
-                            <ol style="padding-left: 20px; margin: 15px 0;">
-                                <li style="margin-bottom: 8px;">1. Determinar el <strong>dominio</strong> visual (valores de $x$ representados).</li>
-                                <li style="margin-bottom: 8px;">2. Identificar la <strong>imagen</strong> (valores de $y$ que alcanza).</li>
-                                <li style="margin-bottom: 8px;">3. Encontrar <strong>ceros</strong> y <strong>ordenada al origen</strong>.</li>
-                                <li style="margin-bottom: 8px;">4. Analizar <strong>crecimiento/decrecimiento</strong>.</li>
-                                <li style="margin-bottom: 8px;">5. Localizar <strong>máximos y mínimos</strong> relativos/absolutos.</li>
-                                <li style="margin-bottom: 8px;">6. Estudiar <strong>continuidad</strong> y <strong>discontinuidades</strong>.</li>
-                                <li style="margin-bottom: 8px;">7. Identificar <strong>asíntotas</strong> (verticales, horizontales, oblicuas).</li>
-                                <li style="margin-bottom: 8px;">8. Analizar <strong>comportamiento asintótico</strong> ($x \to \pm\infty$).</li>
-                            </ol>
-                        </div>
-                    </div>
-
-                    <!-- PESTAÑA 7 (ANTIGUA 5): PRÁCTICA Y EVALUACIÓN -->
-                    <div id="tab-practica" class="tab-content">
-                        <h2>Fase 5: Evaluación Integradora</h2>
-                        
-                        <div class="exercise-item">
-                            <h3>Ejercicio 1: Análisis Completo de una Función Racional</h3>
-                            <p>Analizá completamente la siguiente función, respondiendo todas las preguntas:</p>
-                            
-                            <div class="graph-container">
-                                <canvas id="evalFunc1Chart"></canvas>
-                            </div>
-                            
-                            <ol style="padding-left: 20px; margin: 15px 0;">
-                                <li style="margin-bottom: 8px;">Determiná el dominio y expresalo como unión de intervalos.</li>
-                                <li style="margin-bottom: 8px;">Encontrá la imagen o recorrido de la función.</li>
-                                <li style="margin-bottom: 8px;">Localizá todos los puntos de intersección con los ejes.</li>
-                                <li style="margin-bottom: 8px;">Identificá y clasificá las discontinuidades.</li>
-                                <li style="margin-bottom: 8px;">Determiná las ecuaciones de las asíntotas.</li>
-                                <li style="margin-bottom: 8px;">Analizá el comportamiento cuando $x \to +\infty$ y $x \to -\infty$.</li>
-                            </ol>
-                            
-                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Propuesta</button>
-                            <div class="solution-text">
-                                <p><strong>Solución:</strong></p>
-                                <p>1. Dominio: $\mathbb{R} \setminus \{-2, 1\} = (-\infty, -2) \cup (-2, 1) \cup (1, +\infty)$</p>
-                                <p>2. Imagen: $\mathbb{R} \setminus \{0\} = (-\infty, 0) \cup (0, +\infty)$</p>
-                                <p>3. Cortes: Con eje X en $x = 3$; con eje Y en $y = -1.5$</p>
-                                <p>4. Discontinuidades: Asíntotas verticales en $x = -2$ y $x = 1$</p>
-                                <p>5. Asíntotas: Verticales: $x = -2$, $x = 1$; Horizontal: $y = 0$</p>
-                                <p>6. Comportamiento: $\lim_{x \to +\infty} f(x) = 0^+$, $\lim_{x \to -\infty} f(x) = 0^-$</p>
-                            </div>
-                        </div>
-                        
-                        <div class="exercise-item">
-                            <h3>Ejercicio 2: Problema Contextualizado - Cultivo en Córdoba</h3>
-                            <p>Un agricultor de la zona de Río Cuarto modela el crecimiento de su cultivo de soja con la función $A(t) = 50 + 10t - 0.5t^2$, donde $A$ es el área cubierta en hectáreas y $t$ el tiempo en semanas desde la siembra.</p>
-                            
-                            <div class="graph-container">
-                                <canvas id="evalFunc2Chart"></canvas>
-                            </div>
-                            
-                            <ol style="padding-left: 20px; margin: 15px 0;">
-                                <li style="margin-bottom: 8px;">¿Cuál es el área inicial al momento de la siembra ($t = 0$)?</li>
-                                <li style="margin-bottom: 8px;">¿En qué semana alcanza la máxima extensión? ¿Cuál es esa área máxima?</li>
-                                <li style="margin-bottom: 8px;">¿Por qué la función decrece después de cierto punto? ¿Qué representa esto?</li>
-                                <li style="margin-bottom: 8px;">¿En qué intervalo de tiempo el crecimiento es más rápido?</li>
-                                <li style="margin-bottom: 8px;">¿Cuál es el dominio e imagen en este contexto real?</li>
-                            </ol>
-                            
-                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Propuesta</button>
-                            <div class="solution-text">
-                                <p><strong>Solución:</strong></p>
-                                <p>1. $A(0) = 50$ hectáreas iniciales.</p>
-                                <p>2. Máximo en vértice de parábola: $t = -\frac{b}{2a} = -\frac{10}{2(-0.5)} = 10$ semanas. $A(10) = 50 + 10(10) - 0.5(10)^2 = 100$ hectáreas.</p>
-                                <p>3. Decrece por cosecha, enfermedades o limitaciones del terreno.</p>
-                                <p>4. Crecimiento más rápido en primeras semanas (pendiente mayor).</p>
-                                <p>5. Dominio: $[0, 20]$ semanas (hasta cosecha). Imagen: $[50, 100]$ hectáreas.</p>
-                            </div>
-                        </div>
-                        
-                        <h3>Autoevaluación Rápida</h3>
-                        <p>Seleccioná la respuesta correcta para verificar tu comprensión.</p>
-
-                        <div class="quiz-item">
-                            <p><strong>1. Una función es creciente en un intervalo si:</strong></p>
-                            <div class="quiz-options">
-                                <button class="quiz-btn" onclick="checkAnswer(this, true)">Al aumentar $x$, también aumenta $f(x)$</button>
-                                <button class="quiz-btn" onclick="checkAnswer(this, false)">Al aumentar $x$, disminuye $f(x)$</button>
-                                <button class="quiz-btn" onclick="checkAnswer(this, false)">$f(x)$ se mantiene constante</button>
-                                <button class="quiz-btn" onclick="checkAnswer(this, false)">La gráfica es simétrica al eje Y</button>
-                            </div>
-                            <p class="quiz-feedback"></p>
-                        </div>
-
-                        <div class="quiz-item">
-                            <p><strong>2. El dominio de la función $f(x) = \frac{1}{x-3}$ es:</strong></p>
-                            <div class="quiz-options">
-                                <button class="quiz-btn" onclick="checkAnswer(this, false)">Todos los números reales</button>
-                                <button class="quiz-btn" onclick="checkAnswer(this, true)">$\mathbb{R} \setminus \{3\}$</button>
-                                <button class="quiz-btn" onclick="checkAnswer(this, false)">Solo números positivos</button>
-                                <button class="quiz-btn" onclick="checkAnswer(this, false)">$[3, +\infty)$</button>
-                            </div>
-                            <p class="quiz-feedback"></p>
-                        </div>
-                        
-                        <h3>Rúbrica de Evaluación</h3>
-                        <p>Esta rúbrica te ayudará a autoevaluar tu desempeño en el análisis de funciones:</p>
-                        
-                        <table class="rubrica-table">
-                            <thead>
-                                <tr>
-                                    <th>Criterio</th>
-                                    <th>Avanzado (4)</th>
-                                    <th>Satisfactorio (3)</th>
-                                    <th>Básico (2)</th>
-                                    <th>Inicial (1)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Identificación de Dominio e Imagen</strong></td>
-                                    <td>Determina correctamente incluso en uniones complejas de intervalos</td>
-                                    <td>Determina correctamente con pequeños errores en notación</td>
-                                    <td>Identifica parcialmente con ayuda</td>
-                                    <td>No identifica correctamente</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Análisis de Ceros y Monotonía</strong></td>
-                                    <td>Identifica todos los ceros y describe intervalos con notación precisa</td>
-                                    <td>Identifica la mayoría de los ceros y describe la tendencia general</td>
-                                    <td>Identifica algunos ceros o intervalos con imprecisiones</td>
-                                    <td>No identifica ceros ni describe intervalos correctamente</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Identificación de Discontinuidades y Asíntotas</strong></td>
-                                    <td>Identifica y clasifica correctamente todas, dando sus ecuaciones</td>
-                                    <td>Identifica la mayoría con pequeños errores en clasificación</td>
-                                    <td>Identifica solo las más evidentes sin clasificarlas bien</td>
-                                    <td>No identifica discontinuidades ni asíntotas</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Comunicación Matemática</strong></td>
-                                    <td>Usa terminología y notación matemática de forma precisa y sistemática</td>
-                                    <td>Usa terminología adecuada con pocos errores de notación</td>
-                                    <td>Usa terminología básica con notación deficiente</td>
-                                    <td>No usa terminología matemática apropiada</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        
-                        <div class="info-activa" style="margin-top: 30px;">
-                            <h4>Reflexión Final</h4>
-                            <p>El análisis gráfico de funciones no es solo un tema escolar, sino una herramienta poderosa para comprender el mundo. En Córdoba, nos ayuda a tomar decisiones informadas sobre agricultura, gestión de recursos, economía y tecnología. Recordá: cada gráfica cuenta una historia sobre cómo se relacionan las variables en situaciones reales.</p>
-                        </div>
-                    </div>
-
-                </div> <!-- Fin tabs-container -->
+        <div class="representations-grid">
+            <div class="representation-card algebraic">
+                <h5>📝 Algebraica</h5>
+                <p>Regla o fórmula que relaciona variables.</p>
+                <p style="font-size: 1.2rem;"><strong>$f(x) = 2x + 3$</strong></p>
+                <p>Se lee: "f de x es igual a 2x más 3"</p>
+            </div>
+            
+            <div class="representation-card numeric">
+                <h5>📋 Numérica (Tabla)</h5>
+                <p>Pares ordenados de valores.</p>
+                <table>
+                    <tr><th>$x$</th><th>$f(x)$</th></tr>
+                    <tr><td>-2</td><td>-1</td></tr>
+                    <tr><td>-1</td><td>1</td></tr>
+                    <tr><td>0</td><td>3</td></tr>
+                    <tr><td>1</td><td>5</td></tr>
+                    <tr><td>2</td><td>7</td></tr>
+                </table>
+            </div>
+            
+            <div class="representation-card graphic">
+                <h5>📈 Gráfica</h5>
+                <p>Representación visual en el plano cartesiano.</p>
+                <div id="jxg-func-concepto" class="jxgbox" style="width: 260px; height: 200px; margin: 0 auto;"></div>
+            </div>
+            
+            <div class="representation-card verbal">
+                <h5>💬 Verbal</h5>
+                <p>Descripción en lenguaje natural.</p>
+                <p style="font-style: italic;">"Multiplicar el número por 2 y sumar 3"</p>
+                <p style="font-style: italic;">"El doble de x más tres"</p>
             </div>
         </div>
-    </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Mates con Agugg_ia. Secuencia didáctica basada en principios de Educación Matemática Realista (Freudenthal) y Didáctica de la Matemática (Brousseau).</p>
+        <h3>🎯 Máquina de Funciones Interactiva</h3>
+        
+        <div class="exploration-box">
+            <h4>🔬 Explora: La función como "máquina"</h4>
+            <p>Arrastra el punto rojo para cambiar el valor de entrada (x) y observa la salida (y).</p>
+            <div id="jxg-maquina-funcion" class="jxgbox jxgbox-medium" style="margin: 0 auto;"></div>
         </div>
-    </footer>
 
-    <!-- SCRIPTS -->
-    <script>
-        // --- LÓGICA DE PESTAÑAS ---
-        function openTab(evt, tabName) {
-            // Ocultar todos los contenidos
-            const tabcontent = document.getElementsByClassName("tab-content");
-            for (let i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-                tabcontent[i].classList.remove("active");
-            }
+        <h3>✅ Criterio de la Recta Vertical</h3>
 
-            // Desactivar botones
-            const tablinks = document.getElementsByClassName("tab-btn");
-            for (let i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
+        <div class="concept-box">
+            <h4>¿Cómo saber si una gráfica representa una función?</h4>
+            <p>Una gráfica en el plano cartesiano representa una función si y solo si <strong>toda recta vertical</strong> interseca a la gráfica en <strong>a lo sumo un punto</strong>.</p>
+            <p>Si alguna recta vertical corta a la gráfica en más de un punto, entonces <strong>NO es función</strong> (un mismo valor de $x$ tendría más de una imagen).</p>
+        </div>
 
-            // Mostrar el tab actual y activar botón
-            const activeTab = document.getElementById(tabName);
-            activeTab.style.display = "block";
-            
-            // Pequeño timeout para permitir que el display:block se renderice antes de la animación
-            setTimeout(() => {
-                activeTab.classList.add("active");
-                // IMPORTANTE: Redimensionar gráficos cuando el tab se vuelve visible
-                resizeCharts();
-            }, 10);
-            
-            evt.currentTarget.className += " active";
+        <div class="figure-section">
+            <div class="figure-title">¿Es función? - Criterio de la recta vertical</div>
+            <div class="jxgbox-container">
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-si-funcion" class="jxgbox jxgbox-small"></div>
+                    <span class="jxgbox-label" style="color: #10B981;">✓ SÍ es función</span>
+                </div>
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-no-funcion" class="jxgbox jxgbox-small"></div>
+                    <span class="jxgbox-label" style="color: #EF4444;">✗ NO es función</span>
+                </div>
+            </div>
+        </div>
+
+        <h3>📝 Ejercicios Resueltos</h3>
+
+        <div class="solved-example">
+            <h4>Ejercicio 1: Evaluar una función</h4>
+            <p><strong>Dada:</strong> $f(x) = 3x^2 - 2x + 1$</p>
+            <p><strong>Calcular:</strong> $f(0)$, $f(1)$, $f(-2)$</p>
+            <p><strong>Solución:</strong></p>
+            <div class="step"><span class="step-number">1</span> $f(0) = 3(0)^2 - 2(0) + 1 = 0 - 0 + 1 = \mathbf{1}$</div>
+            <div class="step"><span class="step-number">2</span> $f(1) = 3(1)^2 - 2(1) + 1 = 3 - 2 + 1 = \mathbf{2}$</div>
+            <div class="step"><span class="step-number">3</span> $f(-2) = 3(-2)^2 - 2(-2) + 1 = 3(4) + 4 + 1 = 12 + 4 + 1 = \mathbf{17}$</div>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 2: Construir tabla de valores</h4>
+            <p><strong>Construir una tabla para:</strong> $g(x) = x^2 - 3$ con $x \in \{-2, -1, 0, 1, 2\}$</p>
+            <p><strong>Solución:</strong></p>
+            <table>
+                <tr><th>$x$</th><th>$g(x) = x^2 - 3$</th><th>Par ordenado</th></tr>
+                <tr><td>-2</td><td>$(-2)^2 - 3 = 4 - 3 = 1$</td><td>$(-2, 1)$</td></tr>
+                <tr><td>-1</td><td>$(-1)^2 - 3 = 1 - 3 = -2$</td><td>$(-1, -2)$</td></tr>
+                <tr><td>0</td><td>$(0)^2 - 3 = 0 - 3 = -3$</td><td>$(0, -3)$</td></tr>
+                <tr><td>1</td><td>$(1)^2 - 3 = 1 - 3 = -2$</td><td>$(1, -2)$</td></tr>
+                <tr><td>2</td><td>$(2)^2 - 3 = 4 - 3 = 1$</td><td>$(2, 1)$</td></tr>
+            </table>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 3: Verificar si una relación es función</h4>
+            <p><strong>Determinar si</strong> $R = \{(1,2), (2,3), (1,4), (3,5)\}$ es una función.</p>
+            <p><strong>Solución:</strong></p>
+            <p>Analizamos cada elemento del dominio:</p>
+            <ul>
+                <li>$x = 1$ tiene asignados $y = 2$ e $y = 4$ (dos valores)</li>
+                <li>$x = 2$ tiene asignado $y = 3$ (un valor) ✓</li>
+                <li>$x = 3$ tiene asignado $y = 5$ (un valor) ✓</li>
+            </ul>
+            <p>Como el elemento $x = 1$ tiene <strong>más de una imagen</strong>, <strong>NO es función</strong>.</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 4: Encontrar x dado f(x)</h4>
+            <p><strong>Si $f(x) = 2x - 5$ y $f(x) = 11$, encontrar $x$.</p>
+            <p><strong>Solución:</strong></p>
+            <div class="step"><span class="step-number">1</span> Igualamos: $2x - 5 = 11$</div>
+            <div class="step"><span class="step-number">2</span> Despejamos: $2x = 11 + 5 = 16$</div>
+            <div class="step"><span class="step-number">3</span> $x = \frac{16}{2} = \mathbf{8}$</div>
+            <p><strong>Verificación:</strong> $f(8) = 2(8) - 5 = 16 - 5 = 11$ ✓</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 5: Función en contexto real</h4>
+            <p><strong>El costo de producir $x$ unidades es $C(x) = 500 + 3x$ pesos.</strong></p>
+            <p>a) ¿Cuál es el costo fijo?</p>
+            <p>b) ¿Cuál es el costo de producir 100 unidades?</p>
+            <p>c) ¿Cuántas unidades se producen si el costo es $1,100?</p>
+            <p><strong>Solución:</strong></p>
+            <p>a) El costo fijo es cuando $x = 0$: $C(0) = 500 + 3(0) = \mathbf{500}$ pesos</p>
+            <p>b) $C(100) = 500 + 3(100) = 500 + 300 = \mathbf{800}$ pesos</p>
+            <p>c) $500 + 3x = 1100$ → $3x = 600$ → $x = \mathbf{200}$ unidades</p>
+        </div>
+
+        <h3>🎯 Ejercicios para Practicar</h3>
+
+        <div class="exercise-item">
+            <div class="number">1</div>
+            <div class="question"><strong>Evaluar:</strong> Si $f(x) = x^2 + 2x - 3$, calcular $f(0)$, $f(2)$ y $f(-3)$.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-c1-1')">Ver Solución</button>
+            <div id="sol-c1-1" class="solution-text">
+                $f(0) = 0 + 0 - 3 = \mathbf{-3}$<br>
+                $f(2) = 4 + 4 - 3 = \mathbf{5}$<br>
+                $f(-3) = 9 - 6 - 3 = \mathbf{0}$             </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">2</div>
+            <div class="question"><strong>¿Es función?</strong> Determinar si $R = \{(1,3), (2,5), (3,7), (4,3)\}$ es una función.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-c1-2')">Ver Solución</button>
+            <div id="sol-c1-2" class="solution-text">
+                Cada valor de $x$ tiene exactamente un valor de $y$ asignado.<br>
+                <strong>Sí es función</strong>. Nota: aunque $y = 3$ aparece dos veces como imagen, eso está permitido (distintos elementos del dominio pueden tener la misma imagen).
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">3</div>
+            <div class="question"><strong>Calcular:</strong> Si $g(x) = \frac{x + 1}{x - 2}$, hallar $g(3)$ y $g(0)$.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-c1-3')">Ver Solución</button>
+            <div id="sol-c1-3" class="solution-text">
+                $g(3) = \frac{3 + 1}{3 - 2} = \frac{4}{1} = \mathbf{4}$<br>
+                $g(0) = \frac{0 + 1}{0 - 2} = \frac{1}{-2} = \mathbf{-\frac{1}{2}}$             </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">4</div>
+            <div class="question"><strong>Despejar:</strong> Si $h(x) = 5x - 2$ y $h(x) = 13$, encontrar $x$.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-c1-4')">Ver Solución</button>
+            <div id="sol-c1-4" class="solution-text">
+                $5x - 2 = 13$<br>
+                $5x = 15$<br>
+                $x = \mathbf{3}$             </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">5</div>
+            <div class="question"><strong>Tabla de valores:</strong> Construir tabla para $k(x) = |x - 2|$ con $x \in \{-1, 0, 1, 2, 3\}$.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-c1-5')">Ver Solución</button>
+            <div id="sol-c1-5" class="solution-text">
+                <table>
+                    <tr><th>$x$</th><th>$k(x) = |x - 2|$</th></tr>
+                    <tr><td>-1</td><td>$|-1 - 2| = |-3| = 3$</td></tr>
+                    <tr><td>0</td><td>$|0 - 2| = |-2| = 2$</td></tr>
+                    <tr><td>1</td><td>$|1 - 2| = |-1| = 1$</td></tr>
+                    <tr><td>2</td><td>$|2 - 2| = |0| = 0$</td></tr>
+                    <tr><td>3</td><td>$|3 - 2| = |1| = 1$</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 2: Función Lineal ==================== -->
+    <div id="tab2" class="tab-content">
+        <h2>Función Lineal</h2>
+
+        <div class="pedagogy-box">
+            <h4>Enfoque pedagógico</h4>
+            <p>Investigaciones como las de Moschkovich (1999) y Hershkowitz (1990) muestran que los estudiantes frecuentemente confunden la pendiente con el valor de $y$, o piensan que "más inclinado" siempre significa mayor pendiente absoluta. Es esencial trabajar con múltiples ejemplos y contraejemplos, y conectar la pendiente con la razón de cambio en contextos reales. El uso de tecnología interactiva permite explorar cómo cambian la pendiente y la ordenada al origen.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>📐 Definición</h4>
+            <p>Una <strong>función lineal</strong> es aquella cuya gráfica es una línea recta. Su forma general es:</p>
+            <p style="text-align: center; font-size: 1.5rem;"><strong>$$f(x) = mx + b$$</strong></p>
+            <p>donde:</p>
+            <ul>
+                <li><strong>$m$</strong> = pendiente (indica la inclinación y dirección de la recta)</li>
+                <li><strong>$b$</strong> = ordenada al origen (punto donde la recta corta al eje Y)</li>
+            </ul>
+        </div>
+
+        <h3>📊 Interpretación de la Pendiente</h3>
+
+        <div class="property-grid">
+            <div class="property-card">
+                <h5>$m > 0$ (positiva)</h5>
+                <div class="formula">Función creciente</div>
+                <p>Cuando $x$ aumenta, $y$ también aumenta. La recta sube de izquierda a derecha.</p>
+            </div>
+
+            <div class="property-card">
+                <h5>$m < 0$ (negativa)</h5>
+                <div class="formula">Función decreciente</div>
+                <p>Cuando $x$ aumenta, $y$ disminuye. La recta baja de izquierda a derecha.</p>
+            </div>
+
+            <div class="property-card">
+                <h5>$m = 0$</h5>
+                <div class="formula">Función constante</div>
+                <p>La recta es horizontal (paralela al eje X). $f(x) = b$ para todo $x$.</p>
+            </div>
+
+            <div class="property-card">
+                <h5>$|m|$ grande</h5>
+                <div class="formula">Mayor inclinación</div>
+                <p>A mayor valor absoluto de $m$, más "empinada" la recta.</p>
+            </div>
+        </div>
+
+        <h3>🔬 Exploración Interactiva: Efecto de m y b</h3>
+        
+        <div class="exploration-box">
+            <h4>Explora: Arrastra los deslizadores para cambiar pendiente (m) y ordenada al origen (b)</h4>
+            <div id="jxg-lineal-interactivo" class="jxgbox jxgbox-large" style="margin: 0 auto;"></div>
+            <p style="margin-top: 1rem;"><strong>Observaciones:</strong></p>
+            <ul style="text-align: left; max-width: 500px; margin: 0 auto;">
+                <li>Cuando <strong>m > 0</strong>: la recta sube (función creciente)</li>
+                <li>Cuando <strong>m < 0</strong>: la recta baja (función decreciente)</li>
+                <li>Cuando <strong>m = 0</strong>: la recta es horizontal (función constante)</li>
+                <li>El valor de <strong>b</strong> indica dónde la recta corta al eje Y</li>
+            </ul>
+        </div>
+
+        <h3>📐 Fórmula de la Pendiente</h3>
+
+        <div class="concept-box">
+            <h4>Dados dos puntos $(x_1, y_1)$ y $(x_2, y_2)$</h4>
+            <p style="text-align: center; font-size: 1.5rem;"><strong>$$m = \frac{y_2 - y_1}{x_2 - x_1} = \frac{\Delta y}{\Delta x}$$</strong></p>
+            <p>La pendiente representa el <strong>"cambio vertical dividido el cambio horizontal"</strong>.</p>
+            <p><strong>Interpretación:</strong> Por cada unidad que avanzamos en $x$, ¿cuánto subimos o bajamos en $y$?</p>
+        </div>
+
+        <h3>📊 Comparación de Pendientes</h3>
+        
+        <div class="figure-section">
+            <div class="figure-title">Diferentes pendientes - Misma ordenada al origen</div>
+            <div id="jxg-pendientes-comparacion" class="jxgbox jxgbox-medium" style="margin: 0 auto;"></div>
+        </div>
+
+        <h3>📝 Ejercicios Resueltos</h3>
+
+        <div class="solved-example">
+            <h4>Ejercicio 1: Graficar función lineal</h4>
+            <p><strong>Graficar:</strong> $f(x) = 2x + 1$</p>
+            <p><strong>Solución:</strong></p>
+            <div class="step"><span class="step-number">1</span> Ordenada al origen: $b = 1$ → la recta pasa por $(0, 1)$</div>
+            <div class="step"><span class="step-number">2</span> Pendiente: $m = 2 = \frac{2}{1}$ → "subir 2, avanzar 1"</div>
+            <div class="step"><span class="step-number">3</span> Desde $(0, 1)$, subimos 2 unidades y avanzamos 1 → $(1, 3)$</div>
+            <div class="step"><span class="step-number">4</span> Trazamos la recta que une $(0, 1)$ y $(1, 3)$</div>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 2: Ecuación dados dos puntos</h4>
+            <p><strong>Encontrar la ecuación de la recta que pasa por $(1, 3)$ y $(3, 7)$.</p>
+            <p><strong>Solución:</strong></p>
+            <div class="step"><span class="step-number">1</span> Calculamos la pendiente: $m = \frac{7 - 3}{3 - 1} = \frac{4}{2} = 2$</div>
+            <div class="step"><span class="step-number">2</span> Usamos $y = mx + b$ con un punto: $3 = 2(1) + b$</div>
+            <div class="step"><span class="step-number">3</span> Despejamos: $b = 3 - 2 = 1$</div>
+            <p><strong>Ecuación:</strong> $\mathbf{y = 2x + 1}$ o $\mathbf{f(x) = 2x + 1}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 3: Forma punto-pendiente</h4>
+            <p><strong>Encontrar la ecuación de la recta con pendiente $-3$ que pasa por $(2, 5)$.</p>
+            <p><strong>Solución:</strong></p>
+            <div class="step"><span class="step-number">1</span> Usamos la forma punto-pendiente: $y - y_1 = m(x - x_1)$</div>
+            <div class="step"><span class="step-number">2</span> Sustituimos: $y - 5 = -3(x - 2)$</div>
+            <div class="step"><span class="step-number">3</span> Distribuimos: $y - 5 = -3x + 6$</div>
+            <div class="step"><span class="step-number">4</span> Despejamos $y$: $y = -3x + 11$</div>
+            <p><strong>Ecuación:</strong> $\mathbf{f(x) = -3x + 11}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 4: Rectas paralelas y perpendiculares</h4>
+            <p><strong>a) Recta paralela a $y = 3x - 2$ que pasa por $(0, 4)$</strong></p>
+            <p><strong>b) Recta perpendicular a $y = 3x - 2$ que pasa por $(0, 4)$</strong></p>
+            <p><strong>Solución:</strong></p>
+            <p>a) Rectas paralelas tienen <strong>igual pendiente</strong>: $m = 3$</p>
+            <p>Como pasa por $(0, 4)$, la ordenada al origen es $b = 4$</p>
+            <p><strong>Ecuación paralela:</strong> $\mathbf{y = 3x + 4}$</p>
+            <p>b) Rectas perpendiculares tienen pendientes cuyo producto es $-1$:</p>
+            <p>$m \cdot m' = -1$ → $3 \cdot m' = -1$ → $m' = -\frac{1}{3}$</p>
+            <p><strong>Ecuación perpendicular:</strong> $\mathbf{y = -\frac{1}{3}x + 4}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 5: Aplicación en contexto real</h4>
+            <p><strong>Un taxi cobra \$500 fijos más \$150 por kilómetro recorrido.</strong></p>
+            <p>a) Expresar el costo como función de los kilómetros.</p>
+            <p>b) ¿Cuánto cuesta un viaje de 8 km?</p>
+            <p>c) ¿Cuántos km se recorrieron si el viaje costó \$1,400?</p>
+            <p><strong>Solución:</strong></p>
+            <p>a) Sea $x$ = kilómetros. Costo fijo = $500$, costo por km = $150$</p>
+            <p><strong>Función:</strong> $\mathbf{C(x) = 150x + 500}$</p>
+            <p>b) $C(8) = 150(8) + 500 = 1200 + 500 = \mathbf{\$1,700}$</p>
+            <p>c) $150x + 500 = 1400$ → $150x = 900$ → $x = \mathbf{6}$ km</p>
+        </div>
+
+        <h3>🎯 Ejercicios para Practicar</h3>
+
+        <div class="exercise-item">
+            <div class="number">1</div>
+            <div class="question"><strong>Identificar:</strong> Pendiente y ordenada al origen de $f(x) = -4x + 7$.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-l1')">Ver Solución</button>
+            <div id="sol-l1" class="solution-text">
+                Pendiente: $m = \mathbf{-4}$<br>
+                Ordenada al origen: $b = \mathbf{7}$             </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">2</div>
+            <div class="question"><strong>Calcular pendiente:</strong> Entre los puntos $(2, 5)$ y $(6, 13)$.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-l2')">Ver Solución</button>
+            <div id="sol-l2" class="solution-text">
+                $m = \frac{13 - 5}{6 - 2} = \frac{8}{4} = \mathbf{2}$             </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">3</div>
+            <div class="question"><strong>Ecuación de la recta:</strong> Con pendiente $\frac{1}{2}$ que pasa por $(4, 3)$.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-l3')">Ver Solución</button>
+            <div id="sol-l3" class="solution-text">
+                $y - 3 = \frac{1}{2}(x - 4)$<br>
+                $y - 3 = \frac{1}{2}x - 2$<br>
+                $y = \frac{1}{2}x + 1$<br>
+                <strong>f(x) = $\frac{1}{2}x + 1$</strong>
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">4</div>
+            <div class="question"><strong>¿Son paralelas?</strong> $f(x) = 2x - 5$ y $g(x) = 2x + 3$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-l4')">Ver Solución</button>
+            <div id="sol-l4" class="solution-text">
+                Ambas tienen pendiente $m = 2$.<br>
+                Tienen diferente ordenada al origen ($b_1 = -5$, $b_2 = 3$).<br>
+                <strong>Sí son paralelas</strong>.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">5</div>
+            <div class="question"><strong>Recta por dos puntos:</strong> $(-1, 4)$ y $(3, -4)$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-l5')">Ver Solución</button>
+            <div id="sol-l5" class="solution-text">
+                $m = \frac{-4 - 4}{3 - (-1)} = \frac{-8}{4} = -2$<br>
+                Usando $(3, -4)$: $-4 = -2(3) + b$<br>
+                $-4 = -6 + b$ → $b = 2$<br>
+                <strong>y = -2x + 2</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 3: Función Cuadrática ==================== -->
+    <div id="tab3" class="tab-content">
+        <h2>Función Cuadrática</h2>
+
+        <div class="pedagogy-box">
+            <h4>Enfoque pedagógico</h4>
+            <p>Estudios como los de Zazkis, Liljedahl y Sinclair (2005) indican que los estudiantes suelen centrarse excesivamente en los procedimientos algebraicos (como completar el cuadrado) sin conectar con la representación gráfica. Es fundamental que los estudiantes identifiquen visualmente cómo los parámetros $a$, $b$ y $c$ afectan la forma y posición de la parábola. La tecnología permite explorar estas relaciones de manera dinámica.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>📐 Definición</h4>
+            <p>Una <strong>función cuadrática</strong> tiene la forma:</p>
+            <p style="text-align: center; font-size: 1.5rem;"><strong>$$f(x) = ax^2 + bx + c \quad \text{donde } a \neq 0$$</strong></p>
+            <p>Su gráfica es una <strong>parábola</strong>, una curva en forma de "U" o "∩" que tiene un punto especial llamado <strong>vértice</strong>.</p>
+        </div>
+
+        <h3>📊 Elementos de la Parábola</h3>
+
+        <div class="property-grid">
+            <div class="property-card">
+                <h5>Vértice</h5>
+                <div class="formula">$V\left(-\frac{b}{2a}, f\left(-\frac{b}{2a}\right)\right)$</div>
+                <p>Punto mínimo (si $a > 0$) o máximo (si $a < 0$). Es el punto donde la parábola cambia de dirección.</p>
+            </div>
+
+            <div class="property-card">
+                <h5>Eje de Simetría</h5>
+                <div class="formula">$x = -\frac{b}{2a}$</div>
+                <p>Recta vertical que divide a la parábola en dos partes espejo.</p>
+            </div>
+
+            <div class="property-card">
+                <h5>Ordenada al Origen</h5>
+                <div class="formula">$c$</div>
+                <p>Punto donde la parábola corta al eje Y: $(0, c)$.</p>
+            </div>
+
+            <div class="property-card">
+                <h5>Raíces o Ceros</h5>
+                <div class="formula">$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$</div>
+                <p>Puntos donde la parábola corta al eje X (si existen). $\Delta = b^2 - 4ac$ es el discriminante.</p>
+            </div>
+        </div>
+
+        <h3>📈 Forma de la Parábola según el valor de a</h3>
+
+        <div class="cards-grid">
+            <div class="info-card">
+                <div class="card-header" style="border-left: 4px solid #10B981;">
+                    <h4 style="color: #10B981;">$a > 0$ (abre hacia arriba)</h4>
+                </div>
+                <div class="card-body">
+                    <p>La parábola tiene forma de "U".</p>
+                    <p>El vértice es un <strong>mínimo</strong>.</p>
+                    <p>Rango: $[y_v, +\infty)$</p>
+                    <div id="jxg-para-arriba" class="jxgbox jxgbox-small" style="margin: 0 auto;"></div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header" style="border-left: 4px solid #EF4444;">
+                    <h4 style="color: #EF4444;">$a < 0$ (abre hacia abajo)</h4>
+                </div>
+                <div class="card-body">
+                    <p>La parábola tiene forma de "∩".</p>
+                    <p>El vértice es un <strong>máximo</strong>.</p>
+                    <p>Rango: $(-\infty, y_v]$</p>
+                    <div id="jxg-para-abajo" class="jxgbox jxgbox-small" style="margin: 0 auto;"></div>
+                </div>
+            </div>
+        </div>
+
+        <h3>🔬 Exploración Interactiva: Parámetros de la Parábola</h3>
+        
+        <div class="exploration-box">
+            <h4>Explora: Arrastra los deslizadores para cambiar a, b y c</h4>
+            <div id="jxg-cuadratica-interactivo" class="jxgbox jxgbox-large" style="margin: 0 auto;"></div>
+            <p style="margin-top: 1rem;"><strong>Observaciones:</strong></p>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li><strong>a</strong>: Controla si abre hacia arriba (a>0) o abajo (a<0). Afecta la "apertura" de la parábola.</li>
+                <li><strong>b</strong>: Afecta la posición horizontal del vértice y la simetría.</li>
+                <li><strong>c</strong>: Indica dónde la parábola corta al eje Y (ordenada al origen).</li>
+            </ul>
+        </div>
+
+        <h3>📊 El Discriminante y las Raíces</h3>
+
+        <div class="property-grid">
+            <div class="property-card">
+                <h5>$\Delta > 0$</h5>
+                <div class="formula">Dos raíces distintas</div>
+                <p>La parábola corta al eje X en dos puntos.</p>
+            </div>
+            <div class="property-card">
+                <h5>$\Delta = 0$</h5>
+                <div class="formula">Una raíz doble</div>
+                <p>La parábola toca al eje X en un punto (el vértice está sobre el eje).</p>
+            </div>
+            <div class="property-card">
+                <h5>$\Delta < 0$</h5>
+                <div class="formula">Sin raíces reales</div>
+                <p>La parábola no corta al eje X.</p>
+            </div>
+        </div>
+
+        <h3>📝 Ejercicios Resueltos</h3>
+
+        <div class="solved-example">
+            <h4>Ejercicio 1: Encontrar el vértice</h4>
+            <p><strong>Para $f(x) = x^2 - 4x + 3$, encontrar vértice y eje de simetría.</p>
+            <p><strong>Solución:</strong></p>
+            <div class="step"><span class="step-number">1</span> Identificamos: $a = 1$, $b = -4$, $c = 3$</div>
+            <div class="step"><span class="step-number">2</span> $x_v = -\frac{b}{2a} = -\frac{-4}{2} = \mathbf{2}$</div>
+            <div class="step"><span class="step-number">3</span> $y_v = f(2) = 4 - 8 + 3 = \mathbf{-1}$</div>
+            <p><strong>Vértice:</strong> $V(2, -1)$</p>
+            <p><strong>Eje de simetría:</strong> $x = 2$</p>
+            <div id="jxg-ej1-cuad" class="jxgbox jxgbox-medium" style="margin: 1rem auto;"></div>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 2: Encontrar las raíces</h4>
+            <p><strong>Para $f(x) = -x^2 + 6x - 8$, encontrar las raíces.</p>
+            <p><strong>Solución:</strong></p>
+            <div class="step"><span class="step-number">1</span> Igualamos a cero: $-x^2 + 6x - 8 = 0$</div>
+            <div class="step"><span class="step-number">2</span> Multiplicamos por $-1$: $x^2 - 6x + 8 = 0$</div>
+            <div class="step"><span class="step-number">3</span> Factorizamos: $(x - 2)(x - 4) = 0$</div>
+            <p><strong>Raíces:</strong> $x = 2$ y $x = 4$ → Puntos $(2, 0)$ y $(4, 0)$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 3: Forma canónica (vértice)</h4>
+            <p><strong>Escribir $f(x) = x^2 - 6x + 5$ en forma vértice.</p>
+            <p><strong>Solución:</strong> Completamos el cuadrado</p>
+            <div class="step"><span class="step-number">1</span> Agrupamos: $f(x) = (x^2 - 6x) + 5$</div>
+            <div class="step"><span class="step-number">2</span> Completamos: $(\frac{-6}{2})^2 = 9$</div>
+            <div class="step"><span class="step-number">3</span> $f(x) = (x^2 - 6x + 9) - 9 + 5 = (x - 3)^2 - 4$</div>
+            <p><strong>Forma vértice:</strong> $\mathbf{f(x) = (x - 3)^2 - 4}$</p>
+            <p><strong>Vértice:</strong> $V(3, -4)$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 4: Análisis completo</h4>
+            <p><strong>Analizar completamente:</strong> $f(x) = -2x^2 + 8x - 6$</p>
+            <p><strong>Solución:</strong></p>
+            <p>a) <strong>Coeficiente a:</strong> $a = -2 < 0$ → Parábola abre hacia abajo (tiene máximo)</p>
+            <p>b) <strong>Vértice:</strong> $x_v = -\frac{8}{-4} = 2$, $y_v = -2(4) + 16 - 6 = 2$ → $V(2, 2)$</p>
+            <p>c) <strong>Raíces:</strong> $-2x^2 + 8x - 6 = 0$ → $x^2 - 4x + 3 = 0$ → $(x-1)(x-3) = 0$</p>
+            <p>Raíces: $x = 1$ y $x = 3$</p>
+            <p>d) <strong>Ordenada al origen:</strong> $c = -6$ → punto $(0, -6)$</p>
+            <p>e) <strong>Rango:</strong> $(-\infty, 2]$ (máximo en $y = 2$)</p>
+            <p>f) <strong>Conjunto imagen:</strong> $(-\infty, 2]$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 5: Aplicación física</h4>
+            <p><strong>La altura de una pelota lanzada hacia arriba está dada por $h(t) = -5t^2 + 20t + 2$</strong> (metros, $t$ en segundos).</p>
+            <p>a) ¿Cuál es la altura máxima?</p>
+            <p>b) ¿A qué tiempo alcanza esa altura?</p>
+            <p>c) ¿Cuándo vuelve a tocar el suelo?</p>
+            <p><strong>Solución:</strong></p>
+            <p>a) y b) Vértice: $t_v = -\frac{20}{-10} = \mathbf{2 \text{ segundos}}$</p>
+            <p>$h_{max} = -5(4) + 40 + 2 = \mathbf{22 \text{ metros}}$</p>
+            <p>c) Resolvemos $h(t) = 0$: $-5t^2 + 20t + 2 = 0$</p>
+            <p>$t = \frac{-20 \pm \sqrt{400 + 40}}{-10} \approx \mathbf{4.1 \text{ segundos}}$</p>
+        </div>
+
+        <h3>🎯 Ejercicios para Practicar</h3>
+
+        <div class="exercise-item">
+            <div class="number">1</div>
+            <div class="question"><strong>Vértice de:</strong> $f(x) = 2x^2 - 8x + 6$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-q1')">Ver Solución</button>
+            <div id="sol-q1" class="solution-text">
+                $x_v = -\frac{-8}{4} = 2$<br>
+                $y_v = 2(4) - 16 + 6 = -2$<br>
+                <strong>Vértice: $V(2, -2)$</strong>
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">2</div>
+            <div class="question"><strong>Raíces de:</strong> $f(x) = x^2 - 5x + 6$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-q2')">Ver Solución</button>
+            <div id="sol-q2" class="solution-text">
+                $(x - 2)(x - 3) = 0$<br>
+                <strong>Raíces: $x = 2$ y $x = 3$</strong>
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">3</div>
+            <div class="question"><strong>¿Tiene raíces reales?</strong> $f(x) = x^2 + 2x + 5$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-q3')">Ver Solución</button>
+            <div id="sol-q3" class="solution-text">
+                Discriminante: $\Delta = b^2 - 4ac = 4 - 20 = -16 < 0$<br>
+                <strong>No tiene raíces reales</strong> (no corta al eje X).
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">4</div>
+            <div class="question"><strong>Forma vértice:</strong> $f(x) = x^2 + 4x + 1$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-q4')">Ver Solución</button>
+            <div id="sol-q4" class="solution-text">
+                $f(x) = (x^2 + 4x + 4) - 4 + 1 = (x + 2)^2 - 3$<br>
+                <strong>Vértice: $V(-2, -3)$</strong>
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">5</div>
+            <div class="question"><strong>Rectángulo:</strong> Se tiene 20 m de alambre para cercar un rectángulo contra una pared. ¿Qué dimensiones maximizan el área?</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-q5')">Ver Solución</button>
+            <div id="sol-q5" class="solution-text">
+                Sea $x$ = ancho. Alambre: $2x + L = 20$ → $L = 20 - 2x$<br>
+                Área: $A = x(20 - 2x) = 20x - 2x^2$<br>
+                Vértice: $x_v = -\frac{20}{-4} = 5$ m<br>
+                $L = 20 - 10 = 10$ m<br>
+                <strong>Dimensiones: 5 m × 10 m, Área máxima = 50 m²</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 4: Dominio y Rango ==================== -->
+    <div id="tab4" class="tab-content">
+        <h2>Dominio y Rango</h2>
+
+        <div class="pedagogy-box">
+            <h4>Enfoque pedagógico</h4>
+            <p>La investigación muestra que los estudiantes frecuentemente confunden dominio con el conjunto de valores para los que "tienen sentido" las operaciones (como evitar división por cero), sin comprender el concepto más amplio. Es importante trabajar primero con funciones polinómicas (dominio todo ℝ) para luego introducir restricciones con funciones racionales y radicales. La visualización gráfica ayuda a entender el rango como la "proyección" de la gráfica sobre el eje Y.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>📚 Definiciones Fundamentales</h4>
+            <p><strong>Dominio:</strong> Conjunto de todos los valores de $x$ para los cuales la función está definida. Es el conjunto de todas las "entradas posibles".</p>
+            <p><strong>Rango (o Imagen):</strong> Conjunto de todos los valores de $y$ que la función puede tomar. Es el conjunto de todas las "salidas posibles".</p>
+            <p>Gráficamente:</p>
+            <ul>
+                <li>El dominio se lee "proyectando" la gráfica sobre el eje X.</li>
+                <li>El rango se lee "proyectando" la gráfica sobre el eje Y.</li>
+            </ul>
+        </div>
+
+        <h3>📊 Reglas para Determinar el Dominio</h3>
+
+        <div class="property-grid">
+            <div class="property-card">
+                <h5>Funciones Polinómicas</h5>
+                <div class="formula">Dom = $\mathbb{R}$</div>
+                <p>$f(x) = x^2 + 3x - 1$, $g(x) = 5x^3 - 2x$</p>
+                <p>Todos los reales son válidos.</p>
+            </div>
+
+            <div class="property-card">
+                <h5>Funciones Racionales</h5>
+                <div class="formula">Denominador $\neq 0$</div>
+                <p>$f(x) = \frac{1}{x-2}$ → $x \neq 2$</p>
+                <p>$g(x) = \frac{x+1}{x^2-4}$ → $x \neq \pm 2$</p>
+            </div>
+
+            <div class="property-card">
+                <h5>Raíz de índice par</h5>
+                <div class="formula">Radicando $\geq 0$</div>
+                <p>$f(x) = \sqrt{x-3}$ → $x \geq 3$</p>
+                <p>$g(x) = \sqrt{4-x}$ → $x \leq 4$</p>
+            </div>
+
+            <div class="property-card">
+                <h5>Logaritmos</h5>
+                <div class="formula">Argumento $> 0$</div>
+                <p>$f(x) = \ln(x+1)$ → $x > -1$</p>
+                <p>$g(x) = \log_2(3-x)$ → $x < 3$</p>
+            </div>
+        </div>
+
+        <h3>🔬 Visualización de Dominio y Rango</h3>
+        
+        <div class="exploration-box">
+            <h4>Observa: La proyección de la gráfica determina dominio y rango</h4>
+            <div id="jxg-dom-rango" class="jxgbox jxgbox-medium" style="margin: 0 auto;"></div>
+        </div>
+
+        <h3>📝 Ejercicios Resueltos</h3>
+
+        <div class="solved-example">
+            <h4>Ejercicio 1: Dominio de función racional</h4>
+            <p><strong>Encontrar el dominio de:</strong> $f(x) = \frac{x+1}{x^2-4}$</p>
+            <p><strong>Solución:</strong></p>
+            <div class="step"><span class="step-number">1</span> El denominador no puede ser cero: $x^2 - 4 \neq 0$</div>
+            <div class="step"><span class="step-number">2</span> $x^2 \neq 4$ → $x \neq \pm 2$</div>
+            <p><strong>Dominio:</strong> $\mathbf{\mathbb{R} - \{-2, 2\}}$ o $\mathbf{(-\infty, -2) \cup (-2, 2) \cup (2, +\infty)}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 2: Dominio con raíz cuadrada</h4>
+            <p><strong>Encontrar el dominio de:</strong> $g(x) = \sqrt{5-x}$</p>
+            <p><strong>Solución:</strong></p>
+            <div class="step"><span class="step-number">1</span> El radicando debe ser no negativo: $5 - x \geq 0$</div>
+            <div class="step"><span class="step-number">2</span> $-x \geq -5$ → $x \leq 5$ (cambia el sentido de la desigualdad)</div>
+            <p><strong>Dominio:</strong> $\mathbf{(-\infty, 5]}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 3: Rango de una función cuadrática</h4>
+            <p><strong>Encontrar el rango de:</strong> $f(x) = x^2 + 2$</p>
+            <p><strong>Solución:</strong></p>
+            <div class="step"><span class="step-number">1</span> Como $a = 1 > 0$, la parábola abre hacia arriba (tiene mínimo)</div>
+            <div class="step"><span class="step-number">2</span> Vértice: $x_v = 0$, $y_v = f(0) = 2$</div>
+            <div class="step"><span class="step-number">3</span> El valor mínimo de $y$ es 2, y puede tomar cualquier valor mayor</div>
+            <p><strong>Rango:</strong> $\mathbf{[2, +\infty)}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 4: Dominio combinado</h4>
+            <p><strong>Encontrar el dominio de:</strong> $h(x) = \frac{\sqrt{x-1}}{x-3}$</p>
+            <p><strong>Solución:</strong></p>
+            <div class="step"><span class="step-number">1</span> Raíz: $x - 1 \geq 0$ → $x \geq 1$</div>
+            <div class="step"><span class="step-number">2</span> Denominador: $x - 3 \neq 0$ → $x \neq 3$</div>
+            <div class="step"><span class="step-number">3</span> Combinando: $x \geq 1$ y $x \neq 3$</div>
+            <p><strong>Dominio:</strong> $\mathbf{[1, 3) \cup (3, +\infty)}$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 5: Dominio y rango gráficamente</h4>
+            <p><strong>Determinar dominio y rango observando la gráfica de:</strong> $f(x) = -x^2 + 4$</p>
+            <p><strong>Solución:</strong></p>
+            <ul>
+                <li>La parábola abre hacia abajo (máximo en el vértice)</li>
+                <li>Vértice: $(0, 4)$</li>
+                <li>Raíces: $x = \pm 2$</li>
+            </ul>
+            <p><strong>Dominio:</strong> $\mathbf{\mathbb{R}}$ (parábola definida para todo $x$)</p>
+            <p><strong>Rango:</strong> $\mathbf{(-\infty, 4]}$ (máximo en $y = 4$)</p>
+        </div>
+
+        <h3>🎯 Ejercicios para Practicar</h3>
+
+        <div class="exercise-item">
+            <div class="number">1</div>
+            <div class="question">Dominio de $f(x) = \frac{3}{x+5}$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-d1')">Ver Solución</button>
+            <div id="sol-d1" class="solution-text">
+                $x + 5 \neq 0$ → $x \neq -5$<br>
+                <strong>Dom = $\mathbb{R} - \{-5\}$</strong>
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">2</div>
+            <div class="question">Dominio de $h(x) = \sqrt{2x-6}$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-d2')">Ver Solución</button>
+            <div id="sol-d2" class="solution-text">
+                $2x - 6 \geq 0$ → $2x \geq 6$ → $x \geq 3$<br>
+                <strong>Dom = $[3, +\infty)$</strong>
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">3</div>
+            <div class="question">Rango de $f(x) = -x^2 + 6x - 5$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-d3')">Ver Solución</button>
+            <div id="sol-d3" class="solution-text">
+                Vértice: $x_v = 3$, $y_v = -9 + 18 - 5 = 4$<br>
+                $a = -1 < 0$ (máximo)<br>
+                <strong>Rango = $(-\infty, 4]$</strong>
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">4</div>
+            <div class="question">Dominio de $g(x) = \frac{1}{\sqrt{x+2}}$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-d4')">Ver Solución</button>
+            <div id="sol-d4" class="solution-text">
+                Raíz: $x + 2 > 0$ (estricto porque está en denominador)<br>
+                $x > -2$<br>
+                <strong>Dom = $(-2, +\infty)$</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 5: Operaciones con Funciones ==================== -->
+    <div id="tab5" class="tab-content">
+        <h2>Operaciones con Funciones</h2>
+
+        <div class="pedagogy-box">
+            <h4>Enfoque pedagógico</h4>
+            <p>La composición de funciones es uno de los conceptos más desafiantes para los estudiantes. Investigaciones muestran que frecuentemente interpretan $(f \circ g)(x)$ como multiplicación o confunden el orden de aplicación. Es crucial usar analogías con "máquinas conectadas en serie" y trabajar con múltiples ejemplos donde se visualice el "flujo" de los valores. La notación $f(g(x))$ ayuda a ver que primero se aplica $g$ al valor $x$, y luego $f$ al resultado.</p>
+        </div>
+
+        <div class="concept-box">
+            <h4>📚 Operaciones Algebraicas con Funciones</h4>
+            <p>Dadas dos funciones $f(x)$ y $g(x)$, se definen:</p>
+            <table>
+                <tr><th>Operación</th><th>Definición</th></tr>
+                <tr><td><strong>Suma</strong></td><td>$(f + g)(x) = f(x) + g(x)$</td></tr>
+                <tr><td><strong>Resta</strong></td><td>$(f - g)(x) = f(x) - g(x)$</td></tr>
+                <tr><td><strong>Producto</strong></td><td>$(f \cdot g)(x) = f(x) \cdot g(x)$</td></tr>
+                <tr><td><strong>Cociente</strong></td><td>$\left(\frac{f}{g}\right)(x) = \frac{f(x)}{g(x)}$, donde $g(x) \neq 0$</td></tr>
+            </table>
+        </div>
+
+        <h3>🔄 Composición de Funciones</h3>
+
+        <div class="concept-box">
+            <h4>Definición</h4>
+            <p style="text-align: center; font-size: 1.5rem;"><strong>$$(f \circ g)(x) = f(g(x))$$</strong></p>
+            <p>Se lee: "f compuesta con g de x" o "f de g de x".</p>
+            <p><strong>Procedimiento:</strong></p>
+            <ol>
+                <li>Primero se aplica la función interior $g$ al valor $x$</li>
+                <li>Luego se aplica la función exterior $f$ al resultado $g(x)$</li>
+            </ol>
+            <div class="warning-box">
+                <strong>⚠️ Importante:</strong> Generalmente $(f \circ g)(x) \neq (g \circ f)(x)$. El orden importa.
+            </div>
+        </div>
+
+        <h3>🔬 Visualización de la Composición</h3>
+        
+        <div class="exploration-box">
+            <h4>Explora: Composición como "máquinas en serie"</h4>
+            <div id="jxg-composicion" class="jxgbox jxgbox-medium" style="margin: 0 auto;"></div>
+            <p style="margin-top: 1rem;">Observa cómo el valor de $x$ pasa primero por $g(x)$ y luego el resultado entra en $f$.</p>
+        </div>
+
+        <h3>📝 Ejercicios Resueltos</h3>
+
+        <div class="solved-example">
+            <h4>Ejercicio 1: Operaciones básicas</h4>
+            <p><strong>Dadas:</strong> $f(x) = 2x + 1$ y $g(x) = x^2$</p>
+            <p><strong>Calcular:</strong> $(f+g)(x)$, $(f-g)(x)$, $(f \cdot g)(x)$, $\left(\frac{f}{g}\right)(x)$</p>
+            <p><strong>Solución:</strong></p>
+            <p>$(f+g)(x) = (2x + 1) + x^2 = \mathbf{x^2 + 2x + 1}$</p>
+            <p>$(f-g)(x) = (2x + 1) - x^2 = \mathbf{-x^2 + 2x + 1}$</p>
+            <p>$(f \cdot g)(x) = (2x + 1) \cdot x^2 = \mathbf{2x^3 + x^2}$</p>
+            <p>$\left(\frac{f}{g}\right)(x) = \frac{2x + 1}{x^2}$, con $x \neq 0$</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 2: Composición de funciones</h4>
+            <p><strong>Dadas:</strong> $f(x) = 2x$ y $g(x) = x + 3$</p>
+            <p><strong>Calcular:</strong> $(f \circ g)(x)$ y $(g \circ f)(x)$</p>
+            <p><strong>Solución:</strong></p>
+            <p><strong>$(f \circ g)(x) = f(g(x))$:</strong></p>
+            <div class="step"><span class="step-number">1</span> $g(x) = x + 3$</div>
+            <div class="step"><span class="step-number">2</span> $f(g(x)) = f(x + 3) = 2(x + 3) = \mathbf{2x + 6}$</div>
+            <p><strong>$(g \circ f)(x) = g(f(x))$:</strong></p>
+            <div class="step"><span class="step-number">1</span> $f(x) = 2x$</div>
+            <div class="step"><span class="step-number">2</span> $g(f(x)) = g(2x) = 2x + 3 = \mathbf{2x + 3}$</div>
+            <p><strong>Conclusión:</strong> $(f \circ g)(x) \neq (g \circ f)(x)$. El orden importa.</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 3: Evaluación de composición</h4>
+            <p><strong>Dadas:</strong> $f(x) = x^2 - 1$ y $g(x) = 3x + 2$</p>
+            <p><strong>Calcular:</strong> $(f \circ g)(2)$ y $(g \circ f)(-1)$</p>
+            <p><strong>Solución:</strong></p>
+            <p><strong>$(f \circ g)(2)$:</strong></p>
+            <div class="step"><span class="step-number">1</span> $g(2) = 3(2) + 2 = 8$</div>
+            <div class="step"><span class="step-number">2</span> $f(g(2)) = f(8) = 64 - 1 = \mathbf{63}$</div>
+            <p><strong>$(g \circ f)(-1)$:</strong></p>
+            <div class="step"><span class="step-number">1</span> $f(-1) = 1 - 1 = 0$</div>
+            <div class="step"><span class="step-number">2</span> $g(f(-1)) = g(0) = 0 + 2 = \mathbf{2}$</div>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 4: Función inversa</h4>
+            <p><strong>Encontrar la función inversa de:</strong> $f(x) = 2x + 3$</p>
+            <p><strong>Solución:</strong></p>
+            <div class="step"><span class="step-number">1</span> Escribimos $y = 2x + 3$</div>
+            <div class="step"><span class="step-number">2</span> Intercambiamos $x$ e $y$: $x = 2y + 3$</div>
+            <div class="step"><span class="step-number">3</span> Despejamos $y$: $x - 3 = 2y$ → $y = \frac{x-3}{2}$</div>
+            <p><strong>Función inversa:</strong> $\mathbf{f^{-1}(x) = \frac{x-3}{2}}$</p>
+            <p><strong>Verificación:</strong> $f(f^{-1}(x)) = 2\left(\frac{x-3}{2}\right) + 3 = x - 3 + 3 = x$ ✓</p>
+        </div>
+
+        <h3>🎯 Ejercicios para Practicar</h3>
+
+        <div class="exercise-item">
+            <div class="number">1</div>
+            <div class="question">$f(x) = 3x$, $g(x) = x - 1$. Hallar $(f \circ g)(x)$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-o1')">Ver Solución</button>
+            <div id="sol-o1" class="solution-text">
+                $(f \circ g)(x) = f(g(x)) = f(x-1) = 3(x-1) = \mathbf{3x - 3}$             </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">2</div>
+            <div class="question">$f(x) = x^2$, $g(x) = x + 2$. Hallar $(g \circ f)(x)$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-o2')">Ver Solución</button>
+            <div id="sol-o2" class="solution-text">
+                $(g \circ f)(x) = g(f(x)) = g(x^2) = x^2 + 2$             </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">3</div>
+            <div class="question">Hallar la inversa de $f(x) = \frac{x-1}{3}$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-o3')">Ver Solución</button>
+            <div id="sol-o3" class="solution-text">
+                $y = \frac{x-1}{3}$ → $x = \frac{y-1}{3}$<br>
+                $3x = y - 1$ → $y = 3x + 1$<br>
+                $\mathbf{f^{-1}(x) = 3x + 1}$             </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">4</div>
+            <div class="question">$f(x) = x + 1$, $g(x) = 2x$. Hallar $(f \circ g)(3)$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-o4')">Ver Solución</button>
+            <div id="sol-o4" class="solution-text">
+                $g(3) = 6$<br>
+                $f(g(3)) = f(6) = 6 + 1 = \mathbf{7}$             </div>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 6: Práctica Integral ==================== -->
+    <div id="tab6" class="tab-content">
+        <h2>Práctica Integral</h2>
+
+        <div class="concept-box">
+            <h4>📚 Ejercicios de Síntesis</h4>
+            <p>Esta sección contiene ejercicios que integran todos los conceptos estudiados: concepto de función, funciones lineales, funciones cuadráticas, dominio y rango, y operaciones con funciones. Se recomienda intentar resolver cada ejercicio antes de ver la solución.</p>
+        </div>
+
+        <h3>📝 Ejercicios Integradores</h3>
+
+        <div class="exercise-item">
+            <div class="number">1</div>
+            <div class="question"><strong>Análisis completo:</strong> Dada $f(x) = x^2 - 4x + 3$, encontrar: vértice, raíces, dominio, rango, eje de simetría. Graficar.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-p1')">Ver Solución</button>
+            <div id="sol-p1" class="solution-text">
+                <strong>Vértice:</strong> $x_v = 2$, $y_v = -1$ → $V(2, -1)$<br>
+                <strong>Raíces:</strong> $(x-1)(x-3) = 0$ → $x = 1$ y $x = 3$<br>
+                <strong>Dominio:</strong> $\mathbb{R}$<br>
+                <strong>Rango:</strong> $[-1, +\infty)$<br>
+                <strong>Eje de simetría:</strong> $x = 2$             </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">2</div>
+            <div class="question"><strong>Función lineal:</strong> Ecuación de la recta que pasa por $(2, 5)$ con pendiente $-3$. Indica si es creciente o decreciente.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-p2')">Ver Solución</button>
+            <div id="sol-p2" class="solution-text">
+                $y - 5 = -3(x - 2)$<br>
+                $y = -3x + 11$<br>
+                Como $m = -3 < 0$, es <strong>decreciente</strong>.
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">3</div>
+            <div class="question"><strong>Dominio:</strong> ¿Cuál es el dominio de $f(x) = \frac{x-1}{x+2}$?</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-p3')">Ver Solución</button>
+            <div id="sol-p3" class="solution-text">
+                $x + 2 \neq 0$ → $x \neq -2$<br>
+                <strong>Dom = $\mathbb{R} - \{-2\}$</strong>
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">4</div>
+            <div class="question"><strong>Composición:</strong> Si $f(x) = x + 1$ y $g(x) = x^2$, hallar $(f \circ g)(2)$.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-p4')">Ver Solución</button>
+            <div id="sol-p4" class="solution-text">
+                $g(2) = 4$<br>
+                $f(g(2)) = f(4) = 4 + 1 = \mathbf{5}$             </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">5</div>
+            <div class="question"><strong>Aplicación:</strong> El costo de un servicio es $C(x) = 200 + 50x$, donde $x$ es el número de horas. ¿Cuánto cuestan 5 horas? ¿Cuántas horas corresponden a un costo de $600?</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-p5')">Ver Solución</button>
+            <div id="sol-p5" class="solution-text">
+                $C(5) = 200 + 50(5) = 200 + 250 = \mathbf{\$450}$<br>
+                $200 + 50x = 600$ → $50x = 400$ → $x = \mathbf{8}$ horas
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">6</div>
+            <div class="question"><strong>Parábola:</strong> ¿Qué valor de $k$ hace que $f(x) = x^2 + kx + 9$ tenga una única raíz?</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-p6')">Ver Solución</button>
+            <div id="sol-p6" class="solution-text">
+                Discriminante = 0: $k^2 - 4(1)(9) = 0$<br>
+                $k^2 = 36$ → $k = \pm 6$             </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">7</div>
+            <div class="question"><strong>Raíz cuadrada:</strong> Dominio de $h(x) = \sqrt{9 - x^2}$</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-p7')">Ver Solución</button>
+            <div id="sol-p7" class="solution-text">
+                $9 - x^2 \geq 0$<br>
+                $x^2 \leq 9$<br>
+                $-3 \leq x \leq 3$<br>
+                <strong>Dom = $[-3, 3]$</strong>
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">8</div>
+            <div class="question"><strong>Máximo:</strong> Un granjero tiene 100 m de cerca. ¿Qué dimensiones del rectángulo maximizan el área?</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-p8')">Ver Solución</button>
+            <div id="sol-p8" class="solution-text">
+                Perímetro: $2x + 2y = 100$ → $y = 50 - x$<br>
+                Área: $A = x(50 - x) = 50x - x^2$<br>
+                Vértice: $x = 25$ m, $y = 25$ m<br>
+                <strong>Cuadrado de 25 m × 25 m (área = 625 m²)</strong>
+            </div>
+        </div>
+
+        <div class="success-box">
+            <h4>✅ ¡Felicitaciones!</h4>
+            <p>Has completado el estudio de <strong>Funciones</strong> para 4° año de Secundaria. Recuerda que la práctica constante es clave para dominar estos conceptos. Utiliza los gráficos interactivos para explorar cómo cambian las funciones al modificar sus parámetros.</p>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 Mates con Agugg_ia | Material educativo para Secundaria - Córdoba, Argentina</p>
+    <p>Desarrollado con técnicas pedagógicas basadas en investigación educativa.</p>
+</footer>
+
+<script>
+    // Navegación de pestañas
+    function openTab(evt, tabName) {
+        var tabcontent = document.getElementsByClassName("tab-content");
+        for (var i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
         }
-
-        // --- LÓGICA DE SOLUCIONES (ACORDEÓN) ---
-        function toggleSolution(btn) {
-            const solution = btn.nextElementSibling;
-            if (solution.style.display === "block") {
-                solution.style.display = "none";
-                btn.textContent = "Ver Solución Propuesta";
-            } else {
-                solution.style.display = "block";
-                btn.textContent = "Ocultar Solución";
-                // Si hay fórmulas en la solución, forzar re-renderizado de MathJax
-                if (window.MathJax) {
-                    MathJax.typesetPromise([solution]);
-                }
-            }
+        var tablinks = document.getElementsByClassName("tab-btn");
+        for (var i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
 
-        // --- LÓGICA DE QUIZ (AUTOEVALUACIÓN) ---
-        function checkAnswer(btn, isCorrect) {
-            const parent = btn.parentElement;
-            const buttons = parent.getElementsByTagName("button");
-            
-            // Deshabilitar todos los botones de esta pregunta
-            for (let i = 0; i < buttons.length; i++) {
-                buttons[i].disabled = true;
-                buttons[i].classList.remove("correct", "incorrect");
-            }
+    function toggleSolution(id) {
+        var solution = document.getElementById(id);
+        solution.style.display = (solution.style.display === "block") ? "none" : "block";
+    }
 
-            const feedback = parent.nextElementSibling;
-            feedback.style.display = "block";
-
-            if (isCorrect) {
-                btn.classList.add("correct");
-                feedback.textContent = "¡Correcto! Muy bien.";
-                feedback.style.color = "#065F46";
-            } else {
-                btn.classList.add("incorrect");
-                feedback.textContent = "Incorrecto. Revisa la teoría o los ejemplos resueltos.";
-                feedback.style.color = "#991B1B";
-            }
-        }
-
-        // Función auxiliar para redimensionar todos los gráficos de Chart.js
-        function resizeCharts() {
-            setTimeout(() => {
-                if (typeof Chart !== 'undefined') {
-                    Chart.instances.forEach(chart => {
-                        chart.resize();
-                    });
-                }
-            }, 100);
-        }
-
-        // --- INICIALIZACIÓN DE GRÁFICOS CON CHART.JS ---
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            const commonOptions = {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        backgroundColor: 'rgba(31, 41, 55, 0.9)',
-                        padding: 10,
-                        cornerRadius: 8,
-                    }
-                },
-                scales: {
-                    x: { grid: { color: '#F3F4F6' } },
-                    y: { grid: { color: '#F3F4F6' } }
-                }
-            };
-
-                       // 1. Gráfico para prueba de recta vertical (Pestaña 1) - VERSIÓN FINAL SIN ERRORES
-            const verticalLineCtx = document.getElementById('verticalLineTestChart');
-            if (verticalLineCtx) {
-                // Generar datos para el círculo (radio 2)
-                const circleData = Array.from({length: 64}, (_, i) => {
-                    const angle = i * Math.PI / 32;
-                    return {x: 2 * Math.cos(angle), y: 2 * Math.sin(angle)};
-                });
-
-                new Chart(verticalLineCtx, {
-                    type: 'scatter',
-                    data: {
-                        datasets: [
-                            {
-                                type: 'scatter',
-                                label: 'Círculo: x² + y² = 4',
-                                data: circleData,
-                                borderColor: '#EF4444',
-                                backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                                borderWidth: 3,
-                                showLine: true,
-                                fill: true,
-                                tension: 0,
-                                pointRadius: 0,
-                                order: 1 // Se dibuja primero (detrás)
-                            },
-                            {
-                                type: 'line',
-                                label: 'Prueba Recta Vertical (x=0)',
-                                data: [
-                                    {x: 0, y: -3.5}, // Punto abajo
-                                    {x: 0, y: 3.5}   // Punto arriba
-                                ],
-                                borderColor: '#1F2937', // Gris oscuro/Negro
-                                borderWidth: 2,
-                                borderDash: [5, 5], // Efecto punteado
-                                pointRadius: 0,
-                                fill: false,
-                                order: 0 // Se dibuja encima
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true, 
-                        aspectRatio: 1, // Fuerza el gráfico a ser cuadrado 1:1
-                        plugins: {
-                            legend: { display: true, position: 'bottom' },
-                            tooltip: { enabled: false }
-                        },
-                        scales: {
-                            x: { 
-                                title: { display: true, text: 'x' },
-                                min: -4, max: 4,
-                                grid: { color: '#E5E7EB' }
-                            },
-                            y: { 
-                                title: { display: true, text: 'y' },
-                                min: -4, max: 4,
-                                grid: { color: '#E5E7EB' }
-                            }
-                        }
-                    }
-                });
-            }
-
-                      // 2. Gráfico Conceptos Básicos (Pestaña 2) - VERSIÓN INTERACTIVA
-            const conceptBasicCtx = document.getElementById('conceptBasicChart');
-            if (conceptBasicCtx) {
-                const labels = Array.from({length: 41}, (_, i) => i/2 - 5);
-                
-                // Función inicial para calcular datos (k = 0 por defecto)
-                const getParabolaData = (k) => {
-                    return labels.map(x => x*x + k);
-                };
-
-                // Inicializar el gráfico
-                const conceptChart = new Chart(conceptBasicCtx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'f(x) = x² + k',
-                            data: getParabolaData(0), // Datos iniciales
-                            borderColor: '#2563EB',
-                            backgroundColor: 'rgba(37, 99, 235, 0.2)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        animation: { duration: 0 }, // Desactivar animación para respuesta instantánea al slider
-                        plugins: {
-                            legend: { display: false }
-                        },
-                        scales: {
-                            x: { 
-                                title: { display: true, text: 'x (Dominio: Todo ℝ)' }, 
-                                min: -5, max: 5,
-                                grid: { color: '#F3F4F6' }
-                            },
-                            y: { 
-                                title: { display: true, text: 'f(x) (Imagen)' }, 
-                                min: -5, max: 10,
-                                grid: { color: '#F3F4F6' }
-                            }
-                        }
-                    }
-                });
-
-                // --- LÓGICA DEL DESLIZADOR (SLIDER) ---
-                const sliderK = document.getElementById('sliderK');
-                const valKDisplay = document.getElementById('valK');
-
-                if (sliderK && valKDisplay) {
-                    sliderK.addEventListener('input', function() {
-                        const k = parseFloat(this.value);
-                        
-                        // 1. Actualizar el texto del valor
-                        valKDisplay.textContent = k > 0 ? `+${k}` : k; // Muestra el signo si es positivo
-
-                        // 2. Recalcular los datos de la gráfica
-                        const newData = getParabolaData(k);
-
-                        // 3. Actualizar el gráfico sin destruirlo
-                        conceptChart.data.datasets[0].data = newData;
-                        conceptChart.update();
-                        
-                        // Forzar renderizado de MathJax si lo hubiera en el texto
-                        if(window.MathJax) {
-                            MathJax.typesetPromise();
-                        }
-                    });
-                }
-            }
-
-            // 3. Estación A (Pestaña 3)
-            const estacionACtx = document.getElementById('estacionAChart');
-            if (estacionACtx) {
-                const labels = Array.from({length: 41}, (_, i) => i/2 - 5);
-                new Chart(estacionACtx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Función por partes',
-                            data: labels.map(x => {
-                                if (x < -3) return 1;
-                                else if (x < 0) return -x;
-                                else if (x < 3) return (x*x)/3;
-                                else return 3;
-                            }),
-                            borderColor: '#8B5CF6',
-                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.1,
-                            stepped: false,
-                            pointRadius: 0
-                        }]
-                    },
-                    options: {
-                        ...commonOptions,
-                        scales: {
-                            x: { title: { display: true, text: 'x' }, min: -5, max: 5 },
-                            y: { title: { display: true, text: 'f(x)' }, min: -1, max: 4 }
-                        }
-                    }
-                });
-            }
-
-            // 4. Estación B (Pestaña 3)
-            const estacionBCtx = document.getElementById('estacionBChart');
-            if (estacionBCtx) {
-                const labels = Array.from({length: 41}, (_, i) => i/4 - 5);
-                new Chart(estacionBCtx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'f(x) = 0.2x³ - 0.5x² - 1.5x + 2',
-                            data: labels.map(x => 0.2*x*x*x - 0.5*x*x - 1.5*x + 2),
-                            borderColor: '#10B981',
-                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 0
-                        }]
-                    },
-                    options: {
-                        ...commonOptions,
-                        scales: {
-                            x: { title: { display: true, text: 'x' }, min: -5, max: 5 },
-                            y: { title: { display: true, text: 'f(x)' }, min: -3, max: 5 }
-                        }
-                    }
-                });
-            }
-
-            // 5. Estación C (Pestaña 3)
-            const estacionCCtx = document.getElementById('estacionCChart');
-            if (estacionCCtx) {
-                const labels1 = Array.from({length: 60}, (_, i) => i/10 - 6); 
-                const labels2 = Array.from({length: 60}, (_, i) => i/10 + 0.1); 
-                
-                const data1 = labels1.map(x => 1/x);
-                const data2 = labels2.map(x => 1/x);
-
-                new Chart(estacionCCtx, {
-                    type: 'line',
-                    data: {
-                        labels: [...labels1, ...labels2],
-                        datasets: [{
-                            label: 'f(x) = 1/x',
-                            data: [...data1, ...data2],
-                            borderColor: '#F59E0B',
-                            backgroundColor: 'transparent',
-                            borderWidth: 3,
-                            fill: false,
-                            tension: 0,
-                            spanGaps: true,
-                            pointRadius: 0
-                        }]
-                    },
-                    options: {
-                        ...commonOptions,
-                        scales: {
-                            x: { title: { display: true, text: 'x' }, min: -5, max: 5 },
-                            y: { title: { display: true, text: 'f(x)' }, min: -10, max: 10 }
-                        }
-                    }
-                });
-            }
-
-            // 6. Gráficos Pestaña Comportamiento (Pestaña 4 NUEVA)
-            
-            // Monotonía
-            const monoCtx = document.getElementById('monoChart');
-            if(monoCtx) {
-                const labels = Array.from({length: 41}, (_, i) => i - 20);
-                new Chart(monoCtx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Creciente y Decreciente',
-                            data: labels.map(x => Math.sin(x/2) + 2), // Onda senoidal desplazada
-                            borderColor: '#10B981',
-                            borderWidth: 2,
-                            pointRadius: 0,
-                            tension: 0.4
-                        }]
-                    },
-                    options: { ...commonOptions, plugins: { legend: {display: true} }, scales: {x:{display:false}, y:{min:0, max:5}} }
-                });
-            }
-
-            // Continuidad (Salto)
-            const contCtx = document.getElementById('continuityChart');
-            if(contCtx) {
-                const x1 = Array.from({length: 20}, (_, i) => i/2 - 5); // -5 a -5
-                const x2 = Array.from({length: 20}, (_, i) => i/2);     // 0 a 5
-                const y1 = x1.map(x => x); // Recta y=x
-                const y2 = x2.map(x => x + 3); // Recta y=x+3 (salto de 3)
-
-                new Chart(contCtx, {
-                    type: 'line',
-                    data: {
-                        labels: [...x1, ...x2],
-                        datasets: [{
-                            label: 'Discontinuidad de Salto',
-                            data: [...y1, ...y2],
-                            borderColor: '#F59E0B',
-                            borderWidth: 2,
-                            spanGaps: false, // Dejar el hueco
-                            pointRadius: 0,
-                            stepped: false
-                        }]
-                    },
-                    options: { ...commonOptions, scales: {x:{display:false}, y:{min:-6, max:9}} }
-                });
-            }
-
-            // Asíntotas
-            const asympCtx = document.getElementById('asymptoteChart');
-            if(asympCtx) {
-                const xData = Array.from({length: 60}, (_, i) => i/10 - 6);
-                const yData = xData.map(x => 2 + Math.exp(-x)); // 2 + e^(-x). Tiende a y=2
-
-                new Chart(asympCtx, {
-                    type: 'line',
-                    data: {
-                        labels: xData,
-                        datasets: [{
-                            label: 'Asíntota Horizontal y=2',
-                            data: yData,
-                            borderColor: '#EF4444',
-                            borderWidth: 2,
-                            pointRadius: 0,
-                            tension: 0.1
-                        }]
-                    },
-                    options: { 
-                        ...commonOptions, 
-                        scales: { x:{display:false}, y:{min:0, max:8} },
-                        plugins: { 
-                            ...commonOptions.plugins,
-                            annotation: {
-                                annotations: {
-                                    line1: {
-                                        type: 'line',
-                                        yMin: 2,
-                                        yMax: 2,
-                                        borderColor: 'rgb(255, 99, 132)',
-                                        borderWidth: 2,
-                                        borderDash: [6, 6],
-                                        label: { content: 'y=2', enabled: true, position: 'end' }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            // 7. Velocidad de auto (Pestaña 5)
-            const velocidadCtx = document.getElementById('velocidadAutoChart');
-            if (velocidadCtx) {
-                const labels = [0, 5, 10, 13, 17, 22, 25, 30];
-                const data = [0, 60, 60, 0, 0, 50, 50, 0];
-                
-                new Chart(velocidadCtx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Velocidad (km/h)',
-                            data: data,
-                            borderColor: '#2563EB',
-                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0
-                        }]
-                    },
-                    options: {
-                        ...commonOptions,
-                        plugins: { 
-                            legend: { display: false },
-                            tooltip: {
-                                callbacks: {
-                                    label: (context) => `Velocidad: ${context.parsed.y} km/h a los ${context.parsed.x} min`
-                                }
-                            }
-                        },
-                        scales: {
-                            x: { title: { display: true, text: 'Tiempo (minutos)' } },
-                            y: { title: { display: true, text: 'Velocidad (km/h)' }, min: 0, max: 70 }
-                        }
-                    }
-                });
-            }
-
-            // 8. Temperatura diaria (Pestaña 5)
-            const temperaturaCtx = document.getElementById('temperaturaDiaChart');
-            if (temperaturaCtx) {
-                const labels = Array.from({length: 25}, (_, i) => i);
-                new Chart(temperaturaCtx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Temperatura (°C)',
-                            data: labels.map(h => 12*Math.sin(Math.PI/12*(h-6)) + 10),
-                            borderColor: '#EF4444',
-                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 0
-                        }]
-                    },
-                    options: {
-                        ...commonOptions,
-                        scales: {
-                            x: { 
-                                title: { display: true, text: 'Hora del día' },
-                                ticks: { callback: (value) => value + ':00' } 
-                            },
-                            y: { title: { display: true, text: 'Temperatura (°C)' }, min: 0, max: 25 }
-                        }
-                    }
-                });
-            }
-
-            // 9. Gráfico para desafío de diseño (Pestaña 5)
-            const desafioCtx = document.getElementById('desafioDesignChart');
-            if (desafioCtx) {
-                new Chart(desafioCtx, {
-                    type: 'scatter',
-                    data: {
-                        datasets: [{
-                            label: 'Tu diseño aquí',
-                            data: [],
-                            borderColor: '#8B5CF6',
-                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        ...commonOptions,
-                        plugins: { tooltip: { enabled: false } },
-                        scales: {
-                            x: { title: { display: true, text: 'x' }, min: -6, max: 6 },
-                            y: { title: { display: true, text: 'f(x)' }, min: -2, max: 4 }
-                        }
-                    }
-                });
-            }
-
-            // 10. Evaluación función 1 (Pestaña 7)
-            const eval1Ctx = document.getElementById('evalFunc1Chart');
-            if (eval1Ctx) {
-                const f1 = (x) => (x-3)/((x+2)*(x-1));
-                
-                const segment1 = Array.from({length: 30}, (_, i) => i/3 - 5); 
-                const segment2 = Array.from({length: 30}, (_, i) => i/30 - 1.9); 
-                const segment3 = Array.from({length: 30}, (_, i) => i/30 + 1.1); 
-
-                const d1 = segment1.map(x => ({x: x, y: f1(x)}));
-                const d2 = segment2.map(x => ({x: x, y: f1(x)}));
-                const d3 = segment3.map(x => ({x: x, y: f1(x)}));
-
-                new Chart(eval1Ctx, {
-                    type: 'line',
-                    data: {
-                        labels: [...segment1, ...segment2, ...segment3],
-                        datasets: [{
-                            label: 'f(x) = (x-3)/((x+2)(x-1))',
-                            data: [...d1, ...d2, ...d3],
-                            borderColor: '#8B5CF6',
-                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.1,
-                            spanGaps: true,
-                            pointRadius: 0
-                        }]
-                    },
-                    options: {
-                        ...commonOptions,
-                        scales: {
-                            x: { title: { display: true, text: 'x' }, min: -5, max: 5 },
-                            y: { title: { display: true, text: 'f(x)' }, min: -10, max: 10 }
-                        }
-                    }
-                });
-            }
-
-            // 11. Evaluación función 2 (Pestaña 7)
-            const eval2Ctx = document.getElementById('evalFunc2Chart');
-            if (eval2Ctx) {
-                const labels = Array.from({length: 21}, (_, i) => i);
-                new Chart(eval2Ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Área cultivada (hectáreas)',
-                            data: labels.map(t => 50 + 10*t - 0.5*t*t),
-                            borderColor: '#10B981',
-                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 2
-                        }]
-                    },
-                    options: {
-                        ...commonOptions,
-                        scales: {
-                            x: { title: { display: true, text: 'Tiempo (semanas)' } },
-                            y: { title: { display: true, text: 'Área (hectáreas)' }, min: 40, max: 110 }
-                        }
-                    }
-                });
-            }
+    // Renderizar fórmulas KaTeX
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false}
+            ]
         });
-    </script>
+    });
+
+    // ==================== JSXGraph: GRÁFICOS INTERACTIVOS ====================
+
+    // --- TAB 1: Concepto de Función ---
+    
+    // Gráfica simple de f(x) = 2x + 3
+    var brd1 = JXG.JSXGraph.initBoard('jxg-func-concepto', {boundingbox: [-3, 8, 3, -2], axis: true, showNavigation: false, showCopyright: false});
+    brd1.create('functiongraph', [function(x) { return 2*x + 3; }], {strokeColor: '#3B82F6', strokeWidth: 2});
+    brd1.create('point', [0, 3], {name: '(0,3)', size: 3, color: '#F59E0B'});
+    brd1.create('point', [1, 5], {name: '(1,5)', size: 3, color: '#F59E0B'});
+
+    // Máquina de función interactiva
+    var brdMaq = JXG.JSXGraph.initBoard('jxg-maquina-funcion', {boundingbox: [-5, 15, 5, -5], axis: true, showNavigation: false, showCopyright: false});
+    var pMaq = brdMaq.create('point', [1, 0], {name: 'x (entrada)', size: 4, color: '#EF4444', snapToGrid: true});
+    var funcText = brdMaq.create('text', [-4, 12, function() { return 'f(x) = 2x² + 1'; }], {fontSize: 16, color: '#3B82F6'});
+    var resultText = brdMaq.create('text', [-4, 10, function() { return 'Entrada x = ' + pMaq.X().toFixed(1); }], {fontSize: 14});
+    var resultText2 = brdMaq.create('text', [-4, 8, function() { return 'Salida y = f(' + pMaq.X().toFixed(1) + ') = ' + (2*pMaq.X()*pMaq.X() + 1).toFixed(2); }], {fontSize: 14, color: '#10B981'});
+    brdMaq.create('functiongraph', [function(x) { return 2*x*x + 1; }], {strokeColor: '#3B82F6', strokeWidth: 2});
+    brdMaq.create('point', [function() { return pMaq.X(); }, function() { return 2*pMaq.X()*pMaq.X() + 1; }], {name: 'y (salida)', size: 4, color: '#10B981'});
+
+    // Sí es función (circunferencia reducida a función)
+    var brdSi = JXG.JSXGraph.initBoard('jxg-si-funcion', {boundingbox: [-3, 3, 3, -1], axis: true, showNavigation: false, showCopyright: false});
+    brdSi.create('functiongraph', [function(x) { return Math.sqrt(4 - x*x); }], {strokeColor: '#10B981', strokeWidth: 2});
+    brdSi.create('text', [0, 2.5, 'y = √(4-x²)'], {fontSize: 12});
+
+    // NO es función (circunferencia completa)
+    var brdNo = JXG.JSXGraph.initBoard('jxg-no-funcion', {boundingbox: [-3, 3, 3, -3], axis: true, showNavigation: false, showCopyright: false});
+    brdNo.create('curve', [function(t) { return 2*Math.cos(t); }, function(t) { return 2*Math.sin(t); }, 0, 2*Math.PI], {strokeColor: '#EF4444', strokeWidth: 2});
+    brdNo.create('line', [1, 0, 0], {strokeColor: '#9CA3AF', dash: 2, strokeWidth: 1});
+    brdNo.create('text', [0.3, 0.5, 'x=0'], {fontSize: 10, color: '#6B7280'});
+    brdNo.create('point', [0, 2], {size: 3, color: '#EF4444', name: ''});
+    brdNo.create('point', [0, -2], {size: 3, color: '#EF4444', name: ''});
+    brdNo.create('text', [-2, -2.5, 'Circunferencia: NO es función'], {fontSize: 10, color: '#EF4444'});
+
+    // --- TAB 2: Función Lineal ---
+
+    // Exploración interactiva de pendiente y ordenada
+    var brdLin = JXG.JSXGraph.initBoard('jxg-lineal-interactivo', {boundingbox: [-5, 10, 5, -5], axis: true, showNavigation: false, showCopyright: false});
+    var sliderM = brdLin.create('slider', [[-4, -3], [3, -3], [-3, 1, 3]], {name: 'm (pendiente)', snapWidth: 0.1});
+    var sliderB = brdLin.create('slider', [[-4, -4], [3, -4], [-3, 0, 3]], {name: 'b (ordenada)', snapWidth: 0.1});
+    var lineFunc = brdLin.create('functiongraph', [function(x) { return sliderM.Value()*x + sliderB.Value(); }], {strokeColor: '#3B82F6', strokeWidth: 3});
+    var pointY = brdLin.create('point', [0, function() { return sliderB.Value(); }], {name: '(0,b)', size: 4, color: '#F59E0B'});
+    var infoText = brdLin.create('text', [-4, 8, function() { return 'Ecuación: y = ' + sliderM.Value().toFixed(1) + 'x + ' + sliderB.Value().toFixed(1); }], {fontSize: 14, color: '#1E40AF'});
+    var tipoText = brdLin.create('text', [-4, 6.5, function() { 
+        var m = sliderM.Value();
+        if (m > 0) return 'Función CRECIENTE (sube →)';
+        if (m < 0) return 'Función DECRECIENTE (baja ←)';
+        return 'Función CONSTANTE (horizontal)';
+    }], {fontSize: 12, color: '#10B981'});
+
+    // Comparación de pendientes
+    var brdPend = JXG.JSXGraph.initBoard('jxg-pendientes-comparacion', {boundingbox: [-3, 5, 3, -1], axis: true, showNavigation: false, showCopyright: false});
+    brdPend.create('functiongraph', [function(x) { return 0.5*x; }], {strokeColor: '#10B981', strokeWidth: 2, name: 'm=0.5'});
+    brdPend.create('functiongraph', [function(x) { return x; }], {strokeColor: '#3B82F6', strokeWidth: 2});
+    brdPend.create('functiongraph', [function(x) { return 2*x; }], {strokeColor: '#8B5CF6', strokeWidth: 2});
+    brdPend.create('functiongraph', [function(x) { return -x; }], {strokeColor: '#EF4444', strokeWidth: 2, dash: 2});
+    brdPend.create('text', [1.5, 4, 'm=2 (más inclinada)'], {fontSize: 11, color: '#8B5CF6' });
+    brdPend.create('text', [1.5, 3, 'm=1'], { fontSize: 11, color: '#3B82F6' });
+    brdPend.create('text', [1.5, 1.5, 'm=0.5 (menos inclinada)'], { fontSize: 11, color: '#10B981' });
+    brdPend.create('text', [-2, 1, 'm=-1 (decreciente)'], { fontSize: 11, color: '#EF4444' });
+
+    // --- TAB 3: Función Cuadrática ---
+
+    // Parábola hacia arriba
+    var brdUp = JXG.JSXGraph.initBoard('jxg-para-arriba', {boundingbox: [-2, 5, 2, -1], axis: true, showNavigation: false, showCopyright: false});
+    brdUp.create('functiongraph', [function(x) { return x*x; }], {strokeColor: '#10B981', strokeWidth: 2});
+    brdUp.create('point', [0, 0], {name: 'Vértice (mínimo)', size: 3, color: '#F59E0B'});
+
+    // Parábola hacia abajo
+    var brdDown = JXG.JSXGraph.initBoard('jxg-para-abajo', {boundingbox: [-2, 2, 2, -4], axis: true, showNavigation: false, showCopyright: false});
+    brdDown.create('functiongraph', [function(x) { return -x*x; }], {strokeColor: '#EF4444', strokeWidth: 2});
+    brdDown.create('point', [0, 0], {name: 'Vértice (máximo)', size: 3, color: '#F59E0B'});
+
+    // Exploración interactiva cuadrática
+    var brdQuad = JXG.JSXGraph.initBoard('jxg-cuadratica-interactivo', {boundingbox: [-5, 10, 5, -5], axis: true, showNavigation: false, showCopyright: false});
+    var sliderA = brdQuad.create('slider', [[-4, -3], [3, -3], [-2, 1, 2]], {name: 'a', snapWidth: 0.1});
+    var sliderB2 = brdQuad.create('slider', [[-4, -3.7], [3, -3.7], [-3, 0, 3]], {name: 'b', snapWidth: 0.1});
+    var sliderC = brdQuad.create('slider', [[-4, -4.4], [3, -4.4], [-3, 0, 3]], {name: 'c', snapWidth: 0.1});
+    var quadFunc = brdQuad.create('functiongraph', [function(x) { return sliderA.Value()*x*x + sliderB2.Value()*x + sliderC.Value(); }], {strokeColor: '#8B5CF6', strokeWidth: 3});
+    
+    var xVert = function() { return -sliderB2.Value()/(2*sliderA.Value()); };
+    var yVert = function() { return sliderA.Value()*xVert()*xVert() + sliderB2.Value()*xVert() + sliderC.Value(); };
+    brdQuad.create('point', [xVert, yVert], {name: 'V', size: 3, color: '#F59E0B'});
+    brdQuad.create('text', [-4, 8, function() { return 'f(x) = ' + sliderA.Value().toFixed(1) + 'x² + ' + sliderB2.Value().toFixed(1) + 'x + ' + sliderC.Value().toFixed(1); }], {fontSize: 12, color: '#7C3AED'});
+    brdQuad.create('text', [-4, 6.5, function() { return 'Vértice: (' + xVert().toFixed(2) + ', ' + yVert().toFixed(2) + ')'; }], {fontSize: 11, color: '#F59E0B'});
+    brdQuad.create('text', [-4, 5, function() { return sliderA.Value() > 0 ? 'Abre hacia ARRIBA (mínimo)' : 'Abre hacia ABAJO (máximo)'; }], {fontSize: 11, color: '#10B981'});
+
+    // Ejercicio 1 cuadrática
+    var brdEj1 = JXG.JSXGraph.initBoard('jxg-ej1-cuad', {boundingbox: [-1, 5, 5, -2], axis: true, showNavigation: false, showCopyright: false});
+    brdEj1.create('functiongraph', [function(x) { return x*x - 4*x + 3; }], {strokeColor: '#3B82F6', strokeWidth: 2});
+    brdEj1.create('point', [2, -1], {name: 'V(2,-1)', size: 3, color: '#F59E0B'});
+    brdEj1.create('point', [1, 0], {name: '', size: 3, color: '#10B981'});
+    brdEj1.create('point', [3, 0], {name: '', size: 3, color: '#10B981'});
+    brdEj1.create('line', [function() { return [1, -2, 0]; }], {strokeColor: '#9CA3AF', dash: 2, strokeWidth: 1});
+
+    // --- TAB 4: Dominio y Rango ---
+
+    var brdDom = JXG.JSXGraph.initBoard('jxg-dom-rango', {boundingbox: [-4, 5, 6, -2], axis: true, showNavigation: false, showCopyright: false});
+    brdDom.create('functiongraph', [function(x) { return 0.5*(x-1)*(x-1); }], {strokeColor: '#3B82F6', strokeWidth: 2});
+    brdDom.create('point', [1, 0], {name: 'Vértice', size: 3, color: '#F59E0B'});
+    brdDom.create('text', [-3, 3, 'Dominio: ℝ (todos los reales)'], {fontSize: 12, color: '#EF4444' });
+    brdDom.create('text', [-3, 2, 'Rango: [0, +∞)'], { fontSize: 12, color: '#10B981' });
+    // Proyección visual
+    brdDom.create('line', [function() { return [0, 1, 0]; }], {strokeColor: '#EF4444', dash: 1, strokeWidth: 1});
+    brdDom.create('text', [5, -0.5, '→ Eje X'], { fontSize: 10, color: '#EF4444' });
+
+    // --- TAB 5: Composición ---
+
+    var brdComp = JXG.JSXGraph.initBoard('jxg-composicion', {boundingbox: [-4, 10, 4, -2], axis: true, showNavigation: false, showCopyright: false});
+    var pComp = brdComp.create('point', [1, 0], {name: 'x', size: 4, color: '#EF4444', snapToGrid: true});
+    // g(x) = x + 2
+    brdComp.create('functiongraph', [function(x) { return x + 2; }], {strokeColor: '#10B981', strokeWidth: 2, dash: 1});
+    // f(x) = 2x
+    brdComp.create('functiongraph', [function(x) { return 2*x; }], {strokeColor: '#8B5CF6', strokeWidth: 2});
+    brdComp.create('point', [function() { return pComp.X(); }, function() { return pComp.X() + 2; }], {name: 'g(x)', size: 3, color: '#10B981'});
+    brdComp.create('point', [function() { return pComp.X() + 2; }, function() { return 2*(pComp.X() + 2); }], {name: 'f(g(x))', size: 3, color: '#8B5CF6'});
+    brdComp.create('text', [-3.5, 8, function() { return 'x = ' + pComp.X().toFixed(1); }], {fontSize: 12});
+    brdComp.create('text', [-3.5, 7, function() { return 'g(x) = ' + (pComp.X() + 2).toFixed(1); }], {fontSize: 12, color: '#10B981'});
+    brdComp.create('text', [-3.5, 6, function() { return 'f(g(x)) = 2·' + (pComp.X() + 2).toFixed(1) + ' = ' + (2*(pComp.X() + 2)).toFixed(1); }], {fontSize: 12, color: '#8B5CF6'});
+</script>
 
 </body>
 </html>

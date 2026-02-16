@@ -1,4 +1,4 @@
-CTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -6,9 +6,14 @@ CTYPE html>
     <meta name="description" content="Geometría - 4° Año Secundaria - Mates con Agugg_ia">
     <title>Geometría | 4° Año | Mates con Agugg_ia</title>
     
+    <!-- KaTeX para fórmulas matemáticas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <!-- JSXGraph para geometría interactiva -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.8.0/distrib/jsxgraph.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsxgraph@1.8.0/distrib/jsxgraphcore.js"></script>
     
     <style>
         :root {
@@ -28,13 +33,11 @@ CTYPE html>
         header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 1.5rem; position: sticky; top: 0; z-index: 1000; box-shadow: var(--shadow); }
         .header-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px; }
-        .logo svg { width: 40px; height: 40px; }
         .breadcrumb { font-size: 0.9rem; opacity: 0.9; }
         .breadcrumb a { color: white; text-decoration: none; }
-        .breadcrumb a:hover { text-decoration: underline; }
         main { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
         .tabs-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; padding: 1rem; background: white; border-radius: var(--radius); box-shadow: var(--shadow); }
-        .tab-btn { background-color: var(--light); border: none; padding: 12px 20px; cursor: pointer; border-radius: 25px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; color: var(--dark); display: flex; align-items: center; gap: 6px; }
+        .tab-btn { background-color: var(--light); border: none; padding: 12px 20px; cursor: pointer; border-radius: 25px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; color: var(--dark); }
         .tab-btn:hover { background-color: #e0e0e0; transform: translateY(-2px); }
         .tab-btn.active { background-color: var(--primary); color: white; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); }
         .tab-content { display: none; background-color: white; padding: 2.5rem; border-radius: var(--radius); box-shadow: var(--shadow); animation: fadeIn 0.4s ease; }
@@ -48,66 +51,53 @@ CTYPE html>
         .quote-box .author { text-align: right; font-style: normal; color: var(--gray); margin-top: 0.5rem; }
         .concept-box { background-color: #EBF5FB; border: 1px solid #AED6F1; border-left: 5px solid var(--primary); padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
         .concept-box h4 { color: var(--primary); margin-top: 0; }
-        .activity-box { background-color: #F0FFF4; border: 1px solid #C3E6CB; border-left: 5px solid var(--secondary); padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
-        .activity-box h4 { color: var(--secondary); margin-top: 0; }
         .solved-example { background-color: #FFFBEB; border: 1px solid #FCD34D; padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
         .solved-example h4 { color: var(--accent); margin-top: 0; border-bottom: 1px dashed #FCD34D; padding-bottom: 0.5rem; }
         .warning-box { background-color: #FEF2F2; border-left: 5px solid #EF4444; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
         .success-box { background: linear-gradient(135deg, #F0FFF4 0%, #C6F6D5 100%); border-left: 5px solid var(--secondary); padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
-        .formula-box { background: var(--light); padding: 0.8rem 1.2rem; border-radius: 8px; display: inline-block; margin: 0.5rem 0; }
+        .theory-highlight { background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border-left: 5px solid var(--accent); padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
+        .theory-highlight h4 { color: #92400E; margin-top: 0; }
+        .history-box { background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%); border: 1px solid #C4B5FD; padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
+        .history-box h4 { color: #7C3AED; margin-top: 0; }
         .property-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
         .property-card { background: white; border: 1px solid #E5E7EB; padding: 1.2rem; border-radius: var(--radius); transition: box-shadow 0.3s ease; }
         .property-card:hover { box-shadow: var(--shadow); }
         .property-card h5 { color: var(--primary); margin-bottom: 0.5rem; }
         .property-card .formula { text-align: center; padding: 1rem; background: var(--light); border-radius: 8px; margin: 0.5rem 0; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
+        .info-card { background: white; border: 1px solid #E5E7EB; border-radius: var(--radius); overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .info-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .info-card .card-header { padding: 1rem 1.5rem; border-bottom: 1px solid #E5E7EB; }
+        .info-card .card-body { padding: 1.5rem; }
         .exercise-item { background: white; border: 1px solid #E5E7EB; padding: 1.2rem; margin-bottom: 1rem; border-radius: var(--radius); position: relative; }
         .exercise-item .number { position: absolute; top: 1rem; left: -15px; background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; }
         .exercise-item .question { margin-left: 20px; margin-bottom: 1rem; }
         .btn-solution { background-color: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; margin-left: 20px; }
         .btn-solution:hover { background-color: #D97706; transform: translateY(-2px); }
         .solution-text { display: none; margin: 1rem 0 0 20px; padding: 1rem; background-color: #F0FFF4; border-left: 4px solid var(--secondary); border-radius: 0 8px 8px 0; }
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
-        .info-card { background: white; border: 1px solid #E5E7EB; border-radius: var(--radius); overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .info-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .info-card .card-header { padding: 1rem 1.5rem; border-bottom: 1px solid #E5E7EB; }
-        .info-card .card-body { padding: 1.5rem; }
         footer { background-color: var(--dark); color: #D1D5DB; padding: 2rem 1rem; margin-top: 3rem; text-align: center; }
         footer p { text-align: center; }
+        .step { padding: 0.5rem 0; border-left: 3px solid var(--accent); padding-left: 1rem; margin: 0.5rem 0; }
+        .step-number { display: inline-block; width: 24px; height: 24px; background: var(--primary); color: white; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.8rem; margin-right: 0.5rem; }
+        
+        /* Estilos para contenedores JSXGraph */
+        .jxgbox-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; margin: 2rem 0; }
+        .jxgbox-wrapper { display: flex; flex-direction: column; align-items: center; }
+        .jxgbox { width: 280px; height: 250px; border: 2px solid #E5E7EB; border-radius: var(--radius); background: #FAFAFA; }
+        .jxgbox-label { font-weight: 600; color: var(--primary); margin-top: 0.5rem; font-size: 0.95rem; }
+        .jxgbox-large { width: 500px; height: 400px; }
+        .jxgbox-medium { width: 400px; height: 320px; }
+        .figure-section { background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); padding: 1.5rem; border-radius: var(--radius); margin: 1.5rem 0; border: 1px solid #e2e8f0; }
+        .figure-title { font-weight: 600; color: var(--secondary); margin-bottom: 1rem; text-align: center; font-size: 1.1rem; }
+        
         @media (max-width: 768px) {
             .tabs-nav { flex-direction: column; }
             .tab-btn { width: 100%; justify-content: center; }
             .tab-content { padding: 1.5rem; }
             .header-content { flex-direction: column; gap: 0.5rem; text-align: center; }
+            .jxgbox { width: 100%; max-width: 280px; }
+            .jxgbox-large, .jxgbox-medium { width: 100%; height: 300px; }
         }
-        ul, ol { margin-left: 1.5rem; margin-bottom: 1rem; }
-        li { margin-bottom: 0.5rem; }
-        .katex-display { margin: 1rem 0; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
-        th, td { border: 1px solid #E5E7EB; padding: 0.8rem 1rem; text-align: center; }
-        th { background-color: var(--primary); color: white; }
-        tr:nth-child(even) { background-color: var(--light); }
-        .step { padding: 0.5rem 0; border-left: 3px solid var(--accent); padding-left: 1rem; margin: 0.5rem 0; }
-        .step-number { display: inline-block; width: 24px; height: 24px; background: var(--primary); color: white; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.8rem; margin-right: 0.5rem; }
-        
-        /* Estilos para figuras SVG */
-        .figure-container { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 2rem; margin: 2rem 0; padding: 1.5rem; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: var(--radius); border: 1px solid #e2e8f0; }
-        .figure-item { display: flex; flex-direction: column; align-items: center; }
-        .figure-item svg { margin-bottom: 0.5rem; }
-        .figure-label { font-weight: 600; color: var(--primary); font-size: 0.95rem; }
-        .figure-box { background: white; border: 2px solid #E5E7EB; border-radius: var(--radius); padding: 2rem; margin: 1.5rem 0; text-align: center; }
-        .figure-title { font-weight: 600; color: var(--secondary); margin-bottom: 1rem; }
-        
-        /* Diagramas especiales */
-        .diagram-row { display: flex; justify-content: space-around; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; margin: 2rem 0; }
-        .diagram-card { background: white; border: 1px solid #E5E7EB; border-radius: var(--radius); padding: 1.5rem; min-width: 200px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .diagram-card h5 { color: var(--primary); margin-bottom: 0.8rem; }
-        
-        /* Destacados teóricos */
-        .theory-highlight { background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border-left: 5px solid var(--accent); padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
-        .theory-highlight h4 { color: #92400E; margin-top: 0; }
-        
-        .history-box { background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%); border: 1px solid #C4B5FD; padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
-        .history-box h4 { color: #7C3AED; margin-top: 0; }
     </style>
 </head>
 <body>
@@ -115,10 +105,10 @@ CTYPE html>
 <header>
     <div class="header-content">
         <div class="logo">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg viewBox="0 0 24 24" fill="none" width="40" height="40">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2"/>
+                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
             </svg>
             Mates con Agugg_ia
         </div>
@@ -154,83 +144,40 @@ CTYPE html>
             <p><strong>Elementos del triángulo:</strong> Todo triángulo posee tres lados, tres vértices, tres ángulos interiores y tres alturas (perpendiculares desde un vértice al lado opuesto). Además, cuenta con elementos notables como la mediana, la bisectriz y la mediatriz, cada uno con propiedades geométricas específicas.</p>
         </div>
 
-        <!-- FIGURAS SVG: Clasificación por Lados -->
-        <div class="figure-box">
+        <!-- Clasificación por Lados con JSXGraph -->
+        <div class="figure-section">
             <div class="figure-title">📊 Clasificación de Triángulos por sus Lados</div>
-            <div class="figure-container">
-                <!-- Triángulo Equilátero -->
-                <div class="figure-item">
-                    <svg width="140" height="130" viewBox="0 0 140 130">
-                        <polygon points="70,10 130,110 10,110" fill="#DBEAFE" stroke="#3B82F6" stroke-width="3"/>
-                        <line x1="70" y1="10" x2="70" y2="110" stroke="#3B82F6" stroke-width="1" stroke-dasharray="5,3"/>
-                        <text x="70" y="125" text-anchor="middle" font-size="11" fill="#1E40AF">a = a = a</text>
-                        <text x="55" y="75" font-size="10" fill="#3B82F6">60°</text>
-                        <text x="78" y="75" font-size="10" fill="#3B82F6">60°</text>
-                        <text x="62" y="105" font-size="10" fill="#3B82F6">60°</text>
-                    </svg>
-                    <span class="figure-label">Equilátero</span>
+            <div class="jxgbox-container">
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-tri-equilatero" class="jxgbox"></div>
+                    <span class="jxgbox-label">Equilátero (3 lados iguales)</span>
                 </div>
-                <!-- Triángulo Isósceles -->
-                <div class="figure-item">
-                    <svg width="140" height="130" viewBox="0 0 140 130">
-                        <polygon points="70,10 120,110 20,110" fill="#D1FAE5" stroke="#10B981" stroke-width="3"/>
-                        <line x1="70" y1="10" x2="70" y2="110" stroke="#10B981" stroke-width="1" stroke-dasharray="5,3"/>
-                        <text x="95" y="45" font-size="10" fill="#10B981">a</text>
-                        <text x="38" y="45" font-size="10" fill="#10B981">a</text>
-                        <text x="70" y="125" text-anchor="middle" font-size="11" fill="#065F46">b (base)</text>
-                        <text x="55" y="75" font-size="10" fill="#10B981">α</text>
-                        <text x="78" y="75" font-size="10" fill="#10B981">α</text>
-                    </svg>
-                    <span class="figure-label">Isósceles</span>
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-tri-isosceles" class="jxgbox"></div>
+                    <span class="jxgbox-label">Isósceles (2 lados iguales)</span>
                 </div>
-                <!-- Triángulo Escaleno -->
-                <div class="figure-item">
-                    <svg width="140" height="130" viewBox="0 0 140 130">
-                        <polygon points="30,110 120,110 90,20" fill="#FEF3C7" stroke="#F59E0B" stroke-width="3"/>
-                        <text x="65" y="105" font-size="10" fill="#F59E0B">a</text>
-                        <text x="100" y="65" font-size="10" fill="#F59E0B">b</text>
-                        <text x="45" y="65" font-size="10" fill="#F59E0B">c</text>
-                        <text x="70" y="125" text-anchor="middle" font-size="11" fill="#92400E">a ≠ b ≠ c</text>
-                    </svg>
-                    <span class="figure-label">Escaleno</span>
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-tri-escaleno" class="jxgbox"></div>
+                    <span class="jxgbox-label">Escaleno (3 lados diferentes)</span>
                 </div>
             </div>
         </div>
 
-        <!-- FIGURAS SVG: Clasificación por Ángulos -->
-        <div class="figure-box">
+        <!-- Clasificación por Ángulos con JSXGraph -->
+        <div class="figure-section">
             <div class="figure-title">📊 Clasificación de Triángulos por sus Ángulos</div>
-            <div class="figure-container">
-                <!-- Acutángulo -->
-                <div class="figure-item">
-                    <svg width="140" height="130" viewBox="0 0 140 130">
-                        <polygon points="70,20 120,110 20,110" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
-                        <text x="75" y="50" font-size="9" fill="#10B981">&lt;90°</text>
-                        <text x="40" y="90" font-size="9" fill="#10B981">&lt;90°</text>
-                        <text x="95" y="90" font-size="9" fill="#10B981">&lt;90°</text>
-                    </svg>
-                    <span class="figure-label">Acutángulo</span>
+            <div class="jxgbox-container">
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-tri-acutangulo" class="jxgbox"></div>
+                    <span class="jxgbox-label">Acutángulo (3 ángulos &lt; 90°)</span>
                 </div>
-                <!-- Rectángulo -->
-                <div class="figure-item">
-                    <svg width="140" height="130" viewBox="0 0 140 130">
-                        <polygon points="20,20 20,110 120,110" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
-                        <rect x="20" y="95" width="15" height="15" fill="none" stroke="#3B82F6" stroke-width="1.5"/>
-                        <text x="25" y="92" font-size="10" fill="#3B82F6">90°</text>
-                        <text x="55" y="70" font-size="10" fill="#3B82F6">cateto</text>
-                        <text x="65" y="120" font-size="10" fill="#3B82F6">cateto</text>
-                        <text x="85" y="55" font-size="10" fill="#3B82F6">hip.</text>
-                    </svg>
-                    <span class="figure-label">Rectángulo</span>
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-tri-rectangulo" class="jxgbox"></div>
+                    <span class="jxgbox-label">Rectángulo (1 ángulo = 90°)</span>
                 </div>
-                <!-- Obtusángulo -->
-                <div class="figure-item">
-                    <svg width="140" height="130" viewBox="0 0 140 130">
-                        <polygon points="10,100 130,100 100,30" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
-                        <path d="M 60,100 A 40,40 0 0,1 100,100" fill="none" stroke="#EF4444" stroke-width="1.5"/>
-                        <text x="75" y="95" font-size="10" fill="#EF4444">&gt;90°</text>
-                    </svg>
-                    <span class="figure-label">Obtusángulo</span>
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-tri-obtusangulo" class="jxgbox"></div>
+                    <span class="jxgbox-label">Obtusángulo (1 ángulo &gt; 90°)</span>
                 </div>
             </div>
         </div>
@@ -256,7 +203,6 @@ CTYPE html>
                     <p><strong>Altura:</strong> $h = \frac{a\sqrt{3}}{2}$</p>
                 </div>
             </div>
-
             <div class="info-card">
                 <div class="card-header" style="border-left: 4px solid #10B981;">
                     <h4 style="color: #10B981;">Triángulo Isósceles</h4>
@@ -265,10 +211,9 @@ CTYPE html>
                     <p>Posee <strong>dos lados congruentes</strong> llamados lados iguales, y un tercer lado denominado base. Los ángulos opuestos a los lados iguales son también congruentes.</p>
                     <p><strong>Perímetro:</strong> $P = 2a + b$</p>
                     <p><strong>Área:</strong> $A = \frac{b \cdot h}{2}$</p>
-                    <p><strong>Altura:</strong> Divide a la base en dos partes iguales.</p>
+                    <p><strong>Propiedad:</strong> La altura divide a la base en dos partes iguales.</p>
                 </div>
             </div>
-
             <div class="info-card">
                 <div class="card-header" style="border-left: 4px solid #F59E0B;">
                     <h4 style="color: #F59E0B;">Triángulo Escaleno</h4>
@@ -287,122 +232,72 @@ CTYPE html>
             <p>La fórmula de Herón, atribuida al matemático griego Herón de Alejandría (siglo I d.C.), permite calcular el área de un triángulo conociendo únicamente las longitudes de sus tres lados. Es especialmente útil cuando no se conoce la altura del triángulo. Esta fórmula representa uno de los primeros ejemplos históricos de cómo el álgebra puede resolver problemas geométricos complejos.</p>
         </div>
 
+        <!-- Elementos del triángulo con JSXGraph -->
+        <div class="figure-section">
+            <div class="figure-title">📐 Elementos Notables del Triángulo</div>
+            <div class="jxgbox-container">
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-tri-elementos" class="jxgbox jxgbox-medium"></div>
+                </div>
+            </div>
+        </div>
+
         <h3>📐 Fórmulas Importantes</h3>
 
         <div class="property-grid">
             <div class="property-card">
                 <h5>Área General</h5>
-                <div class="formula">$A = \frac{base \times altura}{2}$</div>
-                <p>$A = \frac{b \cdot h}{2}$</p>
-                <p>La altura es la perpendicular desde un vértice al lado opuesto (o su extensión).</p>
+                <div class="formula">$A = \frac{b \cdot h}{2}$</div>
+                <p>Base por altura dividido 2. La altura es perpendicular al lado opuesto.</p>
             </div>
-
             <div class="property-card">
                 <h5>Desigualdad Triangular</h5>
                 <div class="formula">$a + b > c$</div>
-                <p>La suma de dos lados siempre es mayor que el tercer lado. Condición necesaria para existir.</p>
+                <p>La suma de dos lados siempre es mayor que el tercer lado.</p>
             </div>
-
             <div class="property-card">
                 <h5>Fórmula de Herón</h5>
                 <div class="formula">$A = \sqrt{s(s-a)(s-b)(s-c)}$</div>
-                <p>Donde $s = \frac{a+b+c}{2}$ es el semiperímetro del triángulo.</p>
+                <p>Donde $s = \frac{a+b+c}{2}$ es el semiperímetro.</p>
             </div>
-
             <div class="property-card">
                 <h5>Suma de Ángulos</h5>
                 <div class="formula">$\alpha + \beta + \gamma = 180°$</div>
-                <p>Propiedad universal válida para cualquier triángulo en geometría euclidiana.</p>
-            </div>
-        </div>
-
-        <!-- DIAGRAMA: Elementos del triángulo -->
-        <div class="figure-box">
-            <div class="figure-title">📐 Elementos Notables del Triángulo</div>
-            <div class="figure-container">
-                <svg width="350" height="280" viewBox="0 0 350 280">
-                    <!-- Triángulo principal -->
-                    <polygon points="175,30 300,220 50,220" fill="#F8FAFC" stroke="#1E40AF" stroke-width="2"/>
-                    
-                    <!-- Altura (h) -->
-                    <line x1="175" y1="30" x2="175" y2="220" stroke="#EF4444" stroke-width="2" stroke-dasharray="5,3"/>
-                    <text x="185" y="130" font-size="12" fill="#EF4444" font-weight="bold">h (altura)</text>
-                    
-                    <!-- Mediana -->
-                    <line x1="175" y1="30" x2="175" y2="220" stroke="#10B981" stroke-width="2"/>
-                    <circle cx="175" cy="220" r="4" fill="#10B981"/>
-                    
-                    <!-- Vértices -->
-                    <circle cx="175" cy="30" r="5" fill="#3B82F6"/>
-                    <circle cx="300" cy="220" r="5" fill="#3B82F6"/>
-                    <circle cx="50" cy="220" r="5" fill="#3B82F6"/>
-                    
-                    <!-- Etiquetas de vértices -->
-                    <text x="175" y="20" text-anchor="middle" font-size="14" fill="#1E40AF" font-weight="bold">A</text>
-                    <text x="315" y="225" font-size="14" fill="#1E40AF" font-weight="bold">B</text>
-                    <text x="35" y="225" font-size="14" fill="#1E40AF" font-weight="bold">C</text>
-                    
-                    <!-- Lados -->
-                    <text x="115" y="260" font-size="12" fill="#6B7280">lado a</text>
-                    <text x="255" y="140" font-size="12" fill="#6B7280">lado b</text>
-                    <text x="85" y="130" font-size="12" fill="#6B7280">lado c</text>
-                    
-                    <!-- Ángulos -->
-                    <path d="M 175,55 A 25,25 0 0,0 157,50" fill="none" stroke="#F59E0B" stroke-width="2"/>
-                    <text x="155" y="60" font-size="11" fill="#F59E0B">α</text>
-                    <path d="M 275,220 A 25,25 0 0,0 275,195" fill="none" stroke="#F59E0B" stroke-width="2"/>
-                    <text x="278" y="210" font-size="11" fill="#F59E0B">β</text>
-                    <path d="M 75,220 A 25,25 0 0,1 75,195" fill="none" stroke="#F59E0B" stroke-width="2"/>
-                    <text x="60" y="210" font-size="11" fill="#F59E0B">γ</text>
-                    
-                    <!-- Base -->
-                    <line x1="50" y1="230" x2="300" y2="230" stroke="#1E40AF" stroke-width="1" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
-                    <text x="175" y="245" text-anchor="middle" font-size="12" fill="#1E40AF">base (b)</text>
-                </svg>
+                <p>Propiedad universal válida para cualquier triángulo euclidiano.</p>
             </div>
         </div>
 
         <h3>📝 Ejercicios Resueltos</h3>
 
         <div class="solved-example">
-            <h4>Ejercicio 1: Calcular ángulos usando la propiedad fundamental</h4>
-            <p><strong>En un triángulo, dos ángulos miden $45°$ y $65°$. ¿Cuánto mide el tercer ángulo?</p>
+            <h4>Ejercicio 1: Calcular el tercer ángulo</h4>
+            <p><strong>En un triángulo, dos ángulos miden $45°$ y $65°$. ¿Cuánto mide el tercer ángulo?</strong></p>
             <p><strong>Solución:</strong></p>
-            <div class="step"><span class="step-number">1</span> Sabemos que la suma de los ángulos interiores es $180°$</div>
+            <div class="step"><span class="step-number">1</span> La suma de los ángulos interiores es $180°$</div>
             <div class="step"><span class="step-number">2</span> Tercer ángulo = $180° - 45° - 65° = 70°$</div>
             <div class="step"><span class="step-number">3</span> Verificación: $45° + 65° + 70° = 180°$ ✓</div>
         </div>
 
         <div class="solved-example">
-            <h4>Ejercicio 2: Área de triángulo</h4>
-            <p><strong>Calcular el área de un triángulo con base $12$ cm y altura $8$ cm.</p>
+            <h4>Ejercicio 2: Área de un triángulo</h4>
+            <p><strong>Calcular el área de un triángulo con base $12$ cm y altura $8$ cm.</strong></p>
             <p><strong>Solución:</strong></p>
             <p>$A = \frac{b \cdot h}{2} = \frac{12 \times 8}{2} = \frac{96}{2} = 48$ cm²</p>
         </div>
 
         <div class="solved-example">
             <h4>Ejercicio 3: Verificar desigualdad triangular</h4>
-            <p><strong>¿Se puede formar un triángulo con lados 3, 4 y 8?</p>
+            <p><strong>¿Se puede formar un triángulo con lados 3, 4 y 8?</strong></p>
             <p><strong>Solución:</strong></p>
-            <p>Verificamos las tres condiciones:</p>
-            <p>$3 + 4 = 7 < 8$ ❌ (ya esta condición falla)</p>
-            <p><strong>No se puede formar un triángulo</strong> porque la suma de dos lados no es mayor que el tercero.</p>
+            <p>$3 + 4 = 7 < 8$ ❌ No se puede porque la suma de dos lados no es mayor que el tercero.</p>
         </div>
 
         <div class="solved-example">
             <h4>Ejercicio 4: Fórmula de Herón</h4>
-            <p><strong>Calcular el área de un triángulo con lados 5, 6 y 7 cm.</p>
+            <p><strong>Calcular el área de un triángulo con lados 5, 6 y 7 cm.</strong></p>
             <p><strong>Solución:</strong></p>
             <div class="step"><span class="step-number">1</span> Semiperímetro: $s = \frac{5 + 6 + 7}{2} = 9$ cm</div>
             <div class="step"><span class="step-number">2</span> $A = \sqrt{9(9-5)(9-6)(9-7)} = \sqrt{9 \times 4 \times 3 \times 2} = \sqrt{216} = 6\sqrt{6}$ cm² ≈ $14.7$ cm²</div>
-        </div>
-
-        <div class="solved-example">
-            <h4>Ejercicio 5: Triángulo equilátero</h4>
-            <p><strong>Calcular el perímetro y área de un triángulo equilátero de lado 6 cm.</p>
-            <p><strong>Solución:</strong></p>
-            <p>Perímetro: $P = 3 \times 6 = 18$ cm</p>
-            <p>Área: $A = \frac{6^2 \sqrt{3}}{4} = \frac{36\sqrt{3}}{4} = 9\sqrt{3}$ cm² ≈ $15.59$ cm²</p>
         </div>
 
         <h3>🎯 Ejercicios para Practicar</h3>
@@ -432,14 +327,7 @@ CTYPE html>
             <div class="number">4</div>
             <div class="question"><strong>Fórmula de Herón:</strong> Lados 8, 10, 12</div>
             <button class="btn-solution" onclick="toggleSolution('sol-t4')">Ver Solución</button>
-            <div id="sol-t4" class="solution-text">$s = 15$<br>$A = \sqrt{15 \times 7 \times 5 \times 3} = \sqrt{1575} = 15\sqrt{7}$ cm²</div>
-        </div>
-
-        <div class="exercise-item">
-            <div class="number">5</div>
-            <div class="question"><strong>Triángulo isósceles:</strong> Lados iguales de 5 cm, base 8 cm. Hallar el perímetro.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-t5')">Ver Solución</button>
-            <div id="sol-t5" class="solution-text">$P = 2(5) + 8 = 18$ cm</div>
+            <div id="sol-t4" class="solution-text">$s = 15$, $A = \sqrt{15 \times 7 \times 5 \times 3} = \sqrt{1575} = 15\sqrt{7}$ cm²</div>
         </div>
     </div>
 
@@ -450,76 +338,45 @@ CTYPE html>
         <div class="concept-box">
             <h4>📚 Definición y Características Generales</h4>
             <p>Un <strong>cuadrilátero</strong> es un polígono de cuatro lados, cuatro vértices y cuatro ángulos interiores. La suma de sus ángulos interiores es siempre $360°$, lo cual puede demostrarse dividiendo el cuadrilátero en dos triángulos mediante una diagonal. Esta propiedad es fundamental y se aplica a todos los tipos de cuadriláteros sin excepción.</p>
-            <p><strong>Clasificación jerárquica:</strong> Los cuadriláteros se clasifican según sus propiedades en: paralelogramos (lados opuestos paralelos) y no paralelogramos. Dentro de los paralelogramos encontramos el rectángulo, el rombo y el cuadrado, mientras que los trapecios y trapezoides constituyen los no paralelogramos.</p>
+            <p><strong>Clasificación jerárquica:</strong> Los cuadriláteros se clasifican según sus propiedades en paralelogramos (lados opuestos paralelos) y no paralelogramos. Dentro de los paralelogramos encontramos el rectángulo, el rombo y el cuadrado, mientras que los trapecios y trapezoides constituyen los no paralelogramos.</p>
         </div>
 
-        <!-- FIGURAS SVG: Tipos de Cuadriláteros -->
-        <div class="figure-box">
+        <!-- Cuadriláteros con JSXGraph -->
+        <div class="figure-section">
             <div class="figure-title">📊 Familia de los Cuadriláteros</div>
-            <div class="figure-container">
-                <!-- Cuadrado -->
-                <div class="figure-item">
-                    <svg width="100" height="100" viewBox="0 0 100 100">
-                        <rect x="15" y="15" width="70" height="70" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
-                        <rect x="15" y="15" width="15" height="15" fill="none" stroke="#3B82F6" stroke-width="1"/>
-                        <text x="50" y="55" text-anchor="middle" font-size="10" fill="#1E40AF">a</text>
-                    </svg>
-                    <span class="figure-label">Cuadrado</span>
+            <div class="jxgbox-container">
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-cuadrado" class="jxgbox"></div>
+                    <span class="jxgbox-label">Cuadrado</span>
                 </div>
-                <!-- Rectángulo -->
-                <div class="figure-item">
-                    <svg width="120" height="100" viewBox="0 0 120 100">
-                        <rect x="10" y="20" width="100" height="60" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-                        <rect x="10" y="20" width="12" height="12" fill="none" stroke="#10B981" stroke-width="1"/>
-                        <text x="60" y="55" text-anchor="middle" font-size="10" fill="#065F46">b × h</text>
-                    </svg>
-                    <span class="figure-label">Rectángulo</span>
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-rectangulo" class="jxgbox"></div>
+                    <span class="jxgbox-label">Rectángulo</span>
                 </div>
-                <!-- Rombo -->
-                <div class="figure-item">
-                    <svg width="100" height="100" viewBox="0 0 100 100">
-                        <polygon points="50,10 90,50 50,90 10,50" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
-                        <line x1="50" y1="10" x2="50" y2="90" stroke="#F59E0B" stroke-width="1" stroke-dasharray="3,2"/>
-                        <line x1="10" y1="50" x2="90" y2="50" stroke="#F59E0B" stroke-width="1" stroke-dasharray="3,2"/>
-                        <text x="55" y="35" font-size="9" fill="#92400E">D</text>
-                        <text x="75" y="55" font-size="9" fill="#92400E">d</text>
-                    </svg>
-                    <span class="figure-label">Rombo</span>
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-rombo" class="jxgbox"></div>
+                    <span class="jxgbox-label">Rombo</span>
                 </div>
-                <!-- Trapecio -->
-                <div class="figure-item">
-                    <svg width="100" height="100" viewBox="0 0 100 100">
-                        <polygon points="25,25 75,25 95,75 5,75" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
-                        <line x1="25" y1="75" x2="75" y2="75" stroke="#EF4444" stroke-width="1" stroke-dasharray="3,2"/>
-                        <text x="50" y="35" text-anchor="middle" font-size="9" fill="#DC2626">b</text>
-                        <text x="50" y="70" text-anchor="middle" font-size="9" fill="#DC2626">B</text>
-                    </svg>
-                    <span class="figure-label">Trapecio</span>
+            </div>
+            <div class="jxgbox-container">
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-trapecio" class="jxgbox"></div>
+                    <span class="jxgbox-label">Trapecio</span>
                 </div>
-                <!-- Paralelogramo -->
-                <div class="figure-item">
-                    <svg width="100" height="100" viewBox="0 0 100 100">
-                        <polygon points="25,20 95,20 75,80 5,80" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="2"/>
-                        <line x1="35" y1="80" x2="105" y2="80" stroke="#8B5CF6" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
-                        <text x="55" y="55" font-size="10" fill="#5B21B6">b</text>
-                    </svg>
-                    <span class="figure-label">Paralelogramo</span>
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-paralelogramo" class="jxgbox"></div>
+                    <span class="jxgbox-label">Paralelogramo</span>
                 </div>
-                <!-- Romboide -->
-                <div class="figure-item">
-                    <svg width="100" height="100" viewBox="0 0 100 100">
-                        <polygon points="20,30 85,30 70,85 5,85" fill="#CFFAFE" stroke="#06B6D4" stroke-width="2"/>
-                        <line x1="20" y1="30" x2="20" y2="85" stroke="#06B6D4" stroke-width="1" stroke-dasharray="3,2"/>
-                        <text x="42" y="60" font-size="10" fill="#0E7490">h</text>
-                    </svg>
-                    <span class="figure-label">Romboide</span>
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-romboide" class="jxgbox"></div>
+                    <span class="jxgbox-label">Romboide</span>
                 </div>
             </div>
         </div>
 
         <div class="theory-highlight">
             <h4>📖 Propiedad Fundamental de los Paralelogramos</h4>
-            <p>En todo paralelogramo se cumplen simultáneamente las siguientes propiedades: los lados opuestos son paralelos y congruentes; los ángulos opuestos son congruentes; los ángulos consecutivos son suplementarios (suman $180°$); las diagonales se bisecan mutuamente (se cortan en su punto medio). El cuadrado posee todas estas propiedades más ángulos rectos y diagonales perpendiculares.</p>
+            <p>En todo paralelogramo se cumplen simultáneamente: los lados opuestos son paralelos y congruentes; los ángulos opuestos son congruentes; los ángulos consecutivos son suplementarios (suman $180°$); las diagonales se bisecan mutuamente. El cuadrado posee todas estas propiedades más ángulos rectos y diagonales perpendiculares.</p>
         </div>
 
         <h3>📊 Tipos de Cuadriláteros Detallados</h3>
@@ -530,189 +387,151 @@ CTYPE html>
                     <h4 style="color: #3B82F6;">Cuadrado</h4>
                 </div>
                 <div class="card-body">
-                    <p>Es el cuadrilátero regular: <strong>cuatro lados iguales y cuatro ángulos rectos</strong>. Posee la máxima simetría, con 4 ejes de simetría y diagonales perpendiculares que se bisecan mutuamente.</p>
+                    <p>Cuadrilátero regular: <strong>4 lados iguales y 4 ángulos rectos</strong>.</p>
                     <p><strong>Perímetro:</strong> $P = 4a$</p>
                     <p><strong>Área:</strong> $A = a^2$</p>
                     <p><strong>Diagonal:</strong> $d = a\sqrt{2}$</p>
                 </div>
             </div>
-
             <div class="info-card">
                 <div class="card-header" style="border-left: 4px solid #10B981;">
                     <h4 style="color: #10B981;">Rectángulo</h4>
                 </div>
                 <div class="card-body">
-                    <p>Paralelogramo con <strong>cuatro ángulos rectos</strong>. Los lados opuestos son iguales y paralelos. Las diagonales son congruentes y se bisecan mutuamente.</p>
+                    <p>Paralelogramo con <strong>4 ángulos rectos</strong>.</p>
                     <p><strong>Perímetro:</strong> $P = 2(b + h)$</p>
                     <p><strong>Área:</strong> $A = b \times h$</p>
                     <p><strong>Diagonal:</strong> $d = \sqrt{b^2 + h^2}$</p>
                 </div>
             </div>
-
             <div class="info-card">
                 <div class="card-header" style="border-left: 4px solid #F59E0B;">
                     <h4 style="color: #F59E0B;">Rombo</h4>
                 </div>
                 <div class="card-body">
-                    <p>Paralelogramo con <strong>cuatro lados iguales</strong>. Sus diagonales son perpendiculares y se bisecan mutuamente. Los ángulos opuestos son iguales.</p>
+                    <p>Paralelogramo con <strong>4 lados iguales</strong>.</p>
                     <p><strong>Perímetro:</strong> $P = 4a$</p>
                     <p><strong>Área:</strong> $A = \frac{D \times d}{2}$</p>
-                    <p>($D$ = diagonal mayor, $d$ = diagonal menor)</p>
+                    <p>($D$, $d$ = diagonales)</p>
                 </div>
             </div>
-
             <div class="info-card">
                 <div class="card-header" style="border-left: 4px solid #EF4444;">
                     <h4 style="color: #EF4444;">Trapecio</h4>
                 </div>
                 <div class="card-body">
-                    <p>Cuadrilátero con <strong>exactamente dos lados paralelos</strong> llamados bases. La altura es la distancia entre las bases paralelas. Puede ser isósceles, rectángulo o escaleno.</p>
+                    <p><strong>2 lados paralelos</strong> (bases).</p>
                     <p><strong>Área:</strong> $A = \frac{(B + b) \times h}{2}$</p>
                     <p>($B$ = base mayor, $b$ = base menor)</p>
                 </div>
             </div>
-
             <div class="info-card">
                 <div class="card-header" style="border-left: 4px solid #8B5CF6;">
                     <h4 style="color: #8B5CF6;">Paralelogramo</h4>
                 </div>
                 <div class="card-body">
-                    <p>Cuadrilátero con <strong>lados opuestos paralelos e iguales</strong>. Los ángulos opuestos son congruentes y las diagonales se bisecan mutuamente.</p>
+                    <p><strong>Lados opuestos paralelos e iguales</strong>.</p>
                     <p><strong>Perímetro:</strong> $P = 2(a + b)$</p>
                     <p><strong>Área:</strong> $A = b \times h$</p>
-                    <p>(b = base, h = altura relativa a esa base)</p>
                 </div>
             </div>
-
             <div class="info-card">
                 <div class="card-header" style="border-left: 4px solid #06B6D4;">
                     <h4 style="color: #06B6D4;">Romboide</h4>
                 </div>
                 <div class="card-body">
-                    <p>Es un <strong>paralelogramo con ángulos no rectos</strong> y lados adjacentes de diferente longitud. También llamado paralelogramo oblicuángulo.</p>
+                    <p>Paralelogramo con <strong>ángulos no rectos</strong>.</p>
                     <p><strong>Perímetro:</strong> $P = 2(a + b)$</p>
                     <p><strong>Área:</strong> $A = b \times h$</p>
                 </div>
             </div>
         </div>
 
-        <!-- DIAGRAMA: Clasificación de cuadriláteros -->
-        <div class="figure-box">
-            <div class="figure-title">📊 Clasificación Jerárquica de Cuadriláteros</div>
-            <svg width="100%" height="200" viewBox="0 0 600 200">
-                <!-- Nivel 1: Cuadrilátero -->
-                <rect x="225" y="10" width="150" height="35" rx="8" fill="#1E40AF"/>
-                <text x="300" y="33" text-anchor="middle" fill="white" font-weight="bold">CUADRILÁTERO</text>
-                
-                <!-- Líneas de conexión -->
-                <line x1="300" y1="45" x2="300" y2="60" stroke="#6B7280" stroke-width="2"/>
-                <line x1="150" y1="60" x2="450" y2="60" stroke="#6B7280" stroke-width="2"/>
-                <line x1="150" y1="60" x2="150" y2="75" stroke="#6B7280" stroke-width="2"/>
-                <line x1="300" y1="60" x2="300" y2="75" stroke="#6B7280" stroke-width="2"/>
-                <line x1="450" y1="60" x2="450" y2="75" stroke="#6B7280" stroke-width="2"/>
-                
-                <!-- Nivel 2 -->
-                <rect x="75" y="75" width="150" height="30" rx="6" fill="#8B5CF6"/>
-                <text x="150" y="95" text-anchor="middle" fill="white" font-size="13">Paralelogramo</text>
-                
-                <rect x="225" y="75" width="150" height="30" rx="6" fill="#EF4444"/>
-                <text x="300" y="95" text-anchor="middle" fill="white" font-size="13">Trapecio</text>
-                
-                <rect x="375" y="75" width="150" height="30" rx="6" fill="#F59E0B"/>
-                <text x="450" y="95" text-anchor="middle" fill="white" font-size="13">Trapezoide</text>
-                
-                <!-- Líneas a nivel 3 -->
-                <line x1="150" y1="105" x2="150" y2="120" stroke="#6B7280" stroke-width="1.5"/>
-                <line x1="75" y1="120" x2="225" y2="120" stroke="#6B7280" stroke-width="1.5"/>
-                <line x1="75" y1="120" x2="75" y2="135" stroke="#6B7280" stroke-width="1.5"/>
-                <line x1="150" y1="120" x2="150" y2="135" stroke="#6B7280" stroke-width="1.5"/>
-                <line x1="225" y1="120" x2="225" y2="135" stroke="#6B7280" stroke-width="1.5"/>
-                
-                <!-- Nivel 3: Tipos de paralelogramos -->
-                <rect x="30" y="135" width="90" height="28" rx="5" fill="#10B981"/>
-                <text x="75" y="153" text-anchor="middle" fill="white" font-size="11">Rectángulo</text>
-                
-                <rect x="105" y="135" width="90" height="28" rx="5" fill="#F59E0B"/>
-                <text x="150" y="153" text-anchor="middle" fill="white" font-size="11">Rombo</text>
-                
-                <rect x="180" y="135" width="90" height="28" rx="5" fill="#3B82F6"/>
-                <text x="225" y="153" text-anchor="middle" fill="white" font-size="11">Cuadrado</text>
-                
-                <!-- Línea a trapecios -->
-                <line x1="300" y1="105" x2="300" y2="120" stroke="#6B7280" stroke-width="1.5"/>
-                <line x1="250" y1="120" x2="350" y2="120" stroke="#6B7280" stroke-width="1.5"/>
-                <line x1="250" y1="120" x2="250" y2="135" stroke="#6B7280" stroke-width="1.5"/>
-                <line x1="350" y1="120" x2="350" y2="135" stroke="#6B7280" stroke-width="1.5"/>
-                
-                <!-- Tipos de trapecios -->
-                <rect x="205" y="165" width="90" height="28" rx="5" fill="#DC2626"/>
-                <text x="250" y="183" text-anchor="middle" fill="white" font-size="10">Isósceles</text>
-                
-                <rect x="305" y="165" width="90" height="28" rx="5" fill="#DC2626"/>
-                <text x="350" y="183" text-anchor="middle" fill="white" font-size="10">Rectángulo</text>
-            </svg>
+        <h3>📐 Fórmulas de Cuadriláteros</h3>
+
+        <div class="property-grid">
+            <div class="property-card">
+                <h5>Área del Cuadrado</h5>
+                <div class="formula">$A = a^2$</div>
+                <p>También: $A = \frac{d^2}{2}$</p>
+            </div>
+            <div class="property-card">
+                <h5>Área del Rectángulo</h5>
+                <div class="formula">$A = b \times h$</div>
+                <p>Base por altura</p>
+            </div>
+            <div class="property-card">
+                <h5>Área del Rombo</h5>
+                <div class="formula">$A = \frac{D \times d}{2}$</div>
+                <p>Diagonales entre sí</p>
+            </div>
+            <div class="property-card">
+                <h5>Área del Trapecio</h5>
+                <div class="formula">$A = \frac{(B+b) \times h}{2}$</div>
+                <p>Semisuma de bases por altura</p>
+            </div>
         </div>
 
         <h3>📝 Ejercicios Resueltos</h3>
 
         <div class="solved-example">
-            <h4>Ejercicio 1: Área de un rectángulo</h4>
-            <p><strong>Un rectángulo tiene 12 cm de base y 5 cm de altura. Calcular área, perímetro y diagonal.</p>
+            <h4>Ejercicio 1: Área de un cuadrado</h4>
+            <p><strong>Calcular el área y perímetro de un cuadrado de lado 5 cm.</strong></p>
             <p><strong>Solución:</strong></p>
-            <p>Área: $A = 12 \times 5 = 60$ cm²</p>
-            <p>Perímetro: $P = 2(12 + 5) = 34$ cm</p>
-            <p>Diagonal: $d = \sqrt{12^2 + 5^2} = \sqrt{144 + 25} = \sqrt{169} = 13$ cm</p>
+            <p>Área: $A = 5^2 = 25$ cm² &nbsp;&nbsp;|&nbsp;&nbsp; Perímetro: $P = 4 \times 5 = 20$ cm</p>
         </div>
 
         <div class="solved-example">
-            <h4>Ejercicio 2: Área de un rombo</h4>
-            <p><strong>Un rombo tiene diagonales de 10 cm y 8 cm. Calcular su área.</p>
+            <h4>Ejercicio 2: Área de un rectángulo</h4>
+            <p><strong>Rectángulo de base 12 cm y altura 8 cm. Calcular área, perímetro y diagonal.</strong></p>
             <p><strong>Solución:</strong></p>
-            <p>$A = \frac{D \times d}{2} = \frac{10 \times 8}{2} = 40$ cm²</p>
+            <p>Área: $A = 12 \times 8 = 96$ cm²</p>
+            <p>Perímetro: $P = 2(12 + 8) = 40$ cm</p>
+            <p>Diagonal: $d = \sqrt{12^2 + 8^2} = \sqrt{208} = 4\sqrt{13}$ cm</p>
         </div>
 
         <div class="solved-example">
-            <h4>Ejercicio 3: Área de un trapecio</h4>
-            <p><strong>Un trapecio tiene bases de 14 cm y 6 cm, con altura de 5 cm.</p>
+            <h4>Ejercicio 3: Área de un rombo</h4>
+            <p><strong>Rombo con diagonales de 10 cm y 6 cm.</strong></p>
             <p><strong>Solución:</strong></p>
-            <p>$A = \frac{(B + b) \times h}{2} = \frac{(14 + 6) \times 5}{2} = \frac{20 \times 5}{2} = 50$ cm²</p>
+            <p>$A = \frac{10 \times 6}{2} = 30$ cm²</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejercicio 4: Área de un trapecio</h4>
+            <p><strong>Trapecio con bases de 10 cm y 6 cm, altura 5 cm.</strong></p>
+            <p><strong>Solución:</strong></p>
+            <p>$A = \frac{(10 + 6) \times 5}{2} = \frac{80}{2} = 40$ cm²</p>
         </div>
 
         <h3>🎯 Ejercicios para Practicar</h3>
 
         <div class="exercise-item">
             <div class="number">1</div>
-            <div class="question"><strong>Cuadrado:</strong> Lado = 7 cm. Calcular área y perímetro.</div>
+            <div class="question"><strong>Cuadrado:</strong> Lado = 7 cm. Calcular área y diagonal.</div>
             <button class="btn-solution" onclick="toggleSolution('sol-c1')">Ver Solución</button>
-            <div id="sol-c1" class="solution-text">Área: $A = 49$ cm²<br>Perímetro: $P = 28$ cm</div>
+            <div id="sol-c1" class="solution-text">$A = 49$ cm², $d = 7\sqrt{2}$ cm</div>
         </div>
 
         <div class="exercise-item">
             <div class="number">2</div>
-            <div class="question"><strong>Rectángulo:</strong> Base = 15 cm, Altura = 8 cm. Calcular diagonal.</div>
+            <div class="question"><strong>Rectángulo:</strong> Base = 15 cm, Altura = 10 cm. Perímetro y diagonal.</div>
             <button class="btn-solution" onclick="toggleSolution('sol-c2')">Ver Solución</button>
-            <div id="sol-c2" class="solution-text">$d = \sqrt{225 + 64} = \sqrt{289} = 17$ cm</div>
+            <div id="sol-c2" class="solution-text">$P = 50$ cm, $d = 5\sqrt{13}$ cm</div>
         </div>
 
         <div class="exercise-item">
             <div class="number">3</div>
-            <div class="question"><strong>Rombo:</strong> Diagonales 16 cm y 12 cm. Calcular área.</div>
+            <div class="question"><strong>Rombo:</strong> Diagonales 16 cm y 12 cm.</div>
             <button class="btn-solution" onclick="toggleSolution('sol-c3')">Ver Solución</button>
-            <div id="sol-c3" class="solution-text">$A = \frac{16 \times 12}{2} = 96$ cm²</div>
+            <div id="sol-c3" class="solution-text">$A = 96$ cm²</div>
         </div>
 
         <div class="exercise-item">
             <div class="number">4</div>
-            <div class="question"><strong>Trapecio:</strong> Bases 18 y 10, altura 7. Calcular área.</div>
+            <div class="question"><strong>Trapecio:</strong> Bases 14 cm y 8 cm, altura 6 cm.</div>
             <button class="btn-solution" onclick="toggleSolution('sol-c4')">Ver Solución</button>
-            <div id="sol-c4" class="solution-text">$A = \frac{28 \times 7}{2} = 98$ cm²</div>
-        </div>
-
-        <div class="exercise-item">
-            <div class="number">5</div>
-            <div class="question"><strong>Paralelogramo:</strong> Base 10 cm, altura 6 cm. Calcular área.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-c5')">Ver Solución</button>
-            <div id="sol-c5" class="solution-text">$A = 10 \times 6 = 60$ cm²</div>
+            <div id="sol-c4" class="solution-text">$A = 66$ cm²</div>
         </div>
     </div>
 
@@ -720,261 +539,172 @@ CTYPE html>
     <div id="tab3" class="tab-content">
         <h2>Circunferencia y Círculo</h2>
 
-        <div class="concept-box">
-            <h4>📚 Definiciones Fundamentales</h4>
-            <p><strong>Circunferencia:</strong> Es una línea curva cerrada y plana cuyos puntos todos equidistan de un punto fijo denominado centro. La distancia constante desde el centro hasta cualquier punto de la circunferencia se llama radio. Es importante distinguir que la circunferencia es el contorno, el perímetro, mientras que el círculo es la superficie completa.</p>
-            <p><strong>Círculo:</strong> Es la región del plano limitada por una circunferencia, incluyendo todos los puntos interiores. El círculo comprende tanto la circunferencia (su borde) como toda el área interior. El área del círculo se calcula con la fórmula $A = \pi r^2$, donde $r$ es el radio.</p>
-            <p><strong>El número π (pi):</strong> Es la relación constante entre la longitud de cualquier circunferencia y su diámetro. Su valor es aproximadamente $3.14159...$ y es un número irracional, lo que significa que sus decimales continúan infinitamente sin repetir un patrón.</p>
+        <div class="quote-box">
+            "La circunferencia es la curva más perfecta que existe, símbolo de lo infinito y de la perfección matemática."
+            <div class="author">— Pensamiento pitagórico</div>
         </div>
 
-        <!-- FIGURA SVG: Elementos de la circunferencia -->
-        <div class="figure-box">
-            <div class="figure-title">📐 Elementos de la Circunferencia</div>
-            <div class="figure-container">
-                <svg width="350" height="320" viewBox="0 0 350 320">
-                    <!-- Círculo principal -->
-                    <circle cx="175" cy="160" r="100" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
-                    
-                    <!-- Centro -->
-                    <circle cx="175" cy="160" r="5" fill="#EF4444"/>
-                    <text x="185" y="155" font-size="12" fill="#EF4444" font-weight="bold">O (centro)</text>
-                    
-                    <!-- Radio -->
-                    <line x1="175" y1="160" x2="275" y2="160" stroke="#10B981" stroke-width="2"/>
-                    <text x="220" y="150" font-size="12" fill="#10B981" font-weight="bold">r (radio)</text>
-                    
-                    <!-- Diámetro -->
-                    <line x1="75" y1="160" x2="275" y2="160" stroke="#8B5CF6" stroke-width="2" stroke-dasharray="5,3"/>
-                    <text x="165" y="180" font-size="12" fill="#8B5CF6" font-weight="bold">d = 2r (diámetro)</text>
-                    
-                    <!-- Cuerda -->
-                    <line x1="120" y1="90" x2="230" y2="90" stroke="#F59E0B" stroke-width="2"/>
-                    <text x="165" y="85" font-size="11" fill="#F59E0B">cuerda</text>
-                    
-                    <!-- Arco -->
-                    <path d="M 120,90 A 100,100 0 0,1 230,90" fill="none" stroke="#EF4444" stroke-width="3"/>
-                    <text x="165" y="70" font-size="11" fill="#EF4444">arco</text>
-                    
-                    <!-- Tangente -->
-                    <line x1="275" y1="100" x2="275" y2="220" stroke="#06B6D4" stroke-width="2"/>
-                    <text x="285" y="160" font-size="11" fill="#06B6D4">tangente</text>
-                    
-                    <!-- Punto de tangencia -->
-                    <circle cx="275" cy="160" r="4" fill="#06B6D4"/>
-                    
-                    <!-- Leyenda -->
-                    <rect x="10" y="270" width="330" height="45" rx="5" fill="#F8FAFC" stroke="#E5E7EB"/>
-                    <text x="20" y="288" font-size="11" fill="#6B7280">• Radio: del centro a cualquier punto de la circunferencia</text>
-                    <text x="20" y="305" font-size="11" fill="#6B7280">• Diámetro: cuerda que pasa por el centro (d = 2r)</text>
-                </svg>
+        <div class="concept-box">
+            <h4>📚 Definiciones Fundamentales</h4>
+            <p>La <strong>circunferencia</strong> es una curva plana y cerrada donde todos sus puntos equidistan de un punto fijo llamado centro. El <strong>círculo</strong> es la superficie plana limitada por la circunferencia. Es importante distinguir: la circunferencia tiene longitud pero no área; el círculo tiene área y su perímetro es la circunferencia.</p>
+        </div>
+
+        <!-- Circunferencia con JSXGraph -->
+        <div class="figure-section">
+            <div class="figure-title">📊 Elementos de la Circunferencia</div>
+            <div class="jxgbox-container">
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-circunferencia" class="jxgbox jxgbox-large"></div>
+                </div>
             </div>
         </div>
 
         <h3>📐 Elementos de la Circunferencia</h3>
 
+        <div class="cards-grid">
+            <div class="info-card">
+                <div class="card-header" style="border-left: 4px solid #EF4444;">
+                    <h4 style="color: #EF4444;">Centro (O)</h4>
+                </div>
+                <div class="card-body">
+                    <p>Punto fijo del cual equidistan todos los puntos de la circunferencia.</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="card-header" style="border-left: 4px solid #10B981;">
+                    <h4 style="color: #10B981;">Radio (r)</h4>
+                </div>
+                <div class="card-body">
+                    <p>Segmento que une el centro con cualquier punto de la circunferencia.</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="card-header" style="border-left: 4px solid #8B5CF6;">
+                    <h4 style="color: #8B5CF6;">Diámetro (d)</h4>
+                </div>
+                <div class="card-body">
+                    <p>Cuerda que pasa por el centro. $d = 2r$</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="card-header" style="border-left: 4px solid #F59E0B;">
+                    <h4 style="color: #F59E0B;">Cuerda</h4>
+                </div>
+                <div class="card-body">
+                    <p>Segmento que une dos puntos de la circunferencia.</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="card-header" style="border-left: 4px solid #06B6D4;">
+                    <h4 style="color: #06B6D4;">Arco</h4>
+                </div>
+                <div class="card-body">
+                    <p>Porción de circunferencia entre dos puntos.</p>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="card-header" style="border-left: 4px solid #EC4899;">
+                    <h4 style="color: #EC4899;">Tangente</h4>
+                </div>
+                <div class="card-body">
+                    <p>Recta que toca la circunferencia en un único punto.</p>
+                </div>
+            </div>
+        </div>
+
+        <h3>📊 Fórmulas Fundamentales</h3>
+
         <div class="property-grid">
-            <div class="property-card">
-                <h5>Radio ($r$)</h5>
-                <div class="formula">Segmento del centro a la circunferencia</div>
-                <p>Es la distancia fundamental que define el tamaño de la circunferencia.</p>
-            </div>
-
-            <div class="property-card">
-                <h5>Diámetro ($d$)</h5>
-                <div class="formula">$d = 2r$</div>
-                <p>Es la cuerda más larga, pasa por el centro y une dos puntos de la circunferencia.</p>
-            </div>
-
             <div class="property-card">
                 <h5>Longitud de Circunferencia</h5>
                 <div class="formula">$L = 2\pi r = \pi d$</div>
-                <p>Es el perímetro de la circunferencia, la longitud de su contorno.</p>
             </div>
-
             <div class="property-card">
                 <h5>Área del Círculo</h5>
                 <div class="formula">$A = \pi r^2$</div>
-                <p>Es la superficie encerrada dentro de la circunferencia.</p>
+            </div>
+            <div class="property-card">
+                <h5>Longitud de Arco</h5>
+                <div class="formula">$l = \frac{n°}{360°} \times 2\pi r$</div>
+            </div>
+            <div class="property-card">
+                <h5>Área de Sector</h5>
+                <div class="formula">$A = \frac{n°}{360°} \times \pi r^2$</div>
             </div>
         </div>
 
-        <!-- FIGURA SVG: Ángulos en la circunferencia -->
-        <div class="figure-box">
-            <div class="figure-title">📐 Ángulos en la Circunferencia</div>
-            <div class="figure-container">
-                <!-- Ángulo Central -->
-                <div class="figure-item">
-                    <svg width="150" height="150" viewBox="0 0 150 150">
-                        <circle cx="75" cy="75" r="55" fill="none" stroke="#3B82F6" stroke-width="2"/>
-                        <circle cx="75" cy="75" r="3" fill="#3B82F6"/>
-                        
-                        <!-- Ángulo central -->
-                        <line x1="75" y1="75" x2="130" y2="75" stroke="#EF4444" stroke-width="2"/>
-                        <line x1="75" y1="75" x2="95" y2="130" stroke="#EF4444" stroke-width="2"/>
-                        <path d="M 105,75 A 30,30 0 0,0 90,95" fill="#FEE2E2" stroke="#EF4444" stroke-width="1"/>
-                        
-                        <!-- Arco subtendido -->
-                        <path d="M 130,75 A 55,55 0 0,0 95,130" fill="none" stroke="#F59E0B" stroke-width="3"/>
-                        
-                        <text x="95" y="65" font-size="11" fill="#EF4444" font-weight="bold">θ</text>
-                        <text x="75" y="145" text-anchor="middle" font-size="10" fill="#1E40AF">Central</text>
-                        <text x="75" y="15" text-anchor="middle" font-size="10" fill="#F59E0B">θ = arco</text>
-                    </svg>
-                    <span class="figure-label">Central: θ = arco</span>
+        <!-- Ángulos en la circunferencia -->
+        <div class="figure-section">
+            <div class="figure-title">📊 Ángulos en la Circunferencia</div>
+            <div class="jxgbox-container">
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-ang-central" class="jxgbox"></div>
+                    <span class="jxgbox-label">Ángulo Central</span>
                 </div>
-                <!-- Ángulo Inscrito -->
-                <div class="figure-item">
-                    <svg width="150" height="150" viewBox="0 0 150 150">
-                        <circle cx="75" cy="75" r="55" fill="none" stroke="#3B82F6" stroke-width="2"/>
-                        <circle cx="75" cy="75" r="3" fill="#3B82F6"/>
-                        
-                        <!-- Ángulo inscrito -->
-                        <line x1="130" y1="75" x2="45" y2="115" stroke="#10B981" stroke-width="2"/>
-                        <line x1="130" y1="75" x2="95" y2="130" stroke="#10B981" stroke-width="2"/>
-                        <circle cx="130" cy="75" r="3" fill="#10B981"/>
-                        
-                        <path d="M 115,80 A 15,15 0 0,0 110,95" fill="none" stroke="#10B981" stroke-width="1"/>
-                        <text x="105" y="90" font-size="11" fill="#10B981" font-weight="bold">α</text>
-                        
-                        <!-- Arco subtendido -->
-                        <path d="M 45,115 A 55,55 0 0,1 95,130" fill="none" stroke="#F59E0B" stroke-width="3"/>
-                        
-                        <text x="75" y="145" text-anchor="middle" font-size="10" fill="#1E40AF">Inscrito</text>
-                        <text x="75" y="15" text-anchor="middle" font-size="10" fill="#10B981">α = arco/2</text>
-                    </svg>
-                    <span class="figure-label">Inscrito: α = arco/2</span>
-                </div>
-                <!-- Semiinscrito -->
-                <div class="figure-item">
-                    <svg width="150" height="150" viewBox="0 0 150 150">
-                        <circle cx="75" cy="75" r="55" fill="none" stroke="#3B82F6" stroke-width="2"/>
-                        <circle cx="75" cy="75" r="3" fill="#3B82F6"/>
-                        
-                        <!-- Tangente -->
-                        <line x1="130" y1="20" x2="130" y2="130" stroke="#8B5CF6" stroke-width="2"/>
-                        
-                        <!-- Ángulo semiinscrito -->
-                        <line x1="130" y1="75" x2="45" y2="115" stroke="#8B5CF6" stroke-width="2"/>
-                        <circle cx="130" cy="75" r="3" fill="#8B5CF6"/>
-                        
-                        <path d="M 115,75 A 15,15 0 0,0 105,90" fill="none" stroke="#8B5CF6" stroke-width="1"/>
-                        <text x="100" y="85" font-size="11" fill="#8B5CF6" font-weight="bold">β</text>
-                        
-                        <text x="75" y="145" text-anchor="middle" font-size="10" fill="#1E40AF">Semiinscrito</text>
-                    </svg>
-                    <span class="figure-label">Semiinscrito</span>
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-ang-inscrito" class="jxgbox"></div>
+                    <span class="jxgbox-label">Ángulo Inscrito</span>
                 </div>
             </div>
         </div>
-
-        <h3>📐 Ángulos en la Circunferencia</h3>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Tipo</th>
-                    <th>Definición</th>
-                    <th>Medida</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Central</strong></td>
-                    <td>Vértice en el centro, lados son radios</td>
-                    <td>Igual al arco que subtiende</td>
-                </tr>
-                <tr>
-                    <td><strong>Inscrito</strong></td>
-                    <td>Vértice en la circunferencia, lados son cuerdas</td>
-                    <td>La mitad del arco que subtiende</td>
-                </tr>
-                <tr>
-                    <td><strong>Semiinscrito</strong></td>
-                    <td>Un lado es tangente, otro es cuerda</td>
-                    <td>La mitad de la diferencia de arcos</td>
-                </tr>
-            </tbody>
-        </table>
 
         <div class="theory-highlight">
             <h4>📖 Teorema del Ángulo Inscrito</h4>
-            <p>El teorema del ángulo inscrito establece que un ángulo inscrito en una circunferencia mide la mitad del arco que subtiende. Esto significa que si un ángulo central y un ángulo inscrito subtienden el mismo arco, el ángulo inscrito será exactamente la mitad del ángulo central. Este teorema es fundamental en geometría y tiene múltiples aplicaciones en la resolución de problemas.</p>
+            <p>El ángulo inscrito mide la mitad del ángulo central que subtiende el mismo arco. Si el ángulo central mide $\alpha$, el ángulo inscrito mide $\frac{\alpha}{2}$.</p>
+        </div>
+
+        <div class="history-box">
+            <h4>📜 Historia del Número π</h4>
+            <p>El número $\pi$ es la relación entre la longitud de una circunferencia y su diámetro. Arquímedes (siglo III a.C.) fue el primero en calcularlo rigurosamente, obteniendo $3\frac{10}{71} < \pi < 3\frac{1}{7}$. Es un número irracional y trascendente.</p>
         </div>
 
         <h3>📝 Ejercicios Resueltos</h3>
 
         <div class="solved-example">
             <h4>Ejercicio 1: Longitud de circunferencia</h4>
-            <p><strong>Calcular la longitud de una circunferencia de radio 7 cm. ($\pi \approx 3.14$)</p>
-            <p><strong>Solución:</strong></p>
-            <p>$L = 2\pi r = 2 \times 3.14 \times 7 = 43.96$ cm</p>
+            <p><strong>Circunferencia de radio 7 cm.</strong></p>
+            <p><strong>Solución:</strong> $L = 2\pi r = 14\pi$ cm ≈ $43.98$ cm</p>
         </div>
 
         <div class="solved-example">
             <h4>Ejercicio 2: Área del círculo</h4>
-            <p><strong>Calcular el área de un círculo de diámetro 10 cm.</p>
-            <p><strong>Solución:</strong></p>
-            <p>Radio: $r = \frac{d}{2} = 5$ cm</p>
-            <p>$A = \pi r^2 = 3.14 \times 25 = 78.5$ cm²</p>
+            <p><strong>Círculo de diámetro 10 cm.</strong></p>
+            <p><strong>Solución:</strong> $r = 5$ cm → $A = \pi r^2 = 25\pi$ cm² ≈ $78.54$ cm²</p>
         </div>
 
         <div class="solved-example">
-            <h4>Ejercicio 3: Ángulo inscrito</h4>
-            <p><strong>Un ángulo inscrito subtiende un arco de $80°$. ¿Cuánto mide el ángulo?</p>
-            <p><strong>Solución:</strong></p>
-            <p>Por el teorema del ángulo inscrito:</p>
-            <p>Ángulo inscrito = $\frac{1}{2}$ del arco = $\frac{80°}{2} = 40°$</p>
+            <h4>Ejercicio 3: Longitud de arco</h4>
+            <p><strong>Arco de 60° en circunferencia de radio 6 cm.</strong></p>
+            <p><strong>Solución:</strong> $l = \frac{60°}{360°} \times 2\pi \times 6 = 2\pi$ cm</p>
         </div>
 
         <div class="solved-example">
-            <h4>Ejercicio 4: Área de corona circular</h4>
-            <p><strong>Calcular el área de una corona circular con radio exterior 10 cm y radio interior 6 cm.</p>
-            <p><strong>Solución:</strong></p>
-            <p>$A = \pi(R^2 - r^2) = \pi(100 - 36) = 64\pi \approx 200.96$ cm²</p>
-        </div>
-
-        <div class="solved-example">
-            <h4>Ejercicio 5: Longitud de arco</h4>
-            <p><strong>En una circunferencia de radio 6 cm, calcular la longitud de un arco de $60°$.</p>
-            <p><strong>Solución:</strong></p>
-            <p>$l = \frac{\theta}{360°} \times 2\pi r = \frac{60°}{360°} \times 2\pi(6) = \frac{1}{6} \times 12\pi = 2\pi \approx 6.28$ cm</p>
+            <h4>Ejercicio 4: Sector circular</h4>
+            <p><strong>Sector de 90° en círculo de radio 4 cm.</strong></p>
+            <p><strong>Solución:</strong> $A = \frac{90°}{360°} \times \pi \times 16 = 4\pi$ cm²</p>
         </div>
 
         <h3>🎯 Ejercicios para Practicar</h3>
 
         <div class="exercise-item">
             <div class="number">1</div>
-            <div class="question"><strong>Longitud:</strong> Circunferencia con $r = 5$ cm.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-cir1')">Ver Solución</button>
-            <div id="sol-cir1" class="solution-text">$L = 2\pi(5) = 10\pi \approx 31.4$ cm</div>
+            <div class="question"><strong>Longitud:</strong> Circunferencia de radio 5 cm.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-ci1')">Ver Solución</button>
+            <div id="sol-ci1" class="solution-text">$L = 10\pi$ cm ≈ $31.42$ cm</div>
         </div>
 
         <div class="exercise-item">
             <div class="number">2</div>
-            <div class="question"><strong>Área:</strong> Círculo con $d = 14$ cm.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-cir2')">Ver Solución</button>
-            <div id="sol-cir2" class="solution-text">$r = 7$ cm<br>$A = \pi(49) = 49\pi \approx 153.86$ cm²</div>
+            <div class="question"><strong>Área:</strong> Círculo de radio 8 cm.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-ci2')">Ver Solución</button>
+            <div id="sol-ci2" class="solution-text">$A = 64\pi$ cm² ≈ $201.06$ cm²</div>
         </div>
 
         <div class="exercise-item">
             <div class="number">3</div>
-            <div class="question"><strong>Hallar radio:</strong> Si $L = 31.4$ cm.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-cir3')">Ver Solución</button>
-            <div id="sol-cir3" class="solution-text">$r = \frac{L}{2\pi} = \frac{31.4}{6.28} = 5$ cm</div>
-        </div>
-
-        <div class="exercise-item">
-            <div class="number">4</div>
-            <div class="question"><strong>Ángulo central:</strong> Arco de $120°$. ¿Cuánto mide?</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-cir4')">Ver Solución</button>
-            <div id="sol-cir4" class="solution-text">El ángulo central mide lo mismo que el arco: $120°$</div>
-        </div>
-
-        <div class="exercise-item">
-            <div class="number">5</div>
-            <div class="question"><strong>Longitud de arco:</strong> $r = 8$ cm, ángulo central $90°$.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-cir5')">Ver Solución</button>
-            <div id="sol-cir5" class="solution-text">$l = \frac{90°}{360°} \times 2\pi(8) = \frac{1}{4} \times 16\pi = 4\pi \approx 12.56$ cm</div>
+            <div class="question"><strong>Arco:</strong> Radio 9 cm, ángulo 120°.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-ci3')">Ver Solución</button>
+            <div id="sol-ci3" class="solution-text">$l = 6\pi$ cm</div>
         </div>
     </div>
 
@@ -983,241 +713,130 @@ CTYPE html>
         <h2>Teorema de Pitágoras</h2>
 
         <div class="quote-box">
-            "En un triángulo rectángulo, el cuadrado de la hipotenusa es igual a la suma de los cuadrados de los catetos."
-            <div class="author">— Teorema de Pitágoras (siglo VI a.C.)</div>
-        </div>
-
-        <div class="history-box">
-            <h4>📜 Contexto Histórico</h4>
-            <p>El teorema lleva el nombre del matemático griego Pitágoras de Samos (c. 570-495 a.C.), aunque evidencias arqueológicas sugieren que los babilonios y egipcios ya conocían esta relación matemática más de mil años antes. El papiro Rhind (c. 1800 a.C.) contiene problemas que aplican este principio. Pitágoras y su escuela pitagórica fueron los primeros en proporcionar una demostración rigurosa del teorema, transformando el conocimiento empírico en matemática formal.</p>
+            "En todo triángulo rectángulo, el cuadrado de la hipotenusa es igual a la suma de los cuadrados de los catetos."
+            <div class="author">— Teorema de Pitágoras</div>
         </div>
 
         <div class="concept-box">
-            <h4>📐 Enunciado Formal del Teorema</h4>
-            <p>En todo triángulo rectángulo, el cuadrado construido sobre la hipotenusa (el lado opuesto al ángulo recto) tiene un área equivalente a la suma de las áreas de los cuadrados construidos sobre los dos catetos. Matemáticamente, si $a$ y $b$ son los catetos, y $c$ es la hipotenusa:</p>
-            <p style="text-align: center; font-size: 1.5rem;">$$a^2 + b^2 = c^2$$</p>
-            <p>Esta ecuación es una de las más famosas de toda la matemática y tiene miles de demostraciones diferentes, siendo una de las proposiciones con mayor número de pruebas conocidas.</p>
+            <h4>📚 El Teorema Fundamental</h4>
+            <p>El <strong>Teorema de Pitágoras</strong> establece que en todo triángulo rectángulo: $a^2 + b^2 = c^2$, donde $a$ y $b$ son los catetos y $c$ es la hipotenusa. Este teorema tiene innumerables aplicaciones en matemáticas, física, ingeniería y arquitectura.</p>
         </div>
 
-        <!-- FIGURA SVG: Demostración visual del Teorema de Pitágoras -->
-        <div class="figure-box">
-            <div class="figure-title">📐 Demostración Visual del Teorema de Pitágoras</div>
-            <div class="figure-container">
-                <svg width="500" height="300" viewBox="0 0 500 300">
-                    <!-- Triángulo rectángulo central -->
-                    <polygon points="100,200 250,200 250,80" fill="#DBEAFE" stroke="#1E40AF" stroke-width="2"/>
-                    
-                    <!-- Cuadrado sobre cateto a -->
-                    <rect x="20" y="200" width="80" height="80" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-                    <text x="60" y="250" text-anchor="middle" font-size="14" fill="#065F46" font-weight="bold">a²</text>
-                    
-                    <!-- Cuadrado sobre cateto b -->
-                    <rect x="250" y="200" width="120" height="120" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
-                    <text x="310" y="270" text-anchor="middle" font-size="14" fill="#92400E" font-weight="bold">b²</text>
-                    
-                    <!-- Cuadrado sobre hipotenusa -->
-                    <polygon points="100,200 250,200 330,50 180,50" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
-                    <text x="215" y="135" text-anchor="middle" font-size="14" fill="#DC2626" font-weight="bold">c²</text>
-                    
-                    <!-- Etiquetas de lados -->
-                    <text x="170" y="215" font-size="12" fill="#3B82F6">a</text>
-                    <text x="260" y="150" font-size="12" fill="#3B82F6">b</text>
-                    <text x="160" y="125" font-size="12" fill="#EF4444">c</text>
-                    
-                    <!-- Ángulo recto -->
-                    <rect x="235" y="185" width="15" height="15" fill="none" stroke="#1E40AF" stroke-width="1.5"/>
-                    
-                    <!-- Ecuación -->
-                    <text x="400" y="150" font-size="16" fill="#1E40AF" font-weight="bold">a² + b² = c²</text>
-                    
-                    <!-- Flecha de equivalencia -->
-                    <text x="400" y="180" font-size="12" fill="#6B7280">⬅ El área roja</text>
-                    <text x="400" y="195" font-size="12" fill="#6B7280">   equivale a la suma</text>
-                    <text x="400" y="210" font-size="12" fill="#6B7280">   de las áreas verde</text>
-                    <text x="400" y="225" font-size="12" fill="#6B7280">   y amarilla</text>
-                </svg>
+        <!-- Demostración visual con JSXGraph -->
+        <div class="figure-section">
+            <div class="figure-title">📊 Demostración Visual del Teorema de Pitágoras</div>
+            <div class="jxgbox-container">
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-pitagoras" class="jxgbox jxgbox-large"></div>
+                </div>
             </div>
         </div>
 
-        <div class="warning-box">
-            <h4>⚠️ Condiciones de Aplicación</h4>
-            <p>El Teorema de Pitágoras <strong>solo se aplica a triángulos rectángulos</strong>, es decir, aquellos que tienen un ángulo de exactamente $90°$. La <strong>hipotenusa</strong> es siempre el lado más largo del triángulo y está posicionada exactamente opuesta al ángulo recto. Intentar aplicar este teorema a triángulos que no son rectángulos conduce a resultados incorrectos.</p>
+        <!-- Tríos pitagóricos -->
+        <div class="figure-section">
+            <div class="figure-title">📊 Tríos Pitagóricos Comunes</div>
+            <div class="jxgbox-container">
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-trio-345" class="jxgbox"></div>
+                    <span class="jxgbox-label">3-4-5</span>
+                </div>
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-trio-51213" class="jxgbox"></div>
+                    <span class="jxgbox-label">5-12-13</span>
+                </div>
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-trio-81517" class="jxgbox"></div>
+                    <span class="jxgbox-label">8-15-17</span>
+                </div>
+            </div>
         </div>
 
-        <!-- FIGURA SVG: Triángulo rectángulo con etiquetas -->
-        <div class="figure-box">
-            <div class="figure-title">📐 Elementos del Triángulo Rectángulo</div>
-            <div class="figure-container">
-                <svg width="400" height="250" viewBox="0 0 400 250">
-                    <!-- Triángulo rectángulo -->
-                    <polygon points="50,200 300,200 300,50" fill="#F8FAFC" stroke="#1E40AF" stroke-width="3"/>
-                    
-                    <!-- Ángulo recto -->
-                    <rect x="280" y="180" width="20" height="20" fill="none" stroke="#EF4444" stroke-width="2"/>
-                    <text x="260" y="175" font-size="12" fill="#EF4444">90°</text>
-                    
-                    <!-- Cateto a (vertical) -->
-                    <line x1="300" y1="50" x2="300" y2="200" stroke="#10B981" stroke-width="3"/>
-                    <text x="315" y="130" font-size="14" fill="#10B981" font-weight="bold">a (cateto)</text>
-                    
-                    <!-- Cateto b (horizontal) -->
-                    <line x1="50" y1="200" x2="300" y2="200" stroke="#3B82F6" stroke-width="3"/>
-                    <text x="170" y="220" font-size="14" fill="#3B82F6" font-weight="bold">b (cateto)</text>
-                    
-                    <!-- Hipotenusa -->
-                    <line x1="50" y1="200" x2="300" y2="50" stroke="#EF4444" stroke-width="3"/>
-                    <text x="140" y="100" font-size="14" fill="#EF4444" font-weight="bold">c (hipotenusa)</text>
-                    
-                    <!-- Vértices -->
-                    <circle cx="50" cy="200" r="5" fill="#8B5CF6"/>
-                    <circle cx="300" cy="200" r="5" fill="#8B5CF6"/>
-                    <circle cx="300" cy="50" r="5" fill="#8B5CF6"/>
-                    
-                    <!-- Etiquetas de vértices -->
-                    <text x="35" y="215" font-size="12" fill="#8B5CF6">A</text>
-                    <text x="305" y="215" font-size="12" fill="#8B5CF6">B</text>
-                    <text x="305" y="50" font-size="12" fill="#8B5CF6">C</text>
-                </svg>
-            </div>
+        <div class="history-box">
+            <h4>📜 Historia del Teorema</h4>
+            <p>Aunque lleva el nombre de Pitágoras (siglo VI a.C.), era conocido por los babilonios mil años antes. La tablilla Plimpton 322 (1800 a.C.) contiene tríos pitagóricos. Los egipcios usaban cuerdas con nudos a intervalos de 3, 4 y 5 unidades para construir ángulos rectos en las pirámides.</p>
         </div>
 
         <h3>📐 Aplicaciones del Teorema</h3>
 
         <div class="property-grid">
             <div class="property-card">
-                <h5>Hallar la hipotenusa</h5>
+                <h5>Calcular la Hipotenusa</h5>
                 <div class="formula">$c = \sqrt{a^2 + b^2}$</div>
-                <p>Cuando se conocen los dos catetos.</p>
             </div>
-
             <div class="property-card">
-                <h5>Hallar un cateto</h5>
+                <h5>Calcular un Cateto</h5>
                 <div class="formula">$a = \sqrt{c^2 - b^2}$</div>
-                <p>Cuando se conoce la hipotenusa y el otro cateto.</p>
             </div>
-
             <div class="property-card">
-                <h5>Verificar si es rectángulo</h5>
-                <div class="formula">¿$a^2 + b^2 = c^2$?</div>
-                <p>Recíproco del teorema: si se cumple, es rectángulo.</p>
+                <h5>Diagonal de Rectángulo</h5>
+                <div class="formula">$d = \sqrt{b^2 + h^2}$</div>
             </div>
-
             <div class="property-card">
-                <h5>Diagonal de rectángulo</h5>
-                <div class="formula">$d = \sqrt{base^2 + altura^2}$</div>
-                <p>Aplicación directa: diagonal forma triángulo rectángulo.</p>
+                <h5>Distancia entre Puntos</h5>
+                <div class="formula">$d = \sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}$</div>
             </div>
-        </div>
-
-        <div class="theory-highlight">
-            <h4>📖 El Recíproco del Teorema de Pitágoras</h4>
-            <p>El recíproco también es verdadero: si en un triángulo se cumple que el cuadrado del lado mayor es igual a la suma de los cuadrados de los otros dos lados, entonces el triángulo es rectángulo. Esto permite <strong>verificar</strong> si un triángulo dado es o no rectángulo, sin necesidad de medir ángulos. Es una herramienta muy útil en geometría y en aplicaciones prácticas de construcción y diseño.</p>
         </div>
 
         <h3>📝 Ejercicios Resueltos</h3>
 
         <div class="solved-example">
-            <h4>Ejercicio 1: Hallar la hipotenusa</h4>
-            <p><strong>Un triángulo rectángulo tiene catetos de 3 cm y 4 cm. Calcular la hipotenusa.</p>
-            <p><strong>Solución:</strong></p>
-            <p>$c = \sqrt{3^2 + 4^2} = \sqrt{9 + 16} = \sqrt{25} = 5$ cm</p>
-            <p><em>¡Esta es la famosa terna pitagórica (3, 4, 5)! Son números enteros que cumplen el teorema.</em></p>
+            <h4>Ejercicio 1: Calcular la hipotenusa</h4>
+            <p><strong>Catetos de 3 cm y 4 cm.</strong></p>
+            <p><strong>Solución:</strong> $c = \sqrt{3^2 + 4^2} = \sqrt{9 + 16} = \sqrt{25} = 5$ cm</p>
         </div>
 
         <div class="solved-example">
-            <h4>Ejercicio 2: Hallar un cateto</h4>
-            <p><strong>En un triángulo rectángulo, la hipotenusa mide 13 cm y un cateto 5 cm. Calcular el otro cateto.</p>
-            <p><strong>Solución:</strong></p>
-            <p>$a = \sqrt{13^2 - 5^2} = \sqrt{169 - 25} = \sqrt{144} = 12$ cm</p>
-            <p><em>Otra terna pitagórica clásica: (5, 12, 13)</em></p>
+            <h4>Ejercicio 2: Calcular un cateto</h4>
+            <p><strong>Hipotenusa 13 cm, un cateto 5 cm.</strong></p>
+            <p><strong>Solución:</strong> $b = \sqrt{13^2 - 5^2} = \sqrt{169 - 25} = \sqrt{144} = 12$ cm</p>
         </div>
 
         <div class="solved-example">
-            <h4>Ejercicio 3: Verificar triángulo rectángulo</h4>
-            <p><strong>¿El triángulo de lados 6, 8 y 10 es rectángulo?</p>
-            <p><strong>Solución:</strong></p>
-            <p>Aplicamos el recíproco del teorema de Pitágoras:</p>
-            <p>Verificamos: $6^2 + 8^2 = 36 + 64 = 100$</p>
-            <p>$10^2 = 100$ ✓</p>
-            <p><strong>Sí es rectángulo</strong> porque $6^2 + 8^2 = 10^2$ (el lado mayor es la hipotenusa).</p>
+            <h4>Ejercicio 3: Diagonal de rectángulo</h4>
+            <p><strong>Rectángulo de 6 cm por 8 cm.</strong></p>
+            <p><strong>Solución:</strong> $d = \sqrt{6^2 + 8^2} = \sqrt{36 + 64} = 10$ cm</p>
         </div>
 
         <div class="solved-example">
-            <h4>Ejercicio 4: Diagonal de un rectángulo</h4>
-            <p><strong>Calcular la diagonal de un rectángulo de 9 cm por 12 cm.</p>
-            <p><strong>Solución:</strong></p>
-            <p>La diagonal forma un triángulo rectángulo con los lados del rectángulo:</p>
-            <p>$d = \sqrt{9^2 + 12^2} = \sqrt{81 + 144} = \sqrt{225} = 15$ cm</p>
+            <h4>Ejercicio 4: Distancia entre puntos</h4>
+            <p><strong>Puntos A(1, 2) y B(4, 6).</strong></p>
+            <p><strong>Solución:</strong> $d = \sqrt{(4-1)^2 + (6-2)^2} = \sqrt{9 + 16} = 5$ unidades</p>
         </div>
 
         <div class="solved-example">
             <h4>Ejercicio 5: Aplicación práctica</h4>
-            <p><strong>Una escalera de 5 m se apoya contra una pared. Si la base está a 3 m de la pared, ¿a qué altura llega?</p>
-            <p><strong>Solución:</strong></p>
-            <p>La escalera, la pared y el suelo forman un triángulo rectángulo:</p>
-            <p>$h = \sqrt{5^2 - 3^2} = \sqrt{25 - 9} = \sqrt{16} = 4$ m</p>
+            <p><strong>Una escalera de 5 m se apoya contra una pared. Si la base está a 3 m de la pared, ¿a qué altura llega?</strong></p>
+            <p><strong>Solución:</strong> $h = \sqrt{5^2 - 3^2} = \sqrt{25 - 9} = \sqrt{16} = 4$ m</p>
         </div>
-
-        <h3>🎯 Ternas Pitagóricas Comunes</h3>
-        
-        <div class="theory-highlight">
-            <h4>📖 ¿Qué son las Ternas Pitagóricas?</h4>
-            <p>Una terna pitagórica es un conjunto de tres números enteros positivos $a$, $b$ y $c$, tales que $a^2 + b^2 = c^2$. Estas ternas son especialmente útiles porque permiten construir triángulos rectángulos con medidas exactas. La terna más conocida es (3, 4, 5), pero existen infinitas ternas pitagóricas.</p>
-        </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Cateto a</th>
-                    <th>Cateto b</th>
-                    <th>Hipotenusa c</th>
-                    <th>Verificación</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>3</td><td>4</td><td>5</td><td>$9 + 16 = 25$ ✓</td></tr>
-                <tr><td>5</td><td>12</td><td>13</td><td>$25 + 144 = 169$ ✓</td></tr>
-                <tr><td>8</td><td>15</td><td>17</td><td>$64 + 225 = 289$ ✓</td></tr>
-                <tr><td>7</td><td>24</td><td>25</td><td>$49 + 576 = 625$ ✓</td></tr>
-                <tr><td>9</td><td>40</td><td>41</td><td>$81 + 1600 = 1681$ ✓</td></tr>
-            </tbody>
-        </table>
 
         <h3>🎯 Ejercicios para Practicar</h3>
 
         <div class="exercise-item">
             <div class="number">1</div>
-            <div class="question"><strong>Hipotenusa:</strong> Catetos 8 y 15.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-pit1')">Ver Solución</button>
-            <div id="sol-pit1" class="solution-text">$c = \sqrt{64 + 225} = \sqrt{289} = 17$</div>
+            <div class="question"><strong>Hipotenusa:</strong> Catetos 9 cm y 12 cm.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-p1')">Ver Solución</button>
+            <div id="sol-p1" class="solution-text">$c = \sqrt{81 + 144} = 15$ cm</div>
         </div>
 
         <div class="exercise-item">
             <div class="number">2</div>
-            <div class="question"><strong>Cateto:</strong> Hipotenusa 25, otro cateto 7.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-pit2')">Ver Solución</button>
-            <div id="sol-pit2" class="solution-text">$a = \sqrt{625 - 49} = \sqrt{576} = 24$</div>
+            <div class="question"><strong>Cateto:</strong> Hipotenusa 17 cm, otro cateto 15 cm.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-p2')">Ver Solución</button>
+            <div id="sol-p2" class="solution-text">$a = \sqrt{289 - 225} = 8$ cm</div>
         </div>
 
         <div class="exercise-item">
             <div class="number">3</div>
-            <div class="question"><strong>¿Es rectángulo?</strong> Lados 9, 12, 15.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-pit3')">Ver Solución</button>
-            <div id="sol-pit3" class="solution-text">$81 + 144 = 225 = 15^2$ ✓ Sí es rectángulo.</div>
+            <div class="question"><strong>Diagonal:</strong> Rectángulo de 12 cm × 5 cm.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-p3')">Ver Solución</button>
+            <div id="sol-p3" class="solution-text">$d = 13$ cm</div>
         </div>
 
         <div class="exercise-item">
             <div class="number">4</div>
-            <div class="question"><strong>Diagonal:</strong> Rectángulo 20 × 21.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-pit4')">Ver Solución</button>
-            <div id="sol-pit4" class="solution-text">$d = \sqrt{400 + 441} = \sqrt{841} = 29$</div>
-        </div>
-
-        <div class="exercise-item">
-            <div class="number">5</div>
-            <div class="question"><strong>Aplicación:</strong> Cateto 6, hipotenusa 10. Hallar el otro cateto.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-pit5')">Ver Solución</button>
-            <div id="sol-pit5" class="solution-text">$a = \sqrt{100 - 36} = \sqrt{64} = 8$</div>
+            <div class="question"><strong>Aplicación:</strong> Escalera de 10 m, base a 6 m de pared. ¿Altura?</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-p4')">Ver Solución</button>
+            <div id="sol-p4" class="solution-text">$h = 8$ m</div>
         </div>
     </div>
 
@@ -1225,333 +844,212 @@ CTYPE html>
     <div id="tab5" class="tab-content">
         <h2>Semejanza de Triángulos</h2>
 
-        <div class="concept-box">
-            <h4>📚 Definición y Concepto Fundamental</h4>
-            <p>Dos triángulos son <strong>semejantes</strong> cuando tienen la misma forma, es decir, sus ángulos correspondientes son congruentes (tienen la misma medida), aunque sus lados pueden tener diferentes longitudes. La semejanza es un concepto fundamental en geometría que permite establecer relaciones proporcionales entre figuras de igual forma pero diferente tamaño.</p>
-            <p>Si $\triangle ABC \sim \triangle DEF$, entonces sus lados correspondientes son proporcionales y existe una constante $k$ llamada <strong>razón de semejanza</strong> tal que: $\frac{AB}{DE} = \frac{BC}{EF} = \frac{AC}{DF} = k$.</p>
-            <p><strong>Importancia práctica:</strong> La semejanza permite calcular dimensiones inaccesibles, como la altura de un edificio usando sombras, o crear planos y mapas a escala. Es una herramienta esencial en arquitectura, ingeniería y navegación.</p>
+        <div class="quote-box">
+            "Dos figuras son semejantes si tienen la misma forma, aunque no necesariamente el mismo tamaño."
+            <div class="author">— Principio fundamental de la semejanza</div>
         </div>
 
-        <!-- FIGURA SVG: Triángulos semejantes -->
-        <div class="figure-box">
-            <div class="figure-title">📐 Triángulos Semejantes</div>
-            <div class="figure-container">
-                <svg width="500" height="250" viewBox="0 0 500 250">
-                    <!-- Triángulo pequeño -->
-                    <polygon points="50,200 150,200 100,100" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
-                    <text x="95" y="210" text-anchor="middle" font-size="10" fill="#1E40AF">a</text>
-                    <text x="60" y="145" font-size="10" fill="#1E40AF">c</text>
-                    <text x="130" y="145" font-size="10" fill="#1E40AF">b</text>
-                    
-                    <!-- Ángulos del triángulo pequeño -->
-                    <text x="95" y="120" font-size="11" fill="#10B981">α</text>
-                    <text x="65" y="190" font-size="11" fill="#10B981">β</text>
-                    <text x="120" y="190" font-size="11" fill="#10B981">γ</text>
-                    
-                    <!-- Símbolo de semejanza -->
-                    <text x="220" y="150" font-size="24" fill="#8B5CF6">~</text>
-                    <text x="210" y="170" font-size="12" fill="#6B7280">(semejantes)</text>
-                    
-                    <!-- Triángulo grande -->
-                    <polygon points="280,200 450,200 365,50" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-                    <text x="360" y="215" text-anchor="middle" font-size="10" fill="#065F46">ka</text>
-                    <text x="300" y="120" font-size="10" fill="#065F46">kc</text>
-                    <text x="420" y="120" font-size="10" fill="#065F46">kb</text>
-                    
-                    <!-- Ángulos del triángulo grande -->
-                    <text x="355" y="75" font-size="11" fill="#10B981">α</text>
-                    <text x="295" y="185" font-size="11" fill="#10B981">β</text>
-                    <text x="420" y="185" font-size="11" fill="#10B981">γ</text>
-                    
-                    <!-- Leyenda -->
-                    <rect x="10" y="220" width="200" height="25" rx="3" fill="#F8FAFC" stroke="#E5E7EB"/>
-                    <text x="20" y="237" font-size="11" fill="#6B7280">Razón de semejanza: k = lado grande/lado pequeño</text>
-                </svg>
+        <div class="concept-box">
+            <h4>📚 Concepto de Semejanza</h4>
+            <p>Dos triángulos son <strong>semejantes</strong> si tienen la misma forma: sus ángulos correspondientes son iguales y sus lados correspondientes son proporcionales. La semejanza permite resolver problemas de medición indirecta, como calcular alturas de edificios sin medir directamente.</p>
+            <p><strong>Notación:</strong> $\triangle ABC \sim \triangle DEF$ significa que los ángulos A=D, B=E, C=F, y $\frac{AB}{DE} = \frac{BC}{EF} = \frac{AC}{DF} = k$ (razón de semejanza).</p>
+        </div>
+
+        <!-- Triángulos semejantes con JSXGraph -->
+        <div class="figure-section">
+            <div class="figure-title">📊 Triángulos Semejantes</div>
+            <div class="jxgbox-container">
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-semejanza" class="jxgbox jxgbox-large"></div>
+                </div>
             </div>
         </div>
 
-        <h3>📊 Criterios de Semejanza</h3>
+        <h3>📐 Criterios de Semejanza</h3>
 
         <div class="cards-grid">
             <div class="info-card">
                 <div class="card-header" style="border-left: 4px solid #3B82F6;">
-                    <h4 style="color: #3B82F6;">Criterio AA (Ángulo-Ángulo)</h4>
+                    <h4 style="color: #3B82F6;">Criterio LLL</h4>
                 </div>
                 <div class="card-body">
-                    <p>Si <strong>dos ángulos</strong> de un triángulo son respectivamente iguales a dos ángulos de otro triángulo, entonces los triángulos son semejantes.</p>
-                    <p><em>El tercer ángulo se deduce automáticamente porque la suma de ángulos es siempre $180°$.</em></p>
-                    <p><strong>Es el criterio más utilizado.</strong></p>
+                    <p>Si los tres lados son proporcionales.</p>
+                    <p style="text-align: center;"><strong>$\frac{a}{a'} = \frac{b}{b'} = \frac{c}{c'}$</strong></p>
                 </div>
             </div>
-
             <div class="info-card">
                 <div class="card-header" style="border-left: 4px solid #10B981;">
-                    <h4 style="color: #10B981;">Criterio LLL (Lado-Lado-Lado)</h4>
+                    <h4 style="color: #10B981;">Criterio AA</h4>
                 </div>
                 <div class="card-body">
-                    <p>Si los <strong>tres lados</strong> de un triángulo son proporcionales a los tres lados de otro triángulo, entonces son semejantes.</p>
-                    <p>$\frac{a}{a'} = \frac{b}{b'} = \frac{c}{c'} = k$</p>
-                    <p>$k$ es la razón de semejanza.</p>
+                    <p>Si dos ángulos son iguales.</p>
+                    <p style="text-align: center;"><strong>$\angle A = \angle D$ y $\angle B = \angle E$</strong></p>
                 </div>
             </div>
-
             <div class="info-card">
                 <div class="card-header" style="border-left: 4px solid #F59E0B;">
-                    <h4 style="color: #F59E0B;">Criterio LL (Lado-Lado)</h4>
+                    <h4 style="color: #F59E0B;">Criterio LAL</h4>
                 </div>
                 <div class="card-body">
-                    <p>Si <strong>dos lados</strong> de un triángulo son proporcionales a dos lados de otro triángulo, y el ángulo comprendido entre ellos es igual, entonces son semejantes.</p>
-                    <p>El ángulo debe estar entre los dos lados proporcionales.</p>
+                    <p>Dos lados proporcionales y el ángulo comprendido igual.</p>
+                    <p style="text-align: center;"><strong>$\frac{a}{a'} = \frac{b}{b'}$ y $\angle C = \angle F$</strong></p>
                 </div>
             </div>
         </div>
 
-        <!-- FIGURA SVG: Criterios de semejanza -->
-        <div class="figure-box">
-            <div class="figure-title">📐 Aplicación de los Criterios de Semejanza</div>
-            <div class="figure-container">
-                <svg width="550" height="180" viewBox="0 0 550 180">
-                    <!-- Criterio AA -->
-                    <rect x="10" y="10" width="170" height="160" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1"/>
-                    <text x="95" y="30" text-anchor="middle" font-size="12" fill="#1E40AF" font-weight="bold">Criterio AA</text>
-                    
-                    <polygon points="40,130 90,130 65,70" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
-                    <polygon points="100,140 160,140 130,55" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
-                    <text x="62" y="85" font-size="10" fill="#EF4444">α</text>
-                    <text x="130" y="70" font-size="10" fill="#EF4444">α</text>
-                    <text x="50" y="120" font-size="10" fill="#10B981">β</text>
-                    <text x="112" y="130" font-size="10" fill="#10B981">β</text>
-                    <text x="95" y="165" text-anchor="middle" font-size="10" fill="#6B7280">2 ángulos iguales</text>
-                    
-                    <!-- Criterio LLL -->
-                    <rect x="190" y="10" width="170" height="160" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1"/>
-                    <text x="275" y="30" text-anchor="middle" font-size="12" fill="#065F46" font-weight="bold">Criterio LLL</text>
-                    
-                    <polygon points="220,130 270,130 245,70" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-                    <polygon points="280,140 360,140 320,40" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-                    <text x="245" y="135" text-anchor="middle" font-size="9" fill="#065F46">3</text>
-                    <text x="320" y="135" text-anchor="middle" font-size="9" fill="#065F46">6</text>
-                    <text x="275" y="165" text-anchor="middle" font-size="10" fill="#6B7280">3 lados proporcionales</text>
-                    <text x="275" y="175" text-anchor="middle" font-size="9" fill="#6B7280">k = 2</text>
-                    
-                    <!-- Criterio LL -->
-                    <rect x="370" y="10" width="170" height="160" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
-                    <text x="455" y="30" text-anchor="middle" font-size="12" fill="#92400E" font-weight="bold">Criterio LL</text>
-                    
-                    <polygon points="400,130 450,130 425,70" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
-                    <polygon points="460,140 530,140 495,40" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
-                    <text x="425" y="135" text-anchor="middle" font-size="9" fill="#92400E">b</text>
-                    <text x="495" y="135" text-anchor="middle" font-size="9" fill="#92400E">2b</text>
-                    <path d="M 410,120 A 10,10 0 0,0 420,120" fill="none" stroke="#EF4444" stroke-width="1"/>
-                    <text x="415" y="115" font-size="9" fill="#EF4444">θ</text>
-                    <path d="M 485,125 A 10,10 0 0,0 495,125" fill="none" stroke="#EF4444" stroke-width="1"/>
-                    <text x="490" y="120" font-size="9" fill="#EF4444">θ</text>
-                    <text x="455" y="165" text-anchor="middle" font-size="10" fill="#6B7280">2 lados prop. + ángulo</text>
-                </svg>
-            </div>
-        </div>
-
-        <h3>📐 Propiedades de la Semejanza</h3>
-
-        <div class="property-grid">
-            <div class="property-card">
-                <h5>Razón de Semejanza ($k$)</h5>
-                <div class="formula">$k = \frac{lado_{grande}}{lado_{pequeño}}$</div>
-                <p>Es el factor por el que se multiplican todos los lados del triángulo pequeño para obtener el grande.</p>
-            </div>
-
-            <div class="property-card">
-                <h5>Perímetros</h5>
-                <div class="formula">$P_{grande} = k \cdot P_{pequeño}$</div>
-                <p>Los perímetros se relacionan por la misma razón de semejanza.</p>
-            </div>
-
-            <div class="property-card">
-                <h5>Áreas</h5>
-                <div class="formula">$A_{grande} = k^2 \cdot A_{pequeño}$</div>
-                <p>Las áreas se relacionan por el cuadrado de la razón de semejanza.</p>
-            </div>
-
-            <div class="property-card">
-                <h5>Ángulos</h5>
-                <div class="formula">$\angle A = \angle A'$</div>
-                <p>Los ángulos correspondientes son exactamente iguales (no se ven afectados por $k$).</p>
+        <!-- Teorema de Tales -->
+        <div class="figure-section">
+            <div class="figure-title">📊 Teorema de Tales</div>
+            <div class="jxgbox-container">
+                <div class="jxgbox-wrapper">
+                    <div id="jxg-tales" class="jxgbox jxgbox-medium"></div>
+                </div>
             </div>
         </div>
 
         <div class="theory-highlight">
-            <h4>📖 Relación entre Áreas y Perímetros en Figuras Semejantes</h4>
-            <p>Es fundamental recordar que mientras los lados y perímetros se relacionan linealmente con la razón de semejanza $k$, las áreas se relacionan con $k^2$. Por ejemplo, si un triángulo es el doble de grande que otro ($k=2$), su perímetro será el doble, pero su área será cuatro veces mayor. Esta propiedad se extiende a cualquier figura plana semejante y es crucial para resolver problemas de escalas.</p>
+            <h4>📖 Teorema de Tales</h4>
+            <p>Si varias rectas paralelas cortan a dos rectas secantes, determinan en ellas segmentos correspondientes proporcionales. Este teorema es fundamental para la comprensión de la semejanza.</p>
         </div>
 
         <h3>📝 Ejercicios Resueltos</h3>
 
         <div class="solved-example">
-            <h4>Ejercicio 1: Aplicar criterio AA</h4>
-            <p><strong>En un triángulo ABC, el ángulo A mide 40° y el ángulo B mide 60°. En otro triángulo DEF, el ángulo D mide 40° y el ángulo E mide 60°. ¿Son semejantes?</p>
-            <p><strong>Solución:</strong></p>
-            <p>Por el criterio AA: Como dos ángulos son iguales (40° y 60°), los triángulos son semejantes.</p>
-            <p>El tercer ángulo en ambos sería: $180° - 40° - 60° = 80°$</p>
+            <h4>Ejercicio 1: Criterio AA</h4>
+            <p><strong>Los ángulos de un triángulo miden 30° y 70°. Otro triángulo tiene ángulos de 30° y 80°. ¿Son semejantes?</strong></p>
+            <p><strong>Solución:</strong> Tienen dos ángulos iguales (30° y 80°), por tanto <strong>son semejantes</strong> por el criterio AA.</p>
         </div>
 
         <div class="solved-example">
-            <h4>Ejercicio 2: Hallar lado usando semejanza</h4>
-            <p><strong>Dos triángulos semejantes tienen lados correspondientes de 6 cm y 9 cm. Si otro lado del triángulo pequeño mide 8 cm, ¿cuánto mide el lado correspondiente en el triángulo grande?</p>
-            <p><strong>Solución:</strong></p>
-            <p>Razón de semejanza: $k = \frac{9}{6} = \frac{3}{2} = 1.5$</p>
-            <p>Lado en triángulo grande: $8 \times 1.5 = 12$ cm</p>
+            <h4>Ejercicio 2: Calcular lado por semejanza</h4>
+            <p><strong>Triángulos semejantes. AB = 6, DE = 9 y BC = 8. Hallar EF.</strong></p>
+            <p><strong>Solución:</strong> $k = \frac{9}{6} = \frac{3}{2}$ → $EF = \frac{3}{2} \times 8 = 12$</p>
         </div>
 
         <div class="solved-example">
-            <h4>Ejercicio 3: Relación de áreas</h4>
-            <p><strong>Dos triángulos semejantes tienen razón de semejanza $k = 3$. Si el área del triángulo pequeño es 12 cm², ¿cuál es el área del triángulo grande?</p>
-            <p><strong>Solución:</strong></p>
-            <p>Las áreas se relacionan por $k^2$:</p>
-            <p>$A_{grande} = k^2 \times A_{pequeño} = 3^2 \times 12 = 9 \times 12 = 108$ cm²</p>
-        </div>
-
-        <div class="solved-example">
-            <h4>Ejercicio 4: Aplicación con sombras (Thales)</h4>
-            <p><strong>Un poste de 3 m de altura proyecta una sombra de 2 m. Al mismo tiempo, un edificio proyecta una sombra de 15 m. ¿Cuál es la altura del edificio?</p>
-            <p><strong>Solución:</strong></p>
-            <p>Los rayos del sol forman el mismo ángulo, creando triángulos semejantes:</p>
-            <p>$\frac{h_{edificio}}{h_{poste}} = \frac{sombra_{edificio}}{sombra_{poste}}$</p>
-            <p>$\frac{h}{3} = \frac{15}{2}$</p>
-            <p>$h = \frac{15 \times 3}{2} = 22.5$ m</p>
+            <h4>Ejercicio 3: Aplicación - Altura de un edificio</h4>
+            <p><strong>Una persona de 1.70 m proyecta sombra de 2 m. Un edificio proyecta sombra de 15 m. ¿Su altura?</strong></p>
+            <p><strong>Solución:</strong> $\frac{h}{1.70} = \frac{15}{2}$ → $h = \frac{15 \times 1.70}{2} = 12.75$ m</p>
         </div>
 
         <h3>🎯 Ejercicios para Practicar</h3>
 
         <div class="exercise-item">
             <div class="number">1</div>
-            <div class="question"><strong>Semejanza AA:</strong> Triángulo con ángulos 50°, 70°. Otro con 50°, 60°. ¿Son semejantes?</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-sem1')">Ver Solución</button>
-            <div id="sol-sem1" class="solution-text">No son semejantes. Solo comparten un ángulo de 50°, pero los segundos ángulos son diferentes (70° ≠ 60°).</div>
+            <div class="question"><strong>LLL:</strong> Triángulo 1: 3, 4, 5. Triángulo 2: 6, 8, 10. ¿Son semejantes?</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-s1')">Ver Solución</button>
+            <div id="sol-s1" class="solution-text">Sí, razón k = 2</div>
         </div>
 
         <div class="exercise-item">
             <div class="number">2</div>
-            <div class="question"><strong>Razón de semejanza:</strong> Lados 4 y 12 son correspondientes. Hallar k.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-sem2')">Ver Solución</button>
-            <div id="sol-sem2" class="solution-text">$k = \frac{12}{4} = 3$</div>
+            <div class="question"><strong>Calcular lado:</strong> Razón k = 3. Lado pequeño = 5. Lado grande = ?</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-s2')">Ver Solución</button>
+            <div id="sol-s2" class="solution-text">$5 \times 3 = 15$</div>
         </div>
 
         <div class="exercise-item">
             <div class="number">3</div>
-            <div class="question"><strong>Área:</strong> Si k = 2 y el área pequeña es 5 cm², hallar el área grande.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-sem3')">Ver Solución</button>
-            <div id="sol-sem3" class="solution-text">$A = k^2 \times 5 = 4 \times 5 = 20$ cm²</div>
-        </div>
-
-        <div class="exercise-item">
-            <div class="number">4</div>
-            <div class="question"><strong>Perímetro:</strong> Si k = 1.5 y el perímetro pequeño es 20 cm, hallar el perímetro grande.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-sem4')">Ver Solución</button>
-            <div id="sol-sem4" class="solution-text">$P = k \times 20 = 1.5 \times 20 = 30$ cm</div>
-        </div>
-
-        <div class="exercise-item">
-            <div class="number">5</div>
-            <div class="question"><strong>Aplicación:</strong> Un árbol de 2 m proyecta sombra de 1.5 m. Una persona proyecta sombra de 0.6 m. ¿Cuánto mide la persona?</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-sem5')">Ver Solución</button>
-            <div id="sol-sem5" class="solution-text">$\frac{persona}{árbol} = \frac{0.6}{1.5}$<br>$persona = 2 \times \frac{0.6}{1.5} = \frac{1.2}{1.5} = 0.8$ m = 80 cm</div>
+            <div class="question"><strong>Aplicación:</strong> Poste 3 m, sombra 2 m. Árbol sombra 8 m. ¿Altura?</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-s3')">Ver Solución</button>
+            <div id="sol-s3" class="solution-text">$h = \frac{3 \times 8}{2} = 12$ m</div>
         </div>
     </div>
 
-    <!-- TAB 6: Práctica Integrada -->
+    <!-- TAB 6: Práctica -->
     <div id="tab6" class="tab-content">
-        <h2>Práctica Integrada</h2>
+        <h2>Práctica Integral</h2>
 
         <div class="concept-box">
-            <h4>📚 Repaso General</h4>
-            <p>Esta sección contiene ejercicios que integran los conceptos de todas las unidades anteriores: triángulos, cuadriláteros, circunferencia, teorema de Pitágoras y semejanza. Resolver estos problemas requiere identificar qué conceptos aplicar y combinarlos adecuadamente.</p>
+            <h4>📚 Ejercicios de Repaso General</h4>
+            <p>Esta sección contiene ejercicios integradores que combinan los conceptos estudiados: triángulos, cuadriláteros, circunferencia, teorema de Pitágoras y semejanza.</p>
         </div>
 
-        <h3>📝 Ejercicios de Integración</h3>
-
-        <div class="solved-example">
-            <h4>Ejercicio 1: Triángulo y circunferencia</h4>
-            <p><strong>Un triángulo rectángulo está inscrito en una circunferencia. Si los catetos miden 6 cm y 8 cm, ¿cuál es el área del círculo?</p>
-            <p><strong>Solución:</strong></p>
-            <div class="step"><span class="step-number">1</span> En un triángulo rectángulo inscrito, la hipotenusa es el diámetro de la circunferencia.</div>
-            <div class="step"><span class="step-number">2</span> Hipotenusa: $c = \sqrt{6^2 + 8^2} = \sqrt{36 + 64} = 10$ cm</div>
-            <div class="step"><span class="step-number">3</span> Radio: $r = \frac{c}{2} = 5$ cm</div>
-            <div class="step"><span class="step-number">4</span> Área del círculo: $A = \pi r^2 = 25\pi \approx 78.5$ cm²</div>
-        </div>
-
-        <div class="solved-example">
-            <h4>Ejercicio 2: Pitágoras y semejanza</h4>
-            <p><strong>Dos triángulos rectángulos semejantes tienen hipotenusas de 10 cm y 15 cm. Si el cateto menor del triángulo pequeño es 6 cm, hallar los catetos del triángulo grande.</p>
-            <p><strong>Solución:</strong></p>
-            <div class="step"><span class="step-number">1</span> Razón de semejanza: $k = \frac{15}{10} = 1.5$</div>
-            <div class="step"><span class="step-number">2</span> En el triángulo pequeño, cateto mayor: $b = \sqrt{10^2 - 6^2} = \sqrt{64} = 8$ cm</div>
-            <div class="step"><span class="step-number">3</span> Catetos del triángulo grande: $6 \times 1.5 = 9$ cm y $8 \times 1.5 = 12$ cm</div>
-            <div class="step"><span class="step-number">4</span> Verificación: $9^2 + 12^2 = 81 + 144 = 225 = 15^2$ ✓</div>
-        </div>
-
-        <div class="solved-example">
-            <h4>Ejercicio 3: Cuadrilátero y Pitágoras</h4>
-            <p><strong>Un rombo tiene diagonales de 16 cm y 12 cm. Calcular el perímetro.</p>
-            <p><strong>Solución:</strong></p>
-            <div class="step"><span class="step-number">1</span> Las diagonales del rombo se cortan perpendicularmente en su punto medio.</div>
-            <div class="step"><span class="step-number">2</span> Cada mitad de diagonal: 8 cm y 6 cm</div>
-            <div class="step"><span class="step-number">3</span> Lado del rombo (Pitágoras): $l = \sqrt{8^2 + 6^2} = \sqrt{64 + 36} = 10$ cm</div>
-            <div class="step"><span class="step-number">4</span> Perímetro: $P = 4 \times 10 = 40$ cm</div>
-        </div>
-
-        <h3>🎯 Ejercicios para Practicar</h3>
+        <h3>📝 Ejercicios de Síntesis</h3>
 
         <div class="exercise-item">
             <div class="number">1</div>
-            <div class="question"><strong>Integración:</strong> Un cuadrado tiene diagonal de $10\sqrt{2}$ cm. ¿Cuál es el área del círculo circunscrito?</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-int1')">Ver Solución</button>
-            <div id="sol-int1" class="solution-text">Lado del cuadrado: $d = a\sqrt{2}$, entonces $a = 10$ cm<br>Diámetro del círculo = diagonal del cuadrado = $10\sqrt{2}$ cm<br>Radio = $5\sqrt{2}$ cm<br>Área = $\pi(5\sqrt{2})^2 = 50\pi$ cm²</div>
+            <div class="question"><strong>Triángulos:</strong> Isósceles con lados iguales de 10 cm y base 12 cm. Calcular: a) perímetro, b) altura, c) área.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-pr1')">Ver Solución</button>
+            <div id="sol-pr1" class="solution-text">
+                a) $P = 32$ cm<br>
+                b) $h = \sqrt{10^2 - 6^2} = 8$ cm<br>
+                c) $A = 48$ cm²
+            </div>
         </div>
 
         <div class="exercise-item">
             <div class="number">2</div>
-            <div class="question"><strong>Integración:</strong> Un triángulo isósceles tiene lados iguales de 10 cm y base de 12 cm. Hallar su área.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-int2')">Ver Solución</button>
-            <div id="sol-int2" class="solution-text">Altura: $h = \sqrt{10^2 - 6^2} = \sqrt{64} = 8$ cm<br>Área: $A = \frac{12 \times 8}{2} = 48$ cm²</div>
+            <div class="question"><strong>Cuadriláteros:</strong> Trapecio isósceles con bases 10 cm y 6 cm, lados de 5 cm. Calcular área.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-pr2')">Ver Solución</button>
+            <div id="sol-pr2" class="solution-text">
+                $h = \sqrt{5^2 - 2^2} = \sqrt{21}$ cm<br>
+                $A = 8\sqrt{21}$ cm² ≈ $36.66$ cm²
+            </div>
         </div>
 
         <div class="exercise-item">
             <div class="number">3</div>
-            <div class="question"><strong>Integración:</strong> Un trapecio isósceles tiene bases de 14 cm y 6 cm, y lados no paralelos de 5 cm. Hallar la altura.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-int3')">Ver Solución</button>
-            <div id="sol-int3" class="solution-text">Diferencia de bases: $14 - 6 = 8$ cm<br>Mitad: 4 cm<br>Altura: $h = \sqrt{5^2 - 4^2} = \sqrt{9} = 3$ cm</div>
+            <div class="question"><strong>Circunferencia:</strong> Rueda de 40 cm diámetro. ¿Cuántas vueltas da en 100 metros?</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-pr3')">Ver Solución</button>
+            <div id="sol-pr3" class="solution-text">
+                $L = 0.4\pi$ m ≈ $1.257$ m<br>
+                Vueltas: $100/(0.4\pi)$ ≈ 80 vueltas
+            </div>
         </div>
 
         <div class="exercise-item">
             <div class="number">4</div>
-            <div class="question"><strong>Integración:</strong> Hallar la diagonal de un rectángulo de 6 cm por 8 cm. ¿Cuánto mide el radio de la circunferencia circunscrita?</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-int4')">Ver Solución</button>
-            <div id="sol-int4" class="solution-text">Diagonal: $d = \sqrt{36 + 64} = 10$ cm<br>Radio = mitad de la diagonal = 5 cm</div>
+            <div class="question"><strong>Pitágoras:</strong> Rectángulo con diagonal 15 cm y un lado 9 cm. Perímetro y área.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-pr4')">Ver Solución</button>
+            <div id="sol-pr4" class="solution-text">
+                Otro lado: $12$ cm<br>
+                $P = 42$ cm, $A = 108$ cm²
+            </div>
         </div>
 
         <div class="exercise-item">
             <div class="number">5</div>
-            <div class="question"><strong>Integración:</strong> Dos círculos concéntricos tienen radios de 3 cm y 6 cm. El área de la corona es igual al área de un círculo menor. ¿Verdadero o falso?</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-int5')">Ver Solución</button>
-            <div id="sol-int5" class="solution-text">Área corona: $\pi(6^2 - 3^2) = \pi(36-9) = 27\pi$ cm²<br>Área círculo menor: $\pi(3^2) = 9\pi$ cm²<br>$27\pi \neq 9\pi$ ❌ Falso</div>
+            <div class="question"><strong>Semejanza:</strong> Dos triángulos con áreas 20 cm² y 45 cm². Si un lado del primero mide 8 cm, ¿cuánto mide el correspondiente?</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-pr5')">Ver Solución</button>
+            <div id="sol-pr5" class="solution-text">
+                $k = \sqrt{45/20} = 3/2$<br>
+                Lado = $8 \times 1.5 = 12$ cm
+            </div>
+        </div>
+
+        <div class="exercise-item">
+            <div class="number">6</div>
+            <div class="question"><strong>Integrador:</strong> Triángulo rectángulo con catetos 6 y 8 cm. Calcular: hipotenusa, perímetro, área, circunferencia circunscrita.</div>
+            <button class="btn-solution" onclick="toggleSolution('sol-pr6')">Ver Solución</button>
+            <div id="sol-pr6" class="solution-text">
+                Hipotenusa: $10$ cm<br>
+                Perímetro: $24$ cm<br>
+                Área: $24$ cm²<br>
+                Radio circunscrito: $5$ cm → $L = 10\pi$ cm
+            </div>
+        </div>
+
+        <div class="success-box">
+            <h4>✅ ¡Felicitaciones!</h4>
+            <p>Has completado el estudio de Geometría para 4° año de Secundaria. La geometría es fundamental para el desarrollo del pensamiento espacial y el razonamiento lógico-matemático.</p>
         </div>
     </div>
 </main>
 
 <footer>
-    <p>&copy; 2024 Mates con Agugg_ia - Material educativo para 4° Año de Secundaria</p>
-    <p>Desarrollado con fines educativos - Provincia de Córdoba, Argentina</p>
+    <p>&copy; 2024 Mates con Agugg_ia | Material educativo para Secundaria - Córdoba, Argentina</p>
 </footer>
 
 <script>
+    // Funciones de navegación
     function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) {
+        var tabcontent = document.getElementsByClassName("tab-content");
+        for (var i = 0; i < tabcontent.length; i++) {
             tabcontent[i].style.display = "none";
         }
-        tablinks = document.getElementsByClassName("tab-btn");
-        for (i = 0; i < tablinks.length; i++) {
+        var tablinks = document.getElementsByClassName("tab-btn");
+        for (var i = 0; i < tablinks.length; i++) {
             tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
         document.getElementById(tabName).style.display = "block";
@@ -1559,22 +1057,282 @@ CTYPE html>
     }
 
     function toggleSolution(id) {
-        var x = document.getElementById(id);
-        if (x.style.display === "block") {
-            x.style.display = "none";
-        } else {
-            x.style.display = "block";
-        }
+        var solution = document.getElementById(id);
+        solution.style.display = (solution.style.display === "block") ? "none" : "block";
     }
 
+    // Renderizar fórmulas KaTeX
     document.addEventListener("DOMContentLoaded", function() {
         renderMathInElement(document.body, {
             delimiters: [
-                {left: "$$", right: "$$", display: true},
-                {left: "$", right: "$", display: false}
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false}
             ]
         });
     });
+
+    // ============= JSXGraph: FIGURAS GEOMÉTRICAS =============
+
+    // --- TRIÁNGULOS POR LADOS ---
+    
+    // Equilátero
+    var brd1 = JXG.JSXGraph.initBoard('jxg-tri-equilatero', {boundingbox: [-1, 4, 5, -1], axis: false, showNavigation: false, showCopyright: false});
+    var A1 = brd1.create('point', [2, 3.5], {name: 'A', size: 2, color: '#3B82F6'});
+    var B1 = brd1.create('point', [0.27, 0.5], {name: 'B', size: 2, color: '#3B82F6'});
+    var C1 = brd1.create('point', [3.73, 0.5], {name: 'C', size: 2, color: '#3B82F6'});
+    brd1.create('polygon', [A1, B1, C1], {fillColor: '#DBEAFE', fillOpacity: 0.5, borders: {strokeColor: '#3B82F6', strokeWidth: 2}});
+    brd1.create('text', [1.8, 0.2, 'a = a = a'], {fontSize: 12, color: '#1E40AF'});
+
+    // Isósceles
+    var brd2 = JXG.JSXGraph.initBoard('jxg-tri-isosceles', {boundingbox: [-1, 4, 5, -1], axis: false, showNavigation: false, showCopyright: false});
+    var A2 = brd2.create('point', [2, 3.5], {name: 'A', size: 2, color: '#10B981'});
+    var B2 = brd2.create('point', [0.5, 0.5], {name: 'B', size: 2, color: '#10B981'});
+    var C2 = brd2.create('point', [3.5, 0.5], {name: 'C', size: 2, color: '#10B981'});
+    brd2.create('polygon', [A2, B2, C2], {fillColor: '#D1FAE5', fillOpacity: 0.5, borders: {strokeColor: '#10B981', strokeWidth: 2}});
+    brd2.create('text', [1.8, 0.2, 'base (b)'], {fontSize: 12, color: '#065F46'});
+    brd2.create('text', [0.3, 2.2, 'a'], {fontSize: 12, color: '#10B981'});
+    brd2.create('text', [3.5, 2.2, 'a'], {fontSize: 12, color: '#10B981'});
+
+    // Escaleno
+    var brd3 = JXG.JSXGraph.initBoard('jxg-tri-escaleno', {boundingbox: [-1, 4, 5, -1], axis: false, showNavigation: false, showCopyright: false});
+    var A3 = brd3.create('point', [3, 3.5], {name: 'A', size: 2, color: '#F59E0B'});
+    var B3 = brd3.create('point', [0.3, 0.5], {name: 'B', size: 2, color: '#F59E0B'});
+    var C3 = brd3.create('point', [4, 0.5], {name: 'C', size: 2, color: '#F59E0B'});
+    brd3.create('polygon', [A3, B3, C3], {fillColor: '#FEF3C7', fillOpacity: 0.5, borders: {strokeColor: '#F59E0B', strokeWidth: 2}});
+    brd3.create('text', [1.8, 0.2, 'a ≠ b ≠ c'], {fontSize: 12, color: '#92400E'});
+
+    // --- TRIÁNGULOS POR ÁNGULOS ---
+
+    // Acutángulo
+    var brd4 = JXG.JSXGraph.initBoard('jxg-tri-acutangulo', {boundingbox: [-1, 4, 5, -1], axis: false, showNavigation: false, showCopyright: false});
+    var A4 = brd4.create('point', [2, 3.5], {name: '', size: 2, color: '#10B981'});
+    var B4 = brd4.create('point', [0.5, 0.5], {name: '', size: 2, color: '#10B981'});
+    var C4 = brd4.create('point', [3.5, 0.5], {name: '', size: 2, color: '#10B981'});
+    brd4.create('polygon', [A4, B4, C4], {fillColor: '#ECFDF5', fillOpacity: 0.5, borders: {strokeColor: '#10B981', strokeWidth: 2}});
+    brd4.create('angle', [B4, A4, C4], {radius: 0.4, fillColor: '#10B981', fillOpacity: 0.3, name: '&lt;90°'});
+    brd4.create('angle', [A4, B4, C4], {radius: 0.4, fillColor: '#10B981', fillOpacity: 0.3, name: '&lt;90°'});
+    brd4.create('angle', [A4, C4, B4], {radius: 0.4, fillColor: '#10B981', fillOpacity: 0.3, name: '&lt;90°'});
+
+    // Rectángulo
+    var brd5 = JXG.JSXGraph.initBoard('jxg-tri-rectangulo', {boundingbox: [-1, 4, 5, -1], axis: false, showNavigation: false, showCopyright: false});
+    var A5 = brd5.create('point', [0.5, 3.5], {name: '', size: 2, color: '#3B82F6'});
+    var B5 = brd5.create('point', [0.5, 0.5], {name: '', size: 2, color: '#3B82F6'});
+    var C5 = brd5.create('point', [4, 0.5], {name: '', size: 2, color: '#3B82F6'});
+    brd5.create('polygon', [A5, B5, C5], {fillColor: '#DBEAFE', fillOpacity: 0.5, borders: {strokeColor: '#3B82F6', strokeWidth: 2}});
+    brd5.create('angle', [A5, B5, C5], {radius: 0.5, fillColor: '#3B82F6', fillOpacity: 0.3, name: '90°'});
+    brd5.create('text', [1.5, 2.2, 'cateto'], {fontSize: 11, color: '#3B82F6'});
+    brd5.create('text', [2, 0.2, 'cateto'], {fontSize: 11, color: '#3B82F6'});
+    brd5.create('text', [2.8, 2.2, 'hipotenusa'], {fontSize: 10, color: '#3B82F6'});
+
+    // Obtusángulo
+    var brd6 = JXG.JSXGraph.initBoard('jxg-tri-obtusangulo', {boundingbox: [-1, 4, 5, -1], axis: false, showNavigation: false, showCopyright: false});
+    var A6 = brd6.create('point', [3, 3.5], {name: '', size: 2, color: '#EF4444'});
+    var B6 = brd6.create('point', [0.3, 0.5], {name: '', size: 2, color: '#EF4444'});
+    var C6 = brd6.create('point', [4.2, 0.5], {name: '', size: 2, color: '#EF4444'});
+    brd6.create('polygon', [A6, B6, C6], {fillColor: '#FEF2F2', fillOpacity: 0.5, borders: {strokeColor: '#EF4444', strokeWidth: 2}});
+    brd6.create('angle', [A6, B6, C6], {radius: 0.6, fillColor: '#EF4444', fillOpacity: 0.3, name: '&gt;90°'});
+
+    // --- ELEMENTOS DEL TRIÁNGULO ---
+    var brdElem = JXG.JSXGraph.initBoard('jxg-tri-elementos', {boundingbox: [-2, 6, 8, -2], axis: false, showNavigation: false, showCopyright: false});
+    var Ae = brdElem.create('point', [3, 5], {name: 'A', size: 3, color: '#3B82F6'});
+    var Be = brdElem.create('point', [0, 0], {name: 'B', size: 3, color: '#3B82F6'});
+    var Ce = brdElem.create('point', [6, 0], {name: 'C', size: 3, color: '#3B82F6'});
+    brdElem.create('polygon', [Ae, Be, Ce], {fillColor: '#F8FAFC', fillOpacity: 0.3, borders: {strokeColor: '#1E40AF', strokeWidth: 2}});
+    // Altura
+    var He = brdElem.create('point', [3, 0], {name: 'H', size: 2, color: '#EF4444'});
+    brdElem.create('segment', [Ae, He], {strokeColor: '#EF4444', strokeWidth: 2, dash: 2, name: 'altura (h)', withLabel: true});
+    // Ángulos
+    brdElem.create('angle', [Be, Ae, Ce], {radius: 0.5, fillColor: '#F59E0B', fillOpacity: 0.4, name: 'α'});
+    brdElem.create('angle', [Ae, Be, Ce], {radius: 0.5, fillColor: '#F59E0B', fillOpacity: 0.4, name: 'β'});
+    brdElem.create('angle', [Ae, Ce, Be], {radius: 0.5, fillColor: '#F59E0B', fillOpacity: 0.4, name: 'γ'});
+    // Etiquetas de lados
+    brdElem.create('text', [2.5, -0.8, 'lado a (BC)'], {fontSize: 12, color: '#6B7280'});
+    brdElem.create('text', [5.2, 2.5, 'lado b (AC)'], {fontSize: 12, color: '#6B7280'});
+    brdElem.create('text', [0.3, 2.5, 'lado c (AB)'], {fontSize: 12, color: '#6B7280'});
+
+    // --- CUADRILÁTEROS ---
+    
+    // Cuadrado
+    var brdCuad = JXG.JSXGraph.initBoard('jxg-cuadrado', {boundingbox: [-0.5, 3.5, 4, -0.5], axis: false, showNavigation: false, showCopyright: false});
+    var p1 = brdCuad.create('point', [0.5, 0.5], {name: '', size: 1});
+    var p2 = brdCuad.create('point', [3, 0.5], {name: '', size: 1});
+    var p3 = brdCuad.create('point', [3, 3], {name: '', size: 1});
+    var p4 = brdCuad.create('point', [0.5, 3], {name: '', size: 1});
+    brdCuad.create('polygon', [p1, p2, p3, p4], {fillColor: '#DBEAFE', fillOpacity: 0.5, borders: {strokeColor: '#3B82F6', strokeWidth: 2}});
+    brdCuad.create('angle', [p1, p2, p3], {radius: 0.3, fillColor: '#3B82F6', fillOpacity: 0.5, name: '90°'});
+    brdCuad.create('text', [1.5, 1.8, 'a'], {fontSize: 14, color: '#1E40AF'});
+
+    // Rectángulo
+    var brdRect = JXG.JSXGraph.initBoard('jxg-rectangulo', {boundingbox: [-0.5, 3.5, 5, -0.5], axis: false, showNavigation: false, showCopyright: false});
+    var r1 = brdRect.create('point', [0.3, 0.5], {name: '', size: 1});
+    var r2 = brdRect.create('point', [4, 0.5], {name: '', size: 1});
+    var r3 = brdRect.create('point', [4, 2.5], {name: '', size: 1});
+    var r4 = brdRect.create('point', [0.3, 2.5], {name: '', size: 1});
+    brdRect.create('polygon', [r1, r2, r3, r4], {fillColor: '#D1FAE5', fillOpacity: 0.5, borders: {strokeColor: '#10B981', strokeWidth: 2}});
+    brdRect.create('text', [2, 1.5, 'b × h'], {fontSize: 12, color: '#065F46'});
+
+    // Rombo
+    var brdRomb = JXG.JSXGraph.initBoard('jxg-rombo', {boundingbox: [-0.5, 3.5, 4, -0.5], axis: false, showNavigation: false, showCopyright: false});
+    var rh1 = brdRomb.create('point', [1.75, 0.3], {name: '', size: 1});
+    var rh2 = brdRomb.create('point', [3.5, 1.75], {name: '', size: 1});
+    var rh3 = brdRomb.create('point', [1.75, 3.2], {name: '', size: 1});
+    var rh4 = brdRomb.create('point', [0, 1.75], {name: '', size: 1});
+    brdRomb.create('polygon', [rh1, rh2, rh3, rh4], {fillColor: '#FEF3C7', fillOpacity: 0.5, borders: {strokeColor: '#F59E0B', strokeWidth: 2}});
+    brdRomb.create('segment', [rh1, rh3], {strokeColor: '#F59E0B', dash: 2, strokeWidth: 1});
+    brdRomb.create('segment', [rh2, rh4], {strokeColor: '#F59E0B', dash: 2, strokeWidth: 1});
+    brdRomb.create('text', [2, 1.7, 'D'], {fontSize: 11, color: '#92400E'});
+    brdRomb.create('text', [1, 2.2, 'd'], {fontSize: 11, color: '#92400E'});
+
+    // Trapecio
+    var brdTrap = JXG.JSXGraph.initBoard('jxg-trapecio', {boundingbox: [-0.5, 3.5, 4, -0.5], axis: false, showNavigation: false, showCopyright: false});
+    var t1 = brdTrap.create('point', [0.5, 0.5], {name: '', size: 1});
+    var t2 = brdTrap.create('point', [3.5, 0.5], {name: '', size: 1});
+    var t3 = brdTrap.create('point', [2.8, 2.5], {name: '', size: 1});
+    var t4 = brdTrap.create('point', [1.2, 2.5], {name: '', size: 1});
+    brdTrap.create('polygon', [t1, t2, t3, t4], {fillColor: '#FEE2E2', fillOpacity: 0.5, borders: {strokeColor: '#EF4444', strokeWidth: 2}});
+    brdTrap.create('text', [1.8, 2.7, 'b'], {fontSize: 12, color: '#DC2626'});
+    brdTrap.create('text', [1.8, 0.3, 'B'], {fontSize: 12, color: '#DC2626'});
+
+    // Paralelogramo
+    var brdPar = JXG.JSXGraph.initBoard('jxg-paralelogramo', {boundingbox: [-0.5, 3.5, 4.5, -0.5], axis: false, showNavigation: false, showCopyright: false});
+    var pa1 = brdPar.create('point', [0.3, 0.5], {name: '', size: 1});
+    var pa2 = brdPar.create('point', [3.5, 0.5], {name: '', size: 1});
+    var pa3 = brdPar.create('point', [3, 2.5], {name: '', size: 1});
+    var pa4 = brdPar.create('point', [0, 2.5], {name: '', size: 1});
+    brdPar.create('polygon', [pa1, pa2, pa3, pa4], {fillColor: '#EDE9FE', fillOpacity: 0.5, borders: {strokeColor: '#8B5CF6', strokeWidth: 2}});
+
+    // Romboide
+    var brdRomboid = JXG.JSXGraph.initBoard('jxg-romboide', {boundingbox: [-0.5, 3.5, 4.5, -0.5], axis: false, showNavigation: false, showCopyright: false});
+    var ro1 = brdRomboid.create('point', [0.3, 0.5], {name: '', size: 1});
+    var ro2 = brdRomboid.create('point', [3.8, 0.5], {name: '', size: 1});
+    var ro3 = brdRomboid.create('point', [3, 2.8], {name: '', size: 1});
+    var ro4 = brdRomboid.create('point', [0, 2.8], {name: '', size: 1});
+    brdRomboid.create('polygon', [ro1, ro2, ro3, ro4], {fillColor: '#CFFAFE', fillOpacity: 0.5, borders: {strokeColor: '#06B6D4', strokeWidth: 2}});
+    brdRomboid.create('segment', [ro4, [0, 0.5]], {strokeColor: '#06B6D4', dash: 2, strokeWidth: 1});
+    brdRomboid.create('text', [0.5, 1.6, 'h'], {fontSize: 11, color: '#0E7490'});
+
+    // --- CIRCUNFERENCIA ---
+    var brdCirc = JXG.JSXGraph.initBoard('jxg-circunferencia', {boundingbox: [-4, 4, 6, -3], axis: false, showNavigation: false, showCopyright: false});
+    var O = brdCirc.create('point', [1, 0.5], {name: 'O', size: 3, color: '#EF4444', withLabel: true});
+    var circ = brdCirc.create('circle', [O, 2.5], {strokeColor: '#3B82F6', strokeWidth: 2, fillColor: '#F8FAFC', fillOpacity: 0.2});
+    // Radio
+    var Pr = brdCirc.create('point', [3.5, 0.5], {name: '', size: 2, color: '#10B981'});
+    brdCirc.create('segment', [O, Pr], {strokeColor: '#10B981', strokeWidth: 2, name: 'radio (r)', withLabel: true, label: {position: 'bot', color: '#10B981'}});
+    // Diámetro
+    var Pd1 = brdCirc.create('point', [-1.5, 0.5], {name: '', size: 2, color: '#8B5CF6'});
+    var Pd2 = brdCirc.create('point', [3.5, 0.5], {name: '', size: 2, color: '#8B5CF6'});
+    brdCirc.create('segment', [Pd1, Pd2], {strokeColor: '#8B5CF6', strokeWidth: 2, dash: 2, name: 'diámetro', withLabel: true, label: {position: 'bot', color: '#8B5CF6'}});
+    // Cuerda
+    var Pc1 = brdCirc.create('point', [-0.77, 2.73], {name: '', size: 2, color: '#F59E0B'});
+    var Pc2 = brdCirc.create('point', [2.77, 2.73], {name: '', size: 2, color: '#F59E0B'});
+    brdCirc.create('segment', [Pc1, Pc2], {strokeColor: '#F59E0B', strokeWidth: 2, name: 'cuerda', withLabel: true, label: {position: 'top', color: '#F59E0B'}});
+    // Tangente
+    brdCirc.create('line', [Pr, [3.5, 2.5]], {strokeColor: '#EF4444', strokeWidth: 2, straightFirst: false, straightLast: true, name: 'tangente', withLabel: true});
+
+    // --- ÁNGULOS EN CIRCUNFERENCIA ---
+    
+    // Ángulo central
+    var brdAC = JXG.JSXGraph.initBoard('jxg-ang-central', {boundingbox: [-1, 3.5, 4, -1], axis: false, showNavigation: false, showCopyright: false});
+    var Oc = brdAC.create('point', [1.5, 1.5], {name: 'O', size: 2, color: '#3B82F6'});
+    var circAC = brdAC.create('circle', [Oc, 1.2], {strokeColor: '#3B82F6', strokeWidth: 2, fillColor: '#DBEAFE', fillOpacity: 0.3});
+    var P1c = brdAC.create('point', [1.5, 2.7], {name: '', size: 1, color: '#3B82F6'});
+    var P2c = brdAC.create('point', [2.7, 1.5], {name: '', size: 1, color: '#3B82F6'});
+    brdAC.create('segment', [Oc, P1c], {strokeColor: '#3B82F6', strokeWidth: 2});
+    brdAC.create('segment', [Oc, P2c], {strokeColor: '#3B82F6', strokeWidth: 2});
+    brdAC.create('angle', [P2c, Oc, P1c], {radius: 0.4, fillColor: '#EF4444', fillOpacity: 0.5, name: 'α'});
+
+    // Ángulo inscrito
+    var brdAI = JXG.JSXGraph.initBoard('jxg-ang-inscrito', {boundingbox: [-1, 3.5, 4, -1], axis: false, showNavigation: false, showCopyright: false});
+    var Oi = brdAI.create('point', [1.5, 1.5], {name: '', size: 1, color: '#10B981'});
+    var circAI = brdAI.create('circle', [Oi, 1.2], {strokeColor: '#10B981', strokeWidth: 2, fillColor: '#D1FAE5', fillOpacity: 0.3});
+    var Q1 = brdAI.create('point', [0.3, 1.5], {name: '', size: 1, color: '#10B981'});
+    var Q2 = brdAI.create('point', [1.5, 2.7], {name: '', size: 1, color: '#10B981'});
+    var Q3 = brdAI.create('point', [2.7, 1.5], {name: '', size: 1, color: '#10B981'});
+    brdAI.create('polygon', [Q1, Q2, Q3], {fillColor: 'transparent', borders: {strokeColor: '#10B981', strokeWidth: 2}});
+    brdAI.create('angle', [Q1, Q2, Q3], {radius: 0.3, fillColor: '#EF4444', fillOpacity: 0.5, name: 'β = α/2'});
+
+    // --- TEOREMA DE PITÁGORAS ---
+    var brdPit = JXG.JSXGraph.initBoard('jxg-pitagoras', {boundingbox: [-2, 6, 10, -2], axis: false, showNavigation: false, showCopyright: false});
+    // Triángulo rectángulo
+    var T1 = brdPit.create('point', [0, 0], {name: '', size: 2, color: '#3B82F6'});
+    var T2 = brdPit.create('point', [0, 3], {name: '', size: 2, color: '#3B82F6'});
+    var T3 = brdPit.create('point', [4, 0], {name: '', size: 2, color: '#3B82F6'});
+    brdPit.create('polygon', [T1, T2, T3], {fillColor: '#F8FAFC', fillOpacity: 0.3, borders: {strokeColor: '#3B82F6', strokeWidth: 2}});
+    // Ángulo recto
+    brdPit.create('angle', [T3, T1, T2], {radius: 0.4, fillColor: '#3B82F6', fillOpacity: 0.3, name: '90°'});
+    // Cuadrado sobre cateto a
+    brdPit.create('polygon', [[0, 0], [0, 3], [-3, 3], [-3, 0]], {fillColor: '#D1FAE5', fillOpacity: 0.5, borders: {strokeColor: '#10B981', strokeWidth: 1.5}});
+    brdPit.create('text', [-1.5, 1.5, 'a²'], {fontSize: 16, color: '#10B981'});
+    // Cuadrado sobre cateto b
+    brdPit.create('polygon', [[0, 0], [4, 0], [4, -4], [0, -4]], {fillColor: '#FEF3C7', fillOpacity: 0.5, borders: {strokeColor: '#F59E0B', strokeWidth: 1.5}});
+    brdPit.create('text', [2, -2, 'b²'], {fontSize: 16, color: '#F59E0B'});
+    // Cuadrado sobre hipotenusa
+    brdPit.create('polygon', [[0, 3], [4, 0], [7, 4], [3, 7]], {fillColor: '#FEE2E2', fillOpacity: 0.5, borders: {strokeColor: '#EF4444', strokeWidth: 1.5}});
+    brdPit.create('text', [3.5, 3.5, 'c²'], {fontSize: 16, color: '#EF4444'});
+    // Etiquetas
+    brdPit.create('text', [-0.5, 1.5, 'a'], {fontSize: 12, color: '#10B981'});
+    brdPit.create('text', [2, -0.5, 'b'], {fontSize: 12, color: '#F59E0B'});
+    brdPit.create('text', [2.5, 2, 'c'], {fontSize: 12, color: '#EF4444'});
+    // Fórmula
+    brdPit.create('text', [5.5, 5.5, 'a² + b² = c²'], {fontSize: 18, color: '#1E40AF'});
+
+    // --- TRÍOS PITAGÓRICOS ---
+    
+    // 3-4-5
+    var brd345 = JXG.JSXGraph.initBoard('jxg-trio-345', {boundingbox: [-0.5, 4, 5, -0.5], axis: false, showNavigation: false, showCopyright: false});
+    brd345.create('polygon', [[0, 0], [0, 2.4], [3.2, 0]], {fillColor: '#DBEAFE', fillOpacity: 0.4, borders: {strokeColor: '#3B82F6', strokeWidth: 2}});
+    brd345.create('text', [0, 1.2, '3'], {fontSize: 11, color: '#3B82F6'});
+    brd345.create('text', [1.6, 0, '4'], {fontSize: 11, color: '#3B82F6'});
+    brd345.create('text', [2, 1.5, '5'], {fontSize: 11, color: '#3B82F6'});
+
+    // 5-12-13
+    var brd51213 = JXG.JSXGraph.initBoard('jxg-trio-51213', {boundingbox: [-0.5, 4, 5, -0.5], axis: false, showNavigation: false, showCopyright: false});
+    brd51213.create('polygon', [[0, 0], [0, 1.9], [3.8, 0]], {fillColor: '#D1FAE5', fillOpacity: 0.4, borders: {strokeColor: '#10B981', strokeWidth: 2}});
+    brd51213.create('text', [0, 1, '5'], {fontSize: 11, color: '#10B981'});
+    brd51213.create('text', [2, 0, '12'], {fontSize: 10, color: '#10B981'});
+    brd51213.create('text', [2.5, 1.2, '13'], {fontSize: 10, color: '#10B981'});
+
+    // 8-15-17
+    var brd81517 = JXG.JSXGraph.initBoard('jxg-trio-81517', {boundingbox: [-0.5, 4, 5, -0.5], axis: false, showNavigation: false, showCopyright: false});
+    brd81517.create('polygon', [[0, 0], [0, 2.1], [3.2, 0]], {fillColor: '#FEF3C7', fillOpacity: 0.4, borders: {strokeColor: '#F59E0B', strokeWidth: 2}});
+    brd81517.create('text', [0, 1, '8'], {fontSize: 11, color: '#F59E0B'});
+    brd81517.create('text', [1.6, 0, '15'], {fontSize: 10, color: '#F59E0B'});
+    brd81517.create('text', [2, 1.3, '17'], {fontSize: 10, color: '#F59E0B'});
+
+    // --- SEMEJANZA ---
+    var brdSem = JXG.JSXGraph.initBoard('jxg-semejanza', {boundingbox: [-1, 5, 9, -1], axis: false, showNavigation: false, showCopyright: false});
+    // Triángulo pequeño
+    var S1 = brdSem.create('point', [0.5, 0.5], {name: 'B', size: 2, color: '#3B82F6'});
+    var S2 = brdSem.create('point', [0.5, 3], {name: 'A', size: 2, color: '#3B82F6'});
+    var S3 = brdSem.create('point', [3, 0.5], {name: 'C', size: 2, color: '#3B82F6'});
+    brdSem.create('polygon', [S1, S2, S3], {fillColor: '#DBEAFE', fillOpacity: 0.4, borders: {strokeColor: '#3B82F6', strokeWidth: 2}});
+    // Triángulo grande (semejante)
+    var S4 = brdSem.create('point', [4.5, 0.5], {name: 'E', size: 2, color: '#10B981'});
+    var S5 = brdSem.create('point', [4.5, 4], {name: 'D', size: 2, color: '#10B981'});
+    var S6 = brdSem.create('point', [8, 0.5], {name: 'F', size: 2, color: '#10B981'});
+    brdSem.create('polygon', [S4, S5, S6], {fillColor: '#D1FAE5', fillOpacity: 0.4, borders: {strokeColor: '#10B981', strokeWidth: 2}});
+    // Símbolo de semejanza
+    brdSem.create('text', [3.5, 2.5, '∼'], {fontSize: 24, color: '#F59E0B'});
+    brdSem.create('text', [1.5, -0.3, 'ΔABC ∼ ΔDEF'], {fontSize: 14, color: '#1E40AF'});
+
+    // --- TEOREMA DE TALES ---
+    var brdTales = JXG.JSXGraph.initBoard('jxg-tales', {boundingbox: [-1, 5, 7, -1], axis: false, showNavigation: false, showCopyright: false});
+    // Rectas paralelas
+    brdTales.create('line', [[-1, 1], [7, 1]], {strokeColor: '#3B82F6', strokeWidth: 1.5, dash: 1, straightFirst: false, straightLast: false});
+    brdTales.create('line', [[-1, 2.5], [7, 2.5]], {strokeColor: '#3B82F6', strokeWidth: 1.5, dash: 1, straightFirst: false, straightLast: false});
+    brdTales.create('line', [[-1, 4], [7, 4]], {strokeColor: '#3B82F6', strokeWidth: 1.5, dash: 1, straightFirst: false, straightLast: false});
+    // Secantes
+    brdTales.create('line', [[0.5, 0], [2, 5]], {strokeColor: '#EF4444', strokeWidth: 2, straightFirst: false, straightLast: false});
+    brdTales.create('line', [[5, 0], [4, 5]], {strokeColor: '#10B981', strokeWidth: 2, straightFirst: false, straightLast: false});
+    // Puntos de intersección
+    brdTales.create('point', [0.8, 1], {name: '', size: 2, color: '#EF4444'});
+    brdTales.create('point', [1.1, 2.5], {name: '', size: 2, color: '#EF4444'});
+    brdTales.create('point', [1.4, 4], {name: '', size: 2, color: '#EF4444'});
+    brdTales.create('point', [4.7, 1], {name: '', size: 2, color: '#10B981'});
+    brdTales.create('point', [4.4, 2.5], {name: '', size: 2, color: '#10B981'});
+    brdTales.create('point', [4.1, 4], {name: '', size: 2, color: '#10B981'});
+    // Texto
+    brdTales.create('text', [2.5, 0.3, 'AB/BC = DE/EF'], {fontSize: 13, color: '#1E40AF'});
 </script>
 
 </body>

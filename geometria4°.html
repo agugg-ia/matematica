@@ -6,95 +6,146 @@
     <meta name="description" content="Geometría - 4° Año Secundaria - Mates con Agugg_ia">
     <title>Geometría | 4° Año | Mates con Agugg_ia</title>
     
-    <!-- KaTeX para fórmulas matemáticas -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     
-    <!-- JSXGraph para geometría interactiva -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsxgraph@1.8.0/distrib/jsxgraph.css">
     <script src="https://cdn.jsdelivr.net/npm/jsxgraph@1.8.0/distrib/jsxgraphcore.js"></script>
     
     <style>
         :root {
+            /* Paleta de colores principal */
             --primary: #2563EB;
             --primary-dark: #1E40AF;
             --secondary: #10B981;
             --accent: #F59E0B;
-            --dark: #1F2937;
-            --light: #F3F4F6;
-            --white: #ffffff;
-            --gray: #6B7280;
+            
+            /* Variables de tema Claro (por defecto) */
+            --bg-body: #F3F4F6;
+            --text-main: #1F2937;
+            --bg-card: #ffffff;
+            --border-color: #E5E7EB;
+            --bg-quote: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            --bg-concept: #EBF5FB;
+            --border-concept: #AED6F1;
+            --bg-example: #FFFBEB;
+            --border-example: #FCD34D;
+            --bg-success: linear-gradient(135deg, #F0FFF4 0%, #C6F6D5 100%);
+            --bg-highlight: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            --bg-history: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%);
+            --bg-warning: #FEF2F2;
+            --border-warning: #EF4444;
+            
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --radius: 12px;
         }
+
+        /* Variables de tema Oscuro */
+        [data-theme="dark"] {
+            --bg-body: #111827;
+            --text-main: #F9FAFB;
+            --bg-card: #1F2937;
+            --border-color: #374151;
+            --bg-quote: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
+            --bg-concept: #0c4a6e;
+            --border-concept: #0369a1;
+            --bg-example: #78350f;
+            --border-example: #b45309;
+            --bg-success: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+            --bg-highlight: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+            --bg-history: linear-gradient(135deg, #4c1d95 0%, #5b21b6 100%);
+            --bg-warning: #7f1d1d;
+            --border-warning: #dc2626;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--dark); background-color: var(--light); line-height: 1.7; }
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: var(--text-main); background-color: var(--bg-body); line-height: 1.7; transition: background-color 0.3s, color 0.3s; }
         header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 1.5rem; position: sticky; top: 0; z-index: 1000; box-shadow: var(--shadow); }
         .header-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        
+        /* Controles de encabezado (Breadcrumb + Botón Dark Mode) */
+        .header-controls { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; justify-content: flex-end;}
         .breadcrumb { font-size: 0.9rem; opacity: 0.9; }
         .breadcrumb a { color: white; text-decoration: none; }
+        
+        .theme-toggle { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 5px; transition: background 0.3s; }
+        .theme-toggle:hover { background: rgba(255,255,255,0.3); }
+
         main { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
-        .tabs-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; padding: 1rem; background: white; border-radius: var(--radius); box-shadow: var(--shadow); }
-        .tab-btn { background-color: var(--light); border: none; padding: 12px 20px; cursor: pointer; border-radius: 25px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; color: var(--dark); }
-        .tab-btn:hover { background-color: #e0e0e0; transform: translateY(-2px); }
+        .tabs-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; padding: 1rem; background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow); }
+        .tab-btn { background-color: var(--bg-body); border: none; padding: 12px 20px; cursor: pointer; border-radius: 25px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; color: var(--text-main); }
+        .tab-btn:hover { background-color: var(--border-color); transform: translateY(-2px); }
         .tab-btn.active { background-color: var(--primary); color: white; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); }
-        .tab-content { display: none; background-color: white; padding: 2.5rem; border-radius: var(--radius); box-shadow: var(--shadow); animation: fadeIn 0.4s ease; }
+        .tab-content { display: none; background-color: var(--bg-card); padding: 2.5rem; border-radius: var(--radius); box-shadow: var(--shadow); animation: fadeIn 0.4s ease; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
         h2 { color: var(--primary); font-size: 2rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 3px solid var(--primary); display: inline-block; }
         h3 { color: var(--secondary); font-size: 1.4rem; margin: 2rem 0 1rem; }
         h4 { color: var(--accent); font-size: 1.2rem; margin: 1.5rem 0 0.8rem; }
         p { margin-bottom: 1rem; text-align: justify; }
-        .quote-box { background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border-left: 5px solid var(--primary); padding: 1.5rem 2rem; margin: 2rem 0; border-radius: 0 var(--radius) var(--radius) 0; font-style: italic; }
-        .quote-box .author { text-align: right; font-style: normal; color: var(--gray); margin-top: 0.5rem; }
-        .concept-box { background-color: #EBF5FB; border: 1px solid #AED6F1; border-left: 5px solid var(--primary); padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
+        
+        .quote-box { background: var(--bg-quote); border-left: 5px solid var(--primary); padding: 1.5rem 2rem; margin: 2rem 0; border-radius: 0 var(--radius) var(--radius) 0; font-style: italic; }
+        .quote-box .author { text-align: right; font-style: normal; opacity: 0.8; margin-top: 0.5rem; }
+        .concept-box { background-color: var(--bg-concept); border: 1px solid var(--border-concept); border-left: 5px solid var(--primary); padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
         .concept-box h4 { color: var(--primary); margin-top: 0; }
-        .solved-example { background-color: #FFFBEB; border: 1px solid #FCD34D; padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
-        .solved-example h4 { color: var(--accent); margin-top: 0; border-bottom: 1px dashed #FCD34D; padding-bottom: 0.5rem; }
-        .warning-box { background-color: #FEF2F2; border-left: 5px solid #EF4444; padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
-        .success-box { background: linear-gradient(135deg, #F0FFF4 0%, #C6F6D5 100%); border-left: 5px solid var(--secondary); padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
-        .theory-highlight { background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); border-left: 5px solid var(--accent); padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
-        .theory-highlight h4 { color: #92400E; margin-top: 0; }
-        .history-box { background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%); border: 1px solid #C4B5FD; padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
-        .history-box h4 { color: #7C3AED; margin-top: 0; }
+        .solved-example { background-color: var(--bg-example); border: 1px solid var(--border-example); padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
+        .solved-example h4 { color: var(--accent); margin-top: 0; border-bottom: 1px dashed var(--border-example); padding-bottom: 0.5rem; }
+        .warning-box { background-color: var(--bg-warning); border-left: 5px solid var(--border-warning); padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
+        .success-box { background: var(--bg-success); border-left: 5px solid var(--secondary); padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
+        .theory-highlight { background: var(--bg-highlight); border-left: 5px solid var(--accent); padding: 1.5rem; margin: 1.5rem 0; border-radius: 0 var(--radius) var(--radius) 0; }
+        .theory-highlight h4 { color: var(--accent); margin-top: 0; }
+        .history-box { background: var(--bg-history); border: 1px solid #C4B5FD; padding: 1.5rem; margin: 1.5rem 0; border-radius: var(--radius); }
+        
         .property-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
-        .property-card { background: white; border: 1px solid #E5E7EB; padding: 1.2rem; border-radius: var(--radius); transition: box-shadow 0.3s ease; }
+        .property-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 1.2rem; border-radius: var(--radius); transition: box-shadow 0.3s ease; }
         .property-card:hover { box-shadow: var(--shadow); }
         .property-card h5 { color: var(--primary); margin-bottom: 0.5rem; }
-        .property-card .formula { text-align: center; padding: 1rem; background: var(--light); border-radius: 8px; margin: 0.5rem 0; }
+        .property-card .formula { text-align: center; padding: 1rem; background: var(--bg-body); border-radius: 8px; margin: 0.5rem 0; }
+        
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
-        .info-card { background: white; border: 1px solid #E5E7EB; border-radius: var(--radius); overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .info-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius); overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .info-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .info-card .card-header { padding: 1rem 1.5rem; border-bottom: 1px solid #E5E7EB; }
+        .info-card .card-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color); }
         .info-card .card-body { padding: 1.5rem; }
-        .exercise-item { background: white; border: 1px solid #E5E7EB; padding: 1.2rem; margin-bottom: 1rem; border-radius: var(--radius); position: relative; }
+        
+        .exercise-item { background: var(--bg-card); border: 1px solid var(--border-color); padding: 1.2rem; margin-bottom: 1rem; border-radius: var(--radius); position: relative; }
         .exercise-item .number { position: absolute; top: 1rem; left: -15px; background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; }
-        .exercise-item .question { margin-left: 20px; margin-bottom: 1rem; }
-        .btn-solution { background-color: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; margin-left: 20px; }
-        .btn-solution:hover { background-color: #D97706; transform: translateY(-2px); }
-        .solution-text { display: none; margin: 1rem 0 0 20px; padding: 1rem; background-color: #F0FFF4; border-left: 4px solid var(--secondary); border-radius: 0 8px 8px 0; }
-        footer { background-color: var(--dark); color: #D1D5DB; padding: 2rem 1rem; margin-top: 3rem; text-align: center; }
-        footer p { text-align: center; }
+        .exercise-item .question { margin-left: 20px; margin-bottom: 0.5rem; }
+        
+        /* Acordeones HTML5 para Soluciones */
+        details.solution-box { margin-left: 20px; margin-top: 1rem; }
+        details.solution-box summary { background-color: var(--accent); color: white; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-weight: 600; display: inline-block; transition: background-color 0.3s ease; list-style: none; font-size: 0.9rem;}
+        details.solution-box summary::-webkit-details-marker { display: none; }
+        details.solution-box summary:hover { background-color: #D97706; }
+        details.solution-box[open] summary { margin-bottom: 10px; background-color: var(--secondary); }
+        .solution-content { padding: 1rem; background-color: var(--bg-body); border-left: 4px solid var(--secondary); border-radius: 0 8px 8px 0; animation: fadeInDown 0.3s ease-in-out; }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
         .step { padding: 0.5rem 0; border-left: 3px solid var(--accent); padding-left: 1rem; margin: 0.5rem 0; }
         .step-number { display: inline-block; width: 24px; height: 24px; background: var(--primary); color: white; border-radius: 50%; text-align: center; line-height: 24px; font-size: 0.8rem; margin-right: 0.5rem; }
         
         /* Estilos para contenedores JSXGraph */
         .jxgbox-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; margin: 2rem 0; }
         .jxgbox-wrapper { display: flex; flex-direction: column; align-items: center; }
-        .jxgbox { width: 280px; height: 250px; border: 2px solid #E5E7EB; border-radius: var(--radius); background: #FAFAFA; }
+        .jxgbox { width: 280px; height: 250px; border: 2px solid var(--border-color); border-radius: var(--radius); background: #FAFAFA; }
+        [data-theme="dark"] .jxgbox { background: #d1d5db; /* Fondo claro para gráficos en modo oscuro */ }
         .jxgbox-label { font-weight: 600; color: var(--primary); margin-top: 0.5rem; font-size: 0.95rem; }
         .jxgbox-large { width: 500px; height: 400px; }
         .jxgbox-medium { width: 400px; height: 320px; }
-        .figure-section { background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); padding: 1.5rem; border-radius: var(--radius); margin: 1.5rem 0; border: 1px solid #e2e8f0; }
+        .figure-section { background: var(--bg-body); padding: 1.5rem; border-radius: var(--radius); margin: 1.5rem 0; border: 1px solid var(--border-color); }
         .figure-title { font-weight: 600; color: var(--secondary); margin-bottom: 1rem; text-align: center; font-size: 1.1rem; }
+        
+        footer { background-color: #111827; color: #D1D5DB; padding: 2rem 1rem; margin-top: 3rem; text-align: center; }
         
         @media (max-width: 768px) {
             .tabs-nav { flex-direction: column; }
             .tab-btn { width: 100%; justify-content: center; }
             .tab-content { padding: 1.5rem; }
-            .header-content { flex-direction: column; gap: 0.5rem; text-align: center; }
+            .header-content { flex-direction: column; gap: 1rem; text-align: center; }
+            .header-controls { justify-content: center; }
             .jxgbox { width: 100%; max-width: 280px; }
             .jxgbox-large, .jxgbox-medium { width: 100%; height: 300px; }
         }
@@ -112,8 +163,13 @@
             </svg>
             Mates con Agugg_ia
         </div>
-        <div class="breadcrumb">
-            <a href="#">Inicio</a> / <a href="#">Secundaria</a> / 4° Año / Geometría
+        <div class="header-controls">
+            <div class="breadcrumb">
+                <a href="#">Inicio</a> / <a href="#">Secundaria</a> / 4° Año / Geometría
+            </div>
+            <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()">
+                🌙 Modo Oscuro
+            </button>
         </div>
     </div>
 </header>
@@ -128,7 +184,6 @@
         <button class="tab-btn" onclick="openTab(event, 'tab6')">✅ 6. Práctica</button>
     </nav>
 
-    <!-- TAB 1: Triángulos -->
     <div id="tab1" class="tab-content active">
         <h2>Triángulos</h2>
         
@@ -144,9 +199,8 @@
             <p><strong>Elementos del triángulo:</strong> Todo triángulo posee tres lados, tres vértices, tres ángulos interiores y tres alturas (perpendiculares desde un vértice al lado opuesto). Además, cuenta con elementos notables como la mediana, la bisectriz y la mediatriz, cada uno con propiedades geométricas específicas.</p>
         </div>
 
-        <!-- Clasificación por Lados con JSXGraph -->
         <div class="figure-section">
-            <div class="figure-title">📊 Clasificación de Triángulos por sus Lados</div>
+            <div class="figure-title">📊 Clasificación de Triángulos por sus Lados (Interactivos)</div>
             <div class="jxgbox-container">
                 <div class="jxgbox-wrapper">
                     <div id="jxg-tri-equilatero" class="jxgbox"></div>
@@ -163,9 +217,8 @@
             </div>
         </div>
 
-        <!-- Clasificación por Ángulos con JSXGraph -->
         <div class="figure-section">
-            <div class="figure-title">📊 Clasificación de Triángulos por sus Ángulos</div>
+            <div class="figure-title">📊 Clasificación de Triángulos por sus Ángulos (Interactivos)</div>
             <div class="jxgbox-container">
                 <div class="jxgbox-wrapper">
                     <div id="jxg-tri-acutangulo" class="jxgbox"></div>
@@ -187,7 +240,7 @@
         <div class="theory-highlight">
             <h4>📖 Teorema de la Desigualdad Triangular</h4>
             <p>En todo triángulo, la longitud de cada lado es menor que la suma de las longitudes de los otros dos lados, pero mayor que su diferencia. Matemáticamente, si $a$, $b$ y $c$ son los lados de un triángulo:</p>
-            <p style="text-align: center;"><strong>$|a - b| &lt; c &lt; a + b$</strong></p>
+            <p style="text-align: center;"><strong>$|a - b| < c < a + b$</strong></p>
             <p>Este teorema es fundamental para determinar si tres longitudes pueden formar un triángulo. Si no se cumple esta condición, es imposible construir un triángulo con esas medidas.</p>
         </div>
 
@@ -232,7 +285,6 @@
             <p>La fórmula de Herón, atribuida al matemático griego Herón de Alejandría (siglo I d.C.), permite calcular el área de un triángulo conociendo únicamente las longitudes de sus tres lados. Es especialmente útil cuando no se conoce la altura del triángulo. Esta fórmula representa uno de los primeros ejemplos históricos de cómo el álgebra puede resolver problemas geométricos complejos.</p>
         </div>
 
-        <!-- Elementos del triángulo con JSXGraph -->
         <div class="figure-section">
             <div class="figure-title">📐 Elementos Notables del Triángulo</div>
             <div class="jxgbox-container">
@@ -305,33 +357,40 @@
         <div class="exercise-item">
             <div class="number">1</div>
             <div class="question"><strong>Encontrar el tercer ángulo:</strong> Un triángulo tiene ángulos de $35°$ y $72°$.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-t1')">Ver Solución</button>
-            <div id="sol-t1" class="solution-text">$180° - 35° - 72° = 73°$</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$180° - 35° - 72° = 73°$</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">2</div>
             <div class="question"><strong>Calcular área:</strong> Triángulo con base $10$ cm y altura $6$ cm.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-t2')">Ver Solución</button>
-            <div id="sol-t2" class="solution-text">$A = \frac{10 \times 6}{2} = 30$ cm²</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$A = \frac{10 \times 6}{2} = 30$ cm²</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">3</div>
             <div class="question"><strong>¿Es posible?</strong> Lados: 5, 7, 13</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-t3')">Ver Solución</button>
-            <div id="sol-t3" class="solution-text">$5 + 7 = 12 < 13$. No es posible formar un triángulo.</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$5 + 7 = 12 < 13$. No es posible formar un triángulo.</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">4</div>
             <div class="question"><strong>Fórmula de Herón:</strong> Lados 8, 10, 12</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-t4')">Ver Solución</button>
-            <div id="sol-t4" class="solution-text">$s = 15$, $A = \sqrt{15 \times 7 \times 5 \times 3} = \sqrt{1575} = 15\sqrt{7}$ cm²</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$s = 15$, $A = \sqrt{15 \times 7 \times 5 \times 3} = \sqrt{1575} = 15\sqrt{7}$ cm²</div>
+            </details>
         </div>
     </div>
 
-    <!-- TAB 2: Cuadriláteros -->
     <div id="tab2" class="tab-content">
         <h2>Cuadriláteros</h2>
 
@@ -341,9 +400,8 @@
             <p><strong>Clasificación jerárquica:</strong> Los cuadriláteros se clasifican según sus propiedades en paralelogramos (lados opuestos paralelos) y no paralelogramos. Dentro de los paralelogramos encontramos el rectángulo, el rombo y el cuadrado, mientras que los trapecios y trapezoides constituyen los no paralelogramos.</p>
         </div>
 
-        <!-- Cuadriláteros con JSXGraph -->
         <div class="figure-section">
-            <div class="figure-title">📊 Familia de los Cuadriláteros</div>
+            <div class="figure-title">📊 Familia de los Cuadriláteros (Interactivos)</div>
             <div class="jxgbox-container">
                 <div class="jxgbox-wrapper">
                     <div id="jxg-cuadrado" class="jxgbox"></div>
@@ -509,33 +567,40 @@
         <div class="exercise-item">
             <div class="number">1</div>
             <div class="question"><strong>Cuadrado:</strong> Lado = 7 cm. Calcular área y diagonal.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-c1')">Ver Solución</button>
-            <div id="sol-c1" class="solution-text">$A = 49$ cm², $d = 7\sqrt{2}$ cm</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$A = 49$ cm², $d = 7\sqrt{2}$ cm</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">2</div>
             <div class="question"><strong>Rectángulo:</strong> Base = 15 cm, Altura = 10 cm. Perímetro y diagonal.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-c2')">Ver Solución</button>
-            <div id="sol-c2" class="solution-text">$P = 50$ cm, $d = 5\sqrt{13}$ cm</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$P = 50$ cm, $d = 5\sqrt{13}$ cm</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">3</div>
             <div class="question"><strong>Rombo:</strong> Diagonales 16 cm y 12 cm.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-c3')">Ver Solución</button>
-            <div id="sol-c3" class="solution-text">$A = 96$ cm²</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$A = 96$ cm²</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">4</div>
             <div class="question"><strong>Trapecio:</strong> Bases 14 cm y 8 cm, altura 6 cm.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-c4')">Ver Solución</button>
-            <div id="sol-c4" class="solution-text">$A = 66$ cm²</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$A = 66$ cm²</div>
+            </details>
         </div>
     </div>
 
-    <!-- TAB 3: Circunferencia -->
     <div id="tab3" class="tab-content">
         <h2>Circunferencia y Círculo</h2>
 
@@ -549,7 +614,6 @@
             <p>La <strong>circunferencia</strong> es una curva plana y cerrada donde todos sus puntos equidistan de un punto fijo llamado centro. El <strong>círculo</strong> es la superficie plana limitada por la circunferencia. Es importante distinguir: la circunferencia tiene longitud pero no área; el círculo tiene área y su perímetro es la circunferencia.</p>
         </div>
 
-        <!-- Circunferencia con JSXGraph -->
         <div class="figure-section">
             <div class="figure-title">📊 Elementos de la Circunferencia</div>
             <div class="jxgbox-container">
@@ -633,7 +697,6 @@
             </div>
         </div>
 
-        <!-- Ángulos en la circunferencia -->
         <div class="figure-section">
             <div class="figure-title">📊 Ángulos en la Circunferencia</div>
             <div class="jxgbox-container">
@@ -689,26 +752,31 @@
         <div class="exercise-item">
             <div class="number">1</div>
             <div class="question"><strong>Longitud:</strong> Circunferencia de radio 5 cm.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-ci1')">Ver Solución</button>
-            <div id="sol-ci1" class="solution-text">$L = 10\pi$ cm ≈ $31.42$ cm</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$L = 10\pi$ cm ≈ $31.42$ cm</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">2</div>
             <div class="question"><strong>Área:</strong> Círculo de radio 8 cm.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-ci2')">Ver Solución</button>
-            <div id="sol-ci2" class="solution-text">$A = 64\pi$ cm² ≈ $201.06$ cm²</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$A = 64\pi$ cm² ≈ $201.06$ cm²</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">3</div>
             <div class="question"><strong>Arco:</strong> Radio 9 cm, ángulo 120°.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-ci3')">Ver Solución</button>
-            <div id="sol-ci3" class="solution-text">$l = 6\pi$ cm</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$l = 6\pi$ cm</div>
+            </details>
         </div>
     </div>
 
-    <!-- TAB 4: Teorema de Pitágoras -->
     <div id="tab4" class="tab-content">
         <h2>Teorema de Pitágoras</h2>
 
@@ -722,9 +790,8 @@
             <p>El <strong>Teorema de Pitágoras</strong> establece que en todo triángulo rectángulo: $a^2 + b^2 = c^2$, donde $a$ y $b$ son los catetos y $c$ es la hipotenusa. Este teorema tiene innumerables aplicaciones en matemáticas, física, ingeniería y arquitectura.</p>
         </div>
 
-        <!-- Demostración visual con JSXGraph -->
         <div class="figure-section">
-            <div class="figure-title">📊 Demostración Visual del Teorema de Pitágoras</div>
+            <div class="figure-title">📊 Demostración Interactiva del Teorema de Pitágoras (¡Mueve los puntos A y B!)</div>
             <div class="jxgbox-container">
                 <div class="jxgbox-wrapper">
                     <div id="jxg-pitagoras" class="jxgbox jxgbox-large"></div>
@@ -732,7 +799,6 @@
             </div>
         </div>
 
-        <!-- Tríos pitagóricos -->
         <div class="figure-section">
             <div class="figure-title">📊 Tríos Pitagóricos Comunes</div>
             <div class="jxgbox-container">
@@ -814,33 +880,40 @@
         <div class="exercise-item">
             <div class="number">1</div>
             <div class="question"><strong>Hipotenusa:</strong> Catetos 9 cm y 12 cm.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-p1')">Ver Solución</button>
-            <div id="sol-p1" class="solution-text">$c = \sqrt{81 + 144} = 15$ cm</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$c = \sqrt{81 + 144} = 15$ cm</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">2</div>
             <div class="question"><strong>Cateto:</strong> Hipotenusa 17 cm, otro cateto 15 cm.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-p2')">Ver Solución</button>
-            <div id="sol-p2" class="solution-text">$a = \sqrt{289 - 225} = 8$ cm</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$a = \sqrt{289 - 225} = 8$ cm</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">3</div>
             <div class="question"><strong>Diagonal:</strong> Rectángulo de 12 cm × 5 cm.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-p3')">Ver Solución</button>
-            <div id="sol-p3" class="solution-text">$d = 13$ cm</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$d = 13$ cm</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">4</div>
             <div class="question"><strong>Aplicación:</strong> Escalera de 10 m, base a 6 m de pared. ¿Altura?</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-p4')">Ver Solución</button>
-            <div id="sol-p4" class="solution-text">$h = 8$ m</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$h = 8$ m</div>
+            </details>
         </div>
     </div>
 
-    <!-- TAB 5: Semejanza -->
     <div id="tab5" class="tab-content">
         <h2>Semejanza de Triángulos</h2>
 
@@ -855,7 +928,6 @@
             <p><strong>Notación:</strong> $\triangle ABC \sim \triangle DEF$ significa que los ángulos A=D, B=E, C=F, y $\frac{AB}{DE} = \frac{BC}{EF} = \frac{AC}{DF} = k$ (razón de semejanza).</p>
         </div>
 
-        <!-- Triángulos semejantes con JSXGraph -->
         <div class="figure-section">
             <div class="figure-title">📊 Triángulos Semejantes</div>
             <div class="jxgbox-container">
@@ -897,7 +969,6 @@
             </div>
         </div>
 
-        <!-- Teorema de Tales -->
         <div class="figure-section">
             <div class="figure-title">📊 Teorema de Tales</div>
             <div class="jxgbox-container">
@@ -937,26 +1008,31 @@
         <div class="exercise-item">
             <div class="number">1</div>
             <div class="question"><strong>LLL:</strong> Triángulo 1: 3, 4, 5. Triángulo 2: 6, 8, 10. ¿Son semejantes?</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-s1')">Ver Solución</button>
-            <div id="sol-s1" class="solution-text">Sí, razón k = 2</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">Sí, razón k = 2</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">2</div>
             <div class="question"><strong>Calcular lado:</strong> Razón k = 3. Lado pequeño = 5. Lado grande = ?</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-s2')">Ver Solución</button>
-            <div id="sol-s2" class="solution-text">$5 \times 3 = 15$</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$5 \times 3 = 15$</div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">3</div>
             <div class="question"><strong>Aplicación:</strong> Poste 3 m, sombra 2 m. Árbol sombra 8 m. ¿Altura?</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-s3')">Ver Solución</button>
-            <div id="sol-s3" class="solution-text">$h = \frac{3 \times 8}{2} = 12$ m</div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">$h = \frac{3 \times 8}{2} = 12$ m</div>
+            </details>
         </div>
     </div>
 
-    <!-- TAB 6: Práctica -->
     <div id="tab6" class="tab-content">
         <h2>Práctica Integral</h2>
 
@@ -970,64 +1046,76 @@
         <div class="exercise-item">
             <div class="number">1</div>
             <div class="question"><strong>Triángulos:</strong> Isósceles con lados iguales de 10 cm y base 12 cm. Calcular: a) perímetro, b) altura, c) área.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-pr1')">Ver Solución</button>
-            <div id="sol-pr1" class="solution-text">
-                a) $P = 32$ cm<br>
-                b) $h = \sqrt{10^2 - 6^2} = 8$ cm<br>
-                c) $A = 48$ cm²
-            </div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">
+                    a) $P = 32$ cm<br>
+                    b) $h = \sqrt{10^2 - 6^2} = 8$ cm<br>
+                    c) $A = 48$ cm²
+                </div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">2</div>
             <div class="question"><strong>Cuadriláteros:</strong> Trapecio isósceles con bases 10 cm y 6 cm, lados de 5 cm. Calcular área.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-pr2')">Ver Solución</button>
-            <div id="sol-pr2" class="solution-text">
-                $h = \sqrt{5^2 - 2^2} = \sqrt{21}$ cm<br>
-                $A = 8\sqrt{21}$ cm² ≈ $36.66$ cm²
-            </div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">
+                    $h = \sqrt{5^2 - 2^2} = \sqrt{21}$ cm<br>
+                    $A = 8\sqrt{21}$ cm² ≈ $36.66$ cm²
+                </div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">3</div>
             <div class="question"><strong>Circunferencia:</strong> Rueda de 40 cm diámetro. ¿Cuántas vueltas da en 100 metros?</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-pr3')">Ver Solución</button>
-            <div id="sol-pr3" class="solution-text">
-                $L = 0.4\pi$ m ≈ $1.257$ m<br>
-                Vueltas: $100/(0.4\pi)$ ≈ 80 vueltas
-            </div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">
+                    $L = 0.4\pi$ m ≈ $1.257$ m<br>
+                    Vueltas: $100/(0.4\pi)$ ≈ 80 vueltas
+                </div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">4</div>
             <div class="question"><strong>Pitágoras:</strong> Rectángulo con diagonal 15 cm y un lado 9 cm. Perímetro y área.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-pr4')">Ver Solución</button>
-            <div id="sol-pr4" class="solution-text">
-                Otro lado: $12$ cm<br>
-                $P = 42$ cm, $A = 108$ cm²
-            </div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">
+                    Otro lado: $12$ cm<br>
+                    $P = 42$ cm, $A = 108$ cm²
+                </div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">5</div>
             <div class="question"><strong>Semejanza:</strong> Dos triángulos con áreas 20 cm² y 45 cm². Si un lado del primero mide 8 cm, ¿cuánto mide el correspondiente?</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-pr5')">Ver Solución</button>
-            <div id="sol-pr5" class="solution-text">
-                $k = \sqrt{45/20} = 3/2$<br>
-                Lado = $8 \times 1.5 = 12$ cm
-            </div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">
+                    $k = \sqrt{45/20} = 3/2$<br>
+                    Lado = $8 \times 1.5 = 12$ cm
+                </div>
+            </details>
         </div>
 
         <div class="exercise-item">
             <div class="number">6</div>
             <div class="question"><strong>Integrador:</strong> Triángulo rectángulo con catetos 6 y 8 cm. Calcular: hipotenusa, perímetro, área, circunferencia circunscrita.</div>
-            <button class="btn-solution" onclick="toggleSolution('sol-pr6')">Ver Solución</button>
-            <div id="sol-pr6" class="solution-text">
-                Hipotenusa: $10$ cm<br>
-                Perímetro: $24$ cm<br>
-                Área: $24$ cm²<br>
-                Radio circunscrito: $5$ cm → $L = 10\pi$ cm
-            </div>
+            <details class="solution-box">
+                <summary>Ver Solución</summary>
+                <div class="solution-content">
+                    Hipotenusa: $10$ cm<br>
+                    Perímetro: $24$ cm<br>
+                    Área: $24$ cm²<br>
+                    Radio circunscrito: $5$ cm → $L = 10\pi$ cm
+                </div>
+            </details>
         </div>
 
         <div class="success-box">
@@ -1042,7 +1130,7 @@
 </footer>
 
 <script>
-    // Funciones de navegación
+    // --- NAVEGACIÓN TABS ---
     function openTab(evt, tabName) {
         var tabcontent = document.getElementsByClassName("tab-content");
         for (var i = 0; i < tabcontent.length; i++) {
@@ -1056,12 +1144,28 @@
         evt.currentTarget.className += " active";
     }
 
-    function toggleSolution(id) {
-        var solution = document.getElementById(id);
-        solution.style.display = (solution.style.display === "block") ? "none" : "block";
+    // --- MODO OSCURO ---
+    function toggleTheme() {
+        const body = document.body;
+        const btn = document.getElementById('theme-btn');
+        if (body.getAttribute('data-theme') === 'dark') {
+            body.removeAttribute('data-theme');
+            btn.innerHTML = '🌙 Modo Oscuro';
+            localStorage.setItem('theme', 'light');
+        } else {
+            body.setAttribute('data-theme', 'dark');
+            btn.innerHTML = '☀️ Modo Claro';
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+    
+    // Revisar preferencia guardada al cargar
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+        document.getElementById('theme-btn').innerHTML = '☀️ Modo Claro';
     }
 
-    // Renderizar fórmulas KaTeX
+    // --- RENDERIZADO MATEMÁTICO (KaTeX) ---
     document.addEventListener("DOMContentLoaded", function() {
         renderMathInElement(document.body, {
             delimiters: [
@@ -1072,63 +1176,56 @@
     });
 
     // ============= JSXGraph: FIGURAS GEOMÉTRICAS =============
+    // *Se habilitó la interactividad en figuras clave para exploración pedagógica*
 
     // --- TRIÁNGULOS POR LADOS ---
-    
-    // Equilátero
     var brd1 = JXG.JSXGraph.initBoard('jxg-tri-equilatero', {boundingbox: [-1, 4, 5, -1], axis: false, showNavigation: false, showCopyright: false});
-    var A1 = brd1.create('point', [2, 3.5], {name: 'A', size: 2, color: '#3B82F6'});
-    var B1 = brd1.create('point', [0.27, 0.5], {name: 'B', size: 2, color: '#3B82F6'});
-    var C1 = brd1.create('point', [3.73, 0.5], {name: 'C', size: 2, color: '#3B82F6'});
+    var A1 = brd1.create('point', [2, 3.5], {name: 'A', size: 3, color: '#3B82F6', fixed: false});
+    var B1 = brd1.create('point', [0.27, 0.5], {name: 'B', size: 3, color: '#3B82F6', fixed: false});
+    var C1 = brd1.create('point', [3.73, 0.5], {name: 'C', size: 3, color: '#3B82F6', fixed: false});
     brd1.create('polygon', [A1, B1, C1], {fillColor: '#DBEAFE', fillOpacity: 0.5, borders: {strokeColor: '#3B82F6', strokeWidth: 2}});
     brd1.create('text', [1.8, 0.2, 'a = a = a'], {fontSize: 12, color: '#1E40AF'});
 
-    // Isósceles
     var brd2 = JXG.JSXGraph.initBoard('jxg-tri-isosceles', {boundingbox: [-1, 4, 5, -1], axis: false, showNavigation: false, showCopyright: false});
-    var A2 = brd2.create('point', [2, 3.5], {name: 'A', size: 2, color: '#10B981'});
-    var B2 = brd2.create('point', [0.5, 0.5], {name: 'B', size: 2, color: '#10B981'});
-    var C2 = brd2.create('point', [3.5, 0.5], {name: 'C', size: 2, color: '#10B981'});
+    var A2 = brd2.create('point', [2, 3.5], {name: 'A', size: 3, color: '#10B981', fixed: false});
+    var B2 = brd2.create('point', [0.5, 0.5], {name: 'B', size: 3, color: '#10B981', fixed: false});
+    var C2 = brd2.create('point', [3.5, 0.5], {name: 'C', size: 3, color: '#10B981', fixed: false});
     brd2.create('polygon', [A2, B2, C2], {fillColor: '#D1FAE5', fillOpacity: 0.5, borders: {strokeColor: '#10B981', strokeWidth: 2}});
     brd2.create('text', [1.8, 0.2, 'base (b)'], {fontSize: 12, color: '#065F46'});
-    brd2.create('text', [0.3, 2.2, 'a'], {fontSize: 12, color: '#10B981'});
-    brd2.create('text', [3.5, 2.2, 'a'], {fontSize: 12, color: '#10B981'});
 
-    // Escaleno
     var brd3 = JXG.JSXGraph.initBoard('jxg-tri-escaleno', {boundingbox: [-1, 4, 5, -1], axis: false, showNavigation: false, showCopyright: false});
-    var A3 = brd3.create('point', [3, 3.5], {name: 'A', size: 2, color: '#F59E0B'});
-    var B3 = brd3.create('point', [0.3, 0.5], {name: 'B', size: 2, color: '#F59E0B'});
-    var C3 = brd3.create('point', [4, 0.5], {name: 'C', size: 2, color: '#F59E0B'});
+    var A3 = brd3.create('point', [3, 3.5], {name: 'A', size: 3, color: '#F59E0B', fixed: false});
+    var B3 = brd3.create('point', [0.3, 0.5], {name: 'B', size: 3, color: '#F59E0B', fixed: false});
+    var C3 = brd3.create('point', [4, 0.5], {name: 'C', size: 3, color: '#F59E0B', fixed: false});
     brd3.create('polygon', [A3, B3, C3], {fillColor: '#FEF3C7', fillOpacity: 0.5, borders: {strokeColor: '#F59E0B', strokeWidth: 2}});
     brd3.create('text', [1.8, 0.2, 'a ≠ b ≠ c'], {fontSize: 12, color: '#92400E'});
 
     // --- TRIÁNGULOS POR ÁNGULOS ---
-
-    // Acutángulo
     var brd4 = JXG.JSXGraph.initBoard('jxg-tri-acutangulo', {boundingbox: [-1, 4, 5, -1], axis: false, showNavigation: false, showCopyright: false});
-    var A4 = brd4.create('point', [2, 3.5], {name: '', size: 2, color: '#10B981'});
-    var B4 = brd4.create('point', [0.5, 0.5], {name: '', size: 2, color: '#10B981'});
-    var C4 = brd4.create('point', [3.5, 0.5], {name: '', size: 2, color: '#10B981'});
+    var A4 = brd4.create('point', [2, 3.5], {name: '', size: 3, color: '#10B981', fixed: false});
+    var B4 = brd4.create('point', [0.5, 0.5], {name: '', size: 3, color: '#10B981', fixed: false});
+    var C4 = brd4.create('point', [3.5, 0.5], {name: '', size: 3, color: '#10B981', fixed: false});
     brd4.create('polygon', [A4, B4, C4], {fillColor: '#ECFDF5', fillOpacity: 0.5, borders: {strokeColor: '#10B981', strokeWidth: 2}});
     brd4.create('angle', [B4, A4, C4], {radius: 0.4, fillColor: '#10B981', fillOpacity: 0.3, name: '&lt;90°'});
     brd4.create('angle', [A4, B4, C4], {radius: 0.4, fillColor: '#10B981', fillOpacity: 0.3, name: '&lt;90°'});
     brd4.create('angle', [A4, C4, B4], {radius: 0.4, fillColor: '#10B981', fillOpacity: 0.3, name: '&lt;90°'});
 
-    // Rectángulo
-    var brd5 = JXG.JSXGraph.initBoard('jxg-tri-rectangulo', {boundingbox: [-1, 4, 5, -1], axis: false, showNavigation: false, showCopyright: false});
-    var A5 = brd5.create('point', [0.5, 3.5], {name: '', size: 2, color: '#3B82F6'});
-    var B5 = brd5.create('point', [0.5, 0.5], {name: '', size: 2, color: '#3B82F6'});
-    var C5 = brd5.create('point', [4, 0.5], {name: '', size: 2, color: '#3B82F6'});
+    // RECTÁNGULO INTERACTIVO CON RESTRICCIONES
+    var brd5 = JXG.JSXGraph.initBoard('jxg-tri-rectangulo', {boundingbox: [-1, 5, 6, -1], axis: false, showNavigation: false, showCopyright: false});
+    var B5 = brd5.create('point', [0.5, 0.5], {name: 'B', size: 4, color: '#3B82F6', fixed: true});
+    var lineVertical = brd5.create('line', [B5, [0.5, 2]], {visible: false});
+    var A5 = brd5.create('point', [0.5, 3.5], {name: 'A', size: 5, color: '#3B82F6', fixed: false, slideObject: lineVertical});
+    var lineHorizontal = brd5.create('line', [B5, [2, 0.5]], {visible: false});
+    var C5 = brd5.create('point', [4, 0.5], {name: 'C', size: 5, color: '#3B82F6', fixed: false, slideObject: lineHorizontal});
     brd5.create('polygon', [A5, B5, C5], {fillColor: '#DBEAFE', fillOpacity: 0.5, borders: {strokeColor: '#3B82F6', strokeWidth: 2}});
     brd5.create('angle', [A5, B5, C5], {radius: 0.5, fillColor: '#3B82F6', fillOpacity: 0.3, name: '90°'});
-    brd5.create('text', [1.5, 2.2, 'cateto'], {fontSize: 11, color: '#3B82F6'});
-    brd5.create('text', [2, 0.2, 'cateto'], {fontSize: 11, color: '#3B82F6'});
-    brd5.create('text', [2.8, 2.2, 'hipotenusa'], {fontSize: 10, color: '#3B82F6'});
+    brd5.create('text', [function(){ return (A5.X() + B5.X())/2 - 0.8; }, function(){ return (A5.Y() + B5.Y())/2; }, 'cateto'], {fontSize: 12, color: '#3B82F6'});
+    brd5.create('text', [function(){ return (C5.X() + B5.X())/2; }, function(){ return (C5.Y() + B5.Y())/2 - 0.3; }, 'cateto'], {fontSize: 12, color: '#3B82F6'});
 
-    // Obtusángulo
     var brd6 = JXG.JSXGraph.initBoard('jxg-tri-obtusangulo', {boundingbox: [-1, 4, 5, -1], axis: false, showNavigation: false, showCopyright: false});
-    var A6 = brd6.create('point', [3, 3.5], {name: '', size: 2, color: '#EF4444'});
-    var B6 = brd6.create('point', [0.3, 0.5], {name: '', size: 2, color: '#EF4444'});
-    var C6 = brd6.create('point', [4.2, 0.5], {name: '', size: 2, color: '#EF4444'});
+    var A6 = brd6.create('point', [3, 3.5], {name: '', size: 3, color: '#EF4444', fixed: false});
+    var B6 = brd6.create('point', [0.3, 0.5], {name: '', size: 3, color: '#EF4444', fixed: false});
+    var C6 = brd6.create('point', [4.2, 0.5], {name: '', size: 3, color: '#EF4444', fixed: false});
     brd6.create('polygon', [A6, B6, C6], {fillColor: '#FEF2F2', fillOpacity: 0.5, borders: {strokeColor: '#EF4444', strokeWidth: 2}});
     brd6.create('angle', [A6, B6, C6], {radius: 0.6, fillColor: '#EF4444', fillOpacity: 0.3, name: '&gt;90°'});
 
@@ -1138,100 +1235,70 @@
     var Be = brdElem.create('point', [0, 0], {name: 'B', size: 3, color: '#3B82F6'});
     var Ce = brdElem.create('point', [6, 0], {name: 'C', size: 3, color: '#3B82F6'});
     brdElem.create('polygon', [Ae, Be, Ce], {fillColor: '#F8FAFC', fillOpacity: 0.3, borders: {strokeColor: '#1E40AF', strokeWidth: 2}});
-    // Altura
     var He = brdElem.create('point', [3, 0], {name: 'H', size: 2, color: '#EF4444'});
     brdElem.create('segment', [Ae, He], {strokeColor: '#EF4444', strokeWidth: 2, dash: 2, name: 'altura (h)', withLabel: true});
-    // Ángulos
     brdElem.create('angle', [Be, Ae, Ce], {radius: 0.5, fillColor: '#F59E0B', fillOpacity: 0.4, name: 'α'});
     brdElem.create('angle', [Ae, Be, Ce], {radius: 0.5, fillColor: '#F59E0B', fillOpacity: 0.4, name: 'β'});
     brdElem.create('angle', [Ae, Ce, Be], {radius: 0.5, fillColor: '#F59E0B', fillOpacity: 0.4, name: 'γ'});
-    // Etiquetas de lados
-    brdElem.create('text', [2.5, -0.8, 'lado a (BC)'], {fontSize: 12, color: '#6B7280'});
-    brdElem.create('text', [5.2, 2.5, 'lado b (AC)'], {fontSize: 12, color: '#6B7280'});
-    brdElem.create('text', [0.3, 2.5, 'lado c (AB)'], {fontSize: 12, color: '#6B7280'});
 
     // --- CUADRILÁTEROS ---
-    
-    // Cuadrado
     var brdCuad = JXG.JSXGraph.initBoard('jxg-cuadrado', {boundingbox: [-0.5, 3.5, 4, -0.5], axis: false, showNavigation: false, showCopyright: false});
-    var p1 = brdCuad.create('point', [0.5, 0.5], {name: '', size: 1});
-    var p2 = brdCuad.create('point', [3, 0.5], {name: '', size: 1});
-    var p3 = brdCuad.create('point', [3, 3], {name: '', size: 1});
-    var p4 = brdCuad.create('point', [0.5, 3], {name: '', size: 1});
+    var p1 = brdCuad.create('point', [0.5, 0.5], {name: '', size: 2});
+    var p2 = brdCuad.create('point', [3, 0.5], {name: '', size: 2});
+    var p3 = brdCuad.create('point', [3, 3], {name: '', size: 2});
+    var p4 = brdCuad.create('point', [0.5, 3], {name: '', size: 2});
     brdCuad.create('polygon', [p1, p2, p3, p4], {fillColor: '#DBEAFE', fillOpacity: 0.5, borders: {strokeColor: '#3B82F6', strokeWidth: 2}});
-    brdCuad.create('angle', [p1, p2, p3], {radius: 0.3, fillColor: '#3B82F6', fillOpacity: 0.5, name: '90°'});
-    brdCuad.create('text', [1.5, 1.8, 'a'], {fontSize: 14, color: '#1E40AF'});
 
-    // Rectángulo
     var brdRect = JXG.JSXGraph.initBoard('jxg-rectangulo', {boundingbox: [-0.5, 3.5, 5, -0.5], axis: false, showNavigation: false, showCopyright: false});
-    var r1 = brdRect.create('point', [0.3, 0.5], {name: '', size: 1});
-    var r2 = brdRect.create('point', [4, 0.5], {name: '', size: 1});
-    var r3 = brdRect.create('point', [4, 2.5], {name: '', size: 1});
-    var r4 = brdRect.create('point', [0.3, 2.5], {name: '', size: 1});
+    var r1 = brdRect.create('point', [0.3, 0.5], {name: '', size: 2});
+    var r2 = brdRect.create('point', [4, 0.5], {name: '', size: 2});
+    var r3 = brdRect.create('point', [4, 2.5], {name: '', size: 2});
+    var r4 = brdRect.create('point', [0.3, 2.5], {name: '', size: 2});
     brdRect.create('polygon', [r1, r2, r3, r4], {fillColor: '#D1FAE5', fillOpacity: 0.5, borders: {strokeColor: '#10B981', strokeWidth: 2}});
-    brdRect.create('text', [2, 1.5, 'b × h'], {fontSize: 12, color: '#065F46'});
 
-    // Rombo
     var brdRomb = JXG.JSXGraph.initBoard('jxg-rombo', {boundingbox: [-0.5, 3.5, 4, -0.5], axis: false, showNavigation: false, showCopyright: false});
-    var rh1 = brdRomb.create('point', [1.75, 0.3], {name: '', size: 1});
-    var rh2 = brdRomb.create('point', [3.5, 1.75], {name: '', size: 1});
-    var rh3 = brdRomb.create('point', [1.75, 3.2], {name: '', size: 1});
-    var rh4 = brdRomb.create('point', [0, 1.75], {name: '', size: 1});
+    var rh1 = brdRomb.create('point', [1.75, 0.3], {name: '', size: 2});
+    var rh2 = brdRomb.create('point', [3.5, 1.75], {name: '', size: 2});
+    var rh3 = brdRomb.create('point', [1.75, 3.2], {name: '', size: 2});
+    var rh4 = brdRomb.create('point', [0, 1.75], {name: '', size: 2});
     brdRomb.create('polygon', [rh1, rh2, rh3, rh4], {fillColor: '#FEF3C7', fillOpacity: 0.5, borders: {strokeColor: '#F59E0B', strokeWidth: 2}});
-    brdRomb.create('segment', [rh1, rh3], {strokeColor: '#F59E0B', dash: 2, strokeWidth: 1});
-    brdRomb.create('segment', [rh2, rh4], {strokeColor: '#F59E0B', dash: 2, strokeWidth: 1});
-    brdRomb.create('text', [2, 1.7, 'D'], {fontSize: 11, color: '#92400E'});
-    brdRomb.create('text', [1, 2.2, 'd'], {fontSize: 11, color: '#92400E'});
 
-    // Trapecio
     var brdTrap = JXG.JSXGraph.initBoard('jxg-trapecio', {boundingbox: [-0.5, 3.5, 4, -0.5], axis: false, showNavigation: false, showCopyright: false});
-    var t1 = brdTrap.create('point', [0.5, 0.5], {name: '', size: 1});
-    var t2 = brdTrap.create('point', [3.5, 0.5], {name: '', size: 1});
-    var t3 = brdTrap.create('point', [2.8, 2.5], {name: '', size: 1});
-    var t4 = brdTrap.create('point', [1.2, 2.5], {name: '', size: 1});
+    var t1 = brdTrap.create('point', [0.5, 0.5], {name: '', size: 2});
+    var t2 = brdTrap.create('point', [3.5, 0.5], {name: '', size: 2});
+    var t3 = brdTrap.create('point', [2.8, 2.5], {name: '', size: 2});
+    var t4 = brdTrap.create('point', [1.2, 2.5], {name: '', size: 2});
     brdTrap.create('polygon', [t1, t2, t3, t4], {fillColor: '#FEE2E2', fillOpacity: 0.5, borders: {strokeColor: '#EF4444', strokeWidth: 2}});
-    brdTrap.create('text', [1.8, 2.7, 'b'], {fontSize: 12, color: '#DC2626'});
-    brdTrap.create('text', [1.8, 0.3, 'B'], {fontSize: 12, color: '#DC2626'});
 
-    // Paralelogramo
     var brdPar = JXG.JSXGraph.initBoard('jxg-paralelogramo', {boundingbox: [-0.5, 3.5, 4.5, -0.5], axis: false, showNavigation: false, showCopyright: false});
-    var pa1 = brdPar.create('point', [0.3, 0.5], {name: '', size: 1});
-    var pa2 = brdPar.create('point', [3.5, 0.5], {name: '', size: 1});
-    var pa3 = brdPar.create('point', [3, 2.5], {name: '', size: 1});
-    var pa4 = brdPar.create('point', [0, 2.5], {name: '', size: 1});
+    var pa1 = brdPar.create('point', [0.3, 0.5], {name: '', size: 2});
+    var pa2 = brdPar.create('point', [3.5, 0.5], {name: '', size: 2});
+    var pa3 = brdPar.create('point', [3, 2.5], {name: '', size: 2});
+    var pa4 = brdPar.create('point', [0, 2.5], {name: '', size: 2});
     brdPar.create('polygon', [pa1, pa2, pa3, pa4], {fillColor: '#EDE9FE', fillOpacity: 0.5, borders: {strokeColor: '#8B5CF6', strokeWidth: 2}});
 
-    // Romboide
     var brdRomboid = JXG.JSXGraph.initBoard('jxg-romboide', {boundingbox: [-0.5, 3.5, 4.5, -0.5], axis: false, showNavigation: false, showCopyright: false});
-    var ro1 = brdRomboid.create('point', [0.3, 0.5], {name: '', size: 1});
-    var ro2 = brdRomboid.create('point', [3.8, 0.5], {name: '', size: 1});
-    var ro3 = brdRomboid.create('point', [3, 2.8], {name: '', size: 1});
-    var ro4 = brdRomboid.create('point', [0, 2.8], {name: '', size: 1});
+    var ro1 = brdRomboid.create('point', [0.3, 0.5], {name: '', size: 2});
+    var ro2 = brdRomboid.create('point', [3.8, 0.5], {name: '', size: 2});
+    var ro3 = brdRomboid.create('point', [3, 2.8], {name: '', size: 2});
+    var ro4 = brdRomboid.create('point', [0, 2.8], {name: '', size: 2});
     brdRomboid.create('polygon', [ro1, ro2, ro3, ro4], {fillColor: '#CFFAFE', fillOpacity: 0.5, borders: {strokeColor: '#06B6D4', strokeWidth: 2}});
-    brdRomboid.create('segment', [ro4, [0, 0.5]], {strokeColor: '#06B6D4', dash: 2, strokeWidth: 1});
-    brdRomboid.create('text', [0.5, 1.6, 'h'], {fontSize: 11, color: '#0E7490'});
 
     // --- CIRCUNFERENCIA ---
     var brdCirc = JXG.JSXGraph.initBoard('jxg-circunferencia', {boundingbox: [-4, 4, 6, -3], axis: false, showNavigation: false, showCopyright: false});
     var O = brdCirc.create('point', [1, 0.5], {name: 'O', size: 3, color: '#EF4444', withLabel: true});
     var circ = brdCirc.create('circle', [O, 2.5], {strokeColor: '#3B82F6', strokeWidth: 2, fillColor: '#F8FAFC', fillOpacity: 0.2});
-    // Radio
     var Pr = brdCirc.create('point', [3.5, 0.5], {name: '', size: 2, color: '#10B981'});
     brdCirc.create('segment', [O, Pr], {strokeColor: '#10B981', strokeWidth: 2, name: 'radio (r)', withLabel: true, label: {position: 'bot', color: '#10B981'}});
-    // Diámetro
     var Pd1 = brdCirc.create('point', [-1.5, 0.5], {name: '', size: 2, color: '#8B5CF6'});
     var Pd2 = brdCirc.create('point', [3.5, 0.5], {name: '', size: 2, color: '#8B5CF6'});
     brdCirc.create('segment', [Pd1, Pd2], {strokeColor: '#8B5CF6', strokeWidth: 2, dash: 2, name: 'diámetro', withLabel: true, label: {position: 'bot', color: '#8B5CF6'}});
-    // Cuerda
     var Pc1 = brdCirc.create('point', [-0.77, 2.73], {name: '', size: 2, color: '#F59E0B'});
     var Pc2 = brdCirc.create('point', [2.77, 2.73], {name: '', size: 2, color: '#F59E0B'});
     brdCirc.create('segment', [Pc1, Pc2], {strokeColor: '#F59E0B', strokeWidth: 2, name: 'cuerda', withLabel: true, label: {position: 'top', color: '#F59E0B'}});
-    // Tangente
     brdCirc.create('line', [Pr, [3.5, 2.5]], {strokeColor: '#EF4444', strokeWidth: 2, straightFirst: false, straightLast: true, name: 'tangente', withLabel: true});
 
     // --- ÁNGULOS EN CIRCUNFERENCIA ---
-    
-    // Ángulo central
     var brdAC = JXG.JSXGraph.initBoard('jxg-ang-central', {boundingbox: [-1, 3.5, 4, -1], axis: false, showNavigation: false, showCopyright: false});
     var Oc = brdAC.create('point', [1.5, 1.5], {name: 'O', size: 2, color: '#3B82F6'});
     var circAC = brdAC.create('circle', [Oc, 1.2], {strokeColor: '#3B82F6', strokeWidth: 2, fillColor: '#DBEAFE', fillOpacity: 0.3});
@@ -1241,7 +1308,6 @@
     brdAC.create('segment', [Oc, P2c], {strokeColor: '#3B82F6', strokeWidth: 2});
     brdAC.create('angle', [P2c, Oc, P1c], {radius: 0.4, fillColor: '#EF4444', fillOpacity: 0.5, name: 'α'});
 
-    // Ángulo inscrito
     var brdAI = JXG.JSXGraph.initBoard('jxg-ang-inscrito', {boundingbox: [-1, 3.5, 4, -1], axis: false, showNavigation: false, showCopyright: false});
     var Oi = brdAI.create('point', [1.5, 1.5], {name: '', size: 1, color: '#10B981'});
     var circAI = brdAI.create('circle', [Oi, 1.2], {strokeColor: '#10B981', strokeWidth: 2, fillColor: '#D1FAE5', fillOpacity: 0.3});
@@ -1251,48 +1317,44 @@
     brdAI.create('polygon', [Q1, Q2, Q3], {fillColor: 'transparent', borders: {strokeColor: '#10B981', strokeWidth: 2}});
     brdAI.create('angle', [Q1, Q2, Q3], {radius: 0.3, fillColor: '#EF4444', fillOpacity: 0.5, name: 'β = α/2'});
 
-    // --- TEOREMA DE PITÁGORAS ---
-    var brdPit = JXG.JSXGraph.initBoard('jxg-pitagoras', {boundingbox: [-2, 6, 10, -2], axis: false, showNavigation: false, showCopyright: false});
-    // Triángulo rectángulo
-    var T1 = brdPit.create('point', [0, 0], {name: '', size: 2, color: '#3B82F6'});
-    var T2 = brdPit.create('point', [0, 3], {name: '', size: 2, color: '#3B82F6'});
-    var T3 = brdPit.create('point', [4, 0], {name: '', size: 2, color: '#3B82F6'});
+    // --- TEOREMA DE PITÁGORAS (Dinámico) ---
+    var brdPit = JXG.JSXGraph.initBoard('jxg-pitagoras', {boundingbox: [-4, 8, 12, -4], axis: false, showNavigation: false, showCopyright: false});
+    var T1 = brdPit.create('point', [0, 0], {name: 'C', size: 4, color: '#3B82F6', fixed: true});
+    var lineVPit = brdPit.create('line', [T1, [0, 1]], {visible: false});
+    var lineHPit = brdPit.create('line', [T1, [1, 0]], {visible: false});
+    var T2 = brdPit.create('point', [0, 3], {name: 'A', size: 5, color: '#3B82F6', slideObject: lineVPit});
+    var T3 = brdPit.create('point', [4, 0], {name: 'B', size: 5, color: '#3B82F6', slideObject: lineHPit});
+    
     brdPit.create('polygon', [T1, T2, T3], {fillColor: '#F8FAFC', fillOpacity: 0.3, borders: {strokeColor: '#3B82F6', strokeWidth: 2}});
-    // Ángulo recto
     brdPit.create('angle', [T3, T1, T2], {radius: 0.4, fillColor: '#3B82F6', fillOpacity: 0.3, name: '90°'});
-    // Cuadrado sobre cateto a
-    brdPit.create('polygon', [[0, 0], [0, 3], [-3, 3], [-3, 0]], {fillColor: '#D1FAE5', fillOpacity: 0.5, borders: {strokeColor: '#10B981', strokeWidth: 1.5}});
-    brdPit.create('text', [-1.5, 1.5, 'a²'], {fontSize: 16, color: '#10B981'});
-    // Cuadrado sobre cateto b
-    brdPit.create('polygon', [[0, 0], [4, 0], [4, -4], [0, -4]], {fillColor: '#FEF3C7', fillOpacity: 0.5, borders: {strokeColor: '#F59E0B', strokeWidth: 1.5}});
-    brdPit.create('text', [2, -2, 'b²'], {fontSize: 16, color: '#F59E0B'});
-    // Cuadrado sobre hipotenusa
-    brdPit.create('polygon', [[0, 3], [4, 0], [7, 4], [3, 7]], {fillColor: '#FEE2E2', fillOpacity: 0.5, borders: {strokeColor: '#EF4444', strokeWidth: 1.5}});
-    brdPit.create('text', [3.5, 3.5, 'c²'], {fontSize: 16, color: '#EF4444'});
-    // Etiquetas
-    brdPit.create('text', [-0.5, 1.5, 'a'], {fontSize: 12, color: '#10B981'});
-    brdPit.create('text', [2, -0.5, 'b'], {fontSize: 12, color: '#F59E0B'});
-    brdPit.create('text', [2.5, 2, 'c'], {fontSize: 12, color: '#EF4444'});
-    // Fórmula
-    brdPit.create('text', [5.5, 5.5, 'a² + b² = c²'], {fontSize: 18, color: '#1E40AF'});
+    
+    var sqA = brdPit.create('regularpolygon', [T1, T2, 4], {fillColor: '#D1FAE5', fillOpacity: 0.5, borders: {strokeColor: '#10B981'}});
+    var sqB = brdPit.create('regularpolygon', [T3, T1, 4], {fillColor: '#FEF3C7', fillOpacity: 0.5, borders: {strokeColor: '#F59E0B'}});
+    var sqC = brdPit.create('regularpolygon', [T2, T3, 4], {fillColor: '#FEE2E2', fillOpacity: 0.5, borders: {strokeColor: '#EF4444'}});
+
+    brdPit.create('text', [5, 6, function() {
+        var a = T1.Dist(T2); var b = T1.Dist(T3); var c = T2.Dist(T3);
+        return a.toFixed(1) + '² + ' + b.toFixed(1) + '² = ' + c.toFixed(1) + '²';
+    }], {fontSize: 18, color: '#1E40AF'});
+
+    brdPit.create('text', [5, 5, function() {
+        var a = T1.Dist(T2); var b = T1.Dist(T3); var c = T2.Dist(T3);
+        return (a*a).toFixed(1) + ' + ' + (b*b).toFixed(1) + ' = ' + (c*c).toFixed(1);
+    }], {fontSize: 18, color: '#10B981'});
 
     // --- TRÍOS PITAGÓRICOS ---
-    
-    // 3-4-5
     var brd345 = JXG.JSXGraph.initBoard('jxg-trio-345', {boundingbox: [-0.5, 4, 5, -0.5], axis: false, showNavigation: false, showCopyright: false});
     brd345.create('polygon', [[0, 0], [0, 2.4], [3.2, 0]], {fillColor: '#DBEAFE', fillOpacity: 0.4, borders: {strokeColor: '#3B82F6', strokeWidth: 2}});
     brd345.create('text', [0, 1.2, '3'], {fontSize: 11, color: '#3B82F6'});
     brd345.create('text', [1.6, 0, '4'], {fontSize: 11, color: '#3B82F6'});
     brd345.create('text', [2, 1.5, '5'], {fontSize: 11, color: '#3B82F6'});
 
-    // 5-12-13
     var brd51213 = JXG.JSXGraph.initBoard('jxg-trio-51213', {boundingbox: [-0.5, 4, 5, -0.5], axis: false, showNavigation: false, showCopyright: false});
     brd51213.create('polygon', [[0, 0], [0, 1.9], [3.8, 0]], {fillColor: '#D1FAE5', fillOpacity: 0.4, borders: {strokeColor: '#10B981', strokeWidth: 2}});
     brd51213.create('text', [0, 1, '5'], {fontSize: 11, color: '#10B981'});
     brd51213.create('text', [2, 0, '12'], {fontSize: 10, color: '#10B981'});
     brd51213.create('text', [2.5, 1.2, '13'], {fontSize: 10, color: '#10B981'});
 
-    // 8-15-17
     var brd81517 = JXG.JSXGraph.initBoard('jxg-trio-81517', {boundingbox: [-0.5, 4, 5, -0.5], axis: false, showNavigation: false, showCopyright: false});
     brd81517.create('polygon', [[0, 0], [0, 2.1], [3.2, 0]], {fillColor: '#FEF3C7', fillOpacity: 0.4, borders: {strokeColor: '#F59E0B', strokeWidth: 2}});
     brd81517.create('text', [0, 1, '8'], {fontSize: 11, color: '#F59E0B'});
@@ -1301,37 +1363,30 @@
 
     // --- SEMEJANZA ---
     var brdSem = JXG.JSXGraph.initBoard('jxg-semejanza', {boundingbox: [-1, 5, 9, -1], axis: false, showNavigation: false, showCopyright: false});
-    // Triángulo pequeño
     var S1 = brdSem.create('point', [0.5, 0.5], {name: 'B', size: 2, color: '#3B82F6'});
     var S2 = brdSem.create('point', [0.5, 3], {name: 'A', size: 2, color: '#3B82F6'});
     var S3 = brdSem.create('point', [3, 0.5], {name: 'C', size: 2, color: '#3B82F6'});
     brdSem.create('polygon', [S1, S2, S3], {fillColor: '#DBEAFE', fillOpacity: 0.4, borders: {strokeColor: '#3B82F6', strokeWidth: 2}});
-    // Triángulo grande (semejante)
     var S4 = brdSem.create('point', [4.5, 0.5], {name: 'E', size: 2, color: '#10B981'});
     var S5 = brdSem.create('point', [4.5, 4], {name: 'D', size: 2, color: '#10B981'});
     var S6 = brdSem.create('point', [8, 0.5], {name: 'F', size: 2, color: '#10B981'});
     brdSem.create('polygon', [S4, S5, S6], {fillColor: '#D1FAE5', fillOpacity: 0.4, borders: {strokeColor: '#10B981', strokeWidth: 2}});
-    // Símbolo de semejanza
     brdSem.create('text', [3.5, 2.5, '∼'], {fontSize: 24, color: '#F59E0B'});
     brdSem.create('text', [1.5, -0.3, 'ΔABC ∼ ΔDEF'], {fontSize: 14, color: '#1E40AF'});
 
     // --- TEOREMA DE TALES ---
     var brdTales = JXG.JSXGraph.initBoard('jxg-tales', {boundingbox: [-1, 5, 7, -1], axis: false, showNavigation: false, showCopyright: false});
-    // Rectas paralelas
     brdTales.create('line', [[-1, 1], [7, 1]], {strokeColor: '#3B82F6', strokeWidth: 1.5, dash: 1, straightFirst: false, straightLast: false});
     brdTales.create('line', [[-1, 2.5], [7, 2.5]], {strokeColor: '#3B82F6', strokeWidth: 1.5, dash: 1, straightFirst: false, straightLast: false});
     brdTales.create('line', [[-1, 4], [7, 4]], {strokeColor: '#3B82F6', strokeWidth: 1.5, dash: 1, straightFirst: false, straightLast: false});
-    // Secantes
     brdTales.create('line', [[0.5, 0], [2, 5]], {strokeColor: '#EF4444', strokeWidth: 2, straightFirst: false, straightLast: false});
     brdTales.create('line', [[5, 0], [4, 5]], {strokeColor: '#10B981', strokeWidth: 2, straightFirst: false, straightLast: false});
-    // Puntos de intersección
     brdTales.create('point', [0.8, 1], {name: '', size: 2, color: '#EF4444'});
     brdTales.create('point', [1.1, 2.5], {name: '', size: 2, color: '#EF4444'});
     brdTales.create('point', [1.4, 4], {name: '', size: 2, color: '#EF4444'});
     brdTales.create('point', [4.7, 1], {name: '', size: 2, color: '#10B981'});
     brdTales.create('point', [4.4, 2.5], {name: '', size: 2, color: '#10B981'});
     brdTales.create('point', [4.1, 4], {name: '', size: 2, color: '#10B981'});
-    // Texto
     brdTales.create('text', [2.5, 0.3, 'AB/BC = DE/EF'], {fontSize: 13, color: '#1E40AF'});
 </script>
 

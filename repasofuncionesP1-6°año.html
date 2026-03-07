@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico 6° · Funciones (explicaciones didácticas)</title>
+    <!-- MathJax para fórmulas profesionales -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <!-- FunctionPlot (requiere D3) -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/function-plot@1.23.0/dist/function-plot.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #e1edfb;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 30px 15px;
+            display: flex;
+            justify-content: center;
+        }
+        .resolucion {
+            max-width: 1300px;
+            width: 100%;
+            background: white;
+            border-radius: 50px 50px 30px 30px;
+            box-shadow: 0 30px 50px -15px #0e3a57;
+            padding: 35px 40px;
+            border: 1px solid #bed5f0;
+        }
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: #003865;
+            border-left: 16px solid #f6b83e;
+            padding-left: 30px;
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+        .subhead {
+            color: #1d5983;
+            margin-left: 50px;
+            background: #e2effa;
+            display: inline-block;
+            padding: 8px 40px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+        .datos-alumno {
+            background: #e9f3fe;
+            border-radius: 45px;
+            padding: 20px 35px;
+            margin-bottom: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px 50px;
+            border: 2px solid #b3d2f0;
+        }
+        .datos-alumno label {
+            font-weight: 600;
+            color: #003865;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .datos-alumno input {
+            border: none;
+            border-bottom: 2px solid #7fa6c7;
+            background: transparent;
+            padding: 6px 10px;
+            font-size: 1rem;
+            width: 200px;
+            outline: none;
+        }
+        .datos-alumno input:focus {
+            border-bottom-color: #f0aa2a;
+        }
+        .parte {
+            background: white;
+            border-radius: 55px;
+            padding: 25px 35px;
+            margin-bottom: 50px;
+            box-shadow: 0 15px 30px rgba(0, 45, 80, 0.08);
+            border: 1px solid #c9ddf3;
+        }
+        .parte h2 {
+            display: inline-block;
+            background: #013a5a;
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 500;
+            padding: 8px 45px;
+            border-radius: 80px;
+            margin-top: -60px;
+            margin-bottom: 25px;
+            box-shadow: 0 12px 0 #012b41;
+        }
+
+        /* Estilo para los enunciados (consignas) */
+        .consigna {
+            background: #f0f7fe;
+            border-radius: 30px;
+            padding: 18px 25px;
+            margin: 20px 0 10px 0;
+            border: 2px solid #a0c2e2;
+            font-weight: 500;
+            color: #013a5a;
+            font-size: 1.15rem;
+        }
+        .consigna strong {
+            color: #1d5b8e;
+        }
+
+        /* Estilo para las resoluciones / explicaciones */
+        .resolucion-texto {
+            background: #fafdff;
+            border-radius: 30px;
+            padding: 20px 30px;
+            margin: 10px 0 20px 0;
+            border-left: 10px solid #f5b834;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #01324b;
+        }
+        .resolucion-texto p {
+            margin: 8px 0;
+        }
+        .resolucion-texto .destacado {
+            background: #fff3d1;
+            padding: 5px 15px;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .formula-box {
+            background: #f2f9ff;
+            border-radius: 50px;
+            padding: 15px 25px;
+            margin: 15px 0;
+            border: 1px solid #b8d6f5;
+            overflow-x: auto;
+            font-size: 1.2rem;
+        }
+        table {
+            border-collapse: collapse;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px #abc0d6;
+            margin: 20px 0;
+        }
+        th {
+            background: #1b5c88;
+            color: white;
+            font-weight: 500;
+            padding: 10px 20px;
+        }
+        td {
+            padding: 8px 15px;
+            border: 1px solid #c0d8f0;
+            text-align: center;
+        }
+        .grafico {
+            background: #fcfdff;
+            border-radius: 40px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 2px solid #c7dcf5;
+            box-shadow: inset 0 0 0 2px white, 0 15px 20px -15px #154666;
+        }
+        .grafico svg {
+            display: block;
+            margin: 0 auto;
+            border-radius: 30px;
+            background: white;
+        }
+        .vf-item {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            margin: 15px 0;
+        }
+        .vf-num {
+            background: #134e78;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .vf-content {
+            background: #f0f7ff;
+            border-radius: 40px;
+            padding: 15px 25px;
+            width: 100%;
+            border: 1px solid #c1daf7;
+        }
+        .vf-bool {
+            font-weight: 800;
+            display: inline-block;
+            padding: 5px 25px;
+            border-radius: 50px;
+            margin-right: 20px;
+            font-size: 1.2rem;
+        }
+        .v { background: #bbebd1; color: #004d1a; }
+        .f { background: #ffc9c9; color: #9e0000; }
+        .just {
+            font-size: 1.05rem;
+        }
+        footer {
+            text-align: center;
+            color: #2d6087;
+            border-top: 2px dashed #b9d5f5;
+            padding-top: 30px;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="resolucion">
+    <h1>📐 Diagnóstico 6° · Funciones</h1>
+    <div class="subhead">Lineal, cuadrática, exponencial y logarítmica – corrección comentada</div>
+
+    <div class="datos-alumno">
+        <label>👤 Nombre y Apellido: <input type="text" placeholder="Completar"></label>
+        <label>📅 Fecha: <input type="text" placeholder="dd/mm/aaaa"></label>
+    </div>
+
+    <!-- PARTE I: Conceptos Fundamentales -->
+    <div class="parte">
+        <h2>Parte I · Conceptos</h2>
+        
+        <!-- Ítem 1 -->
+        <div class="consigna">
+            <strong>1.</strong> Explica con tus palabras qué es una función matemática y cuál es la diferencia entre la variable independiente y la dependiente. Proporciona un ejemplo cotidiano.
+        </div>
+        <div class="resolucion-texto">
+            <p>📘 <strong>¿Qué es una función?</strong> Es una relación que asigna a cada elemento de un conjunto (llamado <em>dominio</em>) un único elemento de otro conjunto (llamado <em>codominio</em>). En términos sencillos: a cada valor de entrada le corresponde un único valor de salida.</p>
+            <p>🔹 <strong>Variable independiente (x):</strong> es la que podemos elegir libremente, la entrada. Depende del contexto.</p>
+            <p>🔹 <strong>Variable dependiente (y o f(x)):</strong> es el resultado que se obtiene a partir de la independiente; su valor depende de la elección de x.</p>
+            <p>💡 <strong>Ejemplo cotidiano:</strong> El costo de un viaje en taxi en función de los kilómetros recorridos. Si la bajada de bandera es $5 y cada km cuesta $2, entonces el costo \(C\) está dado por \(C(k) = 5 + 2k\). Aquí \(k\) (kilómetros) es la variable independiente (la elegimos al viajar) y \(C\) es la dependiente (lo que pagamos).</p>
+        </div>
+
+        <!-- Ítem 2 -->
+        <div class="consigna">
+            <strong>2.</strong> Define qué son las raíces de una función. Calcula las raíces de \( f(x) = x^2 - 5x + 6 \).
+        </div>
+        <div class="resolucion-texto">
+            <p>📘 <strong>Raíces o ceros:</strong> Son los valores de \(x\) para los cuales la función vale cero, es decir, \(f(x)=0\). Geométricamente, son los puntos donde la gráfica corta al eje \(X\).</p>
+            <p>🔢 Para \(f(x)=x^2-5x+6\), igualamos a cero: \(x^2-5x+6=0\).</p>
+            <p>Podemos factorizar: buscamos dos números que multiplicados den 6 y sumados den -5. ¡Claro! \(-2\) y \(-3\): \((x-2)(x-3)=0\).</p>
+            <p>✅ Por lo tanto, las raíces son \(x=2\) y \(x=3\).</p>
+            <p>🎯 <strong>Interpretación:</strong> La parábola corta al eje X en esos puntos.</p>
+        </div>
+
+        <!-- Ítem 3 -->
+        <div class="consigna">
+            <strong>3.</strong> ¿Qué significa que una función sea creciente en un intervalo? Para la función lineal \( g(x) = -2x + 4 \), ¿es creciente o decreciente? Justifica.
+        </div>
+        <div class="resolucion-texto">
+            <p>📈 <strong>Función creciente en un intervalo:</strong> Significa que si tomamos dos valores \(x_1 < x_2\) dentro del intervalo, entonces \(f(x_1) < f(x_2)\) (la función "sube" al aumentar \(x\)).</p>
+            <p>🔍 Para \(g(x) = -2x + 4\), es una recta con pendiente \(m = -2\). La pendiente negativa indica que al aumentar \(x\), el valor de \(g(x)\) disminuye. Por lo tanto, la función es <strong>decreciente en todo su dominio</strong>.</p>
+            <p>✏️ <strong>Justificación:</strong> La pendiente negativa implica que la recta "baja" a medida que nos movemos hacia la derecha.</p>
+        </div>
+
+        <!-- Ítem 4 -->
+        <div class="consigna">
+            <strong>4.</strong> Dada la función cuadrática \( h(x) = -x^2 + 4x - 3 \), determina si posee un máximo o un mínimo y calcula sus coordenadas.
+        </div>
+        <div class="resolucion-texto">
+            <p>📘 Las funciones cuadráticas \(ax^2+bx+c\) tienen forma de parábola. El coeficiente \(a\) indica la concavidad: si \(a>0\) abre hacia arriba (mínimo), si \(a<0\) abre hacia abajo (máximo).</p>
+            <p>🔹 En \(h(x) = -x^2+4x-3\), tenemos \(a = -1\) (negativo) → <strong>la parábola abre hacia abajo</strong>, por lo tanto posee un <strong>máximo</strong> en el vértice.</p>
+            <p>📐 <strong>Cálculo del vértice:</strong> La coordenada \(x\) del vértice es \(x_v = -\frac{b}{2a}\).</p>
+            <p>\(x_v = -\frac{4}{2\cdot(-1)} = -\frac{4}{-2} = 2\).</p>
+            <p>Luego \(h(2) = -(2)^2 + 4\cdot2 - 3 = -4 + 8 - 3 = 1\).</p>
+            <p>✅ El máximo se encuentra en el punto \((2, 1)\).</p>
+        </div>
+    </div>
+
+    <!-- PARTE II: Verdadero/Falso -->
+    <div class="parte">
+        <h2>Parte II · Verdadero / Falso</h2>
+        
+        <div class="vf-item">
+            <span class="vf-num">1</span>
+            <div class="vf-content">
+                <span class="consigna" style="display:block; margin-bottom:10px;">La función exponencial \( f(x) = a^x \) con \( a > 1 \) es estrictamente decreciente en todo su dominio.</span>
+                <span class="vf-bool f">Falso</span>
+                <span class="just"> 
+                    <strong>¿Por qué?</strong> Cuando la base \(a>1\), la función exponencial es <strong>creciente</strong>. Por ejemplo, \(2^x\): a medida que x aumenta, 2^x también aumenta. La afirmación dice decreciente, lo cual es incorrecto.<br>
+                    ✍️ <strong>Corrección:</strong> "La función exponencial \(f(x)=a^x\) con \(a>1\) es estrictamente creciente en todo su dominio."
+                </span>
+            </div>
+        </div>
+
+        <div class="vf-item">
+            <span class="vf-num">2</span>
+            <div class="vf-content">
+                <span class="consigna" style="display:block; margin-bottom:10px;">El dominio de la función logarítmica \( f(x) = \log_a(x) \) es todos los números reales.</span>
+                <span class="vf-bool f">Falso</span>
+                <span class="just">
+                    <strong>¿Por qué?</strong> El logaritmo solo está definido para argumentos positivos, es decir, \(x > 0\). Por lo tanto, el dominio es \((0, +\infty)\), no todos los reales.<br>
+                    ✍️ <strong>Corrección:</strong> "El dominio de la función logarítmica \(f(x)=\log_a(x)\) es \((0, +\infty)\)."
+                </span>
+            </div>
+        </div>
+
+        <div class="vf-item">
+            <span class="vf-num">3</span>
+            <div class="vf-content">
+                <span class="consigna" style="display:block; margin-bottom:10px;">Una función cuadrática puede tener dos, una o ninguna raíz real.</span>
+                <span class="vf-bool v">Verdadero</span>
+                <span class="just">
+                    ✅ Correcto. El discriminante \(\Delta = b^2-4ac\) determina la cantidad de raíces reales: si \(\Delta>0\) dos raíces; \(\Delta=0\) una raíz doble; \(\Delta<0\) ninguna raíz real.
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PARTE III: Problemas de aplicación -->
+    <div class="parte">
+        <h2>Parte III · Problemas</h2>
+
+        <!-- Problema 1: Lineal -->
+        <div class="consigna">
+            <strong>1. Modelo Lineal (fábrica de lápices)</strong><br>
+            El costo total de producción está dado por un costo fijo de $500 más un costo variable de $20 por lápiz producido.
+            <ul>
+                <li>Encuentra la función de costo total \( C(x) \) donde \( x \) es la cantidad de lápices.</li>
+                <li>¿Cuál es el costo de producir 150 lápices?</li>
+                <li>Si se dispone de un presupuesto de $1500, ¿cuántos lápices se pueden producir?</li>
+            </ul>
+        </div>
+        <div class="resolucion-texto">
+            <p>📌 <strong>Paso 1: Construir la función.</strong> El costo fijo es independiente de la cantidad, y el variable depende de x. Así:</p>
+            <p>\[
+            C(x) = 500 + 20x
+            \]</p>
+            <p>📌 <strong>Paso 2: Costo para 150 lápices.</strong> Sustituimos \(x=150\):</p>
+            <p>\[
+            C(150) = 500 + 20 \times 150 = 500 + 3000 = 3500
+            \] Es decir, $3500.</p>
+            <p>📌 <strong>Paso 3: ¿Cuántos lápices con $1500?</strong> Planteamos \(C(x)=1500\):</p>
+            <p>\[
+            500 + 20x = 1500 \implies 20x = 1000 \implies x = 50
+            \] Se pueden producir 50 lápices.</p>
+            <p>🎯 <strong>Reflexión:</strong> La función lineal modela situaciones donde el incremento es constante (cada lápiz añade $20).</p>
+        </div>
+        <div class="grafico" id="plotLineal"></div>
+
+        <!-- Problema 2: Cuadrático -->
+        <div class="consigna">
+            <strong>2. Modelo Cuadrático (ganancia semanal)</strong><br>
+            La ganancia semanal de una empresa (en miles de pesos) por la venta de \( x \) artículos es \( G(x) = -2x^2 + 60x - 250 \).
+            <ul>
+                <li>¿Cuántos artículos debe vender para obtener la ganancia máxima?</li>
+                <li>¿Cuál es esa ganancia máxima?</li>
+                <li>¿Para qué valores de \( x \) la empresa no tiene ganancias ni pérdidas (raíces)?</li>
+            </ul>
+        </div>
+        <div class="resolucion-texto">
+            <p>📌 <strong>Identificamos coeficientes:</strong> \(a = -2\), \(b = 60\), \(c = -250\). Como \(a<0\), la parábola abre hacia abajo → hay un máximo en el vértice.</p>
+            <p>📌 <strong>Cantidad para el máximo (vértice):</strong> \(x_v = -\frac{b}{2a} = -\frac{60}{2\cdot(-2)} = -\frac{60}{-4} = 15\).</p>
+            <p>✅ Debe vender <strong>15 artículos</strong> para maximizar ganancia.</p>
+            <p>📌 <strong>Ganancia máxima:</strong> \(G(15) = -2(15)^2 + 60\cdot15 -250 = -2\cdot225 + 900 -250 = -450 + 900 -250 = 200\) (miles de pesos) → <strong>$200 000</strong>.</p>
+            <p>📌 <strong>Punto de equilibrio (sin pérdidas ni ganancias):</strong> resolvemos \(G(x)=0\):</p>
+            <p>\(-2x^2+60x-250=0\). Dividimos entre \(-2\) para simplificar: \(x^2 -30x +125 = 0\).</p>
+            <p>Usamos fórmula cuadrática: \(\Delta = (-30)^2 -4\cdot1\cdot125 = 900 - 500 = 400\); \(\sqrt{\Delta}=20\).</p>
+            <p>\(x = \frac{30 \pm 20}{2}\) → \(x_1 = 5\), \(x_2 = 25\).</p>
+            <p>🎯 Significa que con 5 o con 25 artículos la ganancia es cero; entre esos valores la ganancia es positiva (ya que la parábola está por encima del eje X).</p>
+        </div>
+        <div class="grafico" id="plotCuad"></div>
+
+        <!-- Problema 3: Exponencial -->
+        <div class="consigna">
+            <strong>3. Modelo Exponencial (población)</strong><br>
+            La población de una ciudad crece según \( P(t) = 25000 \cdot (1.03)^t \), donde \( t \) es el número de años después de 2020.
+            <ul>
+                <li>¿Cuál era la población en 2020?</li>
+                <li>¿Cuál será la población proyectada para 2028?</li>
+                <li>¿Cuántos años deberán pasar para que la población se duplique? (Plantea usando logaritmos).</li>
+            </ul>
+        </div>
+        <div class="resolucion-texto">
+            <p>📌 <strong>Año 2020 → \(t=0\):</strong> \(P(0)=25000 \cdot (1.03)^0 = 25000\) habitantes.</p>
+            <p>📌 <strong>Año 2028 → \(t=8\):</strong> \(P(8)=25000 \cdot (1.03)^8\). Calculamos \(1.03^8\). Podemos hacerlo con calculadora: \(1.03^8 \approx 1.26677\). Entonces \(P(8) \approx 25000 \times 1.26677 = 31669\) habitantes (aproximadamente).</p>
+            <p>📌 <strong>Tiempo de duplicación:</strong> Queremos \(P(t) = 50000\). Es decir:</p>
+            <p>\[25000 \cdot (1.03)^t = 50000 \implies (1.03)^t = 2.\]</p>
+            <p>Aplicamos logaritmo (puede ser natural o decimal):</p>
+            <p>\[ \ln(1.03^t) = \ln 2 \implies t \cdot \ln(1.03) = \ln 2 \implies t = \frac{\ln 2}{\ln 1.03}.\]</p>
+            <p>Usando valores aproximados: \(\ln 2 \approx 0.6931\), \(\ln 1.03 \approx 0.02956\), entonces \(t \approx 23.45\) años. Es decir, alrededor de 23 años y medio.</p>
+            <p>🎯 <strong>Interpretación:</strong> La población se duplica aproximadamente en 23.5 años (hacia mediados de 2043).</p>
+        </div>
+        <div class="grafico" id="plotExp"></div>
+
+        <!-- Problema 4: Logarítmico -->
+        <div class="consigna">
+            <strong>4. Modelo Logarítmico (decibeles)</strong><br>
+            El nivel de intensidad de un sonido en decibeles es \( dB(I) = 10 \log_{10}\left(\frac{I}{I_0}\right) \), con \(I_0 = 10^{-12}\,W/m^2\).
+            <ul>
+                <li>Si un susurro tiene \(I = 10^{-10}\,W/m^2\), ¿cuántos decibeles tiene?</li>
+                <li>¿Cuál es la intensidad de un concierto de rock que alcanza los 120 dB?</li>
+            </ul>
+        </div>
+        <div class="resolucion-texto">
+            <p>📌 <strong>Caso susurro:</strong> Calculamos la relación \(\frac{I}{I_0} = \frac{10^{-10}}{10^{-12}} = 10^{2} = 100\).</p>
+            <p>Entonces \(dB = 10 \log_{10}(100) = 10 \times 2 = 20\) dB.</p>
+            <p>📌 <strong>Concierto de rock (120 dB):</strong> Planteamos \(10 \log_{10}\left(\frac{I}{I_0}\right) = 120\).</p>
+            <p>Dividimos entre 10: \(\log_{10}\left(\frac{I}{I_0}\right) = 12\).</p>
+            <p>Por definición de logaritmo: \(\frac{I}{I_0} = 10^{12}\).</p>
+            <p>Entonces \(I = 10^{12} \cdot I_0 = 10^{12} \cdot 10^{-12} = 1\;W/m^2\).</p>
+            <p>🎧 <strong>Interpretación:</strong> Un concierto de rock tiene una intensidad de 1 watt por metro cuadrado, que es el umbral del dolor.</p>
+        </div>
+        <div class="grafico" id="plotLog"></div>
+    </div>
+
+    <!-- PARTE IV: Tabla y gráfico de logaritmo base 2 -->
+    <div class="parte">
+        <h2>Parte IV · \(f(x)=\log_2(x)\)</h2>
+        <div class="consigna">
+            Completar la tabla y graficar.
+        </div>
+        <div class="resolucion-texto">
+            <p>🔢 <strong>Cálculo de los valores:</strong></p>
+            <ul>
+                <li>\(\log_2(0.5) = \log_2(2^{-1}) = -1\)</li>
+                <li>\(\log_2(1) = 0\)</li>
+                <li>\(\log_2(2) = 1\)</li>
+                <li>\(\log_2(4) = \log_2(2^2) = 2\)</li>
+                <li>\(\log_2(8) = \log_2(2^3) = 3\)</li>
+            </ul>
+            <p>📊 La función logarítmica crece lentamente; su dominio es \(x>0\).</p>
+        </div>
+        <table>
+            <tr><th>\(x\)</th><td>0.5</td><td>1</td><td>2</td><td>4</td><td>8</td></tr>
+            <tr><th>\(f(x)\)</th><td>\(-1\)</td><td>\(0\)</td><td>\(1\)</td><td>\(2\)</td><td>\(3\)</td></tr>
+        </table>
+        <div class="grafico" id="plotLog2"></div>
+    </div>
+
+    <footer>
+        ⚡ Resolución didáctica con explicaciones paso a paso · 6° año · Prof. Nora Luján ⚡
+    </footer>
+</div>
+
+<script>
+    (function() {
+        function plot(selector, opts) {
+            const container = document.querySelector(selector);
+            if (!container) return;
+            container.innerHTML = '';
+            const width = container.clientWidth || 650;
+            const height = 260;
+            const defaultOpts = {
+                target: selector,
+                width: width,
+                height: height,
+                grid: true,
+                data: []
+            };
+            Object.assign(defaultOpts, opts);
+            try {
+                functionPlot(defaultOpts);
+            } catch (e) {
+                container.innerHTML = '<p style="color:red;">Error en gráfico</p>';
+            }
+        }
+
+        setTimeout(() => {
+            // 1. Lineal: C(x)=500+20x , x de 0 a 100, y hasta 2500
+            plot('#plotLineal', {
+                xAxis: { domain: [0, 100] },
+                yAxis: { domain: [0, 2500] },
+                data: [{ fn: '500 + 20*x', color: '#d4552a' }]
+            });
+
+            // 2. Cuadrático: G(x) = -2x^2 + 60x - 250, dominio [0,30] y y [-300, 250]
+            plot('#plotCuad', {
+                xAxis: { domain: [0, 30] },
+                yAxis: { domain: [-300, 250] },
+                data: [{ fn: '-2*x^2 + 60*x - 250', color: '#1d815e' }]
+            });
+
+            // 3. Exponencial: P(t)=25000*1.03^t , t de 0 a 30, y hasta 70000
+            plot('#plotExp', {
+                xAxis: { domain: [0, 30] },
+                yAxis: { domain: [0, 70000] },
+                data: [{ fn: '25000 * 1.03^x', color: '#c4422b' }]
+            });
+
+            // 4. Logarítmica (decibeles): dB(x) = 10*log10(x), con x=I/I0. Mostramos rango 0.1 a 100
+            plot('#plotLog', {
+                xAxis: { domain: [0.1, 100] },
+                yAxis: { domain: [-20, 60] },
+                data: [{ fn: '10 * log(x) / log(10)', color: '#2e6396' }]
+            });
+
+            // 5. Log2(x): f(x) = log2(x) = log(x)/log(2) , dominio [0.1, 9]
+            plot('#plotLog2', {
+                xAxis: { domain: [0.1, 9] },
+                yAxis: { domain: [-2, 4] },
+                data: [{ fn: 'log(x) / log(2)', color: '#134e78' }]
+            });
+        }, 200);
+    })();
+</script>
+
+</body>
+</html>

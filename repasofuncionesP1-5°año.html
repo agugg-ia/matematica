@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funciones · corrección con gráficos profesionales</title>
+    <!-- MathJax para fórmulas como LaTeX -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <!-- FunctionPlot (requiere D3) -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/function-plot@1.23.0/dist/function-plot.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #e6f0f9;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 30px 15px;
+            display: flex;
+            justify-content: center;
+        }
+        .documento {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: 50px 50px 30px 30px;
+            box-shadow: 0 25px 45px -12px #0a314a;
+            padding: 35px 40px;
+            border: 1px solid #bed4ec;
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #003865;
+            border-left: 14px solid #f6b83e;
+            padding-left: 30px;
+            margin-bottom: 5px;
+        }
+        .grado {
+            color: #1d5983;
+            margin-left: 50px;
+            background: #e2effa;
+            display: inline-block;
+            padding: 8px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 35px;
+        }
+        .integrantes {
+            background: #e9f3fe;
+            border-radius: 40px;
+            padding: 20px 35px;
+            margin-bottom: 45px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px 45px;
+            border: 2px solid #b3d2f0;
+        }
+        .integrantes label {
+            font-weight: 600;
+            color: #003865;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .integrantes input {
+            border: none;
+            border-bottom: 2px solid #7fa6c7;
+            background: transparent;
+            padding: 6px 10px;
+            font-size: 1rem;
+            width: 180px;
+            outline: none;
+        }
+        .integrantes input:focus {
+            border-bottom-color: #f0aa2a;
+        }
+        .ejercicio {
+            background: white;
+            border-radius: 50px;
+            padding: 30px 35px;
+            margin-bottom: 60px;
+            box-shadow: 0 15px 30px rgba(0, 45, 80, 0.1);
+            border: 1px solid #c9ddf3;
+        }
+        .ejercicio h2 {
+            display: inline-block;
+            background: #013a5a;
+            color: white;
+            font-size: 2.4rem;
+            font-weight: 500;
+            padding: 8px 50px;
+            border-radius: 80px;
+            margin-top: -75px;
+            margin-bottom: 25px;
+            box-shadow: 0 12px 0 #012b41;
+        }
+        /* Fórmulas con MathJax se ven bien, pero las podemos rodear con un recuadro */
+        .formula-box {
+            background: #f2f9ff;
+            border-radius: 50px;
+            padding: 15px 25px;
+            margin: 20px 0;
+            border: 1px solid #b8d6f5;
+            font-size: 1.3rem;
+            overflow-x: auto;
+        }
+        .explicacion {
+            background: #f5fafe;
+            border-radius: 40px;
+            padding: 20px 30px;
+            margin: 20px 0;
+            border-left: 10px solid #f5b834;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #01324b;
+        }
+        table {
+            border-collapse: collapse;
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px #abc0d6;
+            margin: 20px 0;
+        }
+        th {
+            background: #1b5c88;
+            color: white;
+            font-weight: 500;
+            padding: 12px 25px;
+        }
+        td {
+            padding: 10px 20px;
+            border: 1px solid #c0d8f0;
+            text-align: center;
+        }
+        /* contenedor de gráficas function-plot */
+        .grafico {
+            background: #fcfdff;
+            border-radius: 40px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 2px solid #c7dcf5;
+            box-shadow: inset 0 0 0 2px white, 0 15px 20px -15px #154666;
+        }
+        .grafico svg {
+            display: block;
+            margin: 0 auto;
+            border-radius: 30px;
+            background: white;
+        }
+        /* Verdadero/Falso */
+        .vf {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .vf-item {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .vf-num {
+            background: #134e78;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.7rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .vf-content {
+            background: #f0f7ff;
+            border-radius: 40px;
+            padding: 18px 28px;
+            width: 100%;
+            border: 1px solid #c1daf7;
+        }
+        .vf-bool {
+            font-weight: 800;
+            display: inline-block;
+            padding: 5px 28px;
+            border-radius: 60px;
+            margin-right: 20px;
+            font-size: 1.2rem;
+        }
+        .v { background: #bbebd1; color: #004d1a; }
+        .f { background: #ffc9c9; color: #9e0000; }
+        .just {
+            font-size: 1.1rem;
+        }
+        footer {
+            text-align: center;
+            color: #2d6087;
+            border-top: 2px dashed #b9d5f5;
+            padding-top: 30px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="documento">
+    <h1>📐 Funciones · corrección con gráficos precisos</h1>
+    <div class="grado">5º Año ISFA – Prof. Nora Luján – materiales interactivos</div>
+
+    <div class="integrantes">
+        <label>🔹 Equipo N°: <input type="text" placeholder="ej: 3"></label>
+        <label>🧑‍🎓 Integrante 1: <input type="text" placeholder="Nombre"></label>
+        <label>🧑‍🎓 Integrante 2: <input type="text" placeholder="Nombre"></label>
+        <label>🧑‍🎓 Integrante 3: <input type="text" placeholder="Nombre"></label>
+    </div>
+
+    <!-- EJERCICIO 1 - INTERNET -->
+    <div class="ejercicio">
+        <h2>1. 📶 Servicio de internet</h2>
+        <p><strong>Cargo fijo $1500 (primeros 50 GB) + $20 por GB adicional.</strong></p>
+
+        <h3>📋 Tabla de valores</h3>
+        <table>
+            <tr><th>Consumo (GB)</th><td>0</td><td>30</td><td>50</td><td>60</td><td>80</td><td>100</td></tr>
+            <tr><th>Costo ($)</th><td>1500</td><td>1500</td><td>1500</td><td>1700</td><td>2100</td><td>2500</td></tr>
+        </table>
+        <div class="explicacion">
+            <strong>Relleno:</strong> hasta 50 GB solo fijo. Para 60: 1500 + 20·(60-50) = 1700; 80: 1500+20·30 = 2100; 100: 1500+20·50 = 2500.
+        </div>
+
+        <h3>📐 Fórmula del costo</h3>
+        <div class="formula-box">
+            \[
+            C(x) = \begin{cases} 1500 & \text{si } 0 \le x \le 50 \\ 1500 + 20\,(x-50) & \text{si } x > 50 \end{cases}
+            \]
+        </div>
+
+        <h3>💰 Si pagaron $1900, ¿cuántos GB?</h3>
+        <div class="explicacion">
+            Usamos la segunda rama: \(1500 + 20(x-50) = 1900\) → \(20(x-50) = 400\) → \(x-50 = 20\) → <strong>x = 70 GB</strong>.
+        </div>
+
+        <h3>📈 Gráfica (función partida)</h3>
+        <div class="grafico" id="plot1"></div>
+        <p style="text-align:center;">La línea horizontal hasta 50 GB, luego pendiente 20.</p>
+    </div>
+
+    <!-- EJERCICIO 2 - EMPANADAS -->
+    <div class="ejercicio">
+        <h2>2. 🥟 Venta de empanadas</h2>
+        <p>Ganancia diaria: \(G(x) = -x^{2} + 120x - 2000\)</p>
+
+        <h3>📊 Evaluaciones</h3>
+        <table>
+            <tr><th>x (empanadas)</th><td>20</td><td>40</td><td>60</td><td>80</td><td>100</td></tr>
+            <tr><th>G(x) ($)</th><td>0</td><td>1200</td><td>1600</td><td>1200</td><td>0</td></tr>
+        </table>
+        <div class="explicacion">
+            \(G(20) = -400 + 2400 - 2000 = 0\)<br>
+            \(G(40) = -1600 + 4800 - 2000 = 1200\)<br>
+            \(G(60) = -3600 + 7200 - 2000 = 1600\)<br>
+            \(G(80) = -6400 + 9600 - 2000 = 1200\)<br>
+            \(G(100) = -10000 + 12000 - 2000 = 0\)
+        </div>
+
+        <h3>🏆 Ganancia máxima (vértice)</h3>
+        <div class="explicacion">
+            \(x_v = -\dfrac{b}{2a} = -\dfrac{120}{2\cdot(-1)} = 60\) empanadas.<br>
+            \(G(60) = 1600\) → máxima ganancia <strong>$1600</strong>.
+        </div>
+
+        <h3>📉 Cantidad para no perder (G ≥ 0)</h3>
+        <div class="explicacion">
+            Resolvemos \( -x^2+120x-2000 = 0\) → \(x^2 -120x +2000 = 0\).<br>
+            \(\Delta = 120^2 - 4\cdot2000 = 14400 - 8000 = 6400\), \(\sqrt{\Delta}=80\).<br>
+            Raíces: \(x = \frac{120 \pm 80}{2} = 20\) y \(100\).<br>
+            Como la parábola abre hacia abajo, \(G \ge 0\) entre las raíces: <strong>\(20 \le x \le 100\)</strong>. Mínimo para no perder: 20 empanadas.
+        </div>
+
+        <h3>📈 Gráfica de G(x)</h3>
+        <div class="grafico" id="plot2"></div>
+    </div>
+
+    <!-- EJERCICIO 3 - BÁSQUET (CORREGIDO: se usa 'x' en lugar de 't') -->
+    <div class="ejercicio">
+        <h2>3. 🏀 Partido de básquet</h2>
+        <p>\(h(t) = -5t^{2} + 10t + 2\) (t seg, h metros)</p>
+
+        <h3>📌 Altura de lanzamiento</h3>
+        <div class="formula-box">\(h(0) = 2\) m</div>
+
+        <h3>⏫ Altura máxima e instante</h3>
+        <div class="explicacion">
+            \(t_v = -\dfrac{10}{2\cdot(-5)} = 1\) segundo.<br>
+            \(h(1) = -5(1)^2 + 10(1) + 2 = 7\) metros.
+        </div>
+
+        <h3>⏬ ¿Cuándo toca el suelo? (h=0)</h3>
+        <div class="explicacion">
+            \( -5t^2+10t+2 = 0\) → \(5t^2 -10t -2 = 0\).<br>
+            \(\Delta = (-10)^2 -4\cdot5\cdot(-2) = 100 + 40 = 140\), \(\sqrt{\Delta}\approx 11.832\).<br>
+            \(t = \frac{10 + 11.832}{10} \approx 2.183\) segundos (valor positivo).
+        </div>
+
+        <h3>⏳ Tiempo en el aire</h3>
+        <div class="formula-box">\(\approx 2.18\) s</div>
+
+        <h3>📈 Trayectoria</h3>
+        <div class="grafico" id="plot3"></div>
+        <p style="text-align:center;">* Corregido: la función se grafica usando 'x' como variable (la biblioteca no admite 't').</p>
+    </div>
+
+    <!-- EJERCICIO 4 - ANÁLISIS DE GRÁFICA -->
+    <div class="ejercicio">
+        <h2>4. 📉 Función definida</h2>
+        <p>Dominio \([-3,5]\); puntos: \((-3,1) \rightarrow (-1,4) \rightarrow (2,-2) \rightarrow (5,3)\).</p>
+
+        <h3>✏️ Gráfica con segmentos</h3>
+        <div class="grafico" id="plot4"></div>
+
+        <h3>🔺 Máximos y mínimos</h3>
+        <div class="explicacion">
+            <strong>Máximo absoluto:</strong> en \(x = -1\), valor \(4\).<br>
+            <strong>Mínimo absoluto:</strong> en \(x = 2\), valor \(-2\).<br>
+        </div>
+
+        <h3>🌐 Dominio e imagen</h3>
+        <div class="explicacion">
+            Dominio: \([-3,5]\) (dado).<br>
+            Imagen: al ser continua (segmentos), el conjunto de valores va desde \(-2\) hasta \(4\) → \([-2,4]\).
+        </div>
+
+        <h3>📈 Intervalos de crecimiento/decrecimiento</h3>
+        <div class="explicacion">
+            Crece en \([-3,-1]\) y \([2,5]\); decrece en \([-1,2]\).
+        </div>
+    </div>
+
+    <!-- EJERCICIO 5 - VERDADERO/FALSO -->
+    <div class="ejercicio">
+        <h2>5. 🔎 Verdadero o Falso</h2>
+        <div class="vf">
+            <div class="vf-item">
+                <span class="vf-num">1</span>
+                <div class="vf-content"><span class="vf-bool v">Verdadero</span> <span class="just">Una función puede tener tramos crecientes y decrecientes (p. ej., la del ejercicio 4 o cualquier cuadrática).</span></div>
+            </div>
+            <div class="vf-item">
+                <span class="vf-num">2</span>
+                <div class="vf-content"><span class="vf-bool f">Falso</span> <span class="just">El punto más alto se llama máximo (absoluto o relativo). "Vértice" es exclusivo de parábolas.</span></div>
+            </div>
+            <div class="vf-item">
+                <span class="vf-num">3</span>
+                <div class="vf-content"><span class="vf-bool v">Verdadero</span> <span class="just">El dominio es el conjunto de valores que puede tomar la variable independiente según el contexto (ej: consumo no negativo).</span></div>
+            </div>
+            <div class="vf-item">
+                <span class="vf-num">4</span>
+                <div class="vf-content"><span class="vf-bool f">Falso</span> <span class="just">Una función lineal puede ser decreciente (pendiente negativa) o constante, no siempre creciente.</span></div>
+            </div>
+            <div class="vf-item">
+                <span class="vf-num">5</span>
+                <div class="vf-content"><span class="vf-bool v">Verdadero</span> <span class="just">Toda función cuadrática tiene como gráfica una parábola (abre hacia arriba o abajo).</span></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        ⚡ Herramientas profesionales: FunctionPlot + MathJax · gráficos precisos y escalados automáticamente. (Error en gráfico 3 corregido)
+    </footer>
+</div>
+
+<script>
+    (function() {
+        // Esperar a que el DOM esté listo y MathJax haya procesado (no necesario para plots)
+        // Función para graficar con function-plot
+        function plot(selector, options) {
+            const container = document.querySelector(selector);
+            if (!container) return;
+            // Limpiar contenido previo (si lo hubiera)
+            container.innerHTML = '';
+            // Ancho responsivo: tomamos el ancho del contenedor
+            const width = container.clientWidth || 600;
+            const height = 280;
+            // Opciones por defecto
+            const defaultOpts = {
+                target: selector,
+                width: width,
+                height: height,
+                yAxis: { domain: [] }, // se ajustará
+                xAxis: { domain: [] },
+                grid: true,
+                data: []
+            };
+            const opts = Object.assign(defaultOpts, options);
+            try {
+                functionPlot(opts);
+            } catch (e) {
+                console.warn('Error en gráfico', e);
+                container.innerHTML = '<p style="color:red;">Error al generar gráfico</p>';
+            }
+        }
+
+        // Esperar un momento a que el contenedor tenga dimensiones
+        setTimeout(() => {
+            // Gráfico 1: Internet (función partida)
+            plot('#plot1', {
+                xAxis: { domain: [0, 110] },
+                yAxis: { domain: [1400, 2600] },
+                data: [
+                    { fn: '1500', range: [0, 50], color: '#d4552a' },
+                    { fn: '1500 + 20*(x-50)', range: [50, 110], color: '#d4552a' }
+                ]
+            });
+
+            // Gráfico 2: Empanadas (cuadrática)
+            plot('#plot2', {
+                xAxis: { domain: [0, 120] },
+                yAxis: { domain: [-500, 1700] },
+                data: [
+                    { fn: '-x^2 + 120*x - 2000', color: '#1d815e' }
+                ]
+            });
+
+            // Gráfico 3: Básquet (CORREGIDO: se reemplazó t por x)
+            plot('#plot3', {
+                xAxis: { domain: [0, 2.5] },
+                yAxis: { domain: [0, 8] },
+                data: [
+                    { fn: '-5*x^2 + 10*x + 2', color: '#c4422b' }
+                ]
+            });
+
+            // Gráfico 4: Función por segmentos (tres tramos lineales)
+            setTimeout(() => {
+                const container4 = document.querySelector('#plot4');
+                if (!container4) return;
+                container4.innerHTML = '';
+                functionPlot({
+                    target: '#plot4',
+                    width: container4.clientWidth || 600,
+                    height: 280,
+                    xAxis: { domain: [-3.5, 5.5] },
+                    yAxis: { domain: [-2.5, 4.5] },
+                    grid: true,
+                    data: [
+                        { fn: '1.5*x + 5.5', range: [-3, -1], color: '#2e6396' },
+                        { fn: '-2*x + 2', range: [-1, 2], color: '#2e6396' },
+                        { fn: '-2 + (5/3)*(x-2)', range: [2, 5], color: '#2e6396' }
+                    ]
+                });
+            }, 100);
+        }, 200);
+    })();
+</script>
+<!-- Pequeño ajuste para recargar gráficos al redimensionar (opcional) -->
+<script>
+    window.addEventListener('resize', () => location.reload());
+</script>
+</body>
+</html>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📘 Desafío Numérico · Completo + Recta precisa</title>
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true},{left: '\\(', right: '\\)', display: false}]});"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: #eaf0f8;
+            color: #0c2a44;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 45px -15px #1e3b5e;
+            padding: 2.8rem 3rem;
+        }
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #103a5e, #1f5090);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.3rem;
+        }
+        .badge {
+            background: #dee9fc;
+            color: #1f4a7a;
+            padding: 0.4rem 1.6rem;
+            border-radius: 40px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 2.2rem;
+            border: 1px solid #acc5e5;
+        }
+        .actividad {
+            background: #f9fcff;
+            border-left: 8px solid #1f5e9e;
+            border-radius: 2rem;
+            padding: 2rem 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 18px -8px rgba(0,40,75,0.15);
+        }
+        .actividad h2 {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 2rem;
+            font-weight: 650;
+            color: #0e3b64;
+            margin-bottom: 1.8rem;
+        }
+        .actividad h2 span {
+            background: #1f5e9e;
+            color: white;
+            width: 48px;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            font-size: 1.7rem;
+            box-shadow: 0 8px 12px #1f5e9e60;
+        }
+        .consigna {
+            background: #e2edfb;
+            padding: 1.4rem 2rem;
+            border-radius: 1.8rem;
+            margin-bottom: 2rem;
+            border: 1px solid #b6cff0;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        .solucion {
+            background: white;
+            border-radius: 1.8rem;
+            padding: 1.8rem 2.5rem;
+            box-shadow: inset 0 2px 8px #dde5f0, 0 12px 18px -14px #102a44;
+        }
+        .solucion h3 {
+            font-size: 1.8rem;
+            font-weight: 650;
+            color: #113355;
+            margin-bottom: 1.4rem;
+            border-bottom: 3px solid #b6c9e6;
+            padding-bottom: 0.5rem;
+        }
+        .paso {
+            margin: 1.2rem 0 1.2rem 1.8rem;
+            padding-left: 1.8rem;
+            border-left: 5px solid #abc9e6;
+            font-size: 1.1rem;
+        }
+        .concepto {
+            background: #d4e7f0;
+            padding: 0.2rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            color: #0a4c6e;
+            display: inline-block;
+            margin: 0.8rem 0;
+        }
+        .sugerencia {
+            background: #fff2dc;
+            border-radius: 1.6rem;
+            padding: 1.2rem 2rem;
+            margin-top: 2rem;
+            border-left: 8px solid #f3ac3c;
+            color: #3e3c0a;
+        }
+        /* Actividad 4: propiedades */
+        .prop-item {
+            background: #f1f7fe;
+            border-radius: 1.5rem;
+            padding: 1.2rem 2rem;
+            margin: 1.2rem 0;
+            border: 1px solid #c5d9f0;
+        }
+        .prop-igualdad {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #0b3f6b;
+            margin-bottom: 0.3rem;
+        }
+        .prop-nombre {
+            background: #d4e4fc;
+            padding: 0.3rem 1.5rem;
+            border-radius: 40px;
+            display: inline-block;
+            font-weight: 700;
+            color: #033b66;
+            margin: 0.5rem 0 0.2rem 0;
+            font-size: 1.1rem;
+        }
+        .prop-explicacion {
+            margin-left: 1rem;
+            color: #1c4f6e;
+            font-size: 1rem;
+            border-left: 4px solid #608ac7;
+            padding-left: 1.2rem;
+        }
+        /* RECTA DE COORDENADAS PRECISA (estilo eje cartesiano) */
+        .recta-precisa {
+            background: #ffffff;
+            border-radius: 2.5rem;
+            padding: 1.8rem 0.5rem 2.8rem 0.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 8px 25px #b0c8e0;
+        }
+        .svg-recta {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: white;
+            border-radius: 20px;
+        }
+        .eje-linea {
+            stroke: #1f3a5f;
+            stroke-width: 4;
+            stroke-linecap: round;
+        }
+        .tick-mayor {
+            stroke: #1f3a5f;
+            stroke-width: 3;
+        }
+        .tick-menor {
+            stroke: #5f7da0;
+            stroke-width: 1.5;
+            stroke-dasharray: 3 3;
+        }
+        .etiqueta-entero {
+            font-size: 0.9rem;
+            fill: #103a5e;
+            font-weight: 600;
+            text-anchor: middle;
+        }
+        .punto-marca {
+            fill: #c0392b;
+            stroke: white;
+            stroke-width: 2;
+            transition: r 0.1s;
+        }
+        .etiqueta-punto {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-anchor: middle;
+            paint-order: stroke;
+            stroke: white;
+            stroke-width: 2px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            dominant-baseline: hanging;
+        }
+        .linea-ayuda {
+            stroke: #f39c12;
+            stroke-width: 1.5;
+            stroke-dasharray: 5 3;
+        }
+        /* autoevaluación */
+        .autoeval {
+            background: #e9eff7;
+            border-radius: 2.5rem;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            border: 3px dashed #1f5e9e;
+        }
+        .autoeval h3 {
+            font-size: 2.2rem;
+            color: #0e3b64;
+            margin-bottom: 1.8rem;
+        }
+        .ej-item {
+            background: white;
+            border-radius: 1.8rem;
+            padding: 1.4rem 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .btn-sol {
+            background: none;
+            border: 2px solid #1f5e9e;
+            padding: 0.4rem 2rem;
+            border-radius: 40px;
+            font-weight: 700;
+            color: #1f5e9e;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 0.8rem 0;
+            font-size: 1rem;
+        }
+        .btn-sol:hover {
+            background: #1f5e9e;
+            color: white;
+        }
+        .respuesta {
+            display: none;
+            background: #e1f0fa;
+            padding: 1rem 1.8rem;
+            border-radius: 1.4rem;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 1rem;
+            color: #58718b;
+            border-top: 2px solid #c4d3e8;
+            padding-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>⚡ Desafío Numérico · 4° año</h1>
+    <div class="badge">📐 completo · explicaciones pedagógicas · recta precisa</div>
+
+    <!-- ACTIVIDAD 1 (completa) -->
+    <section class="actividad">
+        <h2><span>1</span> Clasificando números</h2>
+        <div class="consigna">
+            <p>\( -3,\; \frac{2}{5},\; 0,\; \sqrt{4},\; -\frac{7}{3},\; 1,\; \frac{9}{-3},\; 2.6,\; \pi,\; \frac{0}{5} \)</p>
+            <p>a) Indica a qué conjuntos (\( \mathbb{N}, \mathbb{Z}, \mathbb{Q} \)) pertenece cada uno. b) ¿Hay algún número no racional? ¿Por qué?</p>
+        </div>
+        <div class="solucion">
+            <h3>🔎 Solución razonada</h3>
+            <div class="paso">
+                <span class="concepto">\(\mathbb{N}\) (naturales)</span> → Enteros no negativos. En 4° año se considera generalmente \(\mathbb{N}=\{0,1,2,\ldots\}\). Así: \(\sqrt{4}=2\) y \(1\) son naturales; \(0\) también es natural (según criterio ampliado).<br>
+                <span class="concepto">\(\mathbb{Z}\) (enteros)</span> → \(\ldots,-2,-1,0,1,2,\ldots\). Incluye negativos y positivos. Por tanto: \(-3\), \(0\), \(2\) (de \(\sqrt{4}\)), \(1\), \(\frac{9}{-3}=-3\) son enteros.<br>
+                <span class="concepto">\(\mathbb{Q}\) (racionales)</span> → todo número que puede escribirse como fracción de dos enteros (denominador ≠ 0). Todos excepto \(\pi\) son racionales porque pueden expresarse como fracción: \(-3 = \frac{-3}{1}\), \(\frac{2}{5}\) ya es fracción, \(0 = \frac{0}{1}\), \(\sqrt{4}=2 = \frac{2}{1}\), \(-\frac{7}{3}\), \(1 = \frac{1}{1}\), \(\frac{9}{-3} = -3\), \(2.6 = \frac{26}{10} = \frac{13}{5}\), \(\frac{0}{5}=0\). \(\pi\) es irracional (decimal infinito no periódico). 
+                <br><strong>Observación:</strong> No confundir "fracción" con "decimal". Un decimal exacto (2.6) o periódico es racional.
+            </div>
+            <div class="sugerencia">
+                <strong>📝 Sugerencia pedagógica:</strong> Para decidir si un número es racional, intenta escribirlo como fracción de enteros. Por ejemplo, \(2.6 = \frac{26}{10}\). Si no es posible (como \(\pi\) o \(\sqrt{2}\)), entonces es irracional.
+            </div>
+        </div>
+    </section>
+
+    <!-- ACTIVIDAD 2: RECTA PRECISA (sistema de coordenadas) -->
+    <section class="actividad">
+        <h2><span>2</span> Representación en la recta numérica</h2>
+        <div class="consigna">
+            <p>Ubica aproximadamente: \( -2,\; \frac{3}{4},\; -1.5,\; \frac{5}{2},\; -\frac{1}{3},\; 0.75 \)</p>
+        </div>
+        <div class="recta-precisa">
+            <!-- SVG con escalas de -3 a 3, marcas en cada unidad y submarcas cada 0.5 -->
+            <svg viewBox="0 0 800 200" class="svg-recta">
+                <!-- Definiciones de flecha (opcional) -->
+                <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#1f3a5f"/></marker></defs>
+                <!-- Eje horizontal con flechas -->
+                <line x1="40" y1="120" x2="760" y2="120" stroke="#1f3a5f" stroke-width="4" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+                <!-- Marcas de enteros de -3 a 3: coordenadas X: 40 ( -3 ), 160 ( -2 ), 280 ( -1 ), 400 ( 0 ), 520 ( 1 ), 640 ( 2 ), 760 ( 3 ) (cada 120px) -->
+                <g>
+                    <line x1="40" y1="110" x2="40" y2="130" class="tick-mayor"/>
+                    <text x="40" y="150" class="etiqueta-entero">-3</text>
+                    <line x1="160" y1="110" x2="160" y2="130" class="tick-mayor"/>
+                    <text x="160" y="150" class="etiqueta-entero">-2</text>
+                    <line x1="280" y1="110" x2="280" y2="130" class="tick-mayor"/>
+                    <text x="280" y="150" class="etiqueta-entero">-1</text>
+                    <line x1="400" y1="110" x2="400" y2="130" class="tick-mayor"/>
+                    <text x="400" y="150" class="etiqueta-entero">0</text>
+                    <line x1="520" y1="110" x2="520" y2="130" class="tick-mayor"/>
+                    <text x="520" y="150" class="etiqueta-entero">1</text>
+                    <line x1="640" y1="110" x2="640" y2="130" class="tick-mayor"/>
+                    <text x="640" y="150" class="etiqueta-entero">2</text>
+                    <line x1="760" y1="110" x2="760" y2="130" class="tick-mayor"/>
+                    <text x="760" y="150" class="etiqueta-entero">3</text>
+                </g>
+                <!-- Submarcas cada 0.5 (puntos medios) -->
+                <line x1="100" y1="115" x2="100" y2="125" class="tick-menor"/> <!-- -2.5 -->
+                <line x1="220" y1="115" x2="220" y2="125" class="tick-menor"/> <!-- -1.5 -->
+                <line x1="340" y1="115" x2="340" y2="125" class="tick-menor"/> <!-- -0.5 -->
+                <line x1="460" y1="115" x2="460" y2="125" class="tick-menor"/> <!-- 0.5 -->
+                <line x1="580" y1="115" x2="580" y2="125" class="tick-menor"/> <!-- 1.5 -->
+                <line x1="700" y1="115" x2="700" y2="125" class="tick-menor"/> <!-- 2.5 -->
+                
+                <!-- Puntos solicitados (cálculo: x = 400 + 120 * valor) porque 0 está en 400, cada unidad = 120px -->
+                <!-- -2       -> 400 + 120*(-2) = 160 -->
+                <!-- -1.5     -> 400 + 120*(-1.5) = 400 -180 = 220 -->
+                <!-- -1/3 ≈ -0.3333 -> 400 + 120*(-0.3333) = 400 -40 = 360 -->
+                <!-- 3/4 = 0.75 -> 400 + 120*0.75 = 400 + 90 = 490 -->
+                <!-- 0.75 mismo -> 490 -->
+                <!-- 5/2 = 2.5 -> 400 + 120*2.5 = 400 + 300 = 700 -->
+                <circle cx="160" cy="100" r="8" class="punto-marca" />
+                <text x="160" y="70" class="etiqueta-punto" fill="#b11f1f">-2</text>
+                <circle cx="220" cy="100" r="8" class="punto-marca" fill="#d97706"/>
+                <text x="220" y="45" class="etiqueta-punto" fill="#b85e00">-1.5</text>
+                <circle cx="360" cy="100" r="8" class="punto-marca" fill="#16a34a"/>
+                <text x="360" y="70" class="etiqueta-punto" fill="#0f6b3b">\(-\frac{1}{3}\)</text>
+                <circle cx="490" cy="100" r="8" class="punto-marca" fill="#2563eb"/>
+                <text x="490" y="45" class="etiqueta-punto" fill="#1e3f8f">\(\frac{3}{4}=0.75\)</text>
+                <circle cx="700" cy="100" r="8" class="punto-marca" fill="#b45309"/>
+                <text x="700" y="70" class="etiqueta-punto" fill="#a1450a">\(\frac{5}{2}=2.5\)</text>
+                
+                <!-- Líneas punteadas auxiliares desde los puntos al eje (opcional) -->
+                <line x1="160" y1="100" x2="160" y2="120" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <line x1="220" y1="100" x2="220" y2="120" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <line x1="360" y1="100" x2="360" y2="120" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <line x1="490" y1="100" x2="490" y2="120" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <line x1="700" y1="100" x2="700" y2="120" stroke="#b45309" stroke-width="1.5" stroke-dasharray="4 4"/>
+            </svg>
+            <p style="text-align: center; margin-top: 1rem; font-size: 1.1rem; color: #1f4973;">
+                ⚡ Cada unidad = 120 píxeles. Las marchas finas indican los medios. \(\frac{3}{4}\) y \(0.75\) son el mismo punto.
+            </p>
+        </div>
+        <div class="solucion">
+            <h3>📏 Explicación de ubicación</h3>
+            <div class="paso">
+                Para ubicar fracciones en la recta, se divide el segmento entre enteros en partes iguales según el denominador. Por ejemplo:
+                <ul style="margin-top:0.5rem; margin-left:1.5rem;">
+                    <li>\(-2\) está justo en la marca del -2.</li>
+                    <li>\(-1.5 = -\frac{3}{2}\): punto medio entre -2 y -1.</li>
+                    <li>\(-\frac{1}{3}\approx -0.333\): dividimos el intervalo de -1 a 0 en tres partes iguales; la segunda marca desde -1 (la más cercana a 0) corresponde a \(-\frac{1}{3}\).</li>
+                    <li>\(\frac{3}{4}=0.75\): dividimos [0,1] en 4 partes; la tercera es 0.75.</li>
+                    <li>\(\frac{5}{2}=2.5\): punto medio entre 2 y 3.</li>
+                </ul>
+                En el SVG se utilizó la fórmula \(x = 400 + 120 \cdot v\) donde \(v\) es el valor numérico.
+            </div>
+            <div class="sugerencia">
+                <strong>✏️ Sugerencia pedagógica:</strong> Siempre conviene convertir a decimal para verificar, pero practicar la división en partes mejora la intuición geométrica.
+            </div>
+        </div>
+    </section>
+
+    <!-- ACTIVIDAD 3: Operaciones (completa con todos los pasos) -->
+    <section class="actividad">
+        <h2><span>3</span> Operaciones combinadas</h2>
+        <div class="consigna">
+            <p>a) \(3 - 5 \times (-2) + \frac{4}{2}\) &nbsp;&nbsp; b) \(\left(-\frac{2}{3} + \frac{1}{2}\right) \times \frac{6}{5}\)</p>
+            <p>c) \(\frac{3}{4} \div \frac{9}{8} - \frac{1}{3}\) &nbsp;&nbsp; d) \((-2)^3 \times \left(\frac{1}{4} - \frac{3}{2}\right)\)</p>
+        </div>
+        <div class="solucion">
+            <h3>🧮 Resolución paso a paso</h3>
+            <div class="paso">
+                <strong>a) \(3 - 5 \times (-2) + \frac{4}{2}\)</strong><br>
+                Jerarquía: primero multiplicación y división. \(5 \times (-2) = -10\). \(\frac{4}{2}=2\). Luego: \(3 - (-10) + 2 = 3+10+2 = 15\). <span class="concepto">Regla de signos: menos por menos = más</span>.
+            </div>
+            <div class="paso">
+                <strong>b) \(\left(-\frac{2}{3} + \frac{1}{2}\right) \times \frac{6}{5}\)</strong><br>
+                Suma de fracciones: común denominador 6: \(-\frac{4}{6} + \frac{3}{6} = -\frac{1}{6}\). Multiplicamos: \(-\frac{1}{6} \times \frac{6}{5} = -\frac{6}{30} = -\frac{1}{5}\). <span class="concepto">Simplificación: 6 cancela parcialmente</span>.
+            </div>
+            <div class="paso">
+                <strong>c) \(\frac{3}{4} \div \frac{9}{8} - \frac{1}{3}\)</strong><br>
+                División: \(\frac{3}{4} \times \frac{8}{9} = \frac{24}{36} = \frac{2}{3}\). Resta: \(\frac{2}{3} - \frac{1}{3} = \frac{1}{3}\).
+            </div>
+            <div class="paso">
+                <strong>d) \((-2)^3 \times \left(\frac{1}{4} - \frac{3}{2}\right)\)</strong><br>
+                Potencia: \((-2)^3 = -8\). Paréntesis: común 4: \(\frac{1}{4} - \frac{6}{4} = -\frac{5}{4}\). Multiplicación: \(-8 \times \left(-\frac{5}{4}\right) = \frac{40}{4} = 10\). <span class="concepto">negativo × negativo = positivo</span>.
+            </div>
+            <div class="sugerencia">
+                <strong>🧠 Sugerencia:</strong> Respeta siempre la jerarquía: 1) paréntesis, 2) potencias, 3) multiplicación/división (izquierda a derecha), 4) suma/resta. En fracciones, simplificar antes de operar ahorra tiempo.
+            </div>
+        </div>
+    </section>
+
+    <!-- ACTIVIDAD 4: Propiedades (cada igualdad con su propiedad) -->
+    <section class="actividad">
+        <h2><span>4</span> Propiedades en acción</h2>
+        <div class="consigna">
+            <p>Identifica la propiedad que justifica cada igualdad:</p>
+            <p>a) \(5 + (-5) = 0\) &nbsp; b) \((3+4)+2 = 3+(4+2)\) &nbsp; c) \(7 \times (10+3) = 7\times10 + 7\times3\) &nbsp; d) \(\frac{3}{4} \times 1 = \frac{3}{4}\) &nbsp; e) \(8\times2 = 2\times8\)</p>
+        </div>
+        <div class="solucion">
+            <h3>🔷 Propiedades fundamentales</h3>
+            <div class="prop-item">
+                <div class="prop-igualdad">\(5 + (-5) = 0\)</div>
+                <div class="prop-nombre">Inverso aditivo (elemento opuesto)</div>
+                <div class="prop-explicacion">Todo número sumado con su opuesto da el neutro de la suma (cero). Esencial para resolver ecuaciones como \(x+5=0\).</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-igualdad">\((3+4)+2 = 3+(4+2)\)</div>
+                <div class="prop-nombre">Asociativa de la suma</div>
+                <div class="prop-explicacion">La forma en que se agrupan los sumandos no altera el resultado. Permite sumar en cualquier orden conveniente.</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-igualdad">\(7 \times (10+3) = 7\times10 + 7\times3\)</div>
+                <div class="prop-nombre">Distributiva (multiplicación respecto a suma)</div>
+                <div class="prop-explicacion">Multiplicar un número por una suma equivale a multiplicar por cada sumando y luego sumar. Clave para cálculo mental y simplificación algebraica.</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-igualdad">\(\frac{3}{4} \times 1 = \frac{3}{4}\)</div>
+                <div class="prop-nombre">Elemento neutro de la multiplicación</div>
+                <div class="prop-explicacion">El 1 es el neutro multiplicativo: cualquier número multiplicado por 1 permanece igual. Fundamental en fracciones equivalentes.</div>
+            </div>
+            <div class="prop-item">
+                <div class="prop-igualdad">\(8\times2 = 2\times8\)</div>
+                <div class="prop-nombre">Conmutativa de la multiplicación</div>
+                <div class="prop-explicacion">El orden de los factores no cambia el producto. Facilita el cálculo y es base de la simetría en operaciones.</div>
+            </div>
+            <div class="sugerencia">
+                <strong>🧠 Reflexión pedagógica:</strong> Las propiedades no son reglas mecánicas, sino herramientas que justifican nuestros pasos al resolver problemas. Reconocerlas ayuda a construir pensamiento algebraico.
+            </div>
+        </div>
+    </section>
+
+    <!-- ACTIVIDAD 5: Problemas (completa) -->
+    <section class="actividad">
+        <h2><span>5</span> Problemas para pensar</h2>
+        <div class="consigna">
+            <p>1) Pileta: canilla A aporta \(\frac{2}{5}\) por hora, canilla B \(\frac{3}{10}\). ¿Fracción llena en una hora con ambas abiertas?</p>
+            <p>2) Temperatura: \(-4^\circ C\) a las 6 am, aumenta \(7^\circ C\), luego desciende \(5^\circ C\). Temperatura al atardecer?</p>
+            <p>3) Depósito con \(\frac{3}{4}\) litro de jugo. Vasos de \(\frac{1}{8}\) litro. ¿Cuántos vasos?</p>
+        </div>
+        <div class="solucion">
+            <h3>📝 Solución comentada</h3>
+            <div class="paso">
+                <strong>Problema 1:</strong> Sumamos los aportes: \(\frac{2}{5} + \frac{3}{10} = \frac{4}{10} + \frac{3}{10} = \frac{7}{10}\). En una hora se llena \(\frac{7}{10}\) de la pileta. <span class="concepto">Suma de fracciones con distinto denominador</span>.
+            </div>
+            <div class="paso">
+                <strong>Problema 2:</strong> Temperatura inicial: \(-4\). Aumento: \(-4 + 7 = 3^\circ C\). Luego desciende: \(3 - 5 = -2^\circ C\). <span class="concepto">Números enteros en contexto cotidiano</span>.
+            </div>
+            <div class="paso">
+                <strong>Problema 3:</strong> Dividir \(\frac{3}{4}\) entre \(\frac{1}{8}\): \(\frac{3}{4} \div \frac{1}{8} = \frac{3}{4} \times \frac{8}{1} = \frac{24}{4} = 6\) vasos. <span class="concepto">División de fracciones = multiplicar por el inverso</span>.
+            </div>
+            <div class="sugerencia">
+                <strong>🍎 Sugerencia:</strong> En problemas con fracciones, dibuja siempre un esquema (rectángulos para la pileta o vasos). Para temperaturas, ayuda imaginar la recta numérica.
+            </div>
+        </div>
+    </section>
+
+    <!-- ACTIVIDAD 6: Reflexión final -->
+    <section class="actividad">
+        <h2><span>6</span> Reflexión final</h2>
+        <div class="solucion">
+            <div class="paso">
+                <span class="concepto">\(\mathbb{N}\)</span> → Sirven para contar (0,1,2,...). No incluyen negativos ni fracciones.<br>
+                <span class="concepto">\(\mathbb{Z}\)</span> → Amplían \(\mathbb{N}\) con los negativos. Útiles para deudas, altitudes, temperaturas.<br>
+                <span class="concepto">\(\mathbb{Q}\)</span> → Cociente de enteros. Incluyen decimales exactos y periódicos. Permiten expresar partes de unidad.<br>
+                <strong>Propiedades:</strong> Facilitan el cálculo mental, justifican despejes, y son base del álgebra.<br>
+                <strong>Próximo paso: irracionales (\(\mathbb{I}\))</strong> → Decimales infinitos no periódicos ( \(\pi, \sqrt{2}, e\) ). No pueden escribirse como fracción.
+            </div>
+            <div class="sugerencia">
+                <strong>📌 Para repasar:</strong> Clasifica números dados, practica operaciones con fracciones y enteros, y memoriza el nombre de las propiedades. Una buena base evitará dificultades con números reales.
+            </div>
+        </div>
+    </section>
+
+    <!-- AUTOEVALUACIÓN con 5 ejercicios y soluciones ocultas -->
+    <section class="autoeval">
+        <h3>📝 Autoevaluación · Ejercicios adicionales</h3>
+        <div class="ej-item">
+            <p><strong>1.</strong> Clasifica en \(\mathbb{N}, \mathbb{Z}, \mathbb{Q}\): \(-\frac{8}{2}, \sqrt{9}, 0.3, \frac{22}{7}\).</p>
+            <button class="btn-sol" onclick="toggleSol(1)">Mostrar solución comentada</button>
+            <div id="sol1" class="respuesta">\(-\frac{8}{2}=-4 \in \mathbb{Z},\mathbb{Q}\); \(\sqrt{9}=3 \in \mathbb{N},\mathbb{Z},\mathbb{Q}\); \(0.3=\frac{3}{10} \in \mathbb{Q}\); \(\frac{22}{7}\) es periódico (3.142857...) luego \(\in \mathbb{Q}\).</div>
+        </div>
+        <div class="ej-item">
+            <p><strong>2.</strong> Calcula: \(\left(\frac{5}{6} - \frac{2}{3}\right) \times \frac{12}{5} + (-1)^4\).</p>
+            <button class="btn-sol" onclick="toggleSol(2)">Ver solución</button>
+            <div id="sol2" class="respuesta">\(\frac{5}{6} - \frac{4}{6} = \frac{1}{6}\); \(\frac{1}{6} \times \frac{12}{5} = \frac{12}{30}=\frac{2}{5}\); \((-1)^4=1\); suma: \(\frac{2}{5}+1 = \frac{7}{5}\).</div>
+        </div>
+        <div class="ej-item">
+            <p><strong>3.</strong> Propiedad usada en \( (2+3)\times4 = 4\times(2+3) \)?</p>
+            <button class="btn-sol" onclick="toggleSol(3)">Mostrar</button>
+            <div id="sol3" class="respuesta">Conmutativa de la multiplicación (el orden del producto no altera el resultado).</div>
+        </div>
+        <div class="ej-item">
+            <p><strong>4.</strong> Una canilla llena \(\frac{1}{3}\) del tanque por hora, otra \(\frac{1}{6}\). ¿Fracción llena en una hora? ¿Tiempo total?</p>
+            <button class="btn-sol" onclick="toggleSol(4)">Solución</button>
+            <div id="sol4" class="respuesta">\(\frac{1}{3}+\frac{1}{6}=\frac{2}{6}+\frac{1}{6}=\frac{3}{6}=\frac{1}{2}\) por hora. Tardan 2 horas (inversa: 1/(1/2)=2).</div>
+        </div>
+        <div class="ej-item">
+            <p><strong>5.</strong> Temperatura: \(-2^\circ C\), sube \(8^\circ C\), baja \(10^\circ C\). ¿Final?</p>
+            <button class="btn-sol" onclick="toggleSol(5)">Ver</button>
+            <div id="sol5" class="respuesta">\(-2+8=6\); \(6-10=-4^\circ C\).</div>
+        </div>
+    </section>
+
+    <footer>
+        ⏱️ Diagnóstico 4° año · Material completo · Explicaciones paso a paso · Recta numérica precisa · Propiedades detalladas
+    </footer>
+</div>
+
+<script>
+    function toggleSol(id) {
+        const elem = document.getElementById('sol'+id);
+        elem.style.display = (elem.style.display === 'none' || elem.style.display === '') ? 'block' : 'none';
+    }
+    window.onload = function() {
+        for (let i=1; i<=5; i++) document.getElementById('sol'+i).style.display = 'none';
+    };
+</script>
+<script>
+    renderMathInElement(document.body, {delimiters: [{left: '\\(', right: '\\)', display: false}]});
+</script>
+</body>
+</html>

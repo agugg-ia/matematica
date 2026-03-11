@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Construcción de los Números Reales | Matemática Secundaria</title>
     
-    <!-- Carga de MathJax para renderizar LaTeX -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <!-- Carga de MathJax -->
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
         window.MathJax = {
@@ -28,6 +27,7 @@
             --card-bg: #ffffff;
             --text-color: #333333;
             --border-radius: 8px;
+            --danger-color: #c0392b;
         }
 
         body {
@@ -36,7 +36,7 @@
             color: var(--text-color);
             margin: 0;
             padding: 0;
-            line-height: 1.6;
+            line-height: 1.7; /* Ligeramente más amplio para lectura teórica */
         }
 
         header {
@@ -50,6 +50,7 @@
         h1 { margin: 0; font-weight: 300; letter-spacing: 1px; }
         h2 { color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-top: 30px; }
         h3 { color: var(--secondary-accent); margin-top: 25px; }
+        h4 { color: var(--primary-color); margin-bottom: 10px; border-bottom: 1px dashed #ccc; padding-bottom: 5px;}
 
         main {
             max-width: 1000px;
@@ -86,7 +87,7 @@
             box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
         }
 
-        /* Contenedores de Pestañas */
+        /* Contenedores */
         .tab-content {
             display: none;
             background-color: var(--card-bg);
@@ -103,7 +104,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Clases Solicitadas y Estilos Comunes */
+        /* Cajas de Estilo */
         .intro-quote {
             font-style: italic;
             font-size: 1.2rem;
@@ -119,8 +120,17 @@
             background-color: #ebf5fb;
             border: 1px solid #aed6f1;
             border-left: 5px solid #3498db;
-            padding: 20px;
+            padding: 25px; /* Más padding para teoría */
             margin: 25px 0;
+            border-radius: var(--border-radius);
+        }
+
+        .warning-box {
+            background-color: #fdecea;
+            border: 1px solid #f5c6cb;
+            border-left: 5px solid var(--danger-color);
+            padding: 20px;
+            margin: 20px 0;
             border-radius: var(--border-radius);
         }
 
@@ -132,9 +142,14 @@
             border-radius: var(--border-radius);
         }
         
-        .solved-example h4 { margin-top: 0; color: var(--primary-color); border-bottom: 1px dashed #ccc; padding-bottom: 10px; }
+        .activity-section {
+            background-color: #f9f9f9;
+            border-top: 3px solid var(--primary-color);
+            padding: 25px;
+            margin-top: 50px;
+            border-radius: var(--border-radius);
+        }
 
-        /* Estilos para Referencias y Actividades */
         .further-reading {
             background: #fff3cd;
             border: 1px solid #ffeeba;
@@ -142,39 +157,15 @@
             border-radius: 8px;
             margin-top: 30px;
         }
-        .further-reading ul { list-style: none; padding: 0; }
-        .further-reading li { margin-bottom: 8px; }
-        .further-reading a { color: #856404; font-weight: bold; text-decoration: none; }
-        .further-reading a:hover { text-decoration: underline; }
-
-        .activity-box {
-            background-color: #f0fff4;
-            border: 1px solid #c3e6cb;
-            border-left: 5px solid var(--success-color);
-            padding: 20px;
-            margin: 25px 0;
-            border-radius: var(--border-radius);
-        }
-
-        /* Propiedades Grid */
-        .prop-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .prop-card {
-            background: white; border: 1px solid #ddd; padding: 15px; border-radius: 8px;
-        }
-        .prop-title { font-weight: bold; color: var(--accent-color); margin-bottom: 10px; display: block;}
         
-        /* Estilos Ejercicios Pestaña 5 y 6 */
+        /* Ejercicios Interactivos */
         .exercise-item {
             position: relative;
             padding: 15px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
             background-color: #fff;
+            border-radius: 6px;
         }
         
         .btn-solution {
@@ -186,6 +177,7 @@
             font-size: 0.85rem;
             cursor: pointer;
             margin-top: 10px;
+            transition: background 0.2s;
         }
         .btn-solution:hover { background-color: #d35400; }
         
@@ -193,11 +185,32 @@
             display: none;
             margin-top: 15px;
             padding: 15px;
-            background-color: #f8f9fa;
+            background-color: #e8f5e9;
             border-left: 4px solid var(--success-color);
-            color: #444;
+            color: #2e7d32;
             font-size: 0.95rem;
             border-radius: 0 4px 4px 0;
+        }
+
+        /* Propiedades Grid */
+        .prop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .prop-card {
+            background: #fcfcfc; 
+            border: 1px solid #ddd; 
+            padding: 20px; 
+            border-radius: 8px;
+        }
+        .prop-title { 
+            font-weight: bold; 
+            color: var(--accent-color); 
+            margin-bottom: 10px; 
+            display: block;
+            font-size: 1.1rem;
         }
 
         /* Responsividad */
@@ -223,7 +236,7 @@
         <button class="tab-btn" onclick="openTab(event, 'tab3')">3. Demostración Raíz 2</button>
         <button class="tab-btn" onclick="openTab(event, 'tab4')">4. Densidad y Completitud</button>
         <button class="tab-btn" onclick="openTab(event, 'tab5')">5. Operaciones y Axiomas</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab6')">6. Práctica y Autoevaluación</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab6')">6. Práctica Integral</button>
     </nav>
 
     <!-- ========================================= -->
@@ -234,33 +247,73 @@
             "Las matemáticas son el alfabeto con el cual Dios ha escrito el universo." <br>— Galileo Galilei
         </div>
 
+        <h3>1. La Necesidad de Ampliar los Conjuntos Numéricos</h3>
         <p>
-            Descubrir que no todo número puede expresarse como una fracción (cociente de enteros) fue uno de los momentos más dramáticos y trascendentales en la historia del pensamiento humano. Este hallazgo no solo cambió las matemáticas, sino que transformó nuestra comprensión de la geometría y la física. Significó comprender que el universo no está hecho simplemente de "ladrillos" discretos y medibles fácilmente, sino que posee una continuidad infinita donde las magnitudes pueden ser inconmensurables.
-        </p>
-        <p>
-            La aceptación de estos nuevos números permitió el paso de una matemática estática y basada en proporciones simples, a una matemática dinámica capaz de modelar el cambio, el crecimiento y el infinito, fundamentando las ciencias modernas tal como las conocemos hoy.
+            La matemática no surge de la nada; surge de la necesidad de resolver problemas. Históricamente, cada nuevo conjunto numérico apareció para "tapar un agujero" en el conjunto anterior. Entender este proceso es clave para comprender por qué necesitamos los Números Reales ($\mathbb{R}$).
         </p>
 
-        <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
-
-        <h3>La Crisis de los Pitagóricos</h3>
-        <p>
-            En la antigua Grecia, la escuela pitagórica creía firmemente que "todo es número", entendiendo por número únicamente a los racionales (números enteros y fracciones). Se cuenta la leyenda de <strong>Hipaso de Metaponto</strong>, un pitagórico que, al estudiar la diagonal de un cuadrado de lado 1, descubrió que su longitud ($\sqrt{2}$) no podía escribirse como fracción alguna. Este hallazgo reveló la <strong>inconmensurabilidad</strong>: no existía una unidad común de medida que cabiera un número entero de veces tanto en el lado como en la diagonal.
-        </p>
-        <p>
-            Este descubrimiento fue tan devastador para su cosmovisión que, según la tradición, intentaron mantener el secreto. Se dice que Hipaso fue expulsado de la escuela o incluso arrojado al mar por revelar al mundo la existencia de estos "nombres irracionales" (ajenos a la razón). Este momento marcó el fin de la supremacía pitagórica y el inicio de una geometría más abstracta y profunda.
-        </p>
-
-        <!-- Referencias corregidas -->
-        <div class="further-reading">
-            <h3>📚 Para ampliar conocimientos</h3>
-            <p>Si quieres profundizar en la historia de Hipaso y el misterio de los irracionales, te recomendamos estos recursos:</p>
+        <div class="concept-box">
+            <h4>Evolución Histórica de los Conjuntos</h4>
             <ul>
-                <li><a href="https://www.youtube.com/watch?v=p_k4deZWaBo" target="_blank">Video: El misterio de la raíz de 2 - Date un Vlog</a> (Enlace corregido)</li>
-                <li><a href="https://es.wikipedia.org/wiki/Hipaso_de_Metaponto" target="_blank">Artículo: Hipaso de Metaponto en Wikipedia</a></li>
-                <li><a href="https://www.britannica.com/science/irrational-number" target="_blank">Encyclopaedia Britannica: Irrational Number (Inglés)</a></li>
-                <li><a href="https://www.youtube.com/watch?v=xOy5-OCaCg4" target="_blank">Video: Introducción a los números irracionales - Khan Academy</a></li>
+                <li><strong>Los Naturales ($\mathbb{N}$):</strong> Surgen para contar ovejas, días o hijos. Pero... ¿qué pasa si tengo 5 ovejas y vendo 5? ¿Qué número representa "nada"? $\mathbb{N}$ no tiene respuesta. Tampoco puede resolver $5 - 7$.</li>
+                <li><strong>Los Enteros ($\mathbb{Z}$):</strong> Incorporamos el cero y los negativos. Ahora podemos representar deudas y temperaturas bajo cero. Pero... ¿cómo repartimos 2 pizzas entre 3 amigos? $2 \div 3$ no es un entero.</li>
+                <li><strong>Los Racionales ($\mathbb{Q}$):</strong> Incorporamos las fracciones. Los griegos pensaban que aquí terminaba todo: "Todo es número" (fracción). El universo era armonía y proporción.</li>
+                <li><strong>La Crisis:</strong> Al estudiar la geometría, descubrieron magnitudes que no podían ser fracciones. Aquí nacen los <strong>Irracionales</strong>, y al unirlos con los Racionales, nace el conjunto de los <strong>Reales ($\mathbb{R}$)</strong>.</li>
             </ul>
+        </div>
+
+        <h3>2. La Conmensurabilidad</h3>
+        <p>
+            Para los pitagóricos, dos magnitudes eran <em>conmensurables</em> si existía una unidad pequeña que cabía un número entero de veces en ambas. Por ejemplo, un lado de 2 y una diagonal de 3 son conmensurables con una unidad de 1. Pero al estudiar el cuadrado perfecto, se encontraron con un problema inesperado.
+        </p>
+
+        <div class="solved-example">
+            <h4>Ejemplo Teórico 1: El Cuadrado de Lado 1</h4>
+            <p>Imagina un cuadrado con lado $L=1$. Por el Teorema de Pitágoras, la diagonal $d$ satisface:</p>
+            $$ d^2 = 1^2 + 1^2 \implies d^2 = 2 \implies d = \sqrt{2} $$             <p>Los griegos intentaron encontrar una fracción para $\sqrt{2}$. Probaron con $7/5$ (que es $1.4$) y $17/12$ (que es $1.416$). Se acercaban mucho, pero <strong>nunca</strong> llegaban exactamente. Se dieron cuenta de que no existía una regla, por más pequeña que fuera, que midiera exactamente el lado y la diagonal a la vez. El cuadrado tenía una longitud "inconmensurable".</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo Teórico 2: El Pentágono Regular</h4>
+            <p>Otro caso famoso no fue el cuadrado, sino el pentágono. La razón entre la diagonal y el lado del pentágono regular es el <strong>Número Áureo ($\phi$)</strong>.</p>
+            <p>Los pitagóricos notaron que en el pentagrama (estrella de 5 puntas), las diagonales se cruzaban formando nuevos pentágonos más pequeños infinitamente. Esta autosimilaridad geométrica escondía un número irracional ($\phi \approx 1.618$), demostrando que la irracionalidad no era un "accidente" de la raíz cuadrada, sino una propiedad profunda de la geometría.</p>
+        </div>
+
+        <!-- BLOQUE DE 5 ACTIVIDADES -->
+        <div class="activity-section">
+            <h3>📝 Actividades de Comprensión Histórica</h3>
+            
+            <div class="exercise-item">
+                <strong>1. Análisis:</strong> ¿Por qué el descubrimiento de los irracionales se consideró una "crisis" y no un triunfo en la antigua Grecia?
+                <button class="btn-solution" onclick="toggleSolution('act1-1')">Ver Reflexión</button>
+                <div id="act1-1" class="solution-text">Porque rompía su cosmovisión filosófica. Creían que el universo estaba construido sobre proporciones enteras (racionalidad). Un número que no se puede escribir como fracción significaba que había "caos" o "irracionalidad" en la estructura misma del cosmos, desafiando su fe en un universo ordenado.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>2. Clasificación Evolutiva:</strong> Si necesitas medir la temperatura de una nevería ($-5^\circ$C), ¿qué conjunto numérico usas? ¿Y si necesitas dividir una herencia de 100 monedas entre 3 hijos?
+                <button class="btn-solution" onclick="toggleSolution('act1-2')">Ver Clasificación</button>
+                <div id="act1-2" class="solution-text">
+                    Temperatura: Enteros ($\mathbb{Z}$). Los negativos son necesarios para bajo cero.<br>
+                    Herencia: Racionales ($\mathbb{Q}$). $100/3$ no es entero, es una fracción ($33.33...$). Los naturales no alcanzan para repartir exactamente.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>3. Definición:</strong> Explica con tus propias palabras qué significa que dos magnitudes sean "inconmensurables".
+                <button class="btn-solution" onclick="toggleSolution('act1-3')">Ver Concepto</button>
+                <div id="act1-3" class="solution-text">Que no tienen una "unidad común de medida". No existe una regla pequeña (fracción) que quepa un número entero de veces exactas en ambas longitudes. Si intentas medir la diagonal con la regla del lado, siempre te sobrará o faltará un poquito, sin importar cuán pequeña hagas la regla.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>4. Relación:</strong> ¿Por qué el conjunto de los Naturales es un subconjunto de los Enteros, y estos a su vez de los Racionales?
+                <button class="btn-solution" onclick="toggleSolution('act1-4')">Ver Explicación</button>
+                <div id="act1-4" class="solution-text">Porque cada número natural (ej: 5) también es un entero (ej: +5) y también es un racional (ej: 5/1). Los conjuntos se van "agrandando" para incluir nuevos números sin perder los anteriores. Es como cajas anidadas.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>5. Investigación:</strong> Busca quién fue Hipaso de Metaponto y cuál fue su destino según la leyenda al revelar el secreto de los irracionales.
+                <button class="btn-solution" onclick="toggleSolution('act1-5')">Ver Historia</button>
+                <div id="act1-5" class="solution-text">Según la leyenda, Hipaso descubrió la irracionalidad de $\sqrt{2}$ (o del número áureo) y la reveló fuera de la escuela pitagórica. Como castigo por romper el juramento de silencio, fue arrojado al mar desde una barca, o bien fue expulsado y se le construyó una tumba vacía (como si hubiera muerto para la hermandad).</div>
+            </div>
         </div>
     </div>
 
@@ -271,55 +324,80 @@
         <h2>El Mundo de los Irracionales</h2>
 
         <div class="concept-box">
-            <strong>Definición:</strong> Un número irracional es aquel que no puede expresarse como el cociente de dos números enteros (fracción). En su forma decimal, se caracteriza por tener una <strong>expansión decimal infinita y no periódica</strong>.
+            <h4>Definición Formal y Características</h4>
+            <p>Un número es <strong>Irracional</strong> si cumple dos condiciones:</p>
+            <ol>
+                <li>No puede expresarse como cociente de dos enteros $\frac{p}{q}$.</li>
+                <li>Su expresión decimal es <strong>infinita</strong> y <strong>no periódica</strong>.</li>
+            </ol>
+            <p>Esto último es crucial: si los decimales se repiten (tienen periodo), es Racional. Si siguen caóticamente sin repetir patrón, es Irracional.</p>
         </div>
 
-        <h3>Los "Tres Mosqueteros" Irracionales y sus Usos</h3>
-        <p>Existen números irracionales famosos que aparecen constantemente en la naturaleza y la ciencia:</p>
-        <ul>
-            <li>
-                <strong>$\pi$ (Pi):</strong> Es la relación entre la circunferencia de un círculo y su diámetro. 
-                <br><em>$$ \pi \approx 3.14159... $$</em>
-                <br><strong>Uso y Entornos:</strong> Fundamental en geometría (áreas y volúmenes), ingeniería (ruedas y engranajes) y física (ondas electromagnéticas). Sin $\pi$, no podríamos construir ruedas redondas ni enviar señales de radio.
-            </li>
-            <li>
-                <strong>$e$ (Número de Euler):</strong> La base de los logaritmos naturales. Aparece cuando hablamos de crecimiento continuo.
-                <br><em>$$ e \approx 2.71828... $$</em>
-                <br><strong>Uso y Entornos:</strong> Esencial en cálculo financiero (intereses compuestos continuos), biología (crecimiento de poblaciones o bacterias) y física (desintegración radiactiva y enfriamiento de cuerpos). Describe la velocidad de cambio natural.
-            </li>
-            <li>
-                <strong>$\phi$ (Número Áureo):</strong> Conocido como la "divina proporción".
-                <br><em>$$ \phi \approx 1.61803... $$</em>
-                <br><strong>Uso y Entornos:</strong> Muy usado en arte, arquitectura y diseño. Se encuentra en las proporciones de la Gran Pirámide de Gizeh, el Partenón, en la anatomía humana y en la naturaleza (espirales de girasoles y caparazones de caracol).
-            </li>
-        </ul>
+        <h3>Clasificación de los Irracionales</h3>
+        <p>No todos los irracionales son "raíces". Existen dos grandes familias:</p>
 
-        <h3>Construyendo Números Irracionales</h3>
-        <p>Ya vimos cómo construir $e$ mediante una suma infinita de fracciones. Pero también podemos construir irracionales jugando con patrones decimales.</p>
-        
+        <div class="solved-example">
+            <h4>Ejemplo 1: Números Algebraicos</h4>
+            <p>Son aquellos que son solución de una ecuación polinómica con coeficientes enteros.</p>
+            <p><strong>Caso típico:</strong> Las raíces de enteros que no son cuadrados perfectos.</p>
+            <ul>
+                <li>$\sqrt{2}$ es algebraico porque es raíz de $x^2 - 2 = 0$.</li>
+                <li>$\sqrt[3]{5}$ es algebraico porque es raíz de $x^3 - 5 = 0$.</li>
+                <li>Incluso $\frac{1+\sqrt{5}}{2}$ (el número áureo) es algebraico, raíz de $x^2 - x - 1 = 0$.</li>
+            </ul>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo 2: Números Trascendentes</h4>
+            <p>Son mucho más "extraños". No son solución de <em>ninguna</em> ecuación polinómica con coeficientes enteros. No se pueden "atrapar" con álgebra finita.</p>
+            <ul>
+                <li><strong>$\pi$:</strong> Relación entre circunferencia y diámetro. Fue probado trascendente en 1882.</li>
+                <li><strong>$e$:</strong> Base del logaritmo natural. Fundamental en cálculo y crecimiento.</li>
+                <li>La inmensa mayoría de los números reales son trascendentes, aunque son más difíciles de encontrar.</li>
+            </ul>
+        </div>
+
+        <h3>Construcción de Irracionales</h3>
+        <p>Podemos crear números irracionales artificialmente sin conocer $\pi$ o $\sqrt{2}$.</p>
         <div class="concept-box">
-            <strong>Construcción por Patrones No Periódicos:</strong>
-            <p>Imagina que escribes decimales siguiendo una regla que nunca termina y nunca repite exactamente el mismo bloque.</p>
-            <p>Ejemplo: $0.101001000100001...$</p>
-            <p><strong>Regla:</strong> Escribo un "1", luego un "0", luego dos "0", luego tres "0", y así sucesivamente. Como la cantidad de ceros crece infinitamente, jamás se formará un periodo que se repita. ¡Este número es irracional!</p>
+            <p><strong>Número de Champernowne:</strong> Escribimos los enteros positivos en orden concatenados después de la coma:</p>
+            $$ C = 0,1234567891011121314... $$             <p>Como la secuencia crece infinitamente y nunca se repite un bloque fijo, este número es irracional. Es un ejemplo de que la irracionalidad es un fenómeno de "infinitud y azar" en los decimales.</p>
         </div>
 
-        <!-- Actividades (Ahora son 3) -->
-        <div class="activity-box">
-            <h3>🎯 Actividad 1: El Arquitecto Decimal</h3>
-            <p>Tu misión es crear tu propio número irracional. Escribe una regla simple en tu carpeta (no uses el azar puro, usa una regla matemática clara) para generar los decimales y escribe los primeros 15 dígitos.</p>
-            <p><em>Idea: Alternar bloques de números pares e impares creciendo en tamaño (2, 4, 6...)</em></p>
-        </div>
+        <!-- BLOQUE DE 5 ACTIVIDADES -->
+        <div class="activity-section">
+            <h3>📝 Actividades de Reconocimiento y Clasificación</h3>
 
-        <div class="activity-box">
-            <h3>🎯 Actividad 2: El Apretado Número</h3>
-            <p>Encuentra un número irracional que se encuentre estrictamente entre $1.41$ y $1.42$.</p>
-            <p><em>Pista: Piensa en $\sqrt{2}$ y cómo alterar sus decimales ligeramente.</em></p>
-        </div>
+            <div class="exercise-item">
+                <strong>1. Detección de Racionales:</strong> ¿Es el número $4,232323...$ (periódico) irracional? Justifica.
+                <button class="btn-solution" onclick="toggleSolution('act2-1')">Ver Solución</button>
+                <div id="act2-1" class="solution-text"><strong>No es irracional.</strong> Es Racional. Todo número decimal que tiene un período (bloque que se repite) se puede escribir como fracción. En este caso, $4,2323... = \frac{423-4}{99} = \frac{419}{99}$.</div>
+            </div>
 
-        <div class="activity-box">
-            <h3>🎯 Actividad 3: Artista Fractal</h3>
-            <p>En una hoja cuadriculada, dibuja un cuadrado de 10x10 cm. Luego, trata de dibujar una línea diagonal que represente exactamente $\sqrt{200}$ cm. Finalmente, calcula $\sqrt{200}$ manualmente y compara tu dibujo con el resultado real.</p>
+            <div class="exercise-item">
+                <strong>2. Intervalos:</strong> Encuentra un número irracional entre los números $1$ y $1.5$.
+                <button class="btn-solution" onclick="toggleSolution('act2-2')">Ver Solución</button>
+                <div id="act2-2" class="solution-text">Sabemos que $\sqrt{2} \approx 1.41$. Como $1 < 1.41 < 1.5$, entonces $\sqrt{2}$ es una respuesta válida. También podríamos inventar uno: $1.01001000100001...$ (patrón no periódico).</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>3. Aproximación:</strong> Sin calculadora, ¿entre qué enteros está $\sqrt{30}$?
+                <button class="btn-solution" onclick="toggleSolution('act2-3')">Ver Razonamiento</button>
+                <div id="act2-3" class="solution-text">Buscamos cuadrados perfectos cercanos. $5^2 = 25$ y $6^2 = 36$. Como 30 está entre 25 y 36, $\sqrt{30}$ debe estar entre 5 y 6. Es irracional.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>4. Raíces:</strong> Clasifica $\sqrt{400}$ y $\sqrt{40}$.
+                <button class="btn-solution" onclick="toggleSolution('act2-4')">Ver Clasificación</button>
+                <div id="act2-4" class="solution-text">
+                    $\sqrt{400} = 20$. Es un número Entero (Racional). <br>
+                    $\sqrt{40} \approx 6.32...$ Como 40 no es cuadrado perfecto, su raíz es Irracional (además, algebraico).</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>5. Construcción:</strong> Define una regla para escribir un número irracional que empiece con $0,6...$                 <button class="btn-solution" onclick="toggleSolution('act2-5')">Ver Ejemplo</button>
+                <div id="act2-5" class="solution-text">Regla: Escribo un 6, luego aumento la cantidad de ceros entre unos. <br>$0,6101001000100001...$ <br>Al no repetirse el periodo, es irracional.</div>
+            </div>
         </div>
     </div>
 
@@ -328,256 +406,442 @@
     <!-- ========================================= -->
     <div id="tab3" class="tab-content">
         <h2>Demostración: $\sqrt{2}$ es irracional</h2>
-        <p>Vamos a utilizar uno de los métodos más poderosos de la lógica matemática: <strong>Reducción al Absurdo</strong>. Asumiremos lo contrario y buscaremos una contradicción.</p>
+        <p>Para demostrar algo definitivamente en matemáticas, a veces usamos la <strong>Reducción al Absurdo</strong>. Consiste en suponer que lo que queremos probar es falso, y llegar a una conclusión imposible.</p>
+
+        <h3>Desarrollo Paso a Paso</h3>
+        
+        <div class="solved-example">
+            <ol>
+                <li><strong>Hipótesis (Suposición inicial):</strong> Supongamos que $\sqrt{2}$ SÍ es racional. Entonces podemos escribirlo como una fracción irreducible $\frac{p}{q}$ (donde $p$ y $q$ no tienen divisores comunes).</li>
+                <li><strong>Planteo algebraico:</strong> $\sqrt{2} = \frac{p}{q}$. Elevamos al cuadrado ambos lados:
+                    $$ 2 = \frac{p^2}{q^2} \implies p^2 = 2q^2 $$                 </li>
+                <li><strong>Análisis de paridad (Lema):</strong>
+                    <div class="warning-box">
+                        <strong>Teorema Auxiliar (Lema):</strong> El cuadrado de un número par es par. El cuadrado de un número impar es impar.<br>
+                        Prueba rápida: Si $n=2k$, $n^2 = 4k^2$ (par). Si $n=2k+1$, $n^2 = 4k^2+4k+1$ (impar).
+                    </div>
+                    Como $p^2 = 2q^2$, el lado derecho es claramente par. Por lo tanto, $p^2$ es par. Usando el lema, deducimos que $p$ es par.
+                </li>
+                <li><strong>Sustitución:</strong> Si $p$ es par, existe un entero $k$ tal que $p = 2k$. Sustituimos en la ecuación original:
+                    $$ (2k)^2 = 2q^2 \implies 4k^2 = 2q^2 $$                     Dividimos todo por 2:
+                    $$ 2k^2 = q^2 $$                 </li>
+                <li><strong>Segunda deducción:</strong> Ahora vemos que $q^2 = 2k^2$, por lo que $q^2$ es par. Aplicando el lema nuevamente, deducimos que $q$ es par.</li>
+                <li><strong>La Contradicción:</strong> Hemos llegado a que $p$ es par Y $q$ es par. Esto significa que ambos son divisibles por 2. <br>
+                    <strong>¡Esto contradice nuestra hipótesis inicial de que la fracción era irreducible!</strong> Una fracción irreducible no puede tener numerador y denominador ambos pares.</li>
+            </ol>
+            <div style="background: #ffebee; padding: 15px; border-left: 4px solid #c62828; margin-top: 10px;">
+                <strong>Conclusión:</strong> La suposición inicial era falsa. Por lo tanto, $\sqrt{2}$ no puede ser racional. Es IRRACIONAL.
+            </div>
+        </div>
 
         <div class="solved-example">
-            <p><strong>Paso 1: Suponer lo contrario.</strong><br>
-            Asumimos que $\sqrt{2} = \frac{p}{q}$ es una fracción irreducible (p y q no tienen divisores comunes).</p>
+            <h4>Ejemplo: ¿Por qué falla la prueba con $\sqrt{4}$?</h4>
+            <p>Intentemos el mismo razonamiento con $\sqrt{4}$ (que sabemos que es 2, racional).</p>
+            <ol>
+                <li>$\sqrt{4} = p/q \implies 4 = p^2/q^2 \implies p^2 = 4q^2$.</li>
+                <li>$p^2$ es múltiplo de 4, así que es par. Entonces $p$ es par ($p=2k$).</li>
+                <li>Sustituimos: $(2k)^2 = 4q^2 \implies 4k^2 = 4q^2 \implies k^2 = q^2$.</li>
+            </ol>
+            <p>Aquí llegamos a que $k=q$. ¡Pero esto NO implica que $p$ y $q$ sean pares simultáneamente que anule la irreducibilidad! Simplemente nos dice que $p=2q$, lo cual es cierto ($2=2 \cdot 1$). El argumento de la contradicción solo funciona para los números que NO son cuadrados perfectos.</p>
+        </div>
 
-            <p><strong>Paso 2: Algebraica la ecuación.</strong><br>
-            Elevamos al cuadrado: $2 = \frac{p^2}{q^2} \Rightarrow p^2 = 2 \cdot q^2$.
-            <br>Esto significa que $p^2$ es par.</p>
+        <!-- BLOQUE DE 5 ACTIVIDADES -->
+        <div class="activity-section">
+            <h3>📝 Actividades de Lógica y Demostración</h3>
 
-            <p><strong>Paso 3: Conclusión sobre la paridad.</strong><br>
-            Si $p^2$ es par, entonces $p$ es par. Podemos escribir $p = 2k$.</p>
+            <div class="exercise-item">
+                <strong>1. Comprensión:</strong> ¿Por qué es importante suponer que la fracción $\frac{p}{q}$ es irreducible al principio?
+                <button class="btn-solution" onclick="toggleSolution('act3-1')">Ver Solución</button>
+                <div id="act3-1" class="solution-text">Porque la contradicción final se basa en encontrar un divisor común. Si la fracción no fuera irreducible, el hecho de encontrar un divisor común no sería una contradicción, sería normal. Necesitamos la "situación ideal" (sin divisores comunes) para que el hallazgo del 2 sea imposible.</div>
+            </div>
 
-            <p><strong>Paso 4: Sustitución y contradicción.</strong><br>
-            Sustituimos en $p^2 = 2q^2$:
-            <br>$(2k)^2 = 2q^2 \Rightarrow 4k^2 = 2q^2 \Rightarrow 2k^2 = q^2$.
-            <br>Ahora deducimos que $q^2$ es par, y por tanto $q$ también es par.</p>
-            
-            <p><strong>Conclusión:</strong><br>
-            Tanto $p$ como $q$ son pares (divisibles por 2). ¡Esto contradice que la fracción original fuera irreducible!</p>
-            
-            <div style="background: #ffebee; padding: 15px; border-left: 4px solid #c62828; margin-top: 20px;">
-            <strong>Por lo tanto:</strong> La suposición inicial es falsa. $\sqrt{2}$ es irracional.
+            <div class="exercise-item">
+                <strong>2. Extensión:</strong> Intenta esbozar la demostración de que $\sqrt{3}$ es irracional. ¿Qué cambiaría en lugar de "par/impar"?
+                <button class="btn-solution" onclick="toggleSolution('act3-2')">Ver Pista</button>
+                <div id="act3-2" class="solution-text">Cambiaría el concepto de divisibilidad por 2 por divisibilidad por 3. Deberías probar que si $p^2$ es divisible por 3, entonces $p$ es divisible por 3. El resto de la estructura lógica es idéntica.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>3. Análisis de error:</strong> Un alumno dice: "$\sqrt{2}$ es irracional porque la calculadora me da 1.41421356 y no termina". ¿Es esta una demostración válida?
+                <button class="btn-solution" onclick="toggleSolution('act3-3')">Ver Crítica</button>
+                <div id="act3-3" class="solution-text">No es una demostración matemática. La calculadora tiene memoria finita y redondea. Podría pasar que el número tenga un período de un millón de dígitos y la calculadora solo muestre los primeros 10. La demostración por reducción al absurdo es lógica absoluta, no depende de aparatos.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>4. Valor numérico:</strong> Si $p^2 = 2q^2$ y $p$ es un entero, ¿puede $q$ ser impar si $p$ es impar?
+                <button class="btn-solution" onclick="toggleSolution('act3-4')">Ver Respuesta</button>
+                <div id="act3-4" class="solution-text">No. Si $p$ fuera impar, $p^2$ sería impar. Pero la ecuación dice $p^2 = 2q^2$, que es claramente par. Un número impar no puede ser igual a un número par. Por eso $p$ está obligado a ser par.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>5. Lógica:</strong> ¿Qué tipo de razonamiento se usa: Deductivo o Inductivo?
+                <button class="btn-solution" onclick="toggleSolution('act3-5')">Ver Tipo</button>
+                <div id="act3-5" class="solution-text"><strong>Deductivo.</strong> Partimos de premisas generales (axiomas de números enteros) y llegamos a una conclusión necesaria. No estamos experimentando con casos particulares (inductivo), sino probando una verdad universal para todos los casos.</div>
             </div>
         </div>
     </div>
 
     <!-- ========================================= -->
-    <!-- PESTAÑA 4: Densidad y Completitud de R -->
+    <!-- PESTAÑA 4: Densidad y Completitud -->
     <!-- ========================================= -->
     <div id="tab4" class="tab-content">
         <h2>Densidad y Completitud de $\mathbb{R}$</h2>
 
-        <h3>1. La Densidad de la Recta Racional</h3>
+        <h3>1. La Propiedad de Densidad</h3>
         <p>
-            Antes de hablar de completitud, debemos entender un concepto fascinante: aunque los racionales tienen huecos, son <strong>densos</strong>. Esto significa que entre cualquier dos números racionales, siempre existe otro racional.
+            La densidad es una propiedad que nos dice qué tan "apretados" están los números en la recta.
         </p>
-        
-        <div class="activity-box">
-            <h3>Actividad Visual: Partiendo Mitades</h3>
-            <p>Piensa en el intervalo entre $0$ y $1$. Toma la mitad: $0.5$. Ahora la mitad entre $0$ y $0.5$: $0.25$. Luego $0.125$, luego $0.0625$...</p>
-            <p>Puedes seguir eternamente encontrando números racionales cada vez más pegados al cero, pero nunca llegarás a un número que no sea racional usando solo mitades. Esto demuestra que los racionales son infinitamente densos, pero...</p>
+        <div class="concept-box">
+            <h4>Definición Teórica</h4>
+            <p>Un conjunto es <strong>denso</strong> si entre cualesquiera dos de sus elementos, siempre existe otro elemento del mismo conjunto.</p>
+            <p>Tanto los Racionales ($\mathbb{Q}$) como los Reales ($\mathbb{R}$) son densos. Esto significa que no hay "vecinos inmediatos". Si tomas dos números que parecen pegados, siempre puedes encontrar uno en el medio.</p>
         </div>
 
-        <h3>2. La Piedra en el Zapato y la Completitud</h3>
-        <p>
-            Si los racionales son tan densos, ¿por qué necesitamos más números? Porque a pesar de estar "llenos", hay puntos precisos de la recta que los racionales no pueden tocar.
-        </p>
-        <p>
-            Imagina que dibujas un triángulo rectángulo de catetos 1. La hipotenusa mide $\sqrt{2}$. Si solo existieran números racionales, esa hipotenusa no tendría una longitud exacta, lo cual es un absurdo geométrico.
-        </p>
-        <p>
-            La <strong>Completitud</strong> de $\mathbb{R}$ significa que al agregar los irracionales, tapamos esos huecos invisibles. Ahora, cada punto de la línea geométrica corresponde a un único número real y viceversa. La recta es un continuo perfecto.
-        </p>
+        <div class="solved-example">
+            <h4>Ejemplo 1: Densidad en Racionales (El método del promedio)</h4>
+            <p>Tomemos dos racionales "cercanos": $\frac{1}{3}$ ($0.333...$) y $\frac{1}{2}$ ($0.5$).</p>
+            <p>¿Hay algo en el medio? Sí. Podemos calcular el promedio:</p>
+            $$ \frac{\frac{1}{3} + \frac{1}{2}}{2} = \frac{\frac{5}{6}}{2} = \frac{5}{12} $$             <p>$\frac{5}{12} \approx 0.416$. Está claramente entre ambos. Y podemos repetir esto infinitamente entre $\frac{1}{3}$ y $\frac{5}{12}$, y así sucesivamente. La recta racional está "llena" de puntos.</p>
+        </div>
 
-        <div class="concept-box">
-            <h3>La Excepción</h3>
-            <p>
-                Ahora podemos resolver casi todo... salvo $x^2 = -1$. Este problema rompe la barrera de los Reales y nos lleva al mundo de los <strong>Números Complejos</strong>.
-            </p>
+        <h3>2. La Propiedad de Completitud (El Gran Salto)</h3>
+        <p>
+            Si los racionales son densos, es natural preguntar: ¿Por qué necesitamos los Reales? La respuesta está en la <strong>Completitud</strong>.
+        </p>
+        <div class="warning-box">
+            <h4>Distinción Clave: Densidad $\neq$ Completitud</h4>
+            <p>Imagina la recta numérica hecha de "polvo" de números racionales. Aunque el polvo es muy fino (densidad), si miras con una lupa potente, verás huecos microscópicos.</p>
+            <p>Esos huecos son exactamente donde viven los irracionales.</p>
+        </div>
+
+        <div class="solved-example">
+            <h4>Ejemplo 2: El "Hueco" de $\sqrt{2}$</h4>
+            <p>Imagina que queremos encontrar un número racional $x$ tal que $x^2 = 2$. No existe.</p>
+            <p>Pero podemos acercarnos mucho con sucesiones de racionales:</p>
+            <ul>
+                <li>$1^2 = 1$ (muy bajo)</li>
+                <li>$1.4^2 = 1.96$ (cerca, pero bajo)</li>
+                <li>$1.41^2 = 1.9881$ (más cerca)</li>
+                <li>$1.414^2 = 1.999396$ (casi!)</li>
+            </ul>
+            <p>Podemos acercarnos infinitamente al objetivo (2), pero los racionales <strong>nunca tocan</strong> el objetivo. Es como si hubiera un "hueco invisible" en la recta racional justo donde debería estar $\sqrt{2}$.</p>
+            <p><strong>La Completitud de $\mathbb{R}$</strong> significa que al agregar los irracionales, esos huecos se rellenan. La recta real es sólida, continua, sin agujeros. Esto es fundamental para el Cálculo: una función continua no "salta" huecos.</p>
+        </div>
+
+        <!-- BLOQUE DE 5 ACTIVIDADES -->
+        <div class="activity-section">
+            <h3>📝 Actividades de Recta y Conjuntos</h3>
+
+            <div class="exercise-item">
+                <strong>1. Aplicación de Densidad:</strong> Encuentra un número racional entre $0.99$ y $1$.
+                <button class="btn-solution" onclick="toggleSolution('act4-1')">Ver Solución</button>
+                <div id="act4-1" class="solution-text">Usamos el promedio: $\frac{0.99 + 1}{2} = 0.995$. También $0.999$, $0.9999$, etc. Hay infinitos.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>2. Ubicación:</strong> Dibuja una recta y ubica aproximadamente $\sqrt{5}$. ¿Entre qué enteros está?
+                <button class="btn-solution" onclick="toggleSolution('act4-2')">Ver Ubicación</button>
+                <div id="act4-2" class="solution-text">$2^2=4$ y $3^2=9$. Por lo tanto, $\sqrt{5}$ está entre 2 y 3. Más precisamente, un poco más cerca del 2.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>3. Irracionales intermedios:</strong> Nombra un irracional entre $\pi$ ($3.14...$) y $3.2$.
+                <button class="btn-solution" onclick="toggleSolution('act4-3')">Ver Solución</button>
+                <div id="act4-3" class="solution-text">Podemos tomar $\pi + 0.01 = 3.1515...$ (irracional + racional = irracional). O construir uno: $3.151151115...$</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>4. Reflexión:</strong> ¿Por qué el conjunto de los Enteros ($\mathbb{Z}$) NO es denso?
+                <button class="btn-solution" onclick="toggleSolution('act4-4')">Ver Respuesta</button>
+                <div id="act4-4" class="solution-text">Porque hay huecos vacíos entre sus elementos. Entre 1 y 2 no hay ningún otro entero. No puedes encontrar un entero "en el medio". Por eso $\mathbb{Z}$ es discreto, no denso.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>5. Constructiva:</strong> Usando una regla y compás (o cuadrícula), ¿cómo representarías $\sqrt{5}$ geométricamente?
+                <button class="btn-solution" onclick="toggleSolution('act4-5')">Ver Construcción</button>
+                <div id="act4-5" class="solution-text">Dibuja un triángulo rectángulo con catetos de medida 1 y 2. Por Pitágoras, la hipotenusa mide $\sqrt{1^2 + 2^2} = \sqrt{5}$. Esa longitud física es la representación del número real.</div>
+            </div>
         </div>
     </div>
 
     <!-- ========================================= -->
-    <!-- PESTAÑA 5: Operaciones y Axiomas -->
+    <!-- PESTAÑA 5: Operaciones y Axiomas (AMPLIADA) -->
     <!-- ========================================= -->
     <div id="tab5" class="tab-content">
         <h2>Operaciones y Axiomas en $\mathbb{R}$</h2>
         
-        <p>Los números reales cumplen leyes estrictas que garantizan que las operaciones funcionen como esperamos. Repasemos las propiedades fundamentales divididas por operación:</p>
+        <p>Los números reales funcionan bajo un conjunto de reglas estrictas llamadas <strong>Axiomas de Cuerpo</strong>. Estas reglas garantizan que las operaciones siempre tengan sentido y den resultados predecibles.</p>
 
         <div class="prop-grid">
-            <!-- Propiedades de la Suma -->
             <div class="prop-card">
-                <span class="prop-title">Propiedades de la SUMA (+)</span>
-                <ul style="padding-left: 20px; margin: 0;">
-                    <li><strong>Cierre:</strong> $a+b$ es real.</li>
+                <span class="prop-title">Axiomas de la SUMA (+)</span>
+                <ul>
+                    <li><strong>Cierre:</strong> La suma de dos reales es otro real.</li>
                     <li><strong>Asociativa:</strong> $(a+b)+c = a+(b+c)$.</li>
                     <li><strong>Conmutativa:</strong> $a+b = b+a$.</li>
                     <li><strong>Neutro:</strong> $a+0 = a$.</li>
-                    <li><strong>Inverso:</strong> $a + (-a) = 0$.</li>
+                    <li><strong>Inverso Aditivo:</strong> $a+(-a)=0$.</li>
                 </ul>
             </div>
-
-            <!-- Propiedades del Producto -->
             <div class="prop-card">
-                <span class="prop-title">Propiedades del PRODUCTO (·)</span>
-                <ul style="padding-left: 20px; margin: 0;">
-                    <li><strong>Cierre:</strong> $a \cdot b$ es real.</li>
+                <span class="prop-title">Axiomas del PRODUCTO (·)</span>
+                <ul>
+                    <li><strong>Cierre:</strong> El producto de dos reales es otro real.</li>
                     <li><strong>Asociativa:</strong> $(a \cdot b) \cdot c = a \cdot (b \cdot c)$.</li>
                     <li><strong>Conmutativa:</strong> $a \cdot b = b \cdot a$.</li>
                     <li><strong>Neutro:</strong> $a \cdot 1 = a$.</li>
-                    <li><strong>Inverso:</strong> $a \cdot \frac{1}{a} = 1$ (si $a \neq 0$).</li>
+                    <li><strong>Inverso Multiplicativo:</strong> $a \cdot \frac{1}{a} = 1$ ($a \neq 0$).</li>
                 </ul>
             </div>
         </div>
 
-        <div class="prop-card" style="border-color: var(--secondary-accent);">
-            <span class="prop-title" style="color: var(--secondary-accent);">Propiedad Distributiva (El puente entre suma y producto)</span>
-            <p style="font-size: 1.1rem; text-align: center; margin: 10px 0;">
-                $$ a \cdot (b + c) = a \cdot b + a \cdot c $$             </p>
-        </div>
+        <div class="concept-box">
+            <h4>La Propiedad Distributiva (El Puente)</h4>
+            <p>Es la única propiedad que conecta la suma con el producto.</p>
+            $$ a \cdot (b + c) = a \cdot b + a \cdot c $$         </div>
 
-        <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
-
-        <h3>Parte B: Demostraciones Teóricas (Resueltas)</h3>
+        <!-- NUEVA SECCIÓN: TEOREMAS FUNDAMENTALES -->
+        <hr style="border: 0; border-top: 2px solid #eee; margin: 40px 0;">
+        <h3>Teoremas Fundamentales y Demostraciones</h3>
+        <p>A partir de los axiomas básicos, podemos demostrar verdades que parecen obvias, pero que requieren una prueba rigurosa. Esto es esencial para entender por qué funcionan las matemáticas.</p>
 
         <div class="solved-example">
-            <strong>Teorema 1: El producto de cualquier número por cero es cero ($a \cdot 0 = 0$)</strong>
-            <p><strong>Demostración:</strong></p>
+            <h4>Teorema 1: El producto de cualquier número por cero es cero ($a \cdot 0 = 0$)</h4>
+            <p><em>¿Por qué multiplicar por "nada" da "nada"? No es magia, es lógica.</em></p>
+            <p><strong>Demostración paso a paso:</strong></p>
             <ol>
-                <li>Partimos de $0 + 0 = 0$.</li>
-                <li>Multiplicamos por $a$: $a(0+0) = a \cdot 0$.</li>
-                <li>Distributiva: $(a \cdot 0) + (a \cdot 0) = a \cdot 0$.</li>
-                <li>Restamos $(a \cdot 0)$ a ambos lados: $a \cdot 0 = 0$. Q.E.D.</li>
+                <li><strong>Partimos de una verdad absoluta:</strong> Sabemos por el axioma del Neutro Aditivo que $0 + 0 = 0$.</li>
+                <li><strong>Multiplicamos por un número $a$:</strong> Multiplicamos ambos lados de la igualdad por $a$ (Propiedad Uniforme).
+                    $$ a \cdot (0 + 0) = a \cdot 0 $$                 </li>
+                <li><strong>Aplicamos la Propiedad Distributiva:</strong> En el lado izquierdo, distribuimos la $a$.
+                    $$ (a \cdot 0) + (a \cdot 0) = a \cdot 0 $$                 </li>
+                <li><strong>Usamos sustitución:</strong> Llamemos $x = a \cdot 0$. La ecuación queda: $x + x = x$.</li>
+                <li><strong>Aplicamos el Inverso Aditivo:</strong> Restamos $x$ a ambos lados (o sumamos $-x$).
+                    $$ (x + x) - x = x - x $$                     $$ x + (x - x) = 0 $$                     $$ x = 0 $$                 </li>
+                <li><strong>Conclusión:</strong> Como $x = a \cdot 0$, entonces $a \cdot 0 = 0$. <strong>Q.E.D.</strong> (Quod Erat Demonstrandum).</li>
             </ol>
         </div>
 
         <div class="solved-example">
-            <strong>Teorema 2: El inverso del inverso es el mismo número ($-(-a) = a$)</strong>
-            <p><strong>Demostración:</strong></p>
+            <h4>Teorema 2: ¿Por qué está prohibido dividir por cero?</h4>
+            <p>En matemáticas, dividir $a$ por $b$ significa encontrar un número $c$ tal que $b \cdot c = a$.</p>
+            <p>Analicemos qué pasa si el divisor $b$ es cero.</p>
+            
+            <div class="warning-box">
+                <h4>Caso A: Dividir un número distinto de cero por cero ($\frac{5}{0}$)</h4>
+                <p>Si $\frac{5}{0}$ tuviera una respuesta $c$, entonces debería cumplirse:</p>
+                <p>$$ 0 \cdot c = 5 $$</p>
+                <p>Sabemos por el Teorema anterior que todo número por cero es cero. Entonces:</p>
+                <p>$$ 0 = 5 $$</p>
+                <p><strong>¡Esto es una contradicción absurda!</strong> Por lo tanto, no existe tal número $c$. La operación es <strong>imposible</strong>.</p>
+            </div>
+
+            <div class="warning-box">
+                <h4>Caso B: Dividir cero por cero ($\frac{0}{0}$)</h4>
+                <p>Si $\frac{0}{0}$ tuviera una respuesta $c$, entonces:</p>
+                <p>$$ 0 \cdot c = 0 $$</p>
+                <p>Esto es verdadero para <strong>cualquier número</strong>. ($0 \cdot 1 = 0$, $0 \cdot 500 = 0$, etc.).</p>
+                <p>El problema aquí es que hay <strong>infinitas respuestas</strong>, no una única. Una operación matemática debe dar un resultado único. Esto se llama <strong>indeterminación</strong>.</p>
+            </div>
+            <p><strong>Conclusión final:</strong> Dividir por cero rompe las reglas del álgebra. Por eso es "ilegal" en matemáticas.</p>
+        </div>
+
+        <!-- NUEVA SECCIÓN: REDUCCIÓN ALGEBRAICA -->
+        <hr style="border: 0; border-top: 2px solid #eee; margin: 40px 0;">
+        <h3>Aplicación: Reducción de Expresiones Algebraicas</h3>
+        <p>Usar los axiomas nos permite transformar expresiones complicadas en formas más simples. A esto se le llama "reducción". Veamos tres ejemplos clave explicados en detalle.</p>
+
+        <div class="solved-example">
+            <h4>Ejemplo 1: Reducción con signos negativos y paréntesis</h4>
+            <p><strong>Expresión:</strong> $5x - (3x - 2)$</p>
+            <p><strong>Objetivo:</strong> Eliminar el paréntesis y agrupar términos semejantes.</p>
             <ol>
-                <li>Por definición de inverso aditivo, sabemos que $a + (-a) = 0$.</li>
-                <li>También es cierto que la suma es conmutativa, por lo que $(-a) + a = 0$.</li>
-                <li>Miremos la expresión $(-a) + (-(-a))$. Por definición, esto debe ser igual a $0$.</li>
-                <li>Entonces tenemos dos expresiones que dan cero: $(-a) + a = 0$ y $(-a) + (-(-a)) = 0$.</li>
-                <li>Por lo tanto: $(-a) + a = (-a) + (-(-a))$.</li>
-                <li>Sumamos el inverso de $(-a)$ (que es $a$) a ambos lados para despejar: $a = -(-a)$. Q.E.D.</li>
+                <li><strong>Interpretar el signo menos:</strong> El signo menos delante del paréntesis es lo mismo que multiplicar por $-1$.
+                    <br>$$ 5x + (-1) \cdot (3x - 2) $$                 </li>
+                <li><strong>Aplicar Propiedad Distributiva:</strong> Multiplicamos $-1$ por cada término dentro.
+                    <br>$$ 5x + [ (-1) \cdot 3x + (-1) \cdot (-2) ] $$                     <br>$$ 5x + [ -3x + 2 ] $$                 </li>
+                <li><strong>Propiedad Asociativa y Conmutativa:</strong> Reordenamos y agrupamos los términos con $x$.
+                    <br>$$ (5x - 3x) + 2 $$                 </li>
+                <li><strong>Factor Común (Distributiva inversa):</strong> Sacamos $x$ común.
+                    <br>$$ (5 - 3)x + 2 $$                 </li>
+                <li><strong>Resultado Final:</strong>
+                    <br>$$ \mathbf{2x + 2} $$                 </li>
             </ol>
         </div>
 
-        <h3>Parte C: Ejercicios Prácticos (8 items)</h3>
-        <p>Resuelve o justifica los siguientes ejercicios. Haz clic en "Ver Solución" para comprobar tu trabajo.</p>
-        
-        <div class="exercise-item">
-            <strong>1. Simplificar:</strong> $5(x + 2)$ usando la propiedad distributiva.
-            <button class="btn-solution" onclick="toggleSolution('sol-5-1')">Ver Solución</button>
-            <div id="sol-5-1" class="solution-text">Aplicando la distributiva: $5 \cdot x + 5 \cdot 2 = \mathbf{5x + 10}$.</div>
+        <div class="solved-example">
+            <h4>Ejemplo 2: Reducción con productos y sumas combinadas</h4>
+            <p><strong>Expresión:</strong> $3(a + 2b) - 2(2a - b)$</p>
+            <ol>
+                <li><strong>Distribuir el 3 en el primer bloque:</strong>
+                    <br>$3 \cdot a + 3 \cdot 2b = 3a + 6b$                 </li>
+                <li><strong>Distribuir el -2 en el segundo bloque (¡Cuidado con el signo!):</strong>
+                    <br>$-2 \cdot 2a = -4a$                     <br>$-2 \cdot (-b) = +2b$ (Menos por menos da más).
+                    <br>Segundo bloque resultante: $-4a + 2b$.
+                </li>
+                <li><strong>Unir todo:</strong>
+                    <br>$$ 3a + 6b - 4a + 2b $$                 </li>
+                <li><strong>Agrupar términos semejantes (Asociativa):</strong>
+                    <br>Terminos con $a$: $(3a - 4a) = -a$                     <br>Términos con $b$: $(6b + 2b) = 8b$                 </li>
+                <li><strong>Resultado Final:</strong>
+                    <br>$$ \mathbf{-a + 8b} \quad \text{o} \quad \mathbf{8b - a} $$                 </li>
+            </ol>
         </div>
 
-        <div class="exercise-item">
-            <strong>2. Justificar:</strong> ¿Por qué $3 + (4 + 5) = (3 + 4) + 5$?
-            <button class="btn-solution" onclick="toggleSolution('sol-5-2')">Ver Solución</button>
-            <div id="sol-5-2" class="solution-text">Se cumple gracias a la <strong>Propiedad Asociativa</strong> de la suma. El orden de agrupación no altera el resultado.</div>
+        <div class="solved-example">
+            <h4>Ejemplo 3: Uso del inverso multiplicativo (Simplificación de fracciones algebraicas)</h4>
+            <p><strong>Expresión:</strong> $\frac{6x}{2}$</p>
+            <p>Muchas veces se resuelve intuitivamente, pero veamos qué pasa realmente.</p>
+            <ol>
+                <li><strong>Reescribir como producto:</strong> Dividir por 2 es lo mismo que multiplicar por su inverso multiplicativo ($\frac{1}{2}$).
+                    <br>$$ 6x \cdot \frac{1}{2} $$                 </li>
+                <li><strong>Aplicar Conmutativa y Asociativa:</strong> Podemos agrupar los números separándolos de la variable $x$.
+                    <br>$$ (6 \cdot \frac{1}{2}) \cdot x $$                 </li>
+                <li><strong>Calcular el producto numérico:</strong>
+                    <br>$$ 3 \cdot x $$                 </li>
+                <li><strong>Resultado Final:</strong>
+                    <br>$$ \mathbf{3x} $$                 </li>
+            </ol>
         </div>
 
-        <div class="exercise-item">
-            <strong>3. Simplificar:</strong> $7y + 2 - 7y$.
-            <button class="btn-solution" onclick="toggleSolution('sol-5-3')">Ver Solución</button>
-            <div id="sol-5-3" class="solution-text">Usando la conmutativa y asociativa: $(7y - 7y) + 2 = 0 + 2 = \mathbf{2}$. (El opuesto de $7y$ es $-7y$).</div>
-        </div>
+        <!-- SECCIÓN DE ACTIVIDADES (AMPLIADA A 10) -->
+        <div class="activity-section">
+            <h3>📝 Actividades de Práctica y Análisis</h3>
 
-        <div class="exercise-item">
-            <strong>4. Calcular el inverso:</strong> ¿Cuál es el inverso aditivo de $-\frac{3}{4}$?
-            <button class="btn-solution" onclick="toggleSolution('sol-5-4')">Ver Solución</button>
-            <div id="sol-5-4" class="solution-text">El inverso aditivo es el número que sumado da 0. Es $-\left(-\frac{3}{4}\right)$, lo cual es igual a $\mathbf{\frac{3}{4}}$.</div>
-        </div>
+            <!-- Actividades Originales (1-5) -->
+            <div class="exercise-item">
+                <strong>1. Identificación:</strong> ¿Qué propiedad justifica que $(x + 2) + 5 = x + (2 + 5)$?
+                <button class="btn-solution" onclick="toggleSolution('act5-1')">Ver Solución</button>
+                <div id="act5-1" class="solution-text">La <strong>Propiedad Asociativa</strong> de la suma. Permite reagrupar los términos para simplificar la operación ($2+5=7$).</div>
+            </div>
 
-        <div class="exercise-item">
-            <strong>5. Justificar:</strong> ¿Qué propiedad asegura que $a \cdot b = b \cdot a$?
-            <button class="btn-solution" onclick="toggleSolution('sol-5-5')">Ver Solución</button>
-            <div id="sol-5-5" class="solution-text">La <strong>Propiedad Conmutativa</strong> de la multiplicación. El orden de los factores no altera el producto.</div>
-        </div>
+            <div class="exercise-item">
+                <strong>2. Aplicación:</strong> Simplifica usando distributiva: $-3(x - 4)$.
+                <button class="btn-solution" onclick="toggleSolution('act5-2')">Ver Solución</button>
+                <div id="act5-2" class="solution-text">$-3(x - 4) = -3 \cdot x + (-3) \cdot (-4) = -3x + 12$. <br>Recuerda que producto de negativos es positivo.</div>
+            </div>
 
-        <div class="exercise-item">
-            <strong>6. Simplificar:</strong> $-(m - 5)$.
-            <button class="btn-solution" onclick="toggleSolution('sol-5-6')">Ver Solución</button>
-            <div id="sol-5-6" class="solution-text">Esto es equivalente a $-1 \cdot (m - 5)$. Aplicamos la distributiva: $-1 \cdot m + (-1) \cdot (-5) = \mathbf{-m + 5}$.</div>
-        </div>
+            <div class="exercise-item">
+                <strong>3. Factor Común:</strong> Aplica la propiedad distributiva inversa en: $6x + 12$.
+                <button class="btn-solution" onclick="toggleSolution('act5-3')">Ver Solución</button>
+                <div id="act5-3" class="solution-text">Buscamos el divisor común de ambos términos (6). <br>$6x + 12 = 6(x + 2)$. Esto es fundamental para resolver ecuaciones.</div>
+            </div>
 
-        <div class="exercise-item">
-            <strong>7. Justificar:</strong> Si $x \cdot y = 0$, ¿qué podemos asegurar sobre $x$ o $y$?
-            <button class="btn-solution" onclick="toggleSolution('sol-5-7')">Ver Solución</button>
-            <div id="sol-5-7" class="solution-text">Podemos asegurar que al menos uno de ellos es cero. Esto es una consecuencia del axioma de que $\mathbb{R}$ es un cuerpo (sin divisores de cero).</div>
-        </div>
+            <div class="exercise-item">
+                <strong>4. Inverso:</strong> ¿Cuál es el inverso multiplicativo de $-\frac{1}{5}$?
+                <button class="btn-solution" onclick="toggleSolution('act5-4')">Ver Solución</button>
+                <div id="act5-4" class="solution-text">El inverso es $-5$. Comprobación: $(-\frac{1}{5}) \cdot (-5) = 1$.</div>
+            </div>
 
-        <div class="exercise-item">
-            <strong>8. Simplificar:</strong> $2(a + 3) + 4a$.
-            <button class="btn-solution" onclick="toggleSolution('sol-5-8')">Ver Solución</button>
-            <div id="sol-5-8" class="solution-text">Primero distribuimos el 2: $2a + 6 + 4a$. Luego agrupamos términos semejantes: $(2a + 4a) + 6 = \mathbf{6a + 6}$.</div>
+            <div class="exercise-item">
+                <strong>5. Teorema del Cero:</strong> Si $a \cdot b = 0$, ¿qué podemos asegurar?
+                <button class="btn-solution" onclick="toggleSolution('act5-5')">Ver Solución</button>
+                <div id="act5-5" class="solution-text">Que al menos uno de los dos es cero ($a=0$ ó $b=0$). Esto se llama "propiedad de los ceros del producto" y es la base para resolver ecuaciones cuadráticas factorizadas.</div>
+            </div>
+
+            <!-- NUEVAS ACTIVIDADES (6-10) -->
+            <div class="exercise-item">
+                <strong>6. Reducción Algebraica:</strong> Reduce la expresión $4x - 2(x - 5) + 3$. Explica cada paso.
+                <button class="btn-solution" onclick="toggleSolution('act5-6')">Ver Solución Detallada</button>
+                <div id="act5-6" class="solution-text">
+                    1. Distribuimos el -2: $-2 \cdot x + (-2) \cdot (-5) = -2x + 10$.<br>
+                    2. Unimos: $4x - 2x + 10 + 3$.<br>
+                    3. Asociamos términos semejantes: $(4x - 2x) + (10 + 3)$.<br>
+                    4. Resultado: $\mathbf{2x + 13}$.
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>7. Análisis de Error:</strong> Un estudiante escribió: $5 - (x+2) = 5 - x + 2$. ¿Dónde está el error?
+                <button class="btn-solution" onclick="toggleSolution('act5-7')">Ver Análisis</button>
+                <div id="act5-7" class="solution-text">El error está en el signo del 2. El signo menos afecta a todo el paréntesis. Lo correcto es distribuir el signo negativo (multiplicar por -1):<br>$5 - (x+2) = 5 - x - 2$.<br>El estudiante olvidó cambiar el signo del +2.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>8. Demostración Guiada:</strong> Usando los axiomas, demuestra que $a \cdot 1 = a$ (Neutro multiplicativo) es consistente con el inverso multiplicativo. Es decir, si $a \neq 0$, demuestra que $a \cdot \frac{1}{a} = 1$ es lo que define al inverso.
+                <button class="btn-solution" onclick="toggleSolution('act5-8')">Ver Lógica</button>
+                <div id="act5-8" class="solution-text">Esto es una definición axiomática, no una demostración derivada de otros axiomas más básicos en este nivel. Sin embargo, se puede verificar con un ejemplo: Si $a=5$, su inverso es $\frac{1}{5}$. $5 \cdot \frac{1}{5} = \frac{5}{5} = 1$. El neutro multiplicativo (1) es necesario para que la operación inversa tenga sentido.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>9. Simplificación Compleja:</strong> Reduce: $2(x + y) - 3(x - y) + y$.
+                <button class="btn-solution" onclick="toggleSolution('act5-9')">Ver Solución</button>
+                <div id="act5-9" class="solution-text">
+                    1. Distribuimos: $2x + 2y - 3x + 3y + y$. (Nota: $-3 \cdot -y = +3y$).<br>
+                    2. Agrupamos $x$: $(2x - 3x) = -x$.<br>
+                    3. Agrupamos $y$: $(2y + 3y + y) = 6y$.<br>
+                    Resultado: $\mathbf{-x + 6y}$.
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>10. Argumentación:</strong> ¿Por qué la expresión $\frac{x}{0} + 5$ no tiene sentido matemático, mientras que $\frac{0}{x} + 5$ sí tiene sentido (siendo $x \neq 0$)?
+                <button class="btn-solution" onclick="toggleSolution('act5-10')">Ver Explicación</button>
+                <div id="act5-10" class="solution-text">
+                    $\frac{x}{0}$: No existe definición para dividir por cero. La expresión entera es "indefinida".<br>
+                    $\frac{0}{x}$: Cero dividido por cualquier número (distinto de cero) es cero. La expresión vale $0 + 5 = 5$. Es perfectamente válida.
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- ========================================= -->
-    <!-- PESTAÑA 6: Práctica y Autoevaluación -->
+    <!-- PESTAÑA 6: Práctica Integral -->
     <!-- ========================================= -->
     <div id="tab6" class="tab-content">
-        <h2>Práctica y Autoevaluación</h2>
+        <h2>Práctica Integral y Autoevaluación</h2>
+        <p>Esta sección reúne conceptos de todas las pestañas anteriores. Es el examen final de la unidad.</p>
 
-        <h3>1. Ejercicios de Clasificación</h3>
-        <p>Clasifica los siguientes números. Presiona "Ver Respuesta" para comprobar.</p>
-        
-        <div class="exercise-item">
-            <strong>Número:</strong> $\frac{5}{2}$             <br><button class="btn-solution" onclick="toggleSolution('ex6-1')">Ver Respuesta</button>
-            <div id="ex6-1" class="solution-text">Racional. Es una fracción exacta de enteros (2.5).</div>
-        </div>
-        <div class="exercise-item">
-            <strong>Número:</strong> $\sqrt{10}$             <br><button class="btn-solution" onclick="toggleSolution('ex6-2')">Ver Respuesta</button>
-            <div id="ex6-2" class="solution-text">Irracional. 10 no es un cuadrado perfecto.</div>
-        </div>
-        <div class="exercise-item">
-            <strong>Número:</strong> $0.050505...$ (periódico mixto)
-            <br><button class="btn-solution" onclick="toggleSolution('ex6-3')">Ver Respuesta</button>
-            <div id="ex6-3" class="solution-text">Racional. Todo decimal periódico es racional.</div>
-        </div>
-        <div class="exercise-item">
-            <strong>Número:</strong> $e^2$             <br><button class="btn-solution" onclick="toggleSolution('ex6-4')">Ver Respuesta</button>
-            <div id="ex6-4" class="solution-text">Irracional. $e$ es irracional y al elevarlo al cuadrado sigue siendo irracional.</div>
-        </div>
+        <!-- BLOQUE DE 5 ACTIVIDADES -->
+        <div class="activity-section">
+            <h3>📝 Examen Final de Unidad</h3>
 
-        <h3>2. Problemas de Aplicación</h3>
-        
-        <div class="exercise-item">
-            <p><strong>Diagonal de la tele:</strong> Una pantalla rectangular mide 40 cm de ancho y 30 cm de alto. ¿Cuánto mide la diagonal exacta? ¿Es racional o irracional?</p>
-            <button class="btn-solution" onclick="toggleSolution('ex6-5')">Ver Respuesta</button>
-            <div id="ex6-5" class="solution-text">
-                Usamos Pitágoras: $d = \sqrt{30^2 + 40^2} = \sqrt{900 + 1600} = \sqrt{2500} = 50$ cm.<br>
-                <strong>¡OJO!</strong> Aunque las raíces suelen ser irracionales, aquí el resultado es exactamente 50, por lo tanto es un número <strong>Racional (Entero)</strong>.
+            <div class="exercise-item">
+                <strong>1. Clasificación Compleja:</strong> Clasifica los siguientes números en todos los conjuntos posibles: $-\sqrt{9}, \frac{\pi}{2}, 0, \sqrt{7}$.
+                <button class="btn-solution" onclick="toggleSolution('act6-1')">Ver Solución</button>
+                <div id="act6-1" class="solution-text">
+                    $-\sqrt{9} = -3$. Es Entero ($\mathbb{Z}$), Racional ($\mathbb{Q}$) y Real ($\mathbb{R}$).<br>
+                    $\frac{\pi}{2}$: Es Irracional ($\mathbb{I}$) y Real ($\mathbb{R}$). (Pi es irracional, dividirlo por 2 no lo hace racional).<br>
+                    $0$: Es Entero, Racional y Real.<br>
+                    $\sqrt{7}$: Es Irracional y Real.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>2. Ordenamiento:</strong> Ordena de menor a mayor: $\frac{22}{7}, 3.14, \pi, \sqrt{10}$.
+                <button class="btn-solution" onclick="toggleSolution('act6-2')">Ver Orden</button>
+                <div id="act6-2" class="solution-text">Calculamos aproximaciones:<br>$3.14$<br>$\pi \approx 3.1415...$<br>$\frac{22}{7} \approx 3.1428...$<br>$\sqrt{10} \approx 3.16...$<br><strong>Orden:</strong> $3.14 < \pi < \frac{22}{7} < \sqrt{10}$.</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>3. Geometría y Números:</strong> El área de un cuadrado es $12$ cm². ¿Su lado es racional o irracional? ¿Y el perímetro?
+                <button class="btn-solution" onclick="toggleSolution('act6-3')">Ver Solución</button>
+                <div id="act6-3" class="solution-text">Lado $l = \sqrt{12} = 2\sqrt{3}$. Es irracional.<br>Perímetro $P = 4 \cdot l = 8\sqrt{3}$. Es irracional. (Producto de racional por irracional es irracional).</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>4. Axiomas en acción:</strong> Resuelve $3x - 5 = 10$. Nombra la propiedad usada en cada paso.
+                <button class="btn-solution" onclick="toggleSolution('act6-4')">Ver Procedimiento</button>
+                <div id="act6-4" class="solution-text">
+                    1. $3x = 15$ (Propiedad Uniforme de la suma: sumo 5 a ambos lados).<br>
+                    2. $x = 5$ (Propiedad Uniforme de la multiplicación: multiplico por $1/3$ a ambos lados, o divido por 3).</div>
+            </div>
+
+            <div class="exercise-item">
+                <strong>5. Desafío Lógico:</strong> Encuentra dos números irracionales distintos cuya suma sea un número racional.
+                <button class="btn-solution" onclick="toggleSolution('act6-5')">Ver Solución</button>
+                <div id="act6-5" class="solution-text">Hay varias soluciones posibles:<br>1. $\pi$ y $-\pi$. Suma = 0.<br>2. $(1 + \sqrt{2})$ y $(1 - \sqrt{2})$. Suma = 2.<br>Esto demuestra que la suma de irracionales no siempre es irracional.</div>
             </div>
         </div>
-
-        <div class="exercise-item">
-            <p><strong>El cuadrado y el área:</strong> ¿Cuál es la longitud exacta del lado de un cuadrado cuya área es 7 cm²?</p>
-            <button class="btn-solution" onclick="toggleSolution('ex6-6')">Ver Respuesta</button>
-            <div id="ex6-6" class="solution-text">
-                El lado $l$ cumple $l^2 = 7 \Rightarrow l = \sqrt{7}$ cm.<br>
-                Como 7 no es cuadrado perfecto, el lado mide $\sqrt{7}$ cm, que es un número <strong>Irracional</strong>.
-            </div>
-        </div>
-
-        <h3>3. Quiz Rápido (Opción Múltiple)</h3>
         
+        <h3>Quiz Rápido (Opción Múltiple)</h3>
         <div class="exercise-item">
-            <p><strong>1. ¿Qué propiedad asegura que $a(b+c) = ab + ac$?</strong></p>
-            <label><input type="radio" name="qz1" value="err"> Conmutativa</label><br>
-            <label><input type="radio" name="qz1" value="ok"> Distributiva</label><br>
-            <label><input type="radio" name="qz1" value="err"> Asociativa</label>
-            <br><button class="btn-solution" onclick="checkQuiz('qz1', 'ok')">Verificar</button>
-            <div id="fb-qz1" class="solution-text"></div>
+            <p><strong>¿Cuál de las siguientes afirmaciones es FALSA?</strong></p>
+            <label><input type="radio" name="qzFinal" value="err1"> El conjunto de los racionales es denso.</label><br>
+            <label><input type="radio" name="qzFinal" value="ok"> $\sqrt{4}$ es un número irracional.</label><br>
+            <label><input type="radio" name="qzFinal" value="err2"> Entre dos enteros siempre hay un irracional.</label>
+            <br><button class="btn-solution" onclick="checkQuiz('qzFinal', 'ok')">Verificar</button>
+            <div id="fb-qzFinal" class="solution-text"></div>
         </div>
-
-        <div class="exercise-item">
-            <p><strong>2. ¿Cuál es el inverso aditivo de $-5$?</strong></p>
-            <label><input type="radio" name="qz2" value="err"> $-1/5$</label><br>
-            <label><input type="radio" name="qz2" value="err"> $-5$</label><br>
-            <label><input type="radio" name="qz2" value="ok"> $5$ (ya que $-5 + 5 = 0$)</label>
-            <br><button class="btn-solution" onclick="checkQuiz('qz2', 'ok')">Verificar</button>
-            <div id="fb-qz2" class="solution-text"></div>
-        </div>
-
     </div>
 </main>
 
@@ -602,7 +866,7 @@
         evt.currentTarget.className += " active";
     }
 
-    // Lógica de Botones "Ver Solución" (Universal)
+    // Lógica de Botones "Ver Solución"
     function toggleSolution(id) {
         var el = document.getElementById(id);
         if (el.style.display === "block") {
@@ -612,7 +876,7 @@
         }
     }
 
-    // Lógica del Quiz (Pestaña 6)
+    // Lógica del Quiz
     function checkQuiz(name, correctVal) {
         var options = document.getElementsByName(name);
         var selectedVal = null;
@@ -630,10 +894,10 @@
         }
 
         if(selectedVal === correctVal) {
-            feedback.innerHTML = "&#10004; ¡Correcto!";
+            feedback.innerHTML = "&#10004; ¡Correcto! La afirmación es FALSA porque $\sqrt{4}=2$, que es un número racional entero.";
             feedback.style.color = "green";
         } else {
-            feedback.innerHTML = "&#10006; Incorrecto. Intenta de nuevo.";
+            feedback.innerHTML = "&#10006; Incorrecto. Piensa bien... ¿$\sqrt{4}$ es irracional? No, es 2. ¡Esa es la falsa!";
             feedback.style.color = "red";
         }
         feedback.style.display = "block";

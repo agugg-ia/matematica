@@ -36,7 +36,7 @@
             color: var(--text-color);
             margin: 0;
             padding: 0;
-            line-height: 1.7; /* Ligeramente más amplio para lectura teórica */
+            line-height: 1.7;
         }
 
         header {
@@ -57,6 +57,52 @@
             margin: 30px auto;
             padding: 0 20px;
             min-height: 80vh;
+        }
+
+        /* NUEVO: Estilos para la sección de descarga */
+        .resource-box {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
+            border: 2px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .resource-info {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .resource-info h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .btn-download {
+            background-color: var(--success-color);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(39, 174, 96, 0.4);
+            background-color: #219150;
         }
 
         /* Navegación por Pestañas */
@@ -120,7 +166,7 @@
             background-color: #ebf5fb;
             border: 1px solid #aed6f1;
             border-left: 5px solid #3498db;
-            padding: 25px; /* Más padding para teoría */
+            padding: 25px;
             margin: 25px 0;
             border-radius: var(--border-radius);
         }
@@ -219,6 +265,7 @@
             .tab-btn { width: 100%; text-align: left; }
             .tab-content { padding: 20px; }
             .prop-grid { grid-template-columns: 1fr; }
+            .resource-box { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -230,6 +277,18 @@
 </header>
 
 <main>
+    <!-- NUEVA SECCIÓN: Material de Estudio (PDF) -->
+    <div class="resource-box">
+        <div class="resource-info">
+            <h3>📄 Apunte Teórico Paso a Paso</h3>
+            <p>Hemos preparado un documento PDF complementario generado con LaTeX para profundizar en los conceptos, con demostraciones detalladas y ejercicios resueltos adicionales.</p>
+        </div>
+        <!-- IMPORTANTE: Asegúrate de que el archivo 'apunte.pdf' esté en la misma carpeta que este HTML -->
+        <a href="https://drive.google.com/file/d/1G48929-PexF0_Qe6Rj-iGL4I5fc0saQl/view?usp=sharing" class="btn-download" target="_blank" download>
+            📥 Descargar PDF
+        </a>
+    </div>
+
     <nav class="tabs-nav">
         <button class="tab-btn active" onclick="openTab(event, 'tab1')">1. Introducción e Historia</button>
         <button class="tab-btn" onclick="openTab(event, 'tab2')">2. El Mundo de los Irracionales</button>

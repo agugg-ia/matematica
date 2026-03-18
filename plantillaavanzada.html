@@ -23,6 +23,32 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --radius: 12px;
             --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --bg-body: #F9FAFB;
+            --bg-sidebar: var(--white);
+            --text-main: #374151;
+            --border-color: #E5E7EB;
+            --quote-bg: #FFFBEB;
+            --curiosity-bg: #F0F9FF;
+            --code-bg: #EFF6FF;
+        }
+
+        /* Modo oscuro */
+        body.dark-mode {
+            --primary: #3B82F6;
+            --primary-dark: #60A5FA;
+            --secondary: #34D399;
+            --accent: #FBBF24;
+            --dark: #F9FAFB;
+            --light: #1F2937;
+            --white: #111827;
+            --gray: #9CA3AF;
+            --bg-body: #030712;
+            --bg-sidebar: #1F2937;
+            --text-main: #E5E7EB;
+            --border-color: #374151;
+            --quote-bg: #2D2A1C;
+            --curiosity-bg: #1E3A5F;
+            --code-bg: #1E2B3F;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -30,11 +56,12 @@
         body {
             font-family: var(--font-main);
             color: var(--dark);
-            background-color: #F9FAFB; /* Fondo ligeramente más gris para destacar el contenedor */
+            background-color: var(--bg-body);
             line-height: 1.6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
@@ -66,21 +93,129 @@
         }
         .logo span { color: var(--dark); }
 
-        /* --- CONTENEDOR PRINCIPAL DE LECCIÓN --- */
+        /* Botón de modo oscuro */
+        .dark-mode-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            color: var(--dark);
+            padding: 5px 10px;
+            border-radius: 30px;
+            transition: background 0.3s;
+        }
+        .dark-mode-toggle:hover {
+            background: var(--light);
+        }
+
+        /* --- CONTENEDOR PRINCIPAL DE LECCIÓN (FLEX) --- */
         .lesson-container {
-            max-width: 1000px; /* Ancho cómodo para lectura */
+            max-width: 1000px;
             margin: 40px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        /* Columna principal */
+        .main-content {
+            flex: 3;
+            min-width: 300px;
             background: var(--white);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            overflow: hidden; /* Para bordes redondeados */
-            min-height: 600px;
+            overflow: hidden;
         }
 
+        /* Columna lateral */
+        .sidebar {
+            flex: 1;
+            min-width: 250px;
+            background: var(--bg-sidebar);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px 20px;
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+
+        .sidebar h3 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 8px;
+            font-size: 1.4rem;
+        }
+
+        .sidebar h4 {
+            color: var(--primary-dark);
+            margin: 15px 0 8px;
+            font-size: 1.1rem;
+        }
+
+        .sidebar p {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            text-align: left;
+            color: var(--text-main);
+        }
+
+        .curiosity {
+            background: var(--curiosity-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .ai-assistant {
+            background: var(--code-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .ai-assistant button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 5px 5px 5px 0;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        .ai-assistant button:hover {
+            background: var(--primary-dark);
+        }
+
+        .ai-output {
+            background: var(--white);
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .lesson-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; }
+        }
+
+        /* El resto de estilos se mantienen igual, solo adaptamos variables */
         .lesson-header {
             padding: 30px 40px;
-            background: linear-gradient(to right, #EFF6FF, #ffffff);
-            border-bottom: 1px solid #E5E7EB;
+            background: linear-gradient(to right, #EFF6FF, var(--white));
+            border-bottom: 1px solid var(--border-color);
         }
         
         .lesson-nav {
@@ -98,12 +233,11 @@
             width: 100%;
         }
 
-        /* Botones de navegación de pestañas */
         .tabs-nav {
             display: flex;
-            background-color: #f3f4f6;
-            border-bottom: 1px solid #e5e7eb;
-            overflow-x: auto; /* Para móviles */
+            background-color: var(--light);
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
         }
 
         .tab-btn {
@@ -120,7 +254,7 @@
             border-bottom: 4px solid transparent;
         }
 
-        .tab-btn:hover { background-color: #e5e7eb; color: var(--primary); }
+        .tab-btn:hover { background-color: var(--border-color); color: var(--primary); }
         
         .tab-btn.active {
             color: var(--primary);
@@ -128,10 +262,9 @@
             border-bottom-color: var(--primary);
         }
 
-        /* Paneles de contenido */
         .tab-content {
             padding: 40px;
-            display: none; /* Ocultos por defecto */
+            display: none;
             animation: fadeIn 0.4s ease-in-out;
         }
 
@@ -143,36 +276,31 @@
         }
 
         /* --- ESTILOS ESPECÍFICOS DE CONTENIDO --- */
-        
-        /* Estilos Generales de Texto */
         h2 { color: var(--primary); margin-bottom: 15px; font-size: 1.8rem; margin-top: 20px; }
         h3 { color: var(--dark); margin-bottom: 10px; font-size: 1.4rem; margin-top: 20px; }
-        p { margin-bottom: 15px; font-size: 1.05rem; color: #374151; text-align: justify; }
+        p { margin-bottom: 15px; font-size: 1.05rem; color: var(--text-main); text-align: justify; }
         
-        /* Tab 1: Introducción */
         .intro-quote {
             font-style: italic;
             border-left: 4px solid var(--accent);
             padding-left: 20px;
             color: var(--gray);
             margin: 20px 0;
-            background: #FFFBEB;
+            background: var(--quote-bg);
             padding: 20px;
             border-radius: 0 8px 8px 0;
         }
 
-        /* Tab 2: Teoría */
         .concept-box {
-            background: #EFF6FF;
+            background: var(--code-bg);
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
-            border: 1px solid #DBEAFE;
+            border: 1px solid var(--border-color);
         }
 
-        /* Tab 3: Desarrollos Resueltos */
         .solved-example {
-            border: 1px solid #E5E7EB;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             margin: 30px 0;
             overflow: hidden;
@@ -183,14 +311,13 @@
             padding: 10px 20px;
             font-weight: bold;
         }
-        .solved-body { padding: 20px; background: #FAFAFA; }
+        .solved-body { padding: 20px; background: var(--light); }
         .solved-step { margin-bottom: 15px; border-left: 2px solid var(--gray); padding-left: 15px; }
 
-        /* Tab 4: Práctica (Ejercicios) */
         .exercise-item {
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 1px dashed #D1D5DB;
+            border-bottom: 1px dashed var(--border-color);
         }
         .solution-toggle {
             background: var(--white);
@@ -211,8 +338,12 @@
             border-radius: 6px;
             border: 1px solid #10B981;
         }
+        body.dark-mode .solution-text {
+            background: #064E3B;
+            border-color: #10B981;
+            color: #D1FAE5;
+        }
 
-        /* Tab 5: Autoevaluación (Quiz) */
         .quiz-item { margin-bottom: 25px; }
         .quiz-options button {
             display: block;
@@ -220,20 +351,22 @@
             text-align: left;
             padding: 12px 15px;
             margin: 5px 0;
-            background: white;
-            border: 1px solid #D1D5DB;
+            background: var(--white);
+            border: 1px solid var(--border-color);
             border-radius: 6px;
             cursor: pointer;
             transition: 0.2s;
+            color: var(--text-main);
         }
-        .quiz-options button:hover { background-color: #F3F4F6; }
+        .quiz-options button:hover { background-color: var(--light); }
         
-        /* Estados de respuesta del quiz */
         .quiz-btn.correct { background-color: #D1FAE5; border-color: #10B981; color: #065F46; }
         .quiz-btn.incorrect { background-color: #FEE2E2; border-color: #EF4444; color: #991B1B; }
+        body.dark-mode .quiz-btn.correct { background-color: #064E3B; color: #D1FAE5; }
+        body.dark-mode .quiz-btn.incorrect { background-color: #7F1D1D; color: #FEE2E2; }
+
         .quiz-feedback { margin-top: 8px; font-weight: 600; font-size: 0.9rem; display: none; }
 
-        /* Footer */
         footer {
             background-color: var(--dark);
             color: #D1D5DB;
@@ -246,7 +379,7 @@
 </head>
 <body>
 
-    <!-- HEADER -->
+    <!-- HEADER con botón de modo oscuro -->
     <header>
         <div class="container">
             <nav>
@@ -259,6 +392,7 @@
                     </svg>
                     <span>Mates con Agugg_ia</span>
                 </div>
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Cambiar modo oscuro">🌙</button>
             </nav>
         </div>
     </header>
@@ -266,111 +400,121 @@
     <main>
         <div class="container">
             <div class="lesson-container">
-                <!-- Cabecera de la lección -->
-                <div class="lesson-header">
-                    <div class="lesson-nav">
-                        <a href="index.html">← Volver al Inicio</a> | <a href="index.html#vista-cursos">Ver Cursos</a>
-                    </div>
-                    <h1 class="lesson-title">TÍTULO DE LA LECCIÓN</h1>
-                </div>
-
-                <!-- NAVEGACIÓN DE PESTAÑAS -->
-                <div class="tabs-container">
-                    <div class="tabs-nav">
-                        <button class="tab-btn active" onclick="openTab(event, 'tab-intro')">1. Introducción</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-teoria')">2. Teoría</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-resueltos')">3. Desarrollos</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-practica')">4. Práctica</button>
-                        <button class="tab-btn" onclick="openTab(event, 'tab-quiz')">5. Autoevaluación</button>
-                    </div>
-
-                    <!-- PESTAÑA 1: INTRODUCCIÓN -->
-                    <div id="tab-intro" class="tab-content active">
-                        <!-- PEGA AQUÍ EL CONTENIDO DE INTRODUCCIÓN GENERADO POR IA -->
-                        <h2>Bienvenido</h2>
-                        <p>Contenido generado por IA sobre la importancia, contexto histórico y utilidad futura.</p>
-                        <!-- Ejemplo visual de cita -->
-                        <div class="intro-quote">
-                            "La matemática no es sobre números, ecuaciones, computaciones o algoritmos: es sobre entender." - William Paul Thurston
+                <!-- COLUMNA PRINCIPAL -->
+                <div class="main-content">
+                    <!-- Cabecera de la lección -->
+                    <div class="lesson-header">
+                        <div class="lesson-nav">
+                            <a href="index.html">← Volver al Inicio</a> | <a href="index.html#vista-cursos">Ver Cursos</a>
                         </div>
+                        <h1 class="lesson-title" id="lessonTitle">Ecuaciones Cuadráticas</h1>
                     </div>
 
-                    <!-- PESTAÑA 2: TEORÍA -->
-                    <div id="tab-teoria" class="tab-content">
-                        <!-- PEGA AQUÍ EL CONTENIDO TEÓRICO -->
-                        <h2>Conceptos Fundamentales</h2>
-                        <div class="concept-box">
-                            <h3>Definición Clave</h3>
-                            <p>$$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$</p>
+                    <!-- NAVEGACIÓN DE PESTAÑAS -->
+                    <div class="tabs-container">
+                        <div class="tabs-nav">
+                            <button class="tab-btn active" onclick="openTab(event, 'tab-intro')">1. Introducción</button>
+                            <button class="tab-btn" onclick="openTab(event, 'tab-teoria')">2. Teoría</button>
+                            <button class="tab-btn" onclick="openTab(event, 'tab-resueltos')">3. Desarrollos</button>
+                            <button class="tab-btn" onclick="openTab(event, 'tab-practica')">4. Práctica</button>
+                            <button class="tab-btn" onclick="openTab(event, 'tab-quiz')">5. Autoevaluación</button>
                         </div>
-                        <p>Aquí irán las propiedades, enunciados y explicaciones detalladas...</p>
-                    </div>
 
-                    <!-- PESTAÑA 3: DESARROLLOS RESUELTOS -->
-                    <div id="tab-resueltos" class="tab-content">
-                        <!-- PEGA AQUÍ LOS PROBLEMAS RESUELTOS CONTEXTUALIZADOS -->
-                        <h2>Problemas Modelo</h2>
-                        <p>Analiza cómo se aplican los conceptos teóricos en situaciones reales.</p>
-
-                        <!-- Estructura para un ejemplo resuelto -->
-                        <div class="solved-example">
-                            <div class="solved-header">Ejemplo 1: Contexto Real</div>
-                            <div class="solved-body">
-                                <p><strong>Problema:</strong> Texto del problema contextualizado...</p>
-                                <div class="solved-step"><strong>Paso 1:</strong> Análisis de datos...</div>
-                                <div class="solved-step"><strong>Paso 2:</strong> Planteo de ecuación...</div>
-                                <div class="solved-step"><strong>Paso 3:</strong> Resolución...</div>
-                                <p><strong>Conclusión:</strong> Interpretación del resultado...</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- PESTAÑA 4: PRÁCTICA (EJERCICIOS) -->
-                    <div id="tab-practica" class="tab-content">
-                        <h2>Ejercicios y Problemas</h2>
-                        <p>Completa los siguientes ejercicios. (Mínimo 10 ejercicios y 5 problemas).</p>
-                        
-                        <!-- Estructura para un ejercicio -->
-                        <div class="exercise-item">
-                            <h3>Ejercicio 1</h3>
-                            <p>Enunciado del ejercicio...</p>
-                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
-                            <div class="solution-text">
-                                <p><strong>Resolución:</strong> Explicación paso a paso...</p>
-                                <p>$$ \text{Cálculo final} = 42 $$</p>
+                        <!-- PESTAÑA 1: INTRODUCCIÓN -->
+                        <div id="tab-intro" class="tab-content active">
+                            <h2>Bienvenido a Ecuaciones Cuadráticas</h2>
+                            <p>Las ecuaciones cuadráticas aparecen en numerosos contextos: desde la trayectoria de un proyectil hasta el cálculo de áreas. En esta lección descubrirás su origen, sus propiedades y cómo resolverlas.</p>
+                            <div class="intro-quote">
+                                "Las matemáticas son la puerta y la llave de las ciencias." - Roger Bacon
                             </div>
                         </div>
 
-                        <div class="exercise-item">
-                            <h3>Problema 1</h3>
-                            <p>Enunciado del problema contextualizado...</p>
-                            <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
-                            <div class="solution-text">
-                                <p><strong>Resolución:</strong> Explicación paso a paso...</p>
+                        <!-- PESTAÑA 2: TEORÍA -->
+                        <div id="tab-teoria" class="tab-content">
+                            <h2>Conceptos Fundamentales</h2>
+                            <div class="concept-box">
+                                <h3>Definición</h3>
+                                <p>Una ecuación cuadrática es de la forma \(ax^2 + bx + c = 0\) con \(a \neq 0\).</p>
+                                <p>$$ x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$</p>
+                            </div>
+                            <p>El discriminante \(\Delta = b^2 - 4ac\) determina la naturaleza de las raíces.</p>
+                        </div>
+
+                        <!-- PESTAÑA 3: DESARROLLOS RESUELTOS -->
+                        <div id="tab-resueltos" class="tab-content">
+                            <h2>Problemas Modelo</h2>
+                            <p>Analiza cómo se aplican los conceptos en situaciones reales.</p>
+                            <div class="solved-example">
+                                <div class="solved-header">Ejemplo: Lanzamiento de un proyectil</div>
+                                <div class="solved-body">
+                                    <p><strong>Problema:</strong> Un proyectil sigue la trayectoria \(h(t) = -5t^2 + 20t + 2\) (en metros). ¿En qué momento alcanza la altura máxima?</p>
+                                    <div class="solved-step"><strong>Paso 1:</strong> Identificar vértice: \(t = -b/(2a) = -20/(2·-5) = 2\) s.</div>
+                                    <div class="solved-step"><strong>Paso 2:</strong> Calcular altura: \(h(2) = -5·4 + 40 + 2 = 22\) m.</div>
+                                    <p><strong>Conclusión:</strong> Altura máxima de 22 m a los 2 segundos.</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- PESTAÑA 5: AUTOEVALUACIÓN -->
-                    <div id="tab-quiz" class="tab-content">
-                        <h2>Autoevaluación Rápida</h2>
-                        <p>Selecciona la respuesta correcta para verificar tu comprensión.</p>
-
-                        <!-- Estructura para pregunta de opción múltiple -->
-                        <div class="quiz-item">
-                            <p><strong>1. ¿Cuál es la definición correcta de...?</strong></p>
-                            <div class="quiz-options">
-                                <button onclick="checkAnswer(this, false)">Opción A (Incorrecta)</button>
-                                <button onclick="checkAnswer(this, true)">Opción B (Correcta)</button>
-                                <button onclick="checkAnswer(this, false)">Opción C (Incorrecta)</button>
-                                <button onclick="checkAnswer(this, false)">Opción D (Incorrecta)</button>
+                        <!-- PESTAÑA 4: PRÁCTICA -->
+                        <div id="tab-practica" class="tab-content">
+                            <h2>Ejercicios y Problemas</h2>
+                            <p>Completa los siguientes ejercicios. (Mínimo 10 ejercicios y 5 problemas).</p>
+                            
+                            <div class="exercise-item">
+                                <h3>Ejercicio 1</h3>
+                                <p>Resuelve \(x^2 - 5x + 6 = 0\).</p>
+                                <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                                <div class="solution-text">
+                                    <p><strong>Resolución:</strong> Factorizando: \((x-2)(x-3)=0\), soluciones \(x=2\) y \(x=3\).</p>
+                                </div>
                             </div>
-                            <p class="quiz-feedback"></p>
+
+                            <div class="exercise-item">
+                                <h3>Problema 1</h3>
+                                <p>El área de un rectángulo es 24 m² y su largo es 2 m más que el ancho. Encuentra sus dimensiones.</p>
+                                <button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button>
+                                <div class="solution-text">
+                                    <p><strong>Resolución:</strong> Ancho = x, largo = x+2; área: x(x+2)=24 → x²+2x-24=0 → (x+6)(x-4)=0 → x=4 (positivo). Dimensiones: 4 m y 6 m.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PESTAÑA 5: AUTOEVALUACIÓN -->
+                        <div id="tab-quiz" class="tab-content">
+                            <h2>Autoevaluación Rápida</h2>
+                            <p>Selecciona la respuesta correcta para verificar tu comprensión.</p>
+
+                            <div class="quiz-item">
+                                <p><strong>1. ¿Cuál es el discriminante de \(x^2 - 4x + 4 = 0\)?</strong></p>
+                                <div class="quiz-options">
+                                    <button onclick="checkAnswer(this, false)">0</button>
+                                    <button onclick="checkAnswer(this, true)">16</button>
+                                    <button onclick="checkAnswer(this, false)">-16</button>
+                                    <button onclick="checkAnswer(this, false)">8</button>
+                                </div>
+                                <p class="quiz-feedback"></p>
+                            </div>
+                        </div>
+                    </div> <!-- Fin tabs-container -->
+                </div> <!-- Fin main-content -->
+
+                <!-- COLUMNA LATERAL (sidebar dinámica + IA) -->
+                <aside class="sidebar" id="sidebar">
+                    <h3 id="sidebarTitle">📜 Historia y Curiosidades</h3>
+                    <div id="sidebarContent">
+                        <!-- El contenido se llenará dinámicamente según la pestaña activa -->
+                    </div>
+                    <!-- Asistente IA simulado -->
+                    <div class="ai-assistant">
+                        <h4>🤖 Asistente IA (beta)</h4>
+                        <button onclick="generateExercise()">🎲 Generar ejercicio</button>
+                        <button onclick="explainConcept()">📘 Explicar concepto</button>
+                        <div id="aiOutput" class="ai-output">
+                            Haz clic en un botón para interactuar.
                         </div>
                     </div>
-
-                </div> <!-- Fin tabs-container -->
-            </div>
+                </aside>
+            </div> <!-- Fin lesson-container -->
         </div>
     </main>
 
@@ -382,7 +526,92 @@
 
     <!-- SCRIPTS -->
     <script>
-        // --- LÓGICA DE PESTAÑAS ---
+        // --- MODO OSCURO ---
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // Comprobar preferencia guardada
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+            darkModeToggle.textContent = '☀️';
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeToggle.textContent = '☀️';
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeToggle.textContent = '🌙';
+            }
+        });
+
+        // --- CONTENIDO DINÁMICO DE LA SIDEBAR SEGÚN PESTAÑA ---
+        // Objeto con contenidos para cada pestaña (puedes modificarlo para cada lección)
+        const sidebarContent = {
+            'tab-intro': {
+                title: '📜 Historia de las Ecuaciones',
+                items: [
+                    { type: 'curiosity', title: '🧠 Orígenes', content: 'Las ecuaciones cuadráticas se resolvían en la antigua Babilonia (2000 a.C.) mediante métodos geométricos.' },
+                    { type: 'curiosity', title: '📐 Al-Juarismi', content: 'El matemático persa Al-Juarismi (siglo IX) desarrolló métodos sistemáticos para resolver ecuaciones de segundo grado.' },
+                    { type: 'tip', content: '💡 Tip: Intenta visualizar la ecuación como una parábola; el vértice te da el máximo o mínimo.' }
+                ]
+            },
+            'tab-teoria': {
+                title: '📐 Teoría en Contexto',
+                items: [
+                    { type: 'curiosity', title: '🔍 Discriminante', content: 'El discriminante Δ = b² - 4ac indica el número de soluciones reales. Si Δ>0, dos soluciones; Δ=0, una; Δ<0, ninguna real.' },
+                    { type: 'curiosity', title: '⚡ Fórmula cuadrática', content: 'La fórmula general se atribuye a Simon Stevin (1594) y a René Descartes (1637).' },
+                    { type: 'tip', content: '💡 Tip: Para memorizar la fórmula, cántala con una melodía pegadiza.' }
+                ]
+            },
+            'tab-resueltos': {
+                title: '📚 Ejemplos Comentados',
+                items: [
+                    { type: 'curiosity', title: '🚀 Física', content: 'Las ecuaciones cuadráticas modelan el movimiento parabólico (gravedad, tiro oblicuo).' },
+                    { type: 'curiosity', title: '🏛️ Arquitectura', content: 'Los arcos de muchas catedrales góticas siguen formas parabólicas.' },
+                    { type: 'tip', content: '💡 Tip: Al resolver problemas, identifica primero qué representa cada variable.' }
+                ]
+            },
+            'tab-practica': {
+                title: '✏️ Tips para Practicar',
+                items: [
+                    { type: 'curiosity', title: '🧩 Factorización', content: 'Si los coeficientes son enteros, prueba a factorizar antes de usar la fórmula general.' },
+                    { type: 'curiosity', title: '📊 Comprobación', content: 'Siempre verifica tus soluciones sustituyendo en la ecuación original.' },
+                    { type: 'tip', content: '💡 Tip: Practica con 5 ejercicios diarios; la constancia mejora la velocidad.' }
+                ]
+            },
+            'tab-quiz': {
+                title: '🧠 Autoevaluación',
+                items: [
+                    { type: 'curiosity', title: '🎯 Precisión', content: 'Los errores más comunes son signos al aplicar la fórmula. ¡Revisa dos veces!' },
+                    { type: 'curiosity', title: '📈 Progreso', content: 'Lleva un registro de tus aciertos y fallos para identificar áreas débiles.' },
+                    { type: 'tip', content: '💡 Tip: Explica en voz alta cada paso mientras resuelves; así afianzas el conocimiento.' }
+                ]
+            }
+        };
+
+        function updateSidebar(tabId) {
+            const content = sidebarContent[tabId] || sidebarContent['tab-intro'];
+            document.getElementById('sidebarTitle').textContent = content.title;
+            const container = document.getElementById('sidebarContent');
+            container.innerHTML = ''; // Limpiar
+            content.items.forEach(item => {
+                if (item.type === 'curiosity') {
+                    const div = document.createElement('div');
+                    div.className = 'curiosity';
+                    div.innerHTML = `<h4>${item.title}</h4><p>${item.content}</p>`;
+                    container.appendChild(div);
+                } else if (item.type === 'tip') {
+                    const p = document.createElement('p');
+                    p.innerHTML = item.content;
+                    container.appendChild(p);
+                }
+            });
+        }
+
+        // --- PESTAÑAS (modificado para actualizar sidebar) ---
         function openTab(evt, tabName) {
             // Ocultar todos los contenidos
             var i, tabcontent, tablinks;
@@ -400,14 +629,19 @@
 
             // Mostrar la pestaña actual y añadir clase active
             document.getElementById(tabName).style.display = "block";
-            // Pequeño timeout para permitir la animación CSS
             setTimeout(() => {
                 document.getElementById(tabName).classList.add("active");
             }, 10);
             evt.currentTarget.className += " active";
+
+            // Actualizar sidebar según la pestaña
+            updateSidebar(tabName);
         }
 
-        // --- LÓGICA DE SOLUCIONES (ACORDEÓN) ---
+        // Inicializar sidebar con la pestaña activa (intro)
+        updateSidebar('tab-intro');
+
+        // --- SOLUCIONES ---
         function toggleSolution(btn) {
             var solution = btn.nextElementSibling;
             if (solution.style.display === "block") {
@@ -419,22 +653,18 @@
             }
         }
 
-        // --- LÓGICA DE QUIZ (AUTOEVALUACIÓN) ---
+        // --- QUIZ ---
         function checkAnswer(btn, isCorrect) {
-            // Desactivar otros botones de esta pregunta para evitar múltiples clics
             var parent = btn.parentElement;
             var buttons = parent.getElementsByTagName("button");
             for (var i = 0; i < buttons.length; i++) {
-                buttons[i].disabled = true; // Deshabilitar
-                // Si este botón era el correcto (y no el que clicamos), marcarlo visualmente
+                buttons[i].disabled = true;
                 if (buttons[i] !== btn && buttons[i].getAttribute("onclick").includes("true")) {
                     buttons[i].classList.add("correct"); 
                 }
             }
-
             var feedback = parent.nextElementSibling;
             feedback.style.display = "block";
-
             if (isCorrect) {
                 btn.classList.add("correct");
                 feedback.textContent = "¡Correcto! Muy bien hecho.";
@@ -445,7 +675,33 @@
                 feedback.style.color = "#991B1B";
             }
         }
-    </script>
 
+        // --- ASISTENTE IA SIMULADO ---
+        const ejerciciosIA = [
+            "Resuelve la ecuación: 2x² - 8x + 6 = 0",
+            "Encuentra el vértice de la parábola y = -3x² + 6x - 2",
+            "Determina el área máxima de un rectángulo de perímetro 20 m",
+            "¿Cuánto mide el lado de un cuadrado si su área es numéricamente igual a su perímetro?",
+            "La suma de dos números es 10 y su producto 21. Encuéntralos."
+        ];
+
+        const explicacionesIA = [
+            "Recuerda que para resolver una ecuación cuadrática puedes usar factorización, completar cuadrados o la fórmula general. Elige el método más adecuado según los coeficientes.",
+            "El vértice de una parábola y = ax² + bx + c se encuentra en x = -b/(2a). Luego sustituye para obtener y.",
+            "En problemas de optimización, identifica la variable a maximizar/minimizar, exprésala en función de una sola variable y encuentra el vértice.",
+            "Siempre verifica que las soluciones tengan sentido en el contexto del problema (longitudes positivas, etc.).",
+            "Practica con diferentes tipos de ecuaciones: completas, incompletas, con coeficientes fraccionarios."
+        ];
+
+        function generateExercise() {
+            const randomIndex = Math.floor(Math.random() * ejerciciosIA.length);
+            document.getElementById('aiOutput').innerHTML = `<strong>Ejercicio generado:</strong> ${ejerciciosIA[randomIndex]}`;
+        }
+
+        function explainConcept() {
+            const randomIndex = Math.floor(Math.random() * explicacionesIA.length);
+            document.getElementById('aiOutput').innerHTML = `<strong>Explicación:</strong> ${explicacionesIA[randomIndex]}`;
+        }
+    </script>
 </body>
 </html>

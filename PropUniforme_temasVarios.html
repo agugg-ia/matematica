@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noción de Ecuaciones | Mates con Agugg_ia</title>
+    
+    <!-- MathJax Config -->
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --danger: #EF4444;
+            --dark: #1F2937;
+            --light: #F3F4F6;
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-main); color: var(--dark); background-color: #F9FAFB; line-height: 1.6; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* HEADER */
+        header { background-color: var(--white); box-shadow: var(--shadow); position: sticky; top: 0; z-index: 1000; }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { font-size: 1.3rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .logo span { color: var(--dark); }
+
+        /* LECCIÓN */
+        .lesson-container { max-width: 1100px; margin: 40px auto; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+        .lesson-header { padding: 30px 40px; background: linear-gradient(to right, #EFF6FF, #ffffff); border-bottom: 1px solid #E5E7EB; }
+        .lesson-title { font-size: 2.2rem; color: var(--primary-dark); line-height: 1.2; }
+
+        /* PESTAÑAS */
+        .tabs-nav { display: flex; background-color: #f3f4f6; border-bottom: 1px solid #e5e7eb; overflow-x: auto; }
+        .tab-btn { flex: 1; padding: 18px 15px; border: none; background: none; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: var(--gray); transition: all 0.3s; border-bottom: 4px solid transparent; white-space: nowrap; }
+        .tab-btn:hover { background-color: #e5e7eb; color: var(--primary); }
+        .tab-btn.active { color: var(--primary); background-color: var(--white); border-bottom-color: var(--primary); }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+
+        /* SISTEMA DE 2 COLUMNAS */
+        .two-column-layout { display: grid; grid-template-columns: 7fr 3fr; gap: 0; min-height: 600px; }
+
+        /* COLUMNA PRINCIPAL */
+        .main-body { padding: 40px; border-right: 1px solid #E5E7EB; background-color: var(--white); }
+        .main-body h2 { color: var(--primary); margin-bottom: 20px; font-size: 1.8rem; border-bottom: 2px solid #EFF6FF; padding-bottom: 10px; }
+        .main-body h3 { color: var(--primary-dark); margin: 30px 0 15px; font-size: 1.3rem; }
+        .main-body p { margin-bottom: 15px; color: #374151; text-align: justify; }
+
+        /* SIDEBAR */
+        .sidebar { padding: 30px 25px; background-color: #F8FAFC; }
+        .sidebar-card { padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.9rem; border: 1px solid transparent; }
+        .card-tip { background-color: #F0FDF4; border-color: #BBF7D0; border-left: 5px solid var(--secondary); }
+        .card-tip h4 { color: #166534; margin-bottom: 8px; font-size: 1rem; }
+        .card-warning { background-color: #FEF2F2; border-color: #FECACA; border-left: 5px solid var(--danger); }
+        .card-warning h4 { color: #991B1B; margin-bottom: 8px; font-size: 1rem; }
+        
+        /* ESTILOS PARA EJEMPLOS DESARROLLADOS */
+        .solved-example { border: 1px solid #E5E7EB; border-radius: 8px; margin: 25px 0; overflow: hidden; }
+        .solved-header { background: var(--primary); color: white; padding: 10px 20px; font-weight: bold; font-size: 1rem; }
+        .solved-body { padding: 20px; background: #FAFAFA; }
+        .step { margin-bottom: 12px; border-left: 3px solid var(--secondary); padding-left: 15px; }
+        .step strong { color: var(--primary-dark); }
+        
+        .justification {
+            background-color: #FEF3C7; 
+            border: 1px dashed var(--accent);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #92400E;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .definition-box {
+            background-color: #EFF6FF;
+            border: 1px solid #BFDBFE;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* ESTILOS PARA EJERCICIOS PROPUESTOS */
+        .exercise-bank { margin-top: 40px; padding-top: 20px; border-top: 2px dashed #E5E7EB; }
+        .exercise-item { margin-bottom: 15px; padding: 15px; background: #F8FAFC; border-radius: 6px; border: 1px solid #E5E7EB; }
+        .exercise-item p { margin-bottom: 10px; font-weight: 500; }
+        
+        .solution-toggle {
+            background: var(--white);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .solution-toggle:hover { background: var(--secondary); color: white; }
+        
+        .solution-text {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            background: #ECFDF5;
+            border-radius: 4px;
+            border: 1px solid #A7F3D0;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .two-column-layout { grid-template-columns: 1fr; }
+            .sidebar { border-left: none; border-top: 1px solid #E5E7EB; }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        footer { background-color: var(--dark); color: #D1D5DB; padding: 20px 0; margin-top: 40px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo" onclick="window.location.href='index.html'">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 2V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Mates con Agugg_ia</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="lesson-container">
+                <div class="lesson-header">
+                    <h1 class="lesson-title">Noción de Ecuaciones y Estrategias de Resolución</h1>
+                </div>
+
+                <div class="tabs-container">
+                    <div class="tabs-nav" role="tablist">
+                        <button class="tab-btn active" onclick="openTab(event, 'tab-fundamentos')">1. Fundamentos</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-estrategias')">2. Estrategias</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-sistemas')">3. Sistemas</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-inecuaciones')">4. Inecuaciones</button>
+                        <button class="tab-btn" onclick="openTab(event, 'tab-contexto')">5. Contexto</button>
+                    </div>
+
+                    <!-- PESTAÑA 1: FUNDAMENTOS -->
+                    <div id="tab-fundamentos" class="tab-content active">
+                        <div class="two-column-layout">
+                            <article class="main-body">
+                                <h2>1. Fundamentos de Ecuaciones</h2>
+                                
+                                <div class="definition-box">
+                                    <strong>Propiedad Uniforme (Algebraica):</strong><br>
+                                    Si $A = B$, entonces $A + c = B + c$<br>
+                                    (Siendo $c$ cualquier número real).
+                                </div>
+
+                                <h3>6 Ejemplos Desarrollados</h3>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 1: Eliminar una suma</div>
+                                    <div class="solved-body">
+                                        <p>$$ x + 3 = 8 $$</p>
+                                        <div class="step"><strong>Acción:</strong> Sumamos $(-3)$ a ambos lados.</div>
+                                        <div class="justificacion">¿Por qué -3? Es el opuesto de 3. Buscamos que $3 + (-3) = 0$.</div>
+                                        <div class="step">$$ x + 3 + (-3) = 8 + (-3) $$</div>
+                                        <div class="step">$$ x = 5 $$</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 2: Eliminar una resta</div>
+                                    <div class="solved-body">
+                                        <p>$$ y - 5 = 10 $$</p>
+                                        <div class="step"><strong>Acción:</strong> Sumamos $(+5)$ a ambos lados.</div>
+                                        <div class="justificacion">El opuesto de "restar 5" es "sumar 5".</div>
+                                        <div class="step">$$ y - 5 + 5 = 10 + 5 $$</div>
+                                        <div class="step">$$ y = 15 $$</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 3: Eliminar multiplicación</div>
+                                    <div class="solved-body">
+                                        <p>$$ 3x = 12 $$</p>
+                                        <div class="step"><strong>Acción:</strong> Dividimos ambos lados por 3.</div>
+                                        <div class="justificacion">Operación inversa de multiplicar. $\frac{3}{3} = 1$.</div>
+                                        <div class="step">$$ \frac{3x}{3} = \frac{12}{3} $$</div>
+                                        <div class="step">$$ x = 4 $$</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 4: Eliminar división</div>
+                                    <div class="solved-body">
+                                        <p>$$ \frac{x}{2} = 7 $$</p>
+                                        <div class="step"><strong>Acción:</strong> Multiplicamos ambos lados por 2.</div>
+                                        <div class="step">$$ 2 \cdot \frac{x}{2} = 2 \cdot 7 $$</div>
+                                        <div class="step">$$ x = 14 $$</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 5: Combinación simple</div>
+                                    <div class="solved-body">
+                                        <p>$$ 2x + 4 = 10 $$</p>
+                                        <div class="step"><strong>Paso 1:</strong> Sumamos $(-4)$ a ambos lados.</div>
+                                        <div class="step">$$ 2x = 6 $$</div>
+                                        <div class="step"><strong>Paso 2:</strong> Dividimos por 2.</div>
+                                        <div class="step">$$ x = 3 $$</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 6: Combinación con negativos</div>
+                                    <div class="solved-body">
+                                        <p>$$ \frac{x}{3} - 1 = 4 $$</p>
+                                        <div class="step"><strong>Paso 1:</strong> Sumamos $(+1)$.</div>
+                                        <div class="step">$$ \frac{x}{3} = 5 $$</div>
+                                        <div class="step"><strong>Paso 2:</strong> Multiplicamos por 3.</div>
+                                        <div class="step">$$ x = 15 $$</div>
+                                    </div>
+                                </div>
+
+                                <!-- Ejercicios Propuestos -->
+                                <div class="exercise-bank">
+                                    <h3>10 Ejercicios Propuestos</h3>
+                                    <div class="exercise-item"><p>1. $x + 8 = 15$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Detallada</button><div class="solution-text">Sumamos $(-8)$ a ambos lados:<br>$x + 8 - 8 = 15 - 8$<br>$x = 7$</div></div>
+                                    <div class="exercise-item"><p>2. $y - 4 = 20$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Detallada</button><div class="solution-text">Sumamos $(+4)$ a ambos lados:<br>$y - 4 + 4 = 20 + 4$<br>$y = 24$</div></div>
+                                    <div class="exercise-item"><p>3. $5x = 25$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Detallada</button><div class="solution-text">Dividimos por 5 ambos lados:<br>$\frac{5x}{5} = \frac{25}{5}$<br>$x = 5$</div></div>
+                                    <div class="exercise-item"><p>4. $\frac{z}{4} = 2$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Detallada</button><div class="solution-text">Multiplicamos por 4 ambos lados:<br>$4 \cdot \frac{z}{4} = 4 \cdot 2$<br>$z = 8$</div></div>
+                                    <div class="exercise-item"><p>5. $x + 9 = 9$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Detallada</button><div class="solution-text">Sumamos $(-9)$:<br>$x = 0$</div></div>
+                                    <div class="exercise-item"><p>6. $3x - 2 = 13$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Detallada</button><div class="solution-text">Sumamos $(+2)$: $3x = 15$.<br>Dividimos por 3: $x = 5$.</div></div>
+                                    <div class="exercise-item"><p>7. $\frac{x}{2} + 1 = 5$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Detallada</button><div class="solution-text">Sumamos $(-1)$: $\frac{x}{2} = 4$.<br>Multiplicamos por 2: $x = 8$.</div></div>
+                                    <div class="exercise-item"><p>8. $-2x = 10$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Detallada</button><div class="solution-text">Dividimos por $(-2)$:<br>$x = -5$.</div></div>
+                                    <div class="exercise-item"><p>9. $x - 6 = -10$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Detallada</button><div class="solution-text">Sumamos $(+6)$:<br>$x = -4$.</div></div>
+                                    <div class="exercise-item"><p>10. $4x + 1 = 1$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución Detallada</button><div class="solution-text">Sumamos $(-1)$: $4x = 0$.<br>Dividimos por 4: $x = 0$.</div></div>
+                                </div>
+                            </article>
+
+                            <aside class="sidebar">
+                                <div class="sidebar-card card-tip">
+                                    <h4>⚖️ Analogía de la Balanza</h4>
+                                    <p>Imagina una balanza en equilibrio: 3kg a la izquierda y 3kg a la derecha.</p>
+                                    <p>Si agregas 1kg a la izquierda, para recuperar el equilibrio debes agregar 1kg a la derecha.</p>
+                                    <p>¡Eso es la Propiedad Uniforme!</p>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 2: ESTRATEGIAS -->
+                    <div id="tab-estrategias" class="tab-content">
+                        <div class="two-column-layout">
+                            <article class="main-body">
+                                <h2>2. Estrategias de Resolución</h2>
+                                
+                                <h3>6 Ejemplos Desarrollados</h3>
+
+                                <!-- Ejemplo 1 -->
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 1: Incógnita en ambos lados</div>
+                                    <div class="solved-body">
+                                        <p>$$ 5x - 3 = 2x + 6 $$</p>
+                                        <div class="step"><strong>Paso 1:</strong> Sumamos $(-2x)$ a ambos lados.</div>
+                                        <div class="step">$$ 3x - 3 = 6 $$</div>
+                                        <div class="step"><strong>Paso 2:</strong> Sumamos $(+3)$ a ambos lados.</div>
+                                        <div class="step">$$ 3x = 9 $$</div>
+                                        <div class="step"><strong>Paso 3:</strong> Dividimos por 3.</div>
+                                        <div class="step">$$ x = 3 $$</div>
+                                    </div>
+                                </div>
+
+                                <!-- Ejemplo 2 -->
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 2: Paréntesis simple</div>
+                                    <div class="solved-body">
+                                        <p>$$ 2(x - 4) = 10 $$</p>
+                                        <div class="step"><strong>Paso 1:</strong> Aplicamos propiedad distributiva.</div>
+                                        <div class="step">$$ 2x - 8 = 10 $$</div>
+                                        <div class="step"><strong>Paso 2:</strong> Sumamos $(+8)$.</div>
+                                        <div class="step">$$ 2x = 18 \Rightarrow x = 9 $$</div>
+                                    </div>
+                                </div>
+
+                                <!-- Ejemplo 3 -->
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 3: Denominadores simples</div>
+                                    <div class="solved-body">
+                                        <p>$$ \frac{x}{3} + 2 = 5 $$</p>
+                                        <div class="step"><strong>Paso 1:</strong> Sumamos $(-2)$.</div>
+                                        <div class="step">$$ \frac{x}{3} = 3 $$</div>
+                                        <div class="step"><strong>Paso 2:</strong> Multiplicamos por 3.</div>
+                                        <div class="step">$$ x = 9 $$</div>
+                                    </div>
+                                </div>
+
+                                <!-- Ejemplo 4 -->
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 4: Denominadores múltiples (MCM)</div>
+                                    <div class="solved-body">
+                                        <p>$$ \frac{x}{2} = \frac{x}{3} + 1 $$</p>
+                                        <div class="step"><strong>Paso 1:</strong> MCM = 6. Multiplicamos TODO por 6.</div>
+                                        <div class="step">$$ 3x = 2x + 6 $$</div>
+                                        <div class="step"><strong>Paso 2:</strong> Sumamos $(-2x)$.</div>
+                                        <div class="step">$$ x = 6 $$</div>
+                                    </div>
+                                </div>
+
+                                <!-- Ejemplo 5 -->
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 5: Paréntesis y agrupación</div>
+                                    <div class="solved-body">
+                                        <p>$$ 3(x - 1) - 2x = 4 - x $$</p>
+                                        <div class="step">Distribuimos: $3x - 3 - 2x = 4 - x$.</div>
+                                        <div class="step">Simplificamos izquierda: $x - 3 = 4 - x$.</div>
+                                        <div class="step">Sumamos $(+x)$ y $(+3)$:</div>
+                                        <div class="step">$$ 2x = 7 \Rightarrow x = 3.5 $$</div>
+                                    </div>
+                                </div>
+
+                                <!-- Ejemplo 6 -->
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 6: Caso especial (Sin solución)</div>
+                                    <div class="solved-body">
+                                        <p>$$ 2x + 5 = 2x + 10 $$</p>
+                                        <div class="step">Sumamos $(-2x)$ a ambos lados.</div>
+                                        <div class="step">$$ 5 = 10 $$</div>
+                                        <div class="justacion"><strong>Falso:</strong> Esta igualdad nunca se cumple. No hay solución.</div>
+                                        <div class="step">$$ C.S. = \emptyset $$</div>
+                                    </div>
+                                </div>
+
+                                <!-- Ejercicios Propuestos -->
+                                <div class="exercise-bank">
+                                    <h3>10 Ejercicios Propuestos</h3>
+                                    <div class="exercise-item"><p>1. $4x - 7 = 2x + 5$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sumamos $(-2x)$ y $(+7)$:<br>$2x = 12 \Rightarrow x=6$.</div></div>
+                                    <div class="exercise-item"><p>2. $3(x+2) = 15$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Distribuimos: $3x+6=15$.<br>Sumamos $(-6)$: $3x=9 \Rightarrow x=3$.</div></div>
+                                    <div class="exercise-item"><p>3. $\frac{x}{4} - 1 = 3$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sumamos $(+1)$: $\frac{x}{4}=4$.<br>Multiplicamos por 4: $x=16$.</div></div>
+                                    <div class="exercise-item"><p>4. $5x - 2 = 3x + 8$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sumamos $(-3x)$ y $(+2)$:<br>$2x = 10 \Rightarrow x=5$.</div></div>
+                                    <div class="exercise-item"><p>5. $\frac{2x}{3} = 4$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Multiplicamos por 3: $2x=12$.<br>Dividimos por 2: $x=6$.</div></div>
+                                    <div class="exercise-item"><p>6. $x - 5 = 2x - 10$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sumamos $(-x)$ y $(+10)$:<br>$5 = x$.</div></div>
+                                    <div class="exercise-item"><p>7. $2(x-1) = x + 3$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$2x - 2 = x + 3$.<br>Sumamos $(-x)$ y $(+2)$:<br>$x = 5$.</div></div>
+                                    <div class="exercise-item"><p>8. $\frac{x+1}{2} = 3$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Multiplicamos por 2: $x+1 = 6$.<br>Sumamos $(-1)$: $x=5$.</div></div>
+                                    <div class="exercise-item"><p>9. $7x + 4 = 7x + 4$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sumamos $(-7x)$ y $(-4)$:<br>$0=0$.<br>Identidad. Infinitas soluciones ($\mathbb{R}$).</div></div>
+                                    <div class="exercise-item"><p>10. $-3x + 1 = 10$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sumamos $(-1)$: $-3x = 9$.<br>Dividimos por $-3$: $x = -3$.</div></div>
+                                </div>
+                            </article>
+                            <aside class="sidebar">
+                                <div class="sidebar-card card-warning">
+                                    <h4>⚠️ Cuidado con el signo menos</h4>
+                                    <p>Si tienes $-x$, al sumar $+x$ a ambos lados, asegúrate de sumarlo también al otro lado.</p>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 3: SISTEMAS -->
+                    <div id="tab-sistemas" class="tab-content">
+                        <div class="two-column-layout">
+                            <article class="main-body">
+                                <h2>3. Sistemas de Ecuaciones Lineales</h2>
+                                
+                                <h3>6 Ejemplos Desarrollados</h3>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 1: Sustitución (Simple)</div>
+                                    <div class="solved-body">
+                                        <p>$$ \begin{cases} y = 2x \\ x + y = 12 \end{cases} $$</p>
+                                        <div class="step">Sustituimos $y$ en la 2da ec: $x + (2x) = 12$.</div>
+                                        <div class="step">$$ 3x = 12 \Rightarrow x = 4 $$</div>
+                                        <div class="step">Hallamos $y$: $y = 2(4) = 8$. Sol: (4, 8).</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 2: Sustitución (Despeje previo)</div>
+                                    <div class="solved-body">
+                                        <p>$$ \begin{cases} x + y = 10 \\ 2x - y = 5 \end{cases} $$</p>
+                                        <div class="step">Despejamos $y$ en la 1ra: $y = 10 - x$.</div>
+                                        <div class="step">Sustituimos en la 2da: $2x - (10 - x) = 5$.</div>
+                                        <div class="step">$$ 3x - 10 = 5 \Rightarrow 3x = 15 \Rightarrow x = 5 $$</div>
+                                        <div class="step">$y = 10 - 5 = 5$. Sol: (5, 5).</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 3: Reducción (Suma directa)</div>
+                                    <div class="solved-body">
+                                        <p>$$ \begin{cases} 3x + 2y = 11 \\ 3x - 2y = 1 \end{cases} $$</p>
+                                        <div class="step">Sumamos ambas ecuaciones (los términos $2y$ y $-2y$ se anulan).</div>
+                                        <div class="step">$$ 6x = 12 \Rightarrow x = 2 $$</div>
+                                        <div class="step">Sustituimos: $3(2) + 2y = 11 \Rightarrow 6 + 2y = 11 \Rightarrow y = 2.5$.</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 4: Reducción (Resta)</div>
+                                    <div class="solved-body">
+                                        <p>$$ \begin{cases} 5x + y = 8 \\ 3x + y = 4 \end{cases} $$</p>
+                                        <div class="step">Restamos la 2da de la 1ra (términos $y$ se anulan).</div>
+                                        <div class="step">$$ 2x = 4 \Rightarrow x = 2 $$</div>
+                                        <div class="step">$5(2) + y = 8 \Rightarrow y = -2$.</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 5: Igualación</div>
+                                    <div class="solved-body">
+                                        <p>$$ \begin{cases} y = 2x + 1 \\ y = -x + 4 \end{cases} $$</p>
+                                        <div class="step">Igualamos las expresiones de $y$:</div>
+                                        <div class="step">$$ 2x + 1 = -x + 4 $$</div>
+                                        <div class="step">Sumamos $(+x)$ y $(-1)$: $3x = 3 \Rightarrow x = 1$.</div>
+                                        <div class="step">$y = 2(1) + 1 = 3$.</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 6: Reducción (Multiplicar previamente)</div>
+                                    <div class="solved-body">
+                                        <p>$$ \begin{cases} 2x + y = 7 \\ 3x - 2y = 7 \end{cases} $$</p>
+                                        <div class="step">Multiplicamos la 1ra por 2: $4x + 2y = 14$.</div>
+                                        <div class="step">Sumamos con la 2da ecuación:</div>
+                                        <div class="step">$(4x+3x) + (2y-2y) = 14+7 \Rightarrow 7x = 21 \Rightarrow x = 3$.</div>
+                                        <div class="step">$2(3) + y = 7 \Rightarrow y = 1$.</div>
+                                    </div>
+                                </div>
+
+                                <!-- Ejercicios Sistemas -->
+                                <div class="exercise-bank">
+                                    <h3>10 Ejercicios Sistemas</h3>
+                                    <div class="exercise-item"><p>1. $\begin{cases} x+y=5 \\ x-y=1 \end{cases}$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sumamos: $2x=6 \Rightarrow x=3$.<br>$3+y=5 \Rightarrow y=2$.</div></div>
+                                    <div class="exercise-item"><p>2. $\begin{cases} y=3x \\ 2x+y=15 \end{cases}$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sustitución: $2x+3x=15 \Rightarrow 5x=15 \Rightarrow x=3$.<br>$y=9$.</div></div>
+                                    <div class="exercise-item"><p>3. $\begin{cases} 2x+y=10 \\ y=x \end{cases}$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sustitución: $2x+x=10 \Rightarrow 3x=10$.<br>$x=10/3$, $y=10/3$.</div></div>
+                                    <div class="exercise-item"><p>4. $\begin{cases} x=4 \\ 2x-y=5 \end{cases}$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sustitución directa.<br>$2(4)-y=5 \Rightarrow 8-y=5 \Rightarrow y=3$.</div></div>
+                                    <div class="exercise-item"><p>5. $\begin{cases} x+y=6 \\ 2x+y=10 \end{cases}$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Restamos 2da - 1ra: $x=4$.<br>$4+y=6 \Rightarrow y=2$.</div></div>
+                                    <div class="exercise-item"><p>6. $\begin{cases} 3x-2y=4 \\ x+2y=8 \end{cases}$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sumamos: $4x=12 \Rightarrow x=3$.<br>$3+2y=8 \Rightarrow 2y=5 \Rightarrow y=2.5$.</div></div>
+                                    <div class="exercise-item"><p>7. $\begin{cases} y=x+2 \\ y=-x+4 \end{cases}$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Igualación: $x+2=-x+4 \Rightarrow 2x=2 \Rightarrow x=1$.<br>$y=3$.</div></div>
+                                    <div class="exercise-item"><p>8. $\begin{cases} 2x-y=3 \\ 4x-2y=6 \end{cases}$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Multiplica 1ra por 2: $4x-2y=6$.<br>Son la misma ecuación. Infinitas soluciones.</div></div>
+                                    <div class="exercise-item"><p>9. $\begin{cases} x-y=2 \\ 2x-2y=8 \end{cases}$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Simplifica 2da: $x-y=4$.<br>$2 \neq 4$. Sistema incompatible (sin solución).</div></div>
+                                    <div class="exercise-item"><p>10. $\begin{cases} x+3y=9 \\ 2x-y=4 \end{cases}$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Despeja $y=2x-4$ en 2da. Sustituye en 1ra.<br>$x+3(2x-4)=9 \Rightarrow 7x=21 \Rightarrow x=3$.<br>$y=2$.</div></div>
+                                </div>
+                            </article>
+                            <aside class="sidebar">
+                                <div class="sidebar-card card-tip">
+                                    <h4>📊 Interpretación Gráfica</h4>
+                                    <p>La solución es el punto de intersección entre las dos rectas.</p>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 4: INECUACIONES -->
+                    <div id="tab-inecuaciones" class="tab-content">
+                        <div class="two-column-layout">
+                            <article class="main-body">
+                                <h2>4. Inecuaciones</h2>
+                                
+                                <h3>6 Ejemplos Desarrollados</h3>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 1: Suma</div>
+                                    <div class="solved-body">
+                                        <p>$$ x + 3 > 7 $$</p>
+                                        <div class="step">Sumamos $(-3)$ a ambos lados.</div>
+                                        <div class="step">$$ x > 4 $$</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 2: Multiplicación Positiva</div>
+                                    <div class="solved-body">
+                                        <p>$$ 2x \leq 8 $$</p>
+                                        <div class="step">Dividimos por 2 (positivo, signo sin cambio).</div>
+                                        <div class="step">$$ x \leq 4 $$</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 3: Multiplicación Negativa (CLAVE)</div>
+                                    <div class="solved-body">
+                                        <p>$$ -3x > 12 $$</p>
+                                        <div class="step">Dividimos por $(-3)$. <strong>Invertimos el signo</strong>.</div>
+                                        <div class="justificacion">Regla: Al dividir por negativo, la relación de orden cambia ($>$ pasa a $<$).</div>
+                                        <div class="step">$$ x < -4 $$</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 4: Variable en ambos lados</div>
+                                    <div class="solved-body">
+                                        <p>$$ 5x - 2 \geq 3x + 4 $$</p>
+                                        <div class="step">Sumamos $(-3x)$ y $(+2)$.</div>
+                                        <div class="step">$$ 2x \geq 6 $$</div>
+                                        <div class="step">Dividimos por 2.</div>
+                                        <div class="step">$$ x \geq 3 $$</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 5: Caso Complejo</div>
+                                    <div class="solved-body">
+                                        <p>$$ -2x + 5 < 1 $$</p>
+                                        <div class="step">Sumamos $(-5)$: $-2x < -4$.</div>
+                                        <div class="step">Dividimos por $(-2)$ e invertimos signo.</div>
+                                        <div class="step">$$ x > 2 $$</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 6: Paréntesis</div>
+                                    <div class="solved-body">
+                                        <p>$$ 3(x - 1) \leq 6 $$</p>
+                                        <div class="step">Distribuimos: $3x - 3 \leq 6$.</div>
+                                        <div class="step">Sumamos $(+3)$: $3x \leq 9$.</div>
+                                        <div class="step">Dividimos por 3: $x \leq 3$.</div>
+                                    </div>
+                                </div>
+
+                                <!-- Ejercicios Inecuaciones -->
+                                <div class="exercise-bank">
+                                    <h3>10 Ejercicios Inecuaciones</h3>
+                                    <div class="exercise-item"><p>1. $x + 5 > 10$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$x > 5$</div></div>
+                                    <div class="exercise-item"><p>2. $y - 3 \leq 4$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$y \leq 7$</div></div>
+                                    <div class="exercise-item"><p>3. $2x < 14$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$x < 7$</div></div>
+                                    <div class="exercise-item"><p>4. $-x > 4$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Dividimos por -1 (invertir signo): $x < -4$.</div></div>
+                                    <div class="exercise-item"><p>5. $-2x \geq 10$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Dividimos por -2 (invertir signo): $x \leq -5$.</div></div>
+                                    <div class="exercise-item"><p>6. $3x - 1 > 8$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sumamos +1: $3x > 9$. Dividimos por 3: $x > 3$.</div></div>
+                                    <div class="exercise-item"><p>7. $-4x + 2 < -6$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sumamos -2: $-4x < -8$.<br>Dividimos por -4 (invertir): $x > 2$.</div></div>
+                                    <div class="exercise-item"><p>8. $x + 7 \leq 7$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$x \leq 0$.</div></div>
+                                    <div class="exercise-item"><p>9. $2x - 3 > x + 1$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sumamos $-x$ y $+3$: $x > 4$.</div></div>
+                                    <div class="exercise-item"><p>10. $5 - x \geq 1$</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$-x \geq -4$.<br>Multiplicamos por -1 (invertir): $x \leq 4$.</div></div>
+                                </div>
+                            </article>
+                            <aside class="sidebar">
+                                <div class="sidebar-card card-warning">
+                                    <h4>🚨 Regla de Oro</h4>
+                                    <p>Si multiplicas o divides por un número <strong>negativo</strong>, invierte el signo de la desigualdad.</p>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+
+                    <!-- PESTAÑA 5: CONTEXTO -->
+                    <div id="tab-contexto" class="tab-content">
+                        <div class="two-column-layout">
+                            <article class="main-body">
+                                <h2>5. Problemas de Contexto (Modelización)</h2>
+                                
+                                <h3>6 Ejemplos Desarrollados</h3>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 1: Números consecutivos</div>
+                                    <div class="solved-body">
+                                        <p><strong>Problema:</strong> La suma de dos números consecutivos es 15. ¿Cuáles son?</p>
+                                        <div class="step">Variable: $x$ (primer número), $x+1$ (segundo).</div>
+                                        <div class="step">Ecuación: $x + (x+1) = 15$.</div>
+                                        <div class="step">$2x + 1 = 15 \Rightarrow 2x = 14 \Rightarrow x = 7$.</div>
+                                        <p>Números: 7 y 8.</p>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 2: Geometría (Perímetro)</div>
+                                    <div class="solved-body">
+                                        <p><strong>Problema:</strong> El largo de un rectángulo es el doble del ancho. El perímetro es 36.</p>
+                                        <div class="step">Variables: Ancho = $x$, Largo = $2x$.</div>
+                                        <div class="step">Ecuación: $2(x + 2x) = 36$.</div>
+                                        <div class="step">$2(3x) = 36 \Rightarrow 6x = 36 \Rightarrow x = 6$.</div>
+                                        <p>Dimensiones: Ancho 6, Largo 12.</p>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 3: Edades</div>
+                                    <div class="solved-body">
+                                        <p><strong>Problema:</strong> Un padre tiene 30 años más que su hijo. Dentro de 5 años, la suma será 80.</p>
+                                        <div class="step">Variables actuales: Hijo $x$, Padre $x+30$.</div>
+                                        <div class="step">Ecuación futura: $(x+5) + (x+30+5) = 80$.</div>
+                                        <div class="step">$2x + 40 = 80 \Rightarrow 2x = 40 \Rightarrow x = 20$.</div>
+                                        <p>Edades actuales: Hijo 20, Padre 50.</p>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 4: Compras</div>
+                                    <div class="solved-body">
+                                        <p><strong>Problema:</strong> 3 cuadernos y un libro cuestan \$80. El libro cuesta \$20. ¿Cuánto cuesta un cuaderno?</p>
+                                        <div class="step">Variable: $x$ = precio cuaderno.</div>
+                                        <div class="step">Ecuación: $3x + 20 = 80$.</div>
+                                        <div class="step">$3x = 60 \Rightarrow x = 20$.</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 5: Ángulos</div>
+                                    <div class="solved-body">
+                                        <p><strong>Problema:</strong> Dos ángulos suplementarios son tales que uno es el triple del otro.</p>
+                                        <div class="step">Suplementarios: suman 180°. Variables: $x$ y $3x$.</div>
+                                        <div class="step">$x + 3x = 180 \Rightarrow 4x = 180$.</div>
+                                        <div class="step">$x = 45°$. Ángulos: 45° y 135°.</div>
+                                    </div>
+                                </div>
+
+                                <div class="solved-example">
+                                    <div class="solved-header">Ejemplo 6: Movimiento</div>
+                                    <div class="solved-body">
+                                        <p><strong>Problema:</strong> Un auto viaja a 80 km/h. ¿Cuántas horas necesita para recorrer 240 km?</p>
+                                        <div class="step">Fórmula: $d = v \cdot t$. Variable $t$.</div>
+                                        <div class="step">$240 = 80 \cdot t$.</div>
+                                        <div class="step">Dividimos por 80: $t = 3$ horas.</div>
+                                    </div>
+                                </div>
+
+                                <!-- Ejercicios Contexto -->
+                                <div class="exercise-bank">
+                                    <h3>10 Problemas de Contexto</h3>
+                                    <div class="exercise-item"><p>1. La suma de dos números es 20 y su diferencia es 4.</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sistema: $x+y=20, x-y=4$.<br>Sumamos: $2x=24 \Rightarrow x=12, y=8$.</div></div>
+                                    <div class="exercise-item"><p>2. Un número es 5 veces mayor que otro. Su suma es 30.</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$x + 5x = 30 \Rightarrow 6x=30 \Rightarrow x=5$.<br>Números: 5 y 25.</div></div>
+                                    <div class="exercise-item"><p>3. El perímetro de un cuadrado es 40 cm. ¿Cuánto mide el lado?</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$4x = 40 \Rightarrow x = 10$ cm.</div></div>
+                                    <div class="exercise-item"><p>4. Tres camisetas cuestan lo mismo que un pantalón de \$60. ¿Cuánto cuesta cada camiseta?</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$3x = 60 \Rightarrow x = 20$.</div></div>
+                                    <div class="exercise-item"><p>5. En 10 años, mi edad será el doble de la que tenía hace 5 años.</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$x+10 = 2(x-5)$.<br>$x+10 = 2x-10 \Rightarrow 20 = x$.<br>Edad actual: 20.</div></div>
+                                    <div class="exercise-item"><p>6. Un triángulo isósceles tiene dos lados iguales y uno desigual de 5 cm. El perímetro es 21 cm.</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$2x + 5 = 21 \Rightarrow 2x = 16 \Rightarrow x = 8$.<br>Lados: 8, 8, 5.</div></div>
+                                    <div class="exercise-item"><p>7. Un número impar consecutivo a otro es $x+2$. Si suman 44.</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$x + (x+2) = 44 \Rightarrow 2x = 42 \Rightarrow x = 21$.<br>Números: 21 y 23.</div></div>
+                                    <div class="exercise-item"><p>8. En una granja hay gallinas y vacas. Hay 30 cabezas y 80 patas.</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Sistema: $G+V=30, 2G+4V=80$.<br>$G=30-V \Rightarrow 2(30-V)+4V=80 \Rightarrow 2V=20$.<br>10 vacas, 20 gallinas.</div></div>
+                                    <div class="exercise-item"><p>9. Divide 120 en dos partes tales que una sea el triple de la otra.</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">$x + 3x = 120 \Rightarrow 4x=120 \Rightarrow x=30$.<br>Partes: 30 y 90.</div></div>
+                                    <div class="exercise-item"><p>10. Un rectángulo tiene un área de 50 $m^2$. El largo es el doble del ancho.</p><button class="solution-toggle" onclick="toggleSolution(this)">Ver Solución</button><div class="solution-text">Área: $x \cdot 2x = 50 \Rightarrow 2x^2 = 50$.<br>$x^2 = 25 \Rightarrow x = 5$.<br>Dimensiones: 5m x 10m.</div></div>
+                                </div>
+                            </article>
+                            <aside class="sidebar">
+                                <div class="sidebar-card card-tip">
+                                    <h4>📝 Pasos para resolver</h4>
+                                    <p>1. Leer atentamente.<br>2. Definir variable ($x$).<br>3. Plantear ecuación.<br>4. Resolver.<br>5. Verificar respuesta lógica.</p>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Mates con Agugg_ia. Diseño Modular Profesional.</p>
+        </div>
+    </footer>
+
+    <script>
+        function openTab(evt, tabName) {
+            var tabcontent = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+                tabcontent[i].style.display = "none";
+            }
+            var tablinks = document.getElementsByClassName("tab-btn");
+            for (var i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.className += " active";
+            if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                MathJax.typesetPromise([document.getElementById(tabName)]).catch((err) => console.log(err));
+            }
+        }
+
+        function toggleSolution(button) {
+            var solution = button.nextElementSibling;
+            if (solution.style.display === "block") {
+                solution.style.display = "none";
+                button.textContent = "Ver Solución Detallada";
+            } else {
+                solution.style.display = "block";
+                button.textContent = "Ocultar Solución";
+            }
+        }
+    </script>
+</body>
+</html>

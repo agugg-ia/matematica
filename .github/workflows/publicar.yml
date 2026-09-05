@@ -1,0 +1,24 @@
+name: Generar Clases con IA
+on:
+  push:
+    paths:
+      - 'borradores/*.txt' # Se activa solo cuando subes algo aquí
+
+jobs:
+  construir_web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Instalar herramientas
+        run: pip install google-generativeai
+      - name: Ejecutar IA
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python generador.py
+      - name: Guardar la nueva página en GitHub
+        run: |
+          git config --global user.name "Bot Educativo"
+          git config --global user.email "bot@ejemplo.com"
+          git add *.html
+          git commit -m "Página web de matemáticas generada automáticamente" || echo "Sin cambios"
+          git push

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lección interactiva sobre el Teorema de Pitágoras: teoría, ejemplos resueltos paso a paso y 10 ejercicios con corrección automática.">
+    <title>Teorema de Pitágoras | Mates con Agugg_ia</title>
+    <!-- Script para renderizar fórmulas matemáticas (MathJax 3) -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* --- Variables CSS y Reset (idénticas al index) --- */
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --dark: #1F2937;
+            --light: #F3F4F6;
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--dark);
+            background-color: var(--white);
+            line-height: 1.65;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        img { max-width: 100%; height: auto; display: block; }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-interna {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 66px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .logo {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span { color: var(--dark); }
+
+        .volver-link { font-weight: 600; color: var(--gray); font-size: 0.95rem; }
+        .volver-link:hover { color: var(--primary); }
+
+        /* --- Encabezado de la píldora --- */
+        .pildora-head { padding: 46px 0 6px; }
+
+        .chip {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 999px;
+            margin-bottom: 16px;
+        }
+
+        .chip-geometria { background: #D1FAE5; color: #065F46; }
+        .chip-algebra { background: #DBEAFE; color: #1E40AF; }
+        .chip-aritmetica { background: #FEF3C7; color: #92400E; }
+
+        .pildora-head h1 {
+            font-size: 2.4rem;
+            line-height: 1.15;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .lead { font-size: 1.15rem; color: var(--gray); max-width: 780px; margin-bottom: 20px; }
+
+        .objetivos {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            margin-bottom: 10px;
+        }
+
+        .objetivos h3 { font-size: 1rem; margin-bottom: 10px; color: var(--primary-dark); }
+        .objetivos li { list-style: none; margin-bottom: 6px; padding-left: 26px; position: relative; }
+        .objetivos li::before { content: "✓"; position: absolute; left: 0; color: var(--secondary); font-weight: bold; }
+
+        /* --- Secciones --- */
+        .seccion { padding: 32px 0 10px; }
+        .seccion h2 { font-size: 1.7rem; margin-bottom: 16px; color: var(--dark); }
+        .seccion p { margin-bottom: 12px; }
+
+        /* --- Tarjetas de teoría --- */
+        .teoria-card {
+            background: #EFF6FF;
+            border-left: 5px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin: 16px 0;
+        }
+
+        .tip-card {
+            background: #FEF3C7;
+            border-left: 5px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .recuerda-card {
+            background: #ECFDF5;
+            border-left: 5px solid var(--secondary);
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .formula-destacada {
+            text-align: center;
+            font-size: 1.5rem;
+            background: var(--white);
+            border: 2px dashed var(--primary);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin: 18px auto;
+            max-width: 500px;
+        }
+
+        .tabla-mini { border-collapse: collapse; margin: 14px auto; }
+        .tabla-mini th, .tabla-mini td { border: 1px solid #E5E7EB; padding: 8px 16px; text-align: center; }
+        .tabla-mini th { background: #EFF6FF; color: var(--primary-dark); }
+
+        /* --- Figuras --- */
+        .figura { text-align: center; margin: 20px 0; }
+        .figura svg { max-width: 100%; height: auto; }
+        .figura figcaption { font-size: 0.9rem; color: var(--gray); margin-top: 8px; }
+
+        /* --- Ejemplos resueltos --- */
+        .ejemplo-card {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin: 18px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .ejemplo-titulo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+        }
+
+        .ejemplo-num {
+            background: var(--primary);
+            color: var(--white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.95rem;
+        }
+
+        .paso { margin: 8px 0 8px 6px; padding-left: 14px; border-left: 2px solid #DBEAFE; }
+
+        .respuesta-box {
+            background: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            color: #065F46;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-top: 12px;
+            display: inline-block;
+        }
+
+        /* --- Ejercicios interactivos --- */
+        .zona-practica {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 26px 22px;
+            margin-top: 12px;
+        }
+
+        .marcador {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: 999px;
+            padding: 8px 18px;
+            width: fit-content;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .ejercicio {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            margin: 14px 0;
+        }
+
+        .ejercicio.correcta { border-color: var(--secondary); background: #F0FDF4; }
+        .ejercicio-enunciado { margin-bottom: 12px; }
+
+        .ejercicio-controles {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .ejercicio input {
+            padding: 10px 14px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: var(--font-main);
+            width: 190px;
+        }
+
+        .ejercicio input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 0.92rem;
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-comprobar { background: var(--primary); color: var(--white); }
+        .btn-comprobar:hover { background: var(--primary-dark); }
+
+        .btn-outline { background: var(--white); color: var(--primary); border: 1.5px solid var(--primary); }
+        .btn-outline:hover { background: #EFF6FF; }
+
+        .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+        .feedback { margin-top: 10px; font-weight: 600; font-size: 0.95rem; display: none; }
+        .feedback.ok { display: block; color: #059669; }
+        .feedback.mal { display: block; color: #DC2626; }
+
+        .solucion {
+            display: none;
+            background: #F8FAFC;
+            border: 1px dashed #CBD5E1;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-top: 12px;
+            font-size: 0.95rem;
+        }
+
+        .solucion.abierta { display: block; }
+        .solucion .sol-titulo { font-weight: 700; color: var(--primary-dark); margin-bottom: 8px; }
+
+        .feedback-final {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        /* --- Footer --- */
+        .pildora-footer {
+            background: var(--dark);
+            color: #D1D5DB;
+            padding: 26px 0;
+            margin-top: 44px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .pildora-footer a { color: #93C5FD; font-weight: 600; }
+
+        /* --- Responsive --- */
+        @media (max-width: 640px) {
+            .pildora-head h1 { font-size: 1.8rem; }
+            .nav-interna { height: auto; padding: 10px 0; }
+            .ejercicio input { width: 100%; }
+            .ejercicio-controles { flex-direction: column; align-items: stretch; }
+            .ejercicio-controles .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación -->
+    <header>
+        <div class="container">
+            <div class="nav-interna">
+                <a href="index.html" class="logo">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 2V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 7L12 2L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 17L12 22L20 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Mates con Agugg_ia</span>
+                </a>
+                <a href="index.html" class="volver-link">← Volver a Temas Varios</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Encabezado de la píldora -->
+        <section class="pildora-head">
+            <div class="container">
+                <span class="chip chip-geometria">Geometría · Píldora de conocimiento</span>
+                <h1>El Teorema de Pitágoras</h1>
+                <p class="lead">La herramienta clave para trabajar con triángulos rectángulos: teoría clara, demostración simple y los problemas de aplicación más clásicos, todo con práctica interactiva.</p>
+                <div class="objetivos">
+                    <h3>En esta lección vas a lograr:</h3>
+                    <ul>
+                        <li>Identificar catetos e hipotenusa en cualquier triángulo rectángulo.</li>
+                        <li>Aplicar $a^2 + b^2 = c^2$ para hallar lados desconocidos.</li>
+                        <li>Reconocer si un triángulo es rectángulo usando el recíproco del teorema.</li>
+                        <li>Resolver problemas de la vida cotidiana (escaleras, pantallas, distancias).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEORÍA -->
+        <section class="seccion">
+            <div class="container">
+                <h2>📖 La idea principal</h2>
+
+                <p>El Teorema de Pitágoras es una de las fórmulas más famosas de toda la matemática, y no por casualidad: es la llave que abre la puerta de la geometría aplicada. Funciona exclusivamente en <strong>triángulos rectángulos</strong>, es decir, aquellos que tienen un ángulo de exactamente $90°$. Si el triángulo que tenés delante no es rectángulo, el teorema no se puede usar directamente y hay que buscar otros caminos (como los teoremas del seno y del coseno que verás en años superiores).</p>
+
+                <p>En un triángulo rectángulo hay que aprender a distinguir tres lados. Los dos lados que forman el ángulo recto se llaman <strong>catetos</strong>, y el lado opuesto al ángulo recto, que siempre es el más largo de los tres, se llama <strong>hipotenusa</strong>. Esta distinción es fundamental: la mayoría de los errores con este teorema aparecen cuando alguien confunde un cateto con la hipotenusa.</p>
+
+                <div class="teoria-card">
+                    <p><strong>El enunciado del teorema:</strong> en todo triángulo rectángulo, el cuadrado de la hipotenusa es igual a la suma de los cuadrados de los catetos.</p>
+                    <div class="formula-destacada">$a^2 + b^2 = c^2$</div>
+                    <p>Donde $a$ y $b$ son los catetos y $c$ es la hipotenusa. En palabras simples: si elevás al cuadrado los dos catetos y sumás los resultados, obtenés exactamente el cuadrado de la hipotenusa.</p>
+                </div>
+
+                <figure class="figura">
+                    <svg width="360" height="230" viewBox="0 0 360 230" role="img" aria-label="Triángulo rectángulo con catetos a y b e hipotenusa c">
+                        <polygon points="60,190 300,190 60,60" fill="#EFF6FF" stroke="#2563EB" stroke-width="3" stroke-linejoin="round"/>
+                        <polyline points="60,170 80,170 80,190" fill="none" stroke="#F59E0B" stroke-width="3"/>
+                        <text x="92" y="183" font-size="13" fill="#92400E" font-weight="bold">90°</text>
+                        <text x="180" y="215" text-anchor="middle" font-size="19" font-style="italic" fill="#1F2937">cateto a</text>
+                        <text x="28" y="128" text-anchor="middle" font-size="19" font-style="italic" fill="#1F2937" transform="rotate(-90 28 128)">cateto b</text>
+                        <text x="215" y="112" text-anchor="middle" font-size="19" font-style="italic" fill="#1E40AF" font-weight="bold">hipotenusa c</text>
+                    </svg>
+                    <figcaption>El lado más largo ($c$) es el que se opone al ángulo de 90°: es la hipotenusa.</figcaption>
+                </figure>
+
+                <h2>📐 Los dos despejes que te salvan</h2>
+
+                <p>Según lo que pida el problema, conviene tener la fórmula ya despejada. Si conocés los dos catetos y buscás la hipotenusa, sumás los cuadrados y sacás raíz cuadrada. En cambio, si conocés la hipotenusa y un cateto, restás y luego sacás raíz. Fijate bien en el signo: para hallar un cateto se <strong>resta</strong>, porque el cateto es más chico que la hipotenusa.</p>
+
+                <div class="tabla-mini">
+                    <table>
+                        <tr><th>Buscás</th><th>Fórmula despejada</th><th>Condición</th></tr>
+                        <tr><td>Hipotenusa $c$</td><td>$c = \sqrt{a^2 + b^2}$</td><td>Conocés los dos catetos</td></tr>
+                        <tr><td>Cateto $a$</td><td>$a = \sqrt{c^2 - b^2}$</td><td>Conocés $c$ y el otro cateto</td></tr>
+                    </table>
+                </div>
+
+                <div class="tip-card">
+                    <p><strong>Control rápido:</strong> la hipotenusa siempre es el lado más largo. Si al calcular un cateto te da un número mayor que la hipotenusa, hay un error seguro. Y si al hallar $c^2 - b^2$ te queda un número negativo, revisá los datos: probablemente intercambiaste los roles.</p>
+                </div>
+
+                <h2>🔄 El recíproco: ¿cómo sé si un triángulo es rectángulo?</h2>
+
+                <p>El teorema también funciona "al revés", y eso es lo que se llama el <strong>recíproco del Teorema de Pitágoras</strong>. Si te dan los tres lados de un triángulo y querés saber si es rectángulo, tomás el lado más grande (el candidato a hipotenusa), lo elevás al cuadrado, y comparás con la suma de los cuadrados de los otros dos. Si los valores coinciden, el triángulo es rectángulo; si no coinciden, no lo es. Es una técnica muy usada en construcción y carpintería para verificar esquinas en ángulo recto.</p>
+
+                <p>Existen triadas de números que cumplen la igualdad exactamente y conviene reconocerlas de memoria porque aparecen constantemente en los ejercicios. Se llaman <strong>triples pitagóricos</strong>. Los más usados son: $(3, 4, 5)$, $(5, 12, 13)$, $(8, 15, 17)$ y $(7, 24, 25)$. Además, cualquier múltiplo de ellos también funciona: si $(3, 4, 5)$ es triple pitagórico, entonces $(6, 8, 10)$ y $(9, 12, 15)$ también lo son, porque todos los lados quedaron multiplicados por el mismo número.</p>
+
+                <div class="recuerda-card">
+                    <p><strong>💡 Para recordar:</strong></p>
+                    <p>1. Solo vale para triángulos rectángulos (con un ángulo de 90°).</p>
+                    <p>2. $c^2 = a^2 + b^2$: la hipotenusa al cuadrado es la suma de los cuadrados de los catetos.</p>
+                    <p>3. Hipotenusa = lado más largo y opuesto al ángulo recto.</p>
+                    <p>4. Triples pitagóricos útiles: $(3,4,5)$, $(5,12,13)$, $(8,15,17)$ y sus múltiplos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- EJEMPLOS RESUELTOS -->
+        <section class="seccion">
+            <div class="container">
+                <h2>✏️ Ejemplos resueltos paso a paso</h2>
+
+                <!-- Ejemplo 1 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">1</span> Hallar la hipotenusa</div>
+                    <p>En un triángulo rectángulo, los catetos miden $6$ cm y $8$ cm. ¿Cuánto mide la hipotenusa?</p>
+                    <div class="paso"><strong>Paso 1 — Identifico los datos:</strong> los dos lados dados son catetos (busco la hipotenusa $c$).</div>
+                    <div class="paso"><strong>Paso 2 — Escribo la fórmula:</strong> $c^2 = a^2 + b^2$.</div>
+                    <div class="paso"><strong>Paso 3 — Sustituyo:</strong> $c^2 = 6^2 + 8^2 = 36 + 64 = 100$.</div>
+                    <div class="paso"><strong>Paso 4 — Despejo:</strong> $c = \sqrt{100} = 10$.</div>
+                    <div class="respuesta-box">La hipotenusa mide 10 cm. (¡Triple pitagórico 3-4-5 multiplicado por 2!)</div>
+                </div>
+
+                <!-- Ejemplo 2 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">2</span> Hallar un cateto</div>
+                    <p>En un triángulo rectángulo la hipotenusa mide $13$ m y uno de los catetos mide $5$ m. ¿Cuánto mide el otro cateto?</p>
+                    <div class="paso"><strong>Paso 1 — Identifico los datos:</strong> conozco $c = 13$ y un cateto $b = 5$; busco el cateto $a$.</div>
+                    <div class="paso"><strong>Paso 2 — Escribo la fórmula despejada:</strong> $a = \sqrt{c^2 - b^2}$.</div>
+                    <div class="paso"><strong>Paso 3 — Sustituyo:</strong> $a = \sqrt{13^2 - 5^2} = \sqrt{169 - 25} = \sqrt{144}$.</div>
+                    <div class="paso"><strong>Paso 4 — Calculo:</strong> $a = 12$.</div>
+                    <div class="respuesta-box">El cateto mide 12 m. (Triple pitagórico 5-12-13.)</div>
+                </div>
+
+                <!-- Ejemplo 3 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">3</span> La escalera apoyada</div>
+                    <p>Una escalera de $5$ m de largo está apoyada en una pared, y su base se encuentra a $3$ m de la pared. ¿A qué altura de la pared llega el extremo superior de la escalera?</p>
+                    <div class="paso"><strong>Paso 1 — Dibujo la situación:</strong> la pared y el suelo forman el ángulo recto; la escalera es la hipotenusa ($c = 5$) y la distancia al pie ($3$ m) es un cateto.</div>
+                    <div class="paso"><strong>Paso 2 — Planteo:</strong> $h = \sqrt{c^2 - b^2} = \sqrt{5^2 - 3^2}$.</div>
+                    <div class="paso"><strong>Paso 3 — Calculo:</strong> $h = \sqrt{25 - 9} = \sqrt{16} = 4$.</div>
+                    <div class="paso"><strong>Paso 4 — Interpreto:</strong> el extremo superior de la escalera toca la pared a 4 metros del suelo.</div>
+                    <div class="respuesta-box">La escalera llega a una altura de 4 m.</div>
+                </div>
+
+                <!-- Ejemplo 4 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">4</span> Diagonal de una pantalla</div>
+                    <p>Una pantalla rectangular mide $16$ pulgadas de ancho y $12$ pulgadas de alto. ¿Cuánto mide su diagonal?</p>
+                    <div class="paso"><strong>Paso 1 — Modelizo:</strong> la diagonal de un rectángulo forma dos triángulos rectángulos con el ancho y el alto como catetos.</div>
+                    <div class="paso"><strong>Paso 2 — Planteo:</strong> $d = \sqrt{16^2 + 12^2}$.</div>
+                    <div class="paso"><strong>Paso 3 — Calculo:</strong> $d = \sqrt{256 + 144} = \sqrt{400} = 20$.</div>
+                    <div class="paso"><strong>Paso 4 — Interpreto:</strong> la pantalla es de 20 pulgadas en diagonal (así se "miden" los televisores).</div>
+                    <div class="respuesta-box">La diagonal mide 20 pulgadas.</div>
+                </div>
+
+                <!-- Ejemplo 5 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">5</span> ¿Es rectángulo o no?</div>
+                    <p>Un triángulo tiene lados de $9$ cm, $12$ cm y $15$ cm. ¿Es un triángulo rectángulo?</p>
+                    <div class="paso"><strong>Paso 1 — Identifico al candidato a hipotenusa:</strong> el lado mayor es $15$.</div>
+                    <div class="paso"><strong>Paso 2 — Aplico el recíproco:</strong> comparo $15^2$ con $9^2 + 12^2$.</div>
+                    <div class="paso"><strong>Paso 3 — Calculo ambos lados:</strong> $15^2 = 225$ y $9^2 + 12^2 = 81 + 144 = 225$.</div>
+                    <div class="paso"><strong>Paso 4 — Concluyo:</strong> como $225 = 225$, se cumple el teorema de Pitágoras.</div>
+                    <div class="respuesta-box">Sí, el triángulo es rectángulo. (Triple 3-4-5 × 3.)</div>
+                </div>
+
+                <!-- Ejemplo 6 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">6</span> El atajo de la plaza</div>
+                    <p>Para ir de su casa a la escuela, Sofía puede caminar dos cuadras seguidas: primero $60$ m hacia el este y luego $80$ m hacia el norte. Si cortara camino en línea recta (en diagonal), ¿cuántos metros se ahorraría?</p>
+                    <div class="paso"><strong>Paso 1 — Modelizo:</strong> las dos cuadras son catetos ($60$ y $80$) y el camino recto es la hipotenusa.</div>
+                    <div class="paso"><strong>Paso 2 — Planteo:</strong> $d = \sqrt{60^2 + 80^2} = \sqrt{3600 + 6400} = \sqrt{10000}$.</div>
+                    <div class="paso"><strong>Paso 3 — Calculo:</strong> $d = 100$ m. Camino por las calles: $60 + 80 = 140$ m.</div>
+                    <div class="paso"><strong>Paso 4 — Comparo:</strong> $140 - 100 = 40$ m de ahorro.</div>
+                    <div class="respuesta-box">Se ahorraría 40 m usando la diagonal. (Triple 3-4-5 × 20.)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EJERCICIOS INTERACTIVOS -->
+        <section class="seccion">
+            <div class="container">
+                <h2>🏋️ Ahora practicá vos</h2>
+                <p>Escribí tu respuesta en cada casilla y presioná <strong>Comprobar</strong>. Podés responder con decimales (usá punto) y, si te trabás, tenés la solución paso a paso con el botón <strong>Ver solución</strong>.</p>
+
+                <div class="zona-practica">
+                    <div class="marcador">🏆 <span id="marcador-texto">0 de 10 correctos</span></div>
+
+                    <!-- Ejercicio 1 -->
+                    <div class="ejercicio" data-resp="5">
+                        <p class="ejercicio-enunciado"><strong>1)</strong> En un triángulo rectángulo, los catetos miden $3$ cm y $4$ cm. ¿Cuánto mide la hipotenusa?</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 5" aria-label="Respuesta del ejercicio 1">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución paso a paso</p>
+                            <p>$c = \sqrt{3^2 + 4^2} = \sqrt{9 + 16} = \sqrt{25} = 5$. La hipotenusa mide $5$ cm.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 2 -->
+                    <div class="ejercicio" data-resp="15">
+                        <p class="ejercicio-enunciado"><strong>2)</strong> Los catetos de un triángulo rectángulo miden $9$ cm y $12$ cm. ¿Cuánto mide la hipotenusa?</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 15" aria-label="Respuesta del ejercicio 2">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución paso a paso</p>
+                            <p>$c = \sqrt{9^2 + 12^2} = \sqrt{81 + 144} = \sqrt{225} = 15$. La hipotenusa mide $15$ cm (triple 3-4-5 × 3).</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 3 -->
+                    <div class="ejercicio" data-resp="24">
+                        <p class="ejercicio-enunciado"><strong>3)</strong> La hipotenusa de un triángulo rectángulo mide $25$ m y uno de sus catetos mide $7$ m. ¿Cuánto mide el otro cateto?</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 24" aria-label="Respuesta del ejercicio 3">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución paso a paso</p>
+                            <p>$a = \sqrt{25^2 - 7^2} = \sqrt{625 - 49} = \sqrt{576} = 24$. El cateto mide $24$ m (triple 7-24-25).</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 4 -->
+                    <div class="ejercicio" data-resp="8">
+                        <p class="ejercicio-enunciado"><strong>4)</strong> Un triángulo rectángulo tiene hipotenusa de $10$ cm y un cateto de $6$ cm. ¿Cuánto mide el otro cateto?</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 8" aria-label="Respuesta del ejercicio 4">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución paso a paso</p>
+                            <p>$a = \sqrt{10^2 - 6^2} = \sqrt{100 - 36} = \sqrt{64} = 8$. El cateto mide $8$ cm (triple 3-4-5 × 2).</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 5 -->
+                    <div class="ejercicio" data-resp="12">
+                        <p class="ejercicio-enunciado"><strong>5)</strong> Una escalera de $13$ m está apoyada en una pared y su base está a $5$ m de ella. ¿A qué altura llega la escalera?</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 12" aria-label="Respuesta del ejercicio 5">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución paso a paso</p>
+                            <p>La escalera es la hipotenusa ($13$) y la distancia al pie es un cateto ($5$): $h = \sqrt{13^2 - 5^2} = \sqrt{169 - 25} = \sqrt{144} = 12$. Llega a $12$ m (triple 5-12-13).</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 6 -->
+                    <div class="ejercicio" data-resp="17">
+                        <p class="ejercicio-enunciado"><strong>6)</strong> Un rectángulo mide $8$ cm de base y $15$ cm de altura. ¿Cuánto mide su diagonal?</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 17" aria-label="Respuesta del ejercicio 6">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución paso a paso</p>
+                            <p>$d = \sqrt{8^2 + 15^2} = \sqrt{64 + 225} = \sqrt{289} = 17$. La diagonal mide $17$ cm (triple 8-15-17).</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 7 -->
+                    <div class="ejercicio" data-txt="si">
+                        <p class="ejercicio-enunciado"><strong>7)</strong> Un triángulo tiene lados de $5$ cm, $12$ cm y $13$ cm. ¿Es rectángulo? Escribí <strong>si</strong> o <strong>no</strong>.</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="si / no" aria-label="Respuesta del ejercicio 7">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución paso a paso</p>
+                            <p>El lado mayor es $13$: $13^2 = 169$ y $5^2 + 12^2 = 25 + 144 = 169$. Como $169 = 169$, se cumple el recíproco del teorema: <strong>sí es rectángulo</strong> (triple 5-12-13).</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 8 -->
+                    <div class="ejercicio" data-resp="80">
+                        <p class="ejercicio-enunciado"><strong>8)</strong> Un televisor mide $48$ cm de alto y $64$ cm de ancho. ¿Cuántos cm mide su diagonal?</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 80" aria-label="Respuesta del ejercicio 8">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución paso a paso</p>
+                            <p>$d = \sqrt{48^2 + 64^2} = \sqrt{2304 + 4096} = \sqrt{6400} = 80$. La diagonal mide $80$ cm (triple 3-4-5 × 16).</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 9 -->
+                    <div class="ejercicio" data-resp="12">
+                        <p class="ejercicio-enunciado"><strong>9)</strong> Un triángulo isósceles tiene dos lados iguales de $13$ cm y la base mide $10$ cm. La altura trazada desde el vértice divide a la base en dos partes iguales de $5$ cm. ¿Cuánto mide esa altura?</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 12" aria-label="Respuesta del ejercicio 9">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución paso a paso</p>
+                            <p>La altura forma dos triángulos rectángulos con hipotenusa $13$ y un cateto $5$: $h = \sqrt{13^2 - 5^2} = \sqrt{169 - 25} = \sqrt{144} = 12$. La altura mide $12$ cm.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 10 -->
+                    <div class="ejercicio" data-resp="9.8995" data-tol="0.05">
+                        <p class="ejercicio-enunciado"><strong>10)</strong> Un cuadrado tiene lado de $7$ cm. Calculá la longitud de su diagonal redondeada a 2 decimales (podés usar $\sqrt{2} \approx 1{,}414$).</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 9.90" aria-label="Respuesta del ejercicio 10">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución paso a paso</p>
+                            <p>La diagonal del cuadrado es la hipotenusa de dos catetos de $7$: $d = \sqrt{7^2 + 7^2} = \sqrt{98} = 7\sqrt{2} \approx 7 \times 1{,}414 = 9{,}90$ cm.</p>
+                        </div>
+                    </div>
+
+                    <div class="feedback-final" id="mensaje-final">Completá los 10 ejercicios para ver tu resultado.</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pildora-footer">
+        <div class="container">
+            <p>© 2026 Mates con Agugg_ia · <a href="index.html#feedback">¿Encontraste un error? Reportalo aquí</a></p>
+        </div>
+    </footer>
+
+    <!-- ===== Motor de ejercicios interactivos ===== -->
+    <script>
+        let aciertos = 0;
+        const totalEjercicios = document.querySelectorAll('.ejercicio').length;
+
+        function actualizarMarcador() {
+            const texto = document.getElementById('marcador-texto');
+            if (texto) texto.textContent = aciertos + ' de ' + totalEjercicios + ' correctos';
+
+            const final = document.getElementById('mensaje-final');
+            if (final && aciertos === totalEjercicios) {
+                final.textContent = '🏅 ¡Increíble! Completaste los ' + totalEjercicios + ' ejercicios correctamente. Ya dominás el Teorema de Pitágoras.';
+            }
+        }
+
+        // Acepta decimales con punto o coma y fracciones del tipo a/b
+        function normalizarNumero(texto) {
+            if (!texto) return null;
+            texto = texto.trim().replace(/,/g, '.').replace(/\s+/g, '');
+            const fraccion = texto.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+            if (fraccion) {
+                const num = parseFloat(fraccion[1]);
+                const den = parseFloat(fraccion[2]);
+                if (den === 0) return null;
+                return num / den;
+            }
+            const numero = parseFloat(texto);
+            return isNaN(numero) ? null : numero;
+        }
+
+        // Ignora mayúsculas, tildes y espacios extra (para respuestas de texto)
+        function normalizarTexto(texto) {
+            return texto.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function comprobar(boton) {
+            const tarjeta = boton.closest('.ejercicio');
+            const input = tarjeta.querySelector('input');
+            const feedback = tarjeta.querySelector('.feedback');
+            const valor = input.value;
+
+            if (valor.trim() === '') {
+                feedback.className = 'feedback mal';
+                feedback.textContent = 'Escribe tu respuesta primero.';
+                return;
+            }
+
+            let esCorrecta = false;
+
+            if (tarjeta.dataset.txt !== undefined) {
+                // Respuesta de texto (ej: si / no)
+                esCorrecta = normalizarTexto(valor) === normalizarTexto(tarjeta.dataset.txt);
+            } else {
+                // Respuesta numérica (con tolerancia)
+                const respuesta = normalizarNumero(valor);
+                const esperado = parseFloat(tarjeta.dataset.resp);
+                const tolerancia = parseFloat(tarjeta.dataset.tol || 0.005);
+                if (respuesta !== null) {
+                    esCorrecta = Math.abs(respuesta - esperado) <= tolerancia * Math.max(1, Math.abs(esperado));
+                }
+            }
+
+            if (esCorrecta) {
+                tarjeta.classList.add('correcta');
+                feedback.className = 'feedback ok';
+                feedback.textContent = '✔ ¡Correcto! Muy bien.';
+                input.disabled = true;
+                boton.disabled = true;
+                if (!tarjeta.dataset.contado) {
+                    tarjeta.dataset.contado = '1';
+                    aciertos++;
+                    actualizarMarcador();
+                }
+            } else {
+                feedback.className = 'feedback mal';
+                feedback.textContent = '✗ Todavía no. Revisá si confundiste hipotenusa con cateto y volvé a intentar.';
+            }
+        }
+
+        function toggleSolucion(boton) {
+            const solucion = boton.closest('.ejercicio').querySelector('.solucion');
+            const abierta = solucion.classList.toggle('abierta');
+            boton.textContent = abierta ? 'Ocultar solución' : 'Ver solución';
+        }
+
+        // Enter dentro del input = Comprobar
+        document.querySelectorAll('.ejercicio input').forEach(function (input) {
+            input.addEventListener('keydown', function (evento) {
+                if (evento.key === 'Enter') {
+                    evento.preventDefault();
+                    comprobar(input.closest('.ejercicio').querySelector('.btn-comprobar'));
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', actualizarMarcador);
+    </script>
+</body>
+</html>

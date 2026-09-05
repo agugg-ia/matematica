@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lección interactiva sobre operaciones con fracciones: suma, resta, multiplicación y división con ejemplos resueltos y 10 ejercicios con corrección automática.">
+    <title>Operaciones con Fracciones | Mates con Agugg_ia</title>
+    <!-- Script para renderizar fórmulas matemáticas (MathJax 3) -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* --- Variables CSS y Reset (idénticas al index) --- */
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --dark: #1F2937;
+            --light: #F3F4F6;
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--dark);
+            background-color: var(--white);
+            line-height: 1.65;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        img { max-width: 100%; height: auto; display: block; }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-interna {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 66px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .logo {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span { color: var(--dark); }
+
+        .volver-link { font-weight: 600; color: var(--gray); font-size: 0.95rem; }
+        .volver-link:hover { color: var(--primary); }
+
+        /* --- Encabezado de la píldora --- */
+        .pildora-head { padding: 46px 0 6px; }
+
+        .chip {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 999px;
+            margin-bottom: 16px;
+        }
+
+        .chip-geometria { background: #D1FAE5; color: #065F46; }
+        .chip-algebra { background: #DBEAFE; color: #1E40AF; }
+        .chip-aritmetica { background: #FEF3C7; color: #92400E; }
+
+        .pildora-head h1 {
+            font-size: 2.4rem;
+            line-height: 1.15;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .lead { font-size: 1.15rem; color: var(--gray); max-width: 780px; margin-bottom: 20px; }
+
+        .objetivos {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            margin-bottom: 10px;
+        }
+
+        .objetivos h3 { font-size: 1rem; margin-bottom: 10px; color: var(--primary-dark); }
+        .objetivos li { list-style: none; margin-bottom: 6px; padding-left: 26px; position: relative; }
+        .objetivos li::before { content: "✓"; position: absolute; left: 0; color: var(--secondary); font-weight: bold; }
+
+        /* --- Secciones --- */
+        .seccion { padding: 32px 0 10px; }
+        .seccion h2 { font-size: 1.7rem; margin-bottom: 16px; color: var(--dark); }
+        .seccion p { margin-bottom: 12px; }
+
+        /* --- Tarjetas de teoría --- */
+        .teoria-card {
+            background: #EFF6FF;
+            border-left: 5px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin: 16px 0;
+        }
+
+        .tip-card {
+            background: #FEF3C7;
+            border-left: 5px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .recuerda-card {
+            background: #ECFDF5;
+            border-left: 5px solid var(--secondary);
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .formula-destacada {
+            text-align: center;
+            font-size: 1.4rem;
+            background: var(--white);
+            border: 2px dashed var(--primary);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin: 18px auto;
+            max-width: 520px;
+        }
+
+        .tabla-mini { border-collapse: collapse; margin: 14px auto; }
+        .tabla-mini th, .tabla-mini td { border: 1px solid #E5E7EB; padding: 8px 16px; text-align: center; }
+        .tabla-mini th { background: #EFF6FF; color: var(--primary-dark); }
+
+        /* --- Ejemplos resueltos --- */
+        .ejemplo-card {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin: 18px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .ejemplo-titulo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+        }
+
+        .ejemplo-num {
+            background: var(--primary);
+            color: var(--white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.95rem;
+        }
+
+        .paso { margin: 8px 0 8px 6px; padding-left: 14px; border-left: 2px solid #DBEAFE; }
+
+        .respuesta-box {
+            background: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            color: #065F46;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-top: 12px;
+            display: inline-block;
+        }
+
+        /* --- Ejercicios interactivos --- */
+        .zona-practica {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 26px 22px;
+            margin-top: 12px;
+        }
+
+        .marcador {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: 999px;
+            padding: 8px 18px;
+            width: fit-content;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .ejercicio {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            margin: 14px 0;
+        }
+
+        .ejercicio.correcta { border-color: var(--secondary); background: #F0FDF4; }
+        .ejercicio-enunciado { margin-bottom: 12px; }
+
+        .ejercicio-controles {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .ejercicio input {
+            padding: 10px 14px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: var(--font-main);
+            width: 190px;
+        }
+
+        .ejercicio input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 0.92rem;
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-comprobar { background: var(--primary); color: var(--white); }
+        .btn-comprobar:hover { background: var(--primary-dark); }
+
+        .btn-outline { background: var(--white); color: var(--primary); border: 1.5px solid var(--primary); }
+        .btn-outline:hover { background: #EFF6FF; }
+
+        .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+        .feedback { margin-top: 10px; font-weight: 600; font-size: 0.95rem; display: none; }
+        .feedback.ok { display: block; color: #059669; }
+        .feedback.mal { display: block; color: #DC2626; }
+
+        .solucion {
+            display: none;
+            background: #F8FAFC;
+            border: 1px dashed #CBD5E1;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-top: 12px;
+            font-size: 0.95rem;
+        }
+
+        .solucion.abierta { display: block; }
+        .solucion .sol-titulo { font-weight: 700; color: var(--primary-dark); margin-bottom: 8px; }
+
+        .feedback-final {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        /* --- Footer --- */
+        .pildora-footer {
+            background: var(--dark);
+            color: #D1D5DB;
+            padding: 26px 0;
+            margin-top: 44px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .pildora-footer a { color: #93C5FD; font-weight: 600; }
+
+        /* --- Responsive --- */
+        @media (max-width: 640px) {
+            .pildora-head h1 { font-size: 1.8rem; }
+            .nav-interna { height: auto; padding: 10px 0; }
+            .ejercicio input { width: 100%; }
+            .ejercicio-controles { flex-direction: column; align-items: stretch; }
+            .ejercicio-controles .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación -->
+    <header>
+        <div class="container">
+            <div class="nav-interna">
+                <a href="index.html" class="logo">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 2V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 7L12 2L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 17L12 22L20 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Mates con Agugg_ia</span>
+                </a>
+                <a href="index.html" class="volver-link">← Volver a Temas Varios</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Encabezado de la píldora -->
+        <section class="pildora-head">
+            <div class="container">
+                <span class="chip chip-aritmetica">Aritmética · Píldora de conocimiento</span>
+                <h1>Operaciones con Fracciones</h1>
+                <p class="lead">Suma, resta, multiplicación y división de fracciones con ejemplos claros y ejercicios interactivos. El repaso que necesitás antes de encarar álgebra.</p>
+                <div class="objetivos">
+                    <h3>En esta lección vas a lograr:</h3>
+                    <ul>
+                        <li>Simplificar fracciones usando fracciones equivalentes.</li>
+                        <li>Sumar y restar fracciones, tanto con igual como con distinto denominador.</li>
+                        <li>Multiplicar y dividir fracciones sin errores.</li>
+                        <li>Resolver problemas con fracciones de cantidades.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEORÍA -->
+        <section class="seccion">
+            <div class="container">
+                <h2>📖 La idea principal</h2>
+
+                <p>Una <strong>fracción</strong> $\frac{a}{b}$ representa las partes que tomamos de un todo dividido en partes iguales: el <strong>numerador</strong> ($a$, arriba) indica cuántas partes tomamos, y el <strong>denominador</strong> ($b$, abajo) indica en cuántas partes iguales se dividió el todo. Si una pizza se corta en 8 porciones y comés 3, comiste $\frac{3}{8}$ de la pizza. El denominador también nos da información clave: cuanto más grande es, más chiquitas son las porciones — por eso $\frac{1}{8}$ es menor que $\frac{1}{4}$, aunque parezca al revés.</p>
+
+                <p>Antes de operar, hay dos conceptos que son la base de todo. El primero son las <strong>fracciones equivalentes</strong>: dos fracciones pueden verse distintas pero representar la misma cantidad, como $\frac{1}{2}$ y $\frac{4}{8}$. Se obtiene una de otra multiplicando (o dividiendo) numerador y denominador por el mismo número. El segundo es la <strong>simplificación</strong>: dividir numerador y denominador por su máximo común divisor (MCD) hasta que la fracción quede "irreducible". Por ejemplo, para simplificar $\frac{8}{12}$ dividimos ambos por el MCD(8,12) = 4 y obtenemos $\frac{2}{3}$.</p>
+
+                <div class="teoria-card">
+                    <p><strong>Suma y resta.</strong> Si los denominadores son iguales, se suman (o restan) los numeradores y se conserva el denominador: $\frac{5}{8} + \frac{1}{8} = \frac{6}{8}$. Si los denominadores son distintos, primero hay que <strong>convertirlas a equivalentes con el mismo denominador</strong>, usando el mínimo común múltiplo (mcm) de los denominadores. Recién ahí se pueden sumar.</p>
+                    <div class="formula-destacada">$\frac{a}{c} \pm \frac{b}{c} = \frac{a \pm b}{c} \qquad \frac{a}{b} \pm \frac{c}{d} = \frac{ad \pm cb}{bd}$</div>
+                </div>
+
+                <div class="teoria-card">
+                    <p><strong>Multiplicación.</strong> Es la operación más fácil: multiplicás los numeradores entre sí y los denominadores entre sí, "en línea recta". Antes de multiplicar conviene simplificar factores comunes en cruz, para que los números queden chicos.</p>
+                    <div class="formula-destacada">$\frac{a}{b} \times \frac{c}{d} = \frac{a \times c}{b \times d}$</div>
+                </div>
+
+                <div class="teoria-card">
+                    <p><strong>División.</strong> Para dividir por una fracción, se multiplica por su <strong>inverso</strong>: se conserva la primera fracción, se cambia la división por multiplicación y se "da vuelta" la segunda fracción. Ojo: solo la segunda se invierte, la primera queda como está.</p>
+                    <div class="formula-destacada">$\frac{a}{b} \div \frac{c}{d} = \frac{a}{b} \times \frac{d}{c}$</div>
+                </div>
+
+                <div class="tip-card">
+                    <p><strong>Cómo hallar el mcm rápido:</strong> anotá los múltiplos del denominador más grande hasta que aparezca uno que sea divisible por el otro. Ejemplo con 4 y 6: múltiplos de 6 son 6, 12, 18... y 12 es divisible por 4. Entonces mcm(4, 6) = 12.</p>
+                </div>
+
+                <div class="recuerda-card">
+                    <p><strong>💡 Para recordar:</strong></p>
+                    <p>1. Suma/resta: necesitan el <strong>mismo denominador</strong> (usá el mcm si son distintos).</p>
+                    <p>2. Multiplicación: "en línea recta", sin igualar denominadores.</p>
+                    <p>3. División: multiplicar por el inverso ("dar vuelta" la segunda).</p>
+                    <p>4. El resultado siempre se entrega <strong>simplificado</strong>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- EJEMPLOS RESUELTOS -->
+        <section class="seccion">
+            <div class="container">
+                <h2>✏️ Ejemplos resueltos paso a paso</h2>
+
+                <!-- Ejemplo 1 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">1</span> Suma con igual denominador</div>
+                    <p>Calcular $\frac{3}{8} + \frac{1}{8}$.</p>
+                    <div class="paso"><strong>Paso 1 — Mismo denominador:</strong> ya lo tienen, entonces sumo solo los numeradores.</div>
+                    <div class="paso"><strong>Paso 2 — Operar:</strong> $\frac{3}{8} + \frac{1}{8} = \frac{3+1}{8} = \frac{4}{8}$.</div>
+                    <div class="paso"><strong>Paso 3 — Simplificar:</strong> divido numerador y denominador por 4: $\frac{4}{8} = \frac{1}{2}$.</div>
+                    <div class="respuesta-box">Resultado: 1/2</div>
+                </div>
+
+                <!-- Ejemplo 2 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">2</span> Suma con distinto denominador</div>
+                    <p>Calcular $\frac{2}{3} + \frac{1}{4}$.</p>
+                    <div class="paso"><strong>Paso 1 — Busco el mcm(3, 4) = 12</strong> (los múltiplos de 4 son 4, 8, 12... y 12 es divisible por 3).</div>
+                    <div class="paso"><strong>Paso 2 — Convierto a equivalentes:</strong> $\frac{2}{3} = \frac{2 \times 4}{3 \times 4} = \frac{8}{12}$ y $\frac{1}{4} = \frac{1 \times 3}{4 \times 3} = \frac{3}{12}$.</div>
+                    <div class="paso"><strong>Paso 3 — Sumo:</strong> $\frac{8}{12} + \frac{3}{12} = \frac{11}{12}$.</div>
+                    <div class="paso"><strong>Paso 4 — Simplifico:</strong> 11 es primo y no divide a 12, así que ya está irreducible.</div>
+                    <div class="respuesta-box">Resultado: 11/12</div>
+                </div>
+
+                <!-- Ejemplo 3 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">3</span> Resta con distinto denominador</div>
+                    <p>Calcular $\frac{5}{6} - \frac{3}{4}$.</p>
+                    <div class="paso"><strong>Paso 1 — Busco el mcm(6, 4) = 12.</strong></div>
+                    <div class="paso"><strong>Paso 2 — Convierto:</strong> $\frac{5}{6} = \frac{10}{12}$ y $\frac{3}{4} = \frac{9}{12}$.</div>
+                    <div class="paso"><strong>Paso 3 — Resto:</strong> $\frac{10}{12} - \frac{9}{12} = \frac{1}{12}$.</div>
+                    <div class="respuesta-box">Resultado: 1/12</div>
+                </div>
+
+                <!-- Ejemplo 4 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">4</span> Multiplicación</div>
+                    <p>Calcular $\frac{2}{5} \times \frac{3}{4}$.</p>
+                    <div class="paso"><strong>Paso 1 — Multiplico en línea recta:</strong> $\frac{2 \times 3}{5 \times 4} = \frac{6}{20}$.</div>
+                    <div class="paso"><strong>Paso 2 — Simplifico:</strong> divido por el MCD(6, 20) = 2: $\frac{6}{20} = \frac{3}{10}$.</div>
+                    <div class="paso"><strong>Truco alternativo:</strong> simplificar en cruz antes de multiplicar: el 2 (arriba) con el 4 (abajo) se reducen a 1 y 2, y queda $\frac{1 \times 3}{5 \times 2} = \frac{3}{10}$.</div>
+                    <div class="respuesta-box">Resultado: 3/10</div>
+                </div>
+
+                <!-- Ejemplo 5 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">5</span> División</div>
+                    <p>Calcular $\frac{3}{4} \div \frac{2}{5}$.</p>
+                    <div class="paso"><strong>Paso 1 — Conservo la primera y doy vuelta la segunda:</strong> $\frac{3}{4} \div \frac{2}{5} = \frac{3}{4} \times \frac{5}{2}$.</div>
+                    <div class="paso"><strong>Paso 2 — Multiplico:</strong> $\frac{3 \times 5}{4 \times 2} = \frac{15}{8}$.</div>
+                    <div class="paso"><strong>Paso 3 — Verifico:</strong> 15 y 8 no tienen factores comunes, queda irreducible. También se puede escribir como 1,875.</div>
+                    <div class="respuesta-box">Resultado: 15/8</div>
+                </div>
+
+                <!-- Ejemplo 6 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">6</span> Problema: la pizza de los hermanos</div>
+                    <p>De una pizza, Martina comió $\frac{2}{5}$ y su hermano $\frac{1}{3}$. ¿Qué fracción de la pizza quedó?</p>
+                    <div class="paso"><strong>Paso 1 — Sumo lo que comieron:</strong> mcm(5, 3) = 15; $\frac{2}{5} = \frac{6}{15}$ y $\frac{1}{3} = \frac{5}{15}$; juntos comieron $\frac{6}{15} + \frac{5}{15} = \frac{11}{15}$.</div>
+                    <div class="paso"><strong>Paso 2 — La pizza completa es 1 = 15/15:</strong> lo que quedó es $\frac{15}{15} - \frac{11}{15} = \frac{4}{15}$.</div>
+                    <div class="paso"><strong>Paso 3 — Interpreto:</strong> quedaron 4 de las 15 porciones.</div>
+                    <div class="respuesta-box">Quedó 4/15 de la pizza.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EJERCICIOS INTERACTIVOS -->
+        <section class="seccion">
+            <div class="container">
+                <h2>🏋️ Ahora practicá vos</h2>
+                <p>Respondé cada operación y presioná <strong>Comprobar</strong>. Escribí el resultado como fracción (ej: <strong>3/4</strong>) o como decimal (ej: <strong>0.75</strong>) — aceptamos cualquier forma, pero ¡recordá que debe estar simplificada si querés coincidir con la solución! Si te trabás, usá <strong>Ver solución</strong>.</p>
+
+                <div class="zona-practica">
+                    <div class="marcador">🏆 <span id="marcador-texto">0 de 10 correctos</span></div>
+
+                    <!-- Ejercicio 1 -->
+                    <div class="ejercicio" data-resp="0.777778">
+                        <p class="ejercicio-enunciado"><strong>1)</strong> Calcular: $\frac{2}{9} + \frac{5}{9}$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 3/4" aria-label="Respuesta del ejercicio 1">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>Mismo denominador: $\frac{2+5}{9} = \frac{7}{9}$. Ya está irreducible.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 2 -->
+                    <div class="ejercicio" data-resp="0.666667">
+                        <p class="ejercicio-enunciado"><strong>2)</strong> Calcular: $\frac{1}{2} + \frac{1}{6}$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 3/4" aria-label="Respuesta del ejercicio 2">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>mcm(2, 6) = 6: $\frac{3}{6} + \frac{1}{6} = \frac{4}{6} = \frac{2}{3}$ simplificando por 2.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 3 -->
+                    <div class="ejercicio" data-resp="0.583333">
+                        <p class="ejercicio-enunciado"><strong>3)</strong> Calcular: $\frac{3}{4} - \frac{1}{6}$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 3/4" aria-label="Respuesta del ejercicio 3">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>mcm(4, 6) = 12: $\frac{9}{12} - \frac{2}{12} = \frac{7}{12}$.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 4 -->
+                    <div class="ejercicio" data-resp="0.611111">
+                        <p class="ejercicio-enunciado"><strong>4)</strong> Calcular: $\frac{5}{6} - \frac{2}{9}$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 3/4" aria-label="Respuesta del ejercicio 4">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>mcm(6, 9) = 18: $\frac{15}{18} - \frac{4}{18} = \frac{11}{18}$.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 5 -->
+                    <div class="ejercicio" data-resp="0.333333">
+                        <p class="ejercicio-enunciado"><strong>5)</strong> Calcular: $\frac{3}{5} \times \frac{5}{9}$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 3/4" aria-label="Respuesta del ejercicio 5">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>En línea recta: $\frac{3 \times 5}{5 \times 9} = \frac{15}{45} = \frac{1}{3}$ simplificando por 15. (También podías simplificar en cruz antes de multiplicar.)</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 6 -->
+                    <div class="ejercicio" data-resp="1.5">
+                        <p class="ejercicio-enunciado"><strong>6)</strong> Calcular: $\frac{2}{3} \div \frac{4}{9}$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 3/4" aria-label="Respuesta del ejercicio 6">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>Multiplico por el inverso: $\frac{2}{3} \times \frac{9}{4} = \frac{18}{12} = \frac{3}{2}$ simplificando por 6.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 7 -->
+                    <div class="ejercicio" data-resp="0.75">
+                        <p class="ejercicio-enunciado"><strong>7)</strong> Simplificar hasta la fracción irreducible: $\frac{18}{24}$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 3/4" aria-label="Respuesta del ejercicio 7">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>MCD(18, 24) = 6: $\frac{18 \div 6}{24 \div 6} = \frac{3}{4}$.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 8 -->
+                    <div class="ejercicio" data-resp="0.5">
+                        <p class="ejercicio-enunciado"><strong>8)</strong> Problema: Ana comió $\frac{1}{4}$ de una tarta y Beto comió $\frac{2}{8}$. ¿Qué fracción de la tarta quedó sin comer?</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 3/4" aria-label="Respuesta del ejercicio 8">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>Ojo: $\frac{2}{8} = \frac{1}{4}$. Juntos comieron $\frac{1}{4} + \frac{1}{4} = \frac{2}{4} = \frac{1}{2}$. Quedó $\frac{2}{4} = \frac{1}{2}$ de la tarta.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 9 -->
+                    <div class="ejercicio" data-resp="45">
+                        <p class="ejercicio-enunciado"><strong>9)</strong> Problema: en un curso hay $60$ estudiantes y $\frac{3}{4}$ del curso aprobaron el examen. ¿Cuántos estudiantes aprobaron?</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 45" aria-label="Respuesta del ejercicio 9">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>"Los tres cuartos de 60" es $\frac{3}{4} \times 60 = \frac{180}{4} = 45$. Aprobaron 45 estudiantes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 10 -->
+                    <div class="ejercicio" data-resp="0.416667">
+                        <p class="ejercicio-enunciado"><strong>10)</strong> Problema: una jarra contiene $\frac{3}{4}$ de litro de jugo. Si se beben $\frac{1}{3}$ de litro, ¿cuánto jugo queda? (en litros)</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="Ej: 3/4" aria-label="Respuesta del ejercicio 10">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>mcm(4, 3) = 12: $\frac{9}{12} - \frac{4}{12} = \frac{5}{12}$ de litro (aprox. 0,42 L).</p>
+                        </div>
+                    </div>
+
+                    <div class="feedback-final" id="mensaje-final">Completá los 10 ejercicios para ver tu resultado.</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pildora-footer">
+        <div class="container">
+            <p>© 2026 Mates con Agugg_ia · <a href="index.html#feedback">¿Encontraste un error? Reportalo aquí</a></p>
+        </div>
+    </footer>
+
+    <!-- ===== Motor de ejercicios interactivos ===== -->
+    <script>
+        let aciertos = 0;
+        const totalEjercicios = document.querySelectorAll('.ejercicio').length;
+
+        function actualizarMarcador() {
+            const texto = document.getElementById('marcador-texto');
+            if (texto) texto.textContent = aciertos + ' de ' + totalEjercicios + ' correctos';
+
+            const final = document.getElementById('mensaje-final');
+            if (final && aciertos === totalEjercicios) {
+                final.textContent = '🏅 ¡Fantástico! Completaste los ' + totalEjercicios + ' ejercicios. Las fracciones ya son tus amigas.';
+            }
+        }
+
+        // Acepta decimales con punto o coma y fracciones del tipo a/b
+        function normalizarNumero(texto) {
+            if (!texto) return null;
+            texto = texto.trim().replace(/,/g, '.').replace(/\s+/g, '');
+            const fraccion = texto.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+            if (fraccion) {
+                const num = parseFloat(fraccion[1]);
+                const den = parseFloat(fraccion[2]);
+                if (den === 0) return null;
+                return num / den;
+            }
+            const numero = parseFloat(texto);
+            return isNaN(numero) ? null : numero;
+        }
+
+        // Ignora mayúsculas, tildes y espacios extra (para respuestas de texto)
+        function normalizarTexto(texto) {
+            return texto.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function comprobar(boton) {
+            const tarjeta = boton.closest('.ejercicio');
+            const input = tarjeta.querySelector('input');
+            const feedback = tarjeta.querySelector('.feedback');
+            const valor = input.value;
+
+            if (valor.trim() === '') {
+                feedback.className = 'feedback mal';
+                feedback.textContent = 'Escribe tu respuesta primero.';
+                return;
+            }
+
+            let esCorrecta = false;
+
+            if (tarjeta.dataset.txt !== undefined) {
+                // Respuesta de texto (ej: si / no)
+                esCorrecta = normalizarTexto(valor) === normalizarTexto(tarjeta.dataset.txt);
+            } else {
+                // Respuesta numérica (con tolerancia)
+                const respuesta = normalizarNumero(valor);
+                const esperado = parseFloat(tarjeta.dataset.resp);
+                const tolerancia = parseFloat(tarjeta.dataset.tol || 0.005);
+                if (respuesta !== null) {
+                    esCorrecta = Math.abs(respuesta - esperado) <= tolerancia * Math.max(1, Math.abs(esperado));
+                }
+            }
+
+            if (esCorrecta) {
+                tarjeta.classList.add('correcta');
+                feedback.className = 'feedback ok';
+                feedback.textContent = '✔ ¡Correcto! Muy bien.';
+                input.disabled = true;
+                boton.disabled = true;
+                if (!tarjeta.dataset.contado) {
+                    tarjeta.dataset.contado = '1';
+                    aciertos++;
+                    actualizarMarcador();
+                }
+            } else {
+                feedback.className = 'feedback mal';
+                feedback.textContent = '✗ Todavía no. ¿Igualaste los denominadores antes de sumar o restar? Volvé a intentar.';
+            }
+        }
+
+        function toggleSolucion(boton) {
+            const solucion = boton.closest('.ejercicio').querySelector('.solucion');
+            const abierta = solucion.classList.toggle('abierta');
+            boton.textContent = abierta ? 'Ocultar solución' : 'Ver solución';
+        }
+
+        // Enter dentro del input = Comprobar
+        document.querySelectorAll('.ejercicio input').forEach(function (input) {
+            input.addEventListener('keydown', function (evento) {
+                if (evento.key === 'Enter') {
+                    evento.preventDefault();
+                    comprobar(input.closest('.ejercicio').querySelector('.btn-comprobar'));
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', actualizarMarcador);
+    </script>
+</body>
+</html>

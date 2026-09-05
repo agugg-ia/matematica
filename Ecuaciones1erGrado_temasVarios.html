@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lección interactiva sobre ecuaciones de primer grado: método paso a paso, ejemplos resueltos y 10 ejercicios con corrección automática.">
+    <title>Ecuaciones de primer grado | Mates con Agugg_ia</title>
+    <!-- Script para renderizar fórmulas matemáticas (MathJax 3) -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* --- Variables CSS y Reset (idénticas al index) --- */
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --dark: #1F2937;
+            --light: #F3F4F6;
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--dark);
+            background-color: var(--white);
+            line-height: 1.65;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        img { max-width: 100%; height: auto; display: block; }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- Header --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-interna {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 66px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .logo {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span { color: var(--dark); }
+
+        .volver-link { font-weight: 600; color: var(--gray); font-size: 0.95rem; }
+        .volver-link:hover { color: var(--primary); }
+
+        /* --- Encabezado de la píldora --- */
+        .pildora-head { padding: 46px 0 6px; }
+
+        .chip {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 999px;
+            margin-bottom: 16px;
+        }
+
+        .chip-geometria { background: #D1FAE5; color: #065F46; }
+        .chip-algebra { background: #DBEAFE; color: #1E40AF; }
+        .chip-aritmetica { background: #FEF3C7; color: #92400E; }
+
+        .pildora-head h1 {
+            font-size: 2.4rem;
+            line-height: 1.15;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .lead { font-size: 1.15rem; color: var(--gray); max-width: 780px; margin-bottom: 20px; }
+
+        .objetivos {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            margin-bottom: 10px;
+        }
+
+        .objetivos h3 { font-size: 1rem; margin-bottom: 10px; color: var(--primary-dark); }
+        .objetivos li { list-style: none; margin-bottom: 6px; padding-left: 26px; position: relative; }
+        .objetivos li::before { content: "✓"; position: absolute; left: 0; color: var(--secondary); font-weight: bold; }
+
+        /* --- Secciones --- */
+        .seccion { padding: 32px 0 10px; }
+        .seccion h2 { font-size: 1.7rem; margin-bottom: 16px; color: var(--dark); }
+        .seccion p { margin-bottom: 12px; }
+
+        /* --- Tarjetas de teoría --- */
+        .teoria-card {
+            background: #EFF6FF;
+            border-left: 5px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin: 16px 0;
+        }
+
+        .tip-card {
+            background: #FEF3C7;
+            border-left: 5px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .recuerda-card {
+            background: #ECFDF5;
+            border-left: 5px solid var(--secondary);
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            margin: 16px 0;
+        }
+
+        .formula-destacada {
+            text-align: center;
+            font-size: 1.5rem;
+            background: var(--white);
+            border: 2px dashed var(--primary);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin: 18px auto;
+            max-width: 500px;
+        }
+
+        .tabla-mini { border-collapse: collapse; margin: 14px auto; }
+        .tabla-mini th, .tabla-mini td { border: 1px solid #E5E7EB; padding: 8px 16px; text-align: center; }
+        .tabla-mini th { background: #EFF6FF; color: var(--primary-dark); }
+
+        /* --- Ejemplos resueltos --- */
+        .ejemplo-card {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            margin: 18px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .ejemplo-titulo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+        }
+
+        .ejemplo-num {
+            background: var(--primary);
+            color: var(--white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.95rem;
+        }
+
+        .paso { margin: 8px 0 8px 6px; padding-left: 14px; border-left: 2px solid #DBEAFE; }
+
+        .respuesta-box {
+            background: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            color: #065F46;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-top: 12px;
+            display: inline-block;
+        }
+
+        /* --- Ejercicios interactivos --- */
+        .zona-practica {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 26px 22px;
+            margin-top: 12px;
+        }
+
+        .marcador {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: 999px;
+            padding: 8px 18px;
+            width: fit-content;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .ejercicio {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            margin: 14px 0;
+        }
+
+        .ejercicio.correcta { border-color: var(--secondary); background: #F0FDF4; }
+        .ejercicio-enunciado { margin-bottom: 12px; }
+
+        .ejercicio-controles {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .ejercicio input {
+            padding: 10px 14px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: var(--font-main);
+            width: 190px;
+        }
+
+        .ejercicio input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 0.92rem;
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-comprobar { background: var(--primary); color: var(--white); }
+        .btn-comprobar:hover { background: var(--primary-dark); }
+
+        .btn-outline { background: var(--white); color: var(--primary); border: 1.5px solid var(--primary); }
+        .btn-outline:hover { background: #EFF6FF; }
+
+        .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+        .feedback { margin-top: 10px; font-weight: 600; font-size: 0.95rem; display: none; }
+        .feedback.ok { display: block; color: #059669; }
+        .feedback.mal { display: block; color: #DC2626; }
+
+        .solucion {
+            display: none;
+            background: #F8FAFC;
+            border: 1px dashed #CBD5E1;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-top: 12px;
+            font-size: 0.95rem;
+        }
+
+        .solucion.abierta { display: block; }
+        .solucion .sol-titulo { font-weight: 700; color: var(--primary-dark); margin-bottom: 8px; }
+
+        .feedback-final {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 18px 22px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        /* --- Footer --- */
+        .pildora-footer {
+            background: var(--dark);
+            color: #D1D5DB;
+            padding: 26px 0;
+            margin-top: 44px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .pildora-footer a { color: #93C5FD; font-weight: 600; }
+
+        /* --- Responsive --- */
+        @media (max-width: 640px) {
+            .pildora-head h1 { font-size: 1.8rem; }
+            .nav-interna { height: auto; padding: 10px 0; }
+            .ejercicio input { width: 100%; }
+            .ejercicio-controles { flex-direction: column; align-items: stretch; }
+            .ejercicio-controles .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación -->
+    <header>
+        <div class="container">
+            <div class="nav-interna">
+                <a href="index.html" class="logo">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 2V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 7L12 2L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 17L12 22L20 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Mates con Agugg_ia</span>
+                </a>
+                <a href="index.html" class="volver-link">← Volver a Temas Varios</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Encabezado de la píldora -->
+        <section class="pildora-head">
+            <div class="container">
+                <span class="chip chip-algebra">Álgebra · Píldora de conocimiento</span>
+                <h1>Ecuaciones de primer grado</h1>
+                <p class="lead">Aprendé a despejar incógnitas y resolver ecuaciones del tipo $ax + b = c$ (y las más complicadas, con paréntesis y fracciones) sin complicaciones.</p>
+                <div class="objetivos">
+                    <h3>En esta lección vas a lograr:</h3>
+                    <ul>
+                        <li>Entender qué es una ecuación y qué significa encontrar su solución.</li>
+                        <li>Aplicar un método ordenado de 6 pasos que funciona para casi todas las ecuaciones.</li>
+                        <li>Resolver ecuaciones con paréntesis y con denominadores.</li>
+                        <li>Traducir problemas de palabras a ecuaciones.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- TEORÍA -->
+        <section class="seccion">
+            <div class="container">
+                <h2>📖 La idea principal</h2>
+
+                <p>Una <strong>ecuación de primer grado</strong> es una igualdad que contiene una incógnita (generalmente llamada $x$) y donde esa incógnita aparece elevada solamente a la potencia 1. Resolver la ecuación significa encontrar el valor de $x$ que hace verdadera la igualdad. Ese valor se llama <strong>solución</strong> de la ecuación. Por ejemplo, en $x + 3 = 7$, la solución es $x = 4$, porque efectivamente $4 + 3 = 7$.</p>
+
+                <p>La imagen mental más útil es la de una <strong>balanza en equilibrio</strong>. El signo igual es el punto de apoyo: a cada lado hay un "peso" (una expresión), y los dos lados valen lo mismo. El secreto para resolver ecuaciones es simple pero de oro: <em>lo que le hagas a un lado de la igualdad, hacéselo también al otro</em>. Así el equilibrio se mantiene y la igualdad sigue siendo verdadera. Esta idea es la famosa <strong>propiedad uniforme</strong>, y ya la estudiamos a fondo en la píldora <a href="PropUniforme_temasVarios.html" style="color: var(--primary); font-weight: 600;">La propiedad uniforme</a> — tenla a mano si querés repasarla.</p>
+
+                <div class="teoria-card">
+                    <p><strong>Las operaciones inversas son tu caja de herramientas.</strong> Para "deshacer" lo que le hicieron a la incógnita, usamos la operación contraria:</p>
+                    <div class="tabla-mini">
+                        <table>
+                            <tr><th>Para deshacer...</th><th>...usamos</th></tr>
+                            <tr><td>Suma ($x + 5$)</td><td>Restar 5</td></tr>
+                            <tr><td>Resta ($x - 5$)</td><td>Sumar 5</td></tr>
+                            <tr><td>Multiplicación ($5x$)</td><td>Dividir por 5</td></tr>
+                            <tr><td>División ($\frac{x}{5}$)</td><td>Multiplicar por 5</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <h2>🧭 El método de los 6 pasos</h2>
+
+                <p>Cuando las ecuaciones se complican —con paréntesis, fracciones o incógnitas a ambos lados— conviene seguir siempre el mismo orden. Este "menú" funciona casi para todas las ecuaciones de primer grado, y lo mejor es que lo vas a reutilizar durante toda la secundaria:</p>
+
+                <div class="teoria-card">
+                    <p><strong>1. Quitar denominadores:</strong> multiplicá toda la ecuación por el mínimo común múltiplo (mcm) de los denominadores.</p>
+                    <p><strong>2. Quitar paréntesis:</strong> aplicá la propiedad distributiva: $a(b + c) = ab + ac$.</p>
+                    <p><strong>3. Trasladar términos:</strong> pasá las $x$ a un lado y los números al otro. Al trasladar un término de lado, <strong>cambia su signo</strong>.</p>
+                    <p><strong>4. Reducir:</strong> sumá (o restá) los términos semejantes de cada lado.</p>
+                    <p><strong>5. Despejar la incógnita:</strong> dividí ambos lados por el coeficiente de la $x$ (aplicando la propiedad uniforme).</p>
+                    <p><strong>6. Comprobar:</strong> reemplazá tu resultado en la ecuación original y verificá que la igualdad sea verdadera.</p>
+                </div>
+
+                <div class="tip-card">
+                    <p><strong>Las dos trampas más comunes:</strong></p>
+                    <p>⚠️ Al trasladar un término, olvidar cambiarle el signo. Ejemplo: de $5x + 3 = 2x + 18$, al pasar $2x$ queda $5x - 2x$, no $5x + 2x$.</p>
+                    <p>⚠️ Al distribuir un signo menos, no cambiar los signos internos. Ejemplo: $-2(x + 4) = -2x - 8$, no $-2x + 8$.</p>
+                </div>
+
+                <div class="recuerda-card">
+                    <p><strong>💡 Para recordar:</strong> toda ecuación de primer grado se puede llevar a la forma $ax + b = c$, y su solución es $x = \frac{c - b}{a}$. Igualmente, te conviene aprender el método de los pasos, porque las ecuaciones de los ejercicios y de la vida real rara vez vienen "armadas" en esa forma.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- EJEMPLOS RESUELTOS -->
+        <section class="seccion">
+            <div class="container">
+                <h2>✏️ Ejemplos resueltos paso a paso</h2>
+
+                <!-- Ejemplo 1 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">1</span> La más simple</div>
+                    <p>Resolver $x + 8 = 15$.</p>
+                    <div class="paso"><strong>Paso 1 — Trasladar:</strong> el $+8$ pasa al otro lado restando: $x = 15 - 8$.</div>
+                    <div class="paso"><strong>Paso 2 — Reducir:</strong> $x = 7$.</div>
+                    <div class="paso"><strong>Comprobación:</strong> $7 + 8 = 15$ ✔</div>
+                    <div class="respuesta-box">Solución: x = 7</div>
+                </div>
+
+                <!-- Ejemplo 2 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">2</span> Con el término multiplicando</div>
+                    <p>Resolver $3x - 5 = 10$.</p>
+                    <div class="paso"><strong>Paso 1 — Trasladar el número:</strong> $3x = 10 + 5 = 15$.</div>
+                    <div class="paso"><strong>Paso 2 — Despejar:</strong> divido ambos lados por 3 (propiedad uniforme): $x = \frac{15}{3}$.</div>
+                    <div class="paso"><strong>Paso 3 — Reducir:</strong> $x = 5$.</div>
+                    <div class="paso"><strong>Comprobación:</strong> $3 \times 5 - 5 = 15 - 5 = 10$ ✔</div>
+                    <div class="respuesta-box">Solución: x = 5</div>
+                </div>
+
+                <!-- Ejemplo 3 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">3</span> Con la incógnita a ambos lados</div>
+                    <p>Resolver $5x + 3 = 2x + 18$.</p>
+                    <div class="paso"><strong>Paso 1 — Trasladar las x a la izquierda:</strong> el $+2x$ pasa restando: $5x - 2x + 3 = 18$.</div>
+                    <div class="paso"><strong>Paso 2 — Trasladar los números a la derecha:</strong> $5x - 2x = 18 - 3$.</div>
+                    <div class="paso"><strong>Paso 3 — Reducir:</strong> $3x = 15$.</div>
+                    <div class="paso"><strong>Paso 4 — Despejar:</strong> $x = \frac{15}{3} = 5$.</div>
+                    <div class="paso"><strong>Comprobación:</strong> $5(5) + 3 = 28$ y $2(5) + 18 = 28$ ✔</div>
+                    <div class="respuesta-box">Solución: x = 5</div>
+                </div>
+
+                <!-- Ejemplo 4 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">4</span> Con paréntesis</div>
+                    <p>Resolver $2(x - 3) = x + 4$.</p>
+                    <div class="paso"><strong>Paso 1 — Distribuir:</strong> $2x - 6 = x + 4$.</div>
+                    <div class="paso"><strong>Paso 2 — Trasladar:</strong> $2x - x = 4 + 6$ (cuidado con los signos al cruzar el igual).</div>
+                    <div class="paso"><strong>Paso 3 — Reducir:</strong> $x = 10$.</div>
+                    <div class="paso"><strong>Comprobación:</strong> $2(10 - 3) = 2 \times 7 = 14$ y $10 + 4 = 14$ ✔</div>
+                    <div class="respuesta-box">Solución: x = 10</div>
+                </div>
+
+                <!-- Ejemplo 5 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">5</span> Con denominadores</div>
+                    <p>Resolver $\frac{x}{2} + \frac{x}{4} = 6$.</p>
+                    <div class="paso"><strong>Paso 1 — Quitar denominadores:</strong> el mcm de 2 y 4 es 4; multiplico <em>toda</em> la ecuación por 4: $4 \cdot \frac{x}{2} + 4 \cdot \frac{x}{4} = 4 \cdot 6$.</div>
+                    <div class="paso"><strong>Paso 2 — Simplificar:</strong> $2x + x = 24$.</div>
+                    <div class="paso"><strong>Paso 3 — Reducir y despejar:</strong> $3x = 24$, entonces $x = \frac{24}{3} = 8$.</div>
+                    <div class="paso"><strong>Comprobación:</strong> $\frac{8}{2} + \frac{8}{4} = 4 + 2 = 6$ ✔</div>
+                    <div class="respuesta-box">Solución: x = 8</div>
+                </div>
+
+                <!-- Ejemplo 6 -->
+                <div class="ejemplo-card">
+                    <div class="ejemplo-titulo"><span class="ejemplo-num">6</span> De palabras a ecuación</div>
+                    <p>"El triple de un número, disminuido en 4, da como resultado 26. ¿De qué número se trata?"</p>
+                    <div class="paso"><strong>Paso 1 — Traducir a lenguaje algebraico:</strong> "un número" es $x$; "el triple" es $3x$; "disminuido en 4" es $-4$; "da 26" es $= 26$. La ecuación es $3x - 4 = 26$.</div>
+                    <div class="paso"><strong>Paso 2 — Trasladar:</strong> $3x = 26 + 4 = 30$.</div>
+                    <div class="paso"><strong>Paso 3 — Despejar:</strong> $x = \frac{30}{3} = 10$.</div>
+                    <div class="paso"><strong>Comprobación:</strong> el triple de 10 es 30, y $30 - 4 = 26$ ✔</div>
+                    <div class="respuesta-box">El número es 10.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EJERCICIOS INTERACTIVOS -->
+        <section class="seccion">
+            <div class="container">
+                <h2>🏋️ Ahora practicá vos</h2>
+                <p>Escribí el valor de $x$ en cada casilla y presioná <strong>Comprobar</strong>. Aceptamos decimales (con punto) y fracciones del tipo <strong>a/b</strong>. Si te trabás, tenés la solución con el botón <strong>Ver solución</strong>.</p>
+
+                <div class="zona-practica">
+                    <div class="marcador">🏆 <span id="marcador-texto">0 de 10 correctos</span></div>
+
+                    <!-- Ejercicio 1 -->
+                    <div class="ejercicio" data-resp="8">
+                        <p class="ejercicio-enunciado"><strong>1)</strong> Resolver: $x + 6 = 14$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="x = ?" aria-label="Respuesta del ejercicio 1">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>$x = 14 - 6 = 8$. Comprobación: $8 + 6 = 14$ ✔</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 2 -->
+                    <div class="ejercicio" data-resp="13">
+                        <p class="ejercicio-enunciado"><strong>2)</strong> Resolver: $x - 9 = 4$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="x = ?" aria-label="Respuesta del ejercicio 2">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>$x = 4 + 9 = 13$. Comprobación: $13 - 9 = 4$ ✔</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 3 -->
+                    <div class="ejercicio" data-resp="7">
+                        <p class="ejercicio-enunciado"><strong>3)</strong> Resolver: $4x = 28$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="x = ?" aria-label="Respuesta del ejercicio 3">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>$x = \frac{28}{4} = 7$. Comprobación: $4 \times 7 = 28$ ✔</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 4 -->
+                    <div class="ejercicio" data-resp="6">
+                        <p class="ejercicio-enunciado"><strong>4)</strong> Resolver: $2x + 7 = 19$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="x = ?" aria-label="Respuesta del ejercicio 4">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>$2x = 19 - 7 = 12$, entonces $x = \frac{12}{2} = 6$. Comprobación: $2 \times 6 + 7 = 19$ ✔</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 5 -->
+                    <div class="ejercicio" data-resp="5">
+                        <p class="ejercicio-enunciado"><strong>5)</strong> Resolver: $5x - 3 = 2x + 12$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="x = ?" aria-label="Respuesta del ejercicio 5">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>$5x - 2x = 12 + 3$, entonces $3x = 15$ y $x = 5$. Comprobación: $25 - 3 = 22$ y $10 + 12 = 22$ ✔</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 6 -->
+                    <div class="ejercicio" data-resp="5">
+                        <p class="ejercicio-enunciado"><strong>6)</strong> Resolver: $3(x + 2) = 21$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="x = ?" aria-label="Respuesta del ejercicio 6">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>Distribuyo: $3x + 6 = 21$. Entonces $3x = 15$ y $x = 5$. Comprobación: $3 \times 7 = 21$ ✔</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 7 -->
+                    <div class="ejercicio" data-resp="6">
+                        <p class="ejercicio-enunciado"><strong>7)</strong> Resolver: $4(x - 1) = 2x + 8$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="x = ?" aria-label="Respuesta del ejercicio 7">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>Distribuyo: $4x - 4 = 2x + 8$. Trasladando: $4x - 2x = 8 + 4$, o sea $2x = 12$ y $x = 6$. Comprobación: $4 \times 5 = 20$ y $12 + 8 = 20$ ✔</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 8 -->
+                    <div class="ejercicio" data-resp="15">
+                        <p class="ejercicio-enunciado"><strong>8)</strong> Resolver: $\frac{x}{3} + 2 = 7$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="x = ?" aria-label="Respuesta del ejercicio 8">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>$\frac{x}{3} = 7 - 2 = 5$, entonces $x = 5 \times 3 = 15$. Comprobación: $\frac{15}{3} + 2 = 5 + 2 = 7$ ✔</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 9 -->
+                    <div class="ejercicio" data-resp="10">
+                        <p class="ejercicio-enunciado"><strong>9)</strong> Resolver: $\frac{x}{2} - \frac{x}{5} = 3$</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="x = ?" aria-label="Respuesta del ejercicio 9">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>Multiplico todo por el mcm(2,5) = 10: $5x - 2x = 30$. Entonces $3x = 30$ y $x = 10$. Comprobación: $5 - 2 = 3$ ✔</p>
+                        </div>
+                    </div>
+
+                    <!-- Ejercicio 10 -->
+                    <div class="ejercicio" data-resp="23">
+                        <p class="ejercicio-enunciado"><strong>10)</strong> Problema: la suma de tres números consecutivos es $72$. ¿Cuál es el <strong>menor</strong> de los tres?</p>
+                        <div class="ejercicio-controles">
+                            <input type="text" placeholder="x = ?" aria-label="Respuesta del ejercicio 10">
+                            <button class="btn btn-comprobar" onclick="comprobar(this)">Comprobar</button>
+                            <button class="btn btn-outline" onclick="toggleSolucion(this)">Ver solución</button>
+                        </div>
+                        <div class="feedback"></div>
+                        <div class="solucion">
+                            <p class="sol-titulo">Solución</p>
+                            <p>Si el menor es $x$, los consecutivos son $x$, $x + 1$ y $x + 2$: $x + (x+1) + (x+2) = 72$, o sea $3x + 3 = 72$. Entonces $3x = 69$ y $x = 23$. Los números son 23, 24 y 25 ($23 + 24 + 25 = 72$ ✔).</p>
+                        </div>
+                    </div>
+
+                    <div class="feedback-final" id="mensaje-final">Completá los 10 ejercicios para ver tu resultado.</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pildora-footer">
+        <div class="container">
+            <p>© 2026 Mates con Agugg_ia · <a href="index.html#feedback">¿Encontraste un error? Reportalo aquí</a></p>
+        </div>
+    </footer>
+
+    <!-- ===== Motor de ejercicios interactivos ===== -->
+    <script>
+        let aciertos = 0;
+        const totalEjercicios = document.querySelectorAll('.ejercicio').length;
+
+        function actualizarMarcador() {
+            const texto = document.getElementById('marcador-texto');
+            if (texto) texto.textContent = aciertos + ' de ' + totalEjercicios + ' correctos';
+
+            const final = document.getElementById('mensaje-final');
+            if (final && aciertos === totalEjercicios) {
+                final.textContent = '🏅 ¡Excelente! Resolviste los ' + totalEjercicios + ' ejercicios. Las ecuaciones de primer grado ya no tienen secretos para vos.';
+            }
+        }
+
+        // Acepta decimales con punto o coma y fracciones del tipo a/b
+        function normalizarNumero(texto) {
+            if (!texto) return null;
+            texto = texto.trim().replace(/,/g, '.').replace(/\s+/g, '');
+            const fraccion = texto.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+            if (fraccion) {
+                const num = parseFloat(fraccion[1]);
+                const den = parseFloat(fraccion[2]);
+                if (den === 0) return null;
+                return num / den;
+            }
+            const numero = parseFloat(texto);
+            return isNaN(numero) ? null : numero;
+        }
+
+        // Ignora mayúsculas, tildes y espacios extra (para respuestas de texto)
+        function normalizarTexto(texto) {
+            return texto.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function comprobar(boton) {
+            const tarjeta = boton.closest('.ejercicio');
+            const input = tarjeta.querySelector('input');
+            const feedback = tarjeta.querySelector('.feedback');
+            const valor = input.value;
+
+            if (valor.trim() === '') {
+                feedback.className = 'feedback mal';
+                feedback.textContent = 'Escribe tu respuesta primero.';
+                return;
+            }
+
+            let esCorrecta = false;
+
+            if (tarjeta.dataset.txt !== undefined) {
+                // Respuesta de texto (ej: si / no)
+                esCorrecta = normalizarTexto(valor) === normalizarTexto(tarjeta.dataset.txt);
+            } else {
+                // Respuesta numérica (con tolerancia)
+                const respuesta = normalizarNumero(valor);
+                const esperado = parseFloat(tarjeta.dataset.resp);
+                const tolerancia = parseFloat(tarjeta.dataset.tol || 0.005);
+                if (respuesta !== null) {
+                    esCorrecta = Math.abs(respuesta - esperado) <= tolerancia * Math.max(1, Math.abs(esperado));
+                }
+            }
+
+            if (esCorrecta) {
+                tarjeta.classList.add('correcta');
+                feedback.className = 'feedback ok';
+                feedback.textContent = '✔ ¡Correcto! Muy bien.';
+                input.disabled = true;
+                boton.disabled = true;
+                if (!tarjeta.dataset.contado) {
+                    tarjeta.dataset.contado = '1';
+                    aciertos++;
+                    actualizarMarcador();
+                }
+            } else {
+                feedback.className = 'feedback mal';
+                feedback.textContent = '✗ Todavía no. Revisá los signos al trasladar términos y volvé a intentar.';
+            }
+        }
+
+        function toggleSolucion(boton) {
+            const solucion = boton.closest('.ejercicio').querySelector('.solucion');
+            const abierta = solucion.classList.toggle('abierta');
+            boton.textContent = abierta ? 'Ocultar solución' : 'Ver solución';
+        }
+
+        // Enter dentro del input = Comprobar
+        document.querySelectorAll('.ejercicio input').forEach(function (input) {
+            input.addEventListener('keydown', function (evento) {
+                if (evento.key === 'Enter') {
+                    evento.preventDefault();
+                    comprobar(input.closest('.ejercicio').querySelector('.btn-comprobar'));
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', actualizarMarcador);
+    </script>
+</body>
+</html>

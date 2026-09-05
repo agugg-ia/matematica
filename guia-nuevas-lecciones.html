@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guía práctica para crear y publicar nuevas lecciones en Mates con Agugg_ia en 5 minutos.">
+    <title>Guía: crear nuevas lecciones | Mates con Agugg_ia</title>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --dark: #1F2937;
+            --light: #F3F4F6;
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-main); color: var(--dark); line-height: 1.65; }
+        .container { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+        header { background: var(--dark); color: var(--white); padding: 40px 0; }
+        header h1 { font-size: 2rem; margin-bottom: 8px; }
+        header p { color: #D1D5DB; }
+
+        .seccion { padding: 30px 0; }
+        .seccion h2 { font-size: 1.45rem; margin-bottom: 14px; color: var(--primary-dark); display: flex; align-items: center; gap: 10px; }
+        .paso-badge { background: var(--primary); color: var(--white); width: 34px; height: 34px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+        .seccion p { margin-bottom: 10px; }
+
+        .card { background: var(--light); border-radius: var(--radius); padding: 18px 22px; margin: 14px 0; }
+        .card.alerta { background: #FEF3C7; }
+        .card.exito { background: #ECFDF5; }
+
+        pre.codigo {
+            background: #1F2937;
+            color: #E5E7EB;
+            border-radius: 8px;
+            padding: 16px 18px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin: 12px 0;
+        }
+        code.inline {
+            background: #E5E7EB;
+            color: #1E40AF;
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.88em;
+        }
+
+        table { border-collapse: collapse; margin: 12px 0; width: 100%; }
+        th, td { border: 1px solid #E5E7EB; padding: 8px 12px; text-align: left; font-size: 0.92rem; }
+        th { background: #EFF6FF; color: var(--primary-dark); }
+
+        ul.check { list-style: none; }
+        ul.check li { padding-left: 26px; position: relative; margin-bottom: 8px; }
+        ul.check li::before { content: "✓"; position: absolute; left: 0; color: var(--secondary); font-weight: bold; }
+
+        footer { background: var(--dark); color: #D1D5DB; text-align: center; padding: 24px 0; font-size: 0.9rem; margin-top: 40px; }
+
+        @media print {
+            header { background: var(--white); color: var(--dark); }
+            pre.codigo { white-space: pre-wrap; }
+            .seccion { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Guía rápida: creá lecciones nuevas en 5 minutos</h1>
+            <p>Mates con Agugg_ia · Cómo agregar, enlazar y publicar píldoras de conocimiento sin tocar una línea de CSS ni de JavaScript.</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="seccion">
+            <h2>📦 Qué hay en esta carpeta</h2>
+            <table>
+                <tr><th>Archivo</th><th>Qué es</th></tr>
+                <tr><td><code class="inline">index.html</code></td><td>Tu página principal, actualizada: se quitó <strong>polyfill.io</strong> (por seguridad) y las 3 píldoras nuevas ya están enlazadas.</td></tr>
+                <tr><td><code class="inline">Pitagoras_temasVarios.html</code></td><td>Lección nueva: Teorema de Pitágoras (6 ejemplos + 10 ejercicios interactivos).</td></tr>
+                <tr><td><code class="inline">Ecuaciones1erGrado_temasVarios.html</code></td><td>Lección nueva: Ecuaciones de primer grado (6 ejemplos + 10 ejercicios interactivos).</td></tr>
+                <tr><td><code class="inline">Fracciones_temasVarios.html</code></td><td>Lección nueva: Operaciones con fracciones (6 ejemplos + 10 ejercicios interactivos).</td></tr>
+                <tr><td><code class="inline">_plantilla.html</code></td><td>Plantilla vacía con comentarios <code class="inline">[EDITAR]</code> para crear lecciones nuevas.</td></tr>
+                <tr><td><code class="inline">guia-nuevas-lecciones.html</code></td><td>Este documento.</td></tr>
+            </table>
+            <div class="card alerta">
+                <p><strong>Importante:</strong> subí los archivos <em>todos juntos</em> a la misma carpeta de tu hosting donde ya está tu sitio actual, para que los enlaces relativos funcionen. El <code class="inline">index.html</code> nuevo reemplaza al que tenés (si querés conservar el viejo, renombralo antes a <code class="inline">index-backup.html</code>).</p>
+            </div>
+        </section>
+
+        <section class="seccion">
+            <h2><span class="paso-badge">1</span> Crear la lección desde la plantilla</h2>
+            <p>Copiá <code class="inline">_plantilla.html</code> en la misma carpeta y renombralo con el nombre del tema, por ejemplo <code class="inline">EcuacionesCuadraticas_temasVarios.html</code>. Usá el mismo estilo de nombres que las lecciones nuevas (sin espacios, sin tildes y sin el símbolo °), así evitás problemas en el servidor. Después abrí el archivo con cualquier editor de texto (Notepad, VS Code, o el editor de archivos de tu hosting) y buscá los comentarios <code class="inline">[EDITAR]</code>: te marcan exactamente los 5 lugares donde hay que escribir contenido nuevo. Todo lo demás (diseño, responsive, fórmulas, motor de ejercicios) ya está resuelto.</p>
+        </section>
+
+        <section class="seccion">
+            <h2><span class="paso-badge">2</span> Escribir la teoría (HTML mínimo + MathJax)</h2>
+            <p>Para el texto usá solo 3 etiquetas: <code class="inline">&lt;p&gt;</code> para párrafos, <code class="inline">&lt;strong&gt;</code> para negritas y <code class="inline">&lt;ul&gt;&lt;li&gt;</code> para listas. Para las tarjetas, la plantilla ya trae 4 estilos listos: <code class="inline">teoria-card</code> (azul, explicación principal), <code class="inline">tip-card</code> (ámbar, trucos), <code class="inline">recuerda-card</code> (verde, resumen) y <code class="inline">formula-destacada</code> (fórmula enmarcada al centro).</p>
+            <p>Las fórmulas se escriben con notación LaTeX entre símbolos de peso. Esta es la hoja de trucos con lo que más vas a usar:</p>
+            <table>
+                <tr><th>Querés mostrar</th><th>Escribís</th><th>Resultado</th></tr>
+                <tr><td>Potencia</td><td><code class="inline">&#36;x^2&#36;</code></td><td>$x^2$</td></tr>
+                <tr><td>Fracción</td><td><code class="inline">&#36;\frac{3}{4}&#36;</code></td><td>$\frac{3}{4}$</td></tr>
+                <tr><td>Raíz cuadrada</td><td><code class="inline">&#36;\sqrt{25}&#36;</code></td><td>$\sqrt{25}$</td></tr>
+                <tr><td>Suma de fracciones</td><td><code class="inline">&#36;\frac{a}{b} + \frac{c}{d}&#36;</code></td><td>$\frac{a}{b} + \frac{c}{d}$</td></tr>
+                <tr><td>Fórmula centrada y grande</td><td><code class="inline">&#36;&#36;a^2 + b^2 = c^2&#36;&#36;</code></td><td>(bloque centrado)</td></tr>
+            </table>
+            <div class="card alerta">
+                <p><strong>Cuidado:</strong> cada <code class="inline">$</code> que abre una fórmula tiene que cerrar con otro <code class="inline">$</code>. Si una fórmula no se renderiza, revisá que no te haya quedado un símbolo de peso solo.</p>
+            </div>
+        </section>
+
+        <section class="seccion">
+            <h2><span class="paso-badge">3</span> Agregar un ejemplo resuelto</h2>
+            <p>Duplicá el bloque de ejemplo modelo y cambiá el número y el contenido. La estructura es fija: título, enunciado, pasos y caja verde con el resultado.</p>
+            <pre class="codigo">&lt;div class="ejemplo-card"&gt;
+    &lt;div class="ejemplo-titulo"&gt;&lt;span class="ejemplo-num"&gt;3&lt;/span&gt; Título del ejemplo&lt;/div&gt;
+    &lt;p&gt;Enunciado con la fórmula &#36;x + 2 = 5&#36;.&lt;/p&gt;
+    &lt;div class="paso"&gt;&lt;strong&gt;Paso 1 — Identifico:&lt;/strong&gt; qué hago y por qué.&lt;/div&gt;
+    &lt;div class="paso"&gt;&lt;strong&gt;Paso 2 — Opero:&lt;/strong&gt; &#36;x = 5 - 2 = 3&#36;.&lt;/div&gt;
+    &lt;div class="respuesta-box"&gt;Solución: x = 3&lt;/div&gt;
+&lt;/div&gt;</pre>
+        </section>
+
+        <section class="seccion">
+            <h2><span class="paso-badge">4</span> Agregar un ejercicio interactivo</h2>
+            <p>El motor de ejercicios ya está incluido: solo configurás la respuesta en el atributo <code class="inline">data-</code> de la tarjeta. El marcador de aciertos, el mensaje final y el botón "Ver solución" funcionan automáticamente.</p>
+            <table>
+                <tr><th>Tipo de respuesta</th><th>Atributo</th><th>Ejemplo</th></tr>
+                <tr><td>Numérica</td><td><code class="inline">data-resp="12"</code></td><td>Acepta <strong>12</strong>, <strong>12.0</strong>, <strong>12,0</strong> o la fracción <strong>24/2</strong>.</td></tr>
+                <tr><td>Numérica aproximada</td><td><code class="inline">data-resp="9.90" data-tol="0.05"</code></td><td>Acepta respuestas dentro de ±0.05 (para redondeos).</td></tr>
+                <tr><td>De texto</td><td><code class="inline">data-txt="si"</code></td><td>Compara sin distinguir mayúsculas ni tildes (acepta "Sí", "SI"...).</td></tr>
+            </table>
+            <pre class="codigo">&lt;div class="ejercicio" data-resp="12"&gt;
+    &lt;p class="ejercicio-enunciado"&gt;&lt;strong&gt;1)&lt;/strong&gt; Resolver &#36;3x = 36&#36;&lt;/p&gt;
+    &lt;div class="ejercicio-controles"&gt;
+        &lt;input type="text" placeholder="Ej: 12" aria-label="Respuesta del ejercicio 1"&gt;
+        &lt;button class="btn btn-comprobar" onclick="comprobar(this)"&gt;Comprobar&lt;/button&gt;
+        &lt;button class="btn btn-outline" onclick="toggleSolucion(this)"&gt;Ver solución&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="feedback"&gt;&lt;/div&gt;
+    &lt;div class="solucion"&gt;
+        &lt;p class="sol-titulo"&gt;Solución&lt;/p&gt;
+        &lt;p&gt;&#36;x = \frac{36}{3} = 12&#36;&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+            <p>El marcador ("0 de 0 correctos") se completa solo: cuenta cuántas tarjetas <code class="inline">.ejercicio</code> hay en la página.</p>
+        </section>
+
+        <section class="seccion">
+            <h2><span class="paso-badge">5</span> Enlazar la lección desde el index</h2>
+            <p>En <code class="inline">index.html</code>, buscá el comentario <code class="inline">&lt;!-- NUEVA_PILDORA --&gt;</code> (está dentro de la vista Temas Varios) y pegá esta tarjeta debajo, cambiando los textos y el nombre del archivo:</p>
+            <pre class="codigo">&lt;div class="topic-card" id="vario-mitema"&gt;
+    &lt;div class="topic-category"&gt;Álgebra&lt;/div&gt;
+    &lt;h3&gt;Mi nuevo tema&lt;/h3&gt;
+    &lt;p&gt;Descripción corta que aparece en la tarjeta.&lt;/p&gt;
+    &lt;a href="MiTema_temasVarios.html" class="topic-link"&gt;Ver lección ➔&lt;/a&gt;
+&lt;/div&gt;</pre>
+            <p>Dos detalles para que el buscador interno siga funcionando bien: el <code class="inline">id</code> de la tarjeta debe ser <strong>único</strong> (nunca repitas un id que ya exista) y la descripción debería incluir las palabras que un estudiante podría buscar (ej: "cuadrática", "parábola", "raíces").</p>
+        </section>
+
+        <section class="seccion">
+            <h2><span class="paso-badge">6</span> Probar y publicar</h2>
+            <ul class="check">
+                <li>Armá tu lección y abrila con doble clic en el navegador (no necesita servidor).</li>
+                <li>Verificá: las fórmulas se ven renderizadas, el marcador suma al responder bien y cada botón "Ver solución" abre su caja.</li>
+                <li>Respondé mal a propósito un ejercicio para confirmar que el feedback de error aparece.</li>
+                <li>Probá en el celular (o achicando la ventana): los botones deben apilarse uno debajo del otro.</li>
+                <li>Subí al hosting los archivos de la lección y el <code class="inline">index.html</code> actualizado, todos a la misma carpeta.</li>
+            </ul>
+            <div class="card exito">
+                <p><strong>Checklist final:</strong> título sin <code class="inline">[EDITAR]</code> pendientes ✔ · respuestas de los ejercicios verificadas a mano ✔ · tarjeta enlazada en el index ✔ · id único ✔ · probada en navegador y celular ✔</p>
+            </div>
+        </section>
+
+        <section class="seccion">
+            <h2>🚀 Ideas para seguir creciendo el sitio</h2>
+            <p>Cuando tengas un rato, estas son las secciones que quedaron pendientes y podrían ser los próximos pasos del proyecto:</p>
+            <ul class="check">
+                <li><strong>Ingreso Universitario:</strong> el botón sigue en "En Construcción"; el primer módulo sugerido es Números Complejos (ya mencionado en 4to año).</li>
+                <li><strong>Píldoras futuras fáciles de armar con la plantilla:</strong> Regla de tres, Porcentajes, Máximo común divisor, Sistemas de ecuaciones, Funciones lineales.</li>
+                <li><strong>Mejoras técnicas que quedaron anotadas:</strong> normalizar los ids duplicados de las tarjetas (<code class="inline">vario-numeros</code> aparece 3 veces), corregir erratas ("Tmabién", "contrujo", "haznoslo saber") y actualizar el año del footer.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 Mates con Agugg_ia · Guía de edición interna</p>
+        </div>
+    </footer>
+
+    <!-- MathJax para que los ejemplos de fórmulas de esta guía se vean renderizados -->
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

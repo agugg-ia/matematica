@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mates con Agugg_ia: Plataforma de matemáticas basada en el diseño curricular de la Provincia de Córdoba.">
+    <title>Mates con Agugg_ia | Currículum Córdoba</title>
+    <!-- Script para renderizar fórmulas matemáticas -->
+    <!-- NOTA: se eliminó polyfill.io por seguridad (dominio comprometido desde 2024). Los navegadores modernos no lo necesitan. -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* --- Variables CSS y Reset --- */
+        :root {
+            --primary: #2563EB;      
+            --primary-dark: #1E40AF;
+            --secondary: #10B981;    
+            --accent: #F59E0B;       
+            --dark: #1F2937;         
+            --light: #F3F4F6;        
+            --white: #ffffff;
+            --gray: #6B7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--dark);
+            background-color: var(--white);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-primary:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        /* --- Header / Nav --- */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.3rem; 
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            color: var(--dark);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--gray);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* --- Barra de Búsqueda --- */
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border: 1px solid #E5E7EB;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #EFF6FF 0%, #ffffff 100%);
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.2rem; 
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .hero-text h1 span {
+            color: var(--primary);
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            max-width: 90%;
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-image img {
+            border-radius: var(--radius);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: rotate(2deg);
+        }
+
+        /* --- VISTA DE CURSOS SECUNDARIA (Oculta por defecto) --- */
+        #vista-cursos, #vista-varios {
+            display: none; 
+            padding: 60px 0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes highlightPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+
+        /* Clase para resaltar búsqueda en cualquier tarjeta */
+        .highlight-card {
+            animation: highlightPulse 1.5s ease-out;
+            border: 2px solid var(--primary) !important;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+            gap: 25px;
+            align-items: start; 
+        }
+
+        .year-card {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .year-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+
+        .year-card h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #EFF6FF;
+            padding-bottom: 10px;
+        }
+
+        /* Estilos para la enumeración de temas */
+        .year-card ul {
+            padding-left: 5px;
+            column-count: 1;
+        }
+        
+        @media (min-width: 1024px) {
+            .year-card ul {
+                column-count: 2; 
+                column-gap: 20px;
+            }
+            .year-card li {
+                break-inside: avoid;
+            }
+        }
+        
+        .year-card li {
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-size: 0.9rem; 
+            list-style-type: disc; 
+            padding-left: 10px;
+        }
+
+        /* --- ESTILOS PARA LOS ENLACES DE EJES --- */
+        .eje-link {
+            color: var(--primary-dark);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .eje-link:hover {
+            color: var(--primary);
+            transform: translateX(3px);
+        }
+
+        .eje-link::after {
+            content: "➔"; /* Flecha */
+            font-size: 0.8em;
+            opacity: 0; /* Invisible por defecto */
+            transition: opacity 0.3s ease;
+        }
+
+        .eje-link:hover::after {
+            opacity: 1; /* Visible al pasar el mouse */
+        }
+        
+        .year-card li {
+            position: relative;
+        }
+        .year-card li::before {
+            content: "•";
+            position: absolute;
+            left: -15px;
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        /* --- ESTILOS TEMAS VARIOS (Píldoras) --- */
+        .varios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .topic-card {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow);
+            transform: translateY(-5px);
+        }
+
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .topic-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .topic-card h3 {
+            font-size: 1.25rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .topic-card p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .topic-link {
+            align-self: flex-start;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .topic-link:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Niveles --- */
+        .levels {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .level-card {
+            background: var(--white);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .level-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #EFF6FF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        /* Color especial para Temas Varios */
+        .level-card.varios .level-icon {
+            background-color: #FEF3C7;
+            color: var(--accent);
+        }
+
+        .level-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .level-card p {
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+
+        .level-topics ul {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .level-topics li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            color: var(--dark);
+        }
+
+        .level-topics li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        .back-btn {
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .back-btn:hover { color: var(--primary); }
+
+        /* --- Feedback Section --- */
+        .feedback-section {
+            padding: 60px 0;
+            background-color: #FEF3C7; 
+            border-top: 1px solid #FCD34D;
+        }
+        
+        .feedback-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .feedback-form {
+            text-align: left;
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-family: var(--font-main);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--dark);
+            color: #D1D5DB;
+            padding: 40px 0;
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            .hero-image {
+                display: none;
+            }
+            .nav-links {
+                display: none; 
+            }
+            .search-container {
+                width: 100%;
+                order: 3;
+                margin-top: 10px;
+            }
+            nav {
+                flex-direction: column;
+                height: auto;
+                padding: 10px 0;
+            }
+            .year-card ul {
+                column-count: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 2V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 7L12 2L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 17L12 22L20 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Mates con Agugg_ia</span>
+                </a>
+                
+                <div class="nav-links">
+                    <a href="#" onclick="mostrarInicio()">Inicio</a>
+                    <a href="#niveles" onclick="mostrarInicio()">Cursos</a>
+                    <a href="#feedback">Ayuda</a>
+                </div>
+
+                <!-- Barra de Búsqueda Incorporada -->
+                <div class="search-container">
+                    <form onsubmit="buscarContenido(event)">
+                        <input type="text" id="buscador" class="search-input" placeholder="Buscar tema (ej: Binomio, Pitágoras)...">
+                        <div class="search-icon" onclick="document.querySelector('form').dispatchEvent(new Event('submit'))">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- VISTA INICIAL -->
+        <div id="vista-inicial">
+            
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <h1>Domina las Matemáticas con <span>Agugg_ia</span>.</h1>
+                            <p>La plataforma definitiva alineada al diseño curricular de la Provincia de Córdoba. Secundaria, universidad y píldoras de conocimiento.</p>
+                            <a href="#niveles" class="btn btn-primary">Empezar a aprender</a>
+                        </div>
+                        <div class="hero-image">
+                            <img src="https://picsum.photos/seed/mathstudy/600/400" alt="Estudiantes de matemáticas" width="600" height="400">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de Niveles -->
+            <section id="niveles" class="levels">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Elige tu Camino</h2>
+                        <p>Contenido diseñado específicamente para tu etapa educativa.</p>
+                    </div>
+                    <div class="levels-grid">
+                        <!-- Tarjeta Secundaria -->
+                        <div class="level-card">
+                            <div class="level-icon">📐</div>
+                            <h3>Nivel Secundaria</h3>
+                            <p>Refuerza tus bases desde 1º hasta 6º año. Estructura oficial provincial.</p>
+                            <div class="level-topics">
+                                <ul>
+                                    <li>Números y Operaciones</li>
+                                    <li>Álgebra y Funciones</li>
+                                    <li>Geometría y Medida</li>
+                                    <li>Estadística y Probabilidad</li>
+                                </ul>
+                            </div>
+                            <button onclick="mostrarCursosSecundaria()" class="btn btn-outline" style="width: 100%;">Ver Cursos</button>
+                        </div>
+
+                        <!-- Tarjeta Temas Varios (NUEVA) -->
+                        <div class="level-card varios">
+                            <div class="level-icon">🧩</div>
+                            <h3>Temas Varios</h3>
+                            <p>Píldoras de contenido rápido. Refuerzos puntuales, curiosidades y herramientas útiles.</p>
+                            <div class="level-topics">
+                                <ul>
+                                    <li>Cuadrado de un binomio</li>
+                                    <li>Propiedades de los números</li>
+                                    <li>Trucos de cálculo mental</li>
+                                    <li>Geometría rápida</li>
+                                </ul>
+                            </div>
+                            <button onclick="mostrarTemasVarios()" class="btn btn-primary" style="width: 100%; background-color: var(--accent); border: none;">Ver Píldoras</button>
+                        </div>
+
+                        <!-- Tarjeta Ingreso Universitario -->
+                        <div class="level-card">
+                            <div class="level-icon">🎓</div>
+                            <h3>Ingreso Universitario</h3>
+                            <p>Preparación intensiva para exámenes de admisión. Ingeniería, Ciencias y Arquitectura.</p>
+                            <div class="level-topics">
+                                <ul>
+                                    <li>Números Complejos</li>
+                                    <li>Cálculo Diferencial</li>
+                                    <li>Álgebra Lineal</li>
+                                    <li>Simulacros de Examen</li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;" disabled>En Construcción</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- VISTA DE CURSOS SECUNDARIA (Detalle Completo) -->
+        <div id="vista-cursos">
+            <div class="container">
+                <div onclick="mostrarInicio()" class="back-btn">
+                    ← Volver al inicio
+                </div>
+                <div class="section-title">
+                    <h2>Cursos de Secundaria</h2>
+                    <p>Tabla de contenidos detallada según Diseño Curricular Provincia de Córdoba.</p>
+                </div>
+                
+                <div class="courses-grid">
+                    
+                    <!-- 1er Año -->
+                    <div class="year-card" id="card-1ro">
+                        <h3>1er Año</h3>
+                        <ul>
+                            <li>
+                                <a href="numerosavanzado1°año.html" class="eje-link"><strong>Eje: Número y Operaciones</strong></a>
+                            </li>
+                            <li>Interpretación de regularidades con números naturales y su representación geométrica.</li>
+                            <li>Introducción a la combinatoria: uso de diagramas de árbol y cuadros para permutación, variación y combinación.</li>
+                            <li>Análisis algebraico de las propiedades de la suma y multiplicación con naturales.</li>
+                            <li>Uso de relaciones de múltiplos y divisores, criterios de divisibilidad y descomposición en factores primos.</li>
+                            <li>Interpretación de la potenciación con números naturales.</li>
+                            <li>Uso y representación de números racionales positivos (fracción, decimal, porcentaje).</li>
+                            <li>Operaciones básicas (+, -, ×, ÷) con racionales positivos.</li>
+
+                            <li>
+                                <a href="1-algebra.html" class="eje-link"><strong>Eje: Álgebra y Funciones</strong></a>
+                            </li>
+                            <li>Análisis de tablas y gráficos de relaciones entre variables discretas y continuas.</li>
+                            <li>Reconocimiento de propiedades de proporcionalidad directa e inversa en textos, tablas y gráficos.</li>
+
+                            <li>
+                                <a href="1-geometria.html" class="eje-link"><strong>Eje: Geometría y Medida</strong></a>
+                            </li>
+                            <li>Argumentación sobre condiciones geométricas de triángulos y cuadriláteros convexos (lados, ángulos, diagonales).</li>
+                            <li>Uso de fórmulas para el cálculo de áreas (paralelogramos, triángulos y círculos) y perímetros.</li>
+                            <li>Cálculo de volúmenes de prismas y cilindros.</li>
+
+                            <li>
+                                <a href="1-estadistica.html" class="eje-link"><strong>Eje: Estadística y Probabilidad</strong></a>
+                            </li>
+                            <li>Diferenciación entre fenómenos aleatorios y determinísticos.</li>
+                            <li>Reconocimiento de la frecuencia relativa y noción de probabilidad frecuencial.</li>
+                            <li>Representación de datos (cualitativos y cuantitativos discretos) en tablas de frecuencia y gráficos de barras.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 2do Año -->
+                    <div class="year-card" id="card-2do">
+                        <h3>2do Año</h3>
+                        <ul>
+                            <li>
+                                <a href="2-numeros.html" class="eje-link"><strong>Eje: Número y Operaciones</strong></a>
+                            </li>
+                            <li>Producción de fórmulas para representar regularidades numéricas (término n-ésimo).</li>
+                            <li>Uso de números enteros: orden, recta numérica, suma y resta.</li>
+                            <li>Multiplicación y división con enteros (regla de los signos).</li>
+                            <li>Propiedades algebraicas de las operaciones en enteros y potenciación con exponente natural.</li>
+                            <li>Uso de números racionales (positivos, negativos y cero): representaciones y operaciones.</li>
+
+                            <li>
+                                <a href="2-algebra.html" class="eje-link"><strong>Eje: Álgebra y Funciones</strong></a>
+                            </li>
+                            <li>Análisis de fórmulas de proporcionalidad directa e inversa.</li>
+                            <li>Resolución de ecuaciones lineales con una incógnita del tipo ax + b = c.</li>
+
+                            <li>
+                                <a href="2-geometria.html" class="eje-link"><strong>Eje: Geometría y Medida</strong></a>
+                            </li>
+                            <li>Propiedades de ángulos y diagonales en polígonos convexos de más de cuatro lados.</li>
+                            <li>Formulación de criterios de congruencia de triángulos.</li>
+                            <li>Cálculo de áreas de polígonos regulares/irregulares y sectores circulares.</li>
+                            <li>Cálculo de volúmenes de prismas, pirámides y cuerpos redondos (conos, esferas).</li>
+
+                            <li>
+                                <a href="2-estadistica.html" class="eje-link"><strong>Eje: Estadística y Probabilidad</strong></a>
+                            </li>
+                            <li>Estrategias de conteo (multiplicativas y aditivas) sin fórmulas en combinatoria.</li>
+                            <li>Cuantificación de la probabilidad clásica (Laplace) para espacios muestrales finitos.</li>
+                            <li>Análisis de variables cualitativas (nominales/ordinales) y cuantitativas discretas; gráficos circulares y medidas como la moda y mediana.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 3er Año -->
+                    <div class="year-card" id="card-3ro">
+                        <h3>3er Año</h3>
+                        <ul>
+                            <li>
+                                <a href="3-numeros.html" class="eje-link"><strong>Eje: Número y Operaciones</strong></a>
+                            </li>
+                            <li>Propiedades de la potenciación con exponente entero en números racionales (distributiva, producto/cociente de potencias).</li>
+                            <li>Operaciones combinadas (+, -, ×, ÷, potencias) con racionales.</li>
+                            <li>Radicación de racionales positivos con índice natural.</li>
+
+                            <li>
+                                <a href="3-algebra.html" class="eje-link"><strong>Eje: Álgebra y Funciones</strong></a>
+                            </li>
+                            <li>Análisis de variaciones lineales (y = mx + b): pendiente, ordenada al origen y gráficos.</li>
+                            <li>Resolución de sistemas de dos ecuaciones lineales con dos incógnitas.</li>
+
+                            <li>
+                                <a href="3-geometria.html" class="eje-link"><strong>Eje: Geometría y Medida</strong></a>
+                            </li>
+                            <li>Interpretación y uso del Teorema de Pitágoras.</li>
+                            <li>Condiciones y criterios de semejanza de triángulos.</li>
+                            <li>Introducción a la trigonometría: relaciones seno, coseno y tangente en triángulos rectángulos.</li>
+
+                            <li>
+                                <a href="3-estadistica.html" class="eje-link"><strong>Eje: Estadística y Probabilidad</strong></a>
+                            </li>
+                            <li>Uso de fórmulas de combinatoria (permutación, variación, combinación) sin repetición.</li>
+                            <li>Cálculo de probabilidad clásica utilizando fórmulas de combinatoria.</li>
+                            <li>Análisis de datos bivariados: tablas de doble entrada y gráficos conjuntos.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 4to Año -->
+                    <div class="year-card" id="card-4to">
+                        <h3>4to Año</h3>
+                        <ul>
+                            <li>
+                                <a href="numeros-reales-4to-CORREGIDO.html" class="eje-link"><strong>Eje: Número y Operaciones</strong></a>
+                            </li>
+                            <li>Potenciación de racionales con exponente racional y propiedades de la radicación.</li>
+                            <li>Introducción a los Números Complejos: insuficiencia de los reales (x² = -1), unidad imaginaria i y forma binómica.</li>
+                            <li>Operaciones con complejos: suma, resta y multiplicación.</li>
+
+                            <li>
+                                <a href="funciones1.html" class="eje-link"><strong>Eje: Álgebra y Funciones</strong></a>
+                            </li>
+                            <li>Análisis de la Función Lineal (y = mx + b): dominio, imagen, inversa, modelización.</li>
+                            <li>Análisis de la Función Cuadrática (y = ax² + bx + c): raíces, vértice, formas polinómica, canónica y factorizada.</li>
+
+                            <li>
+                                <a href="geometria4°.html" class="eje-link"><strong>Eje: Geometría y Medida</strong></a>
+                            </li>
+                            <li>Propiedades de figuras inscritas en una circunferencia (ángulos inscritos y centrales).</li>
+                            <li>Suma de ángulos interiores de polígonos inscritos.</li>
+
+                            <li>
+                                <a href="4-estadistica.html" class="eje-link"><strong>Eje: Estadística y Probabilidad</strong></a>
+                            </li>
+                            <li>Combinatoria con repetición de elementos.</li>
+                            <li>Cuantificación de la probabilidad condicional y distinción de eventos independientes/dependientes.</li>
+                            <li>Medidas de tendencia central (media, mediana, moda) en variables cuantitativas discretas y continuas.</li>
+                              <li>
+                                <a href="conjuntosnumericosP1-4°año.html" class="eje-link"><strong>Repaso de conjuntos numéricos corregido</strong></a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 5to Año -->
+                    <div class="year-card" id="card-5to">
+                        <h3>5to Año</h3>
+                        <ul>
+                            <li>
+                                <a href="5-numeros.html" class="eje-link"><strong>Eje: Número y Operaciones</strong></a>
+                            </li>
+                            <li>Logaritmación con números reales positivos: definición y propiedades.</li>
+                            <li>Fórmulas para sucesiones y series (aritméticas y geométricas) con números reales.</li>
+
+                            <li>
+                                <a href="5-algebra.html" class="eje-link"><strong>Eje: Álgebra y Funciones</strong></a>
+                            </li>
+                            <li>Análisis de Funciones Exponenciales (y = aˣ) y Logarítmicas (y = logₐ x): gráficos, asíntotas, crecimiento.</li>
+                            <li>Análisis de Funciones Racionales (y = (ax+b)/(cx+d)): asíntotas, dominio e imagen.</li>
+
+                            <li>
+                                <a href="5-geometria.html" class="eje-link"><strong>Eje: Geometría y Medida</strong></a>
+                            </li>
+                            <li>Uso de expresiones algebraicas en geometría: fórmula de distancia entre puntos.</li>
+                            <li>Ecuación de la circunferencia y propiedades de la recta tangente.</li>
+                            <li>Sistemas de ecuaciones que involucran rectas, circunferencias y parábolas.</li>
+
+                            <li>
+                                <a href="5-estadistica.html" class="eje-link"><strong>Eje: Estadística y Probabilidad</strong></a>
+                            </li>
+                            <li>Uso de tablas de contingencia para probabilidad condicional y conjunta.</li>
+                            <li>Análisis de medidas de dispersión, específicamente la desviación estándar.</li>
+                             <li>
+                                <a href="repasofuncionesP1-5°año.html" class="eje-link"><strong>Repaso de funciones corregido - práctico grupal N° 1</strong></a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 6to Año -->
+                    <div class="year-card" id="card-6to">
+                        <h3>6to Año</h3>
+                        <ul>
+                            <li>
+                                <a href="6-numeros.html" class="eje-link"><strong>Eje: Número y Operaciones</strong></a>
+                            </li>
+                            <li>Resolución de ecuaciones e inecuaciones que involucran valor absoluto (|x|, |ax + b|).</li>
+
+                            <li>
+                                <a href="6-algebra.html" class="eje-link"><strong>Eje: Álgebra y Funciones</strong></a>
+                            </li>
+                            <li>Análisis de Funciones Trigonométricas (sin x, cos x, tan x): periodicidad, amplitud, gráficos.</li>
+
+                            <li>
+                                <a href="6-geometria.html" class="eje-link"><strong>Eje: Geometría y Medida</strong></a>
+                            </li>
+                            <li>Uso de los Teoremas del Seno y del Coseno para la resolución de triángulos oblicuángulos y cálculo de distancias.</li>
+
+                            <li>
+                                <a href="6-estadistica.html" class="eje-link"><strong>Eje: Estadística y Probabilidad</strong></a>
+                            </li>
+                            <li>Reconocimiento de la función de probabilidad de una variable aleatoria discreta.</li>
+                            <li>Análisis de distribuciones continuas: curvas de distribución y aproximación a la Distribución Normal.</li>
+                         <li>
+                                <a href="repasofuncionesP1-6°año.html" class="eje-link"><strong>Repaso de funciones corregido - práctico grupal N° 1</strong></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA TEMAS VARIOS (NUEVA) -->
+        <div id="vista-varios">
+            <div class="container">
+                <div onclick="mostrarInicio()" class="back-btn">
+                    ← Volver al inicio
+                </div>
+                <div class="section-title">
+                    <h2>Píldoras de Conocimiento</h2>
+                    <p>Recursos rápidos y específicos para resolver dudas puntuales.</p>
+                </div>
+                
+                <div class="varios-grid">
+                    <!-- NUEVA_PILDORA -->
+                    
+                    <!-- Píldora 1: Cuadrado de un binomio -->
+                    <div class="topic-card" id="vario-binomio">
+                        <div class="topic-category">Álgebra</div>
+                        <h3>Cuadrado de un binomio</h3>
+                        <p>Aprende y practica la fórmula $(a+b)^2 = a^2 + 2ab + b^2$ con explicación visual y ejercicios resueltos paso a paso.</p>
+                        <a href="instagramcuadradodeunbinomio.html" class="topic-link">Ver lección ➔</a>
+                    </div>
+
+                     <!-- Píldora 2a: Los números y sus propiedades -->
+                    <div class="topic-card" id="vario-numeros">
+                        <div class="topic-category">Aritmética</div>
+                        <h3>Los números y sus propiedades</h3>
+                        <p>Un apunte teórico sobre propiedades (conmutativa, asociativa, distributiva) y tipos de números (N, Z, Q, R).</p>
+                        <a href="https://drive.google.com/file/d/1CrfHcd8Lnt63BUyChJOcvne83uUwZB0Z/view?usp=drive_link" target="_blank" class="topic-link">Ver lección ➔</a>
+                    </div>
+
+                    <!-- Píldora 2b: Los números ¿cómo llegamos  a los reales? -->
+                    <div class="topic-card" id="vario-numeros">
+                        <div class="topic-category">Aritmética</div>
+                        <h3>Los números ¿cómo llegamos  a los reales?</h3>
+                        <p>Un espacio de lectura y trabajo para aprender y repasar cómo se contruyo el conjunto de los reales. Tmabién podrás hacer algo de matemática con las principales propiedades de las operaciones básicas.</p>
+                        <a href="reales.html">Ver lección ➔</a>
+                    </div>
+
+                    <!-- Píldora 2c: propiedades de la potencia y la radicación-->
+                    <div class="topic-card" id="vario-numeros">
+                        <div class="topic-category">Aritmética</div>
+                        <h3>propiedades de la potencia y la radicación</h3>
+                        <p>Repaso fundamental sobre propiedades.</p>
+                        <a href="potyraices4°año.html">Ver lección ➔</a>
+                    </div>
+
+                    <!-- Píldora 3: Teorema de Pitágoras -->
+                    <div class="topic-card" id="vario-pitagoras">
+                        <div class="topic-category">Geometría</div>
+                        <h3>Teorema de Pitágoras</h3>
+                        <p>La herramienta clave para triángulos rectángulos. Demostración simple y problemas de aplicación clásicos.</p>
+                        <a href="Pitagoras_temasVarios.html" class="topic-link">Ver lección ➔</a>
+                    </div>
+
+                    <!-- Píldora 4: la propiedad uniforme -->
+                    <div class="topic-card" id="vario-regla">
+                        <div class="topic-category">Ecuaciones</div>
+                        <h3>La propiedad uniforme</h3>
+                        <p>Una guía completa de cómo se aplica la propiedad uniforme en diferentes tipos de ecuaciones.</p>
+                        <a href="PropUniforme_temasVarios.html" class="topic-link">Ver lección ➔</a>
+                    </div>
+
+                    <!-- Píldora 5: Ecuaciones simples -->
+                    <div class="topic-card" id="vario-ecuaciones">
+                        <div class="topic-category">Álgebra</div>
+                        <h3>Ecuaciones de primer grado</h3>
+                        <p>Aprende a despejar incógnitas y resolver ecuaciones del tipo $ax + b = c$ sin complicaciones.</p>
+                        <a href="Ecuaciones1erGrado_temasVarios.html" class="topic-link">Ver lección ➔</a>
+                    </div>
+
+                    <!-- Píldora 6: Fracciones -->
+                    <div class="topic-card" id="vario-fracciones">
+                        <div class="topic-category">Aritmética</div>
+                        <h3>Operaciones con Fracciones</h3>
+                        <p>Suma, resta, multiplicación y división de fracciones con ejemplos claros y ejercicios interactivos.</p>
+                        <a href="Fracciones_temasVarios.html" class="topic-link">Ver lección ➔</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Feedback / Corrección de Errores -->
+        <section id="feedback" class="feedback-section">
+            <div class="container feedback-container">
+                <h2>Ayúdanos a mejorar</h2>
+                <p>Este proyecto está en constante crecimiento. Si encuentras un error en un ejercicio o tienes una sugerencia de contenido, haznoslo saber.</p>
+                
+                <form class="feedback-form" action="mailto:jpa.prof@gmail.com" method="post" enctype="text/plain">
+                    <div class="form-group">
+                        <label for="asunto">Asunto</label>
+                        <select id="asunto" name="asunto" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #D1D5DB;">
+                            <option value="Reportar error en ejercicio">Reportar error en ejercicio</option>
+                            <option value="Sugerir nuevo tema">Sugerir nuevo tema</option>
+                            <option value="Problema con la visualización">Problema con la visualización</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensaje">Tu mensaje</label>
+                        <textarea id="mensaje" name="mensaje" rows="4" placeholder="Describe detalladamente el error o sugerencia..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Reporte</button>
+                    <p style="font-size: 0.8rem; margin-top: 10px; color: #6B7280;">Esto abrirá tu cliente de correo para enviar el mensaje.</p>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="logo" style="color: white; margin-bottom: 15px; display: inline-flex;">
+                        Mates con Agugg_ia
+                    </a>
+                    <p style="font-size: 0.9rem; line-height: 1.6;">
+                        Plataforma educativa autogestiva alineada al currículum provincial.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4>Secciones</h4>
+                    <ul style="font-size: 0.9rem;">
+                        <li><a href="#" onclick="mostrarInicio()">Inicio</a></li>
+                        <li><a href="#" onclick="mostrarCursosSecundaria()">Secundaria</a></li>
+                        <li><a href="#" onclick="mostrarTemasVarios()">Temas Varios</a></li>
+                        <li><a href="#feedback">Reportar Error</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Mates con Agugg_ia. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script para Navegación y Búsqueda -->
+    <script>
+        // --- Lógica de Navegación ---
+        function mostrarCursosSecundaria() {
+            ocultarTodasVistas();
+            document.getElementById('vista-cursos').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+        function mostrarTemasVarios() {
+            ocultarTodasVistas();
+            document.getElementById('vista-varios').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+        function mostrarInicio() {
+            ocultarTodasVistas();
+            document.getElementById('vista-inicial').style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+        function ocultarTodasVistas() {
+            document.getElementById('vista-inicial').style.display = 'none';
+            document.getElementById('vista-cursos').style.display = 'none';
+            document.getElementById('vista-varios').style.display = 'none';
+        }
+
+        // --- Lógica de Búsqueda Inteligente ---
+        function buscarContenido(event) {
+            event.preventDefault(); 
+            const termino = document.getElementById('buscador').value.toLowerCase().trim();
+            
+            // Buscamos tanto en las tarjetas de Secundaria (.year-card) como en Temas Varios (.topic-card)
+            const cards = document.querySelectorAll('.year-card, .topic-card');
+            
+            let encontrado = false;
+            let targetCard = null;
+
+            if (termino === "") return;
+
+            // Limpiar clases de highlight previas
+            cards.forEach(card => card.classList.remove('highlight-card'));
+
+            for (let card of cards) {
+                const textoCard = card.innerText.toLowerCase();
+                if (textoCard.includes(termino)) {
+                    encontrado = true;
+                    targetCard = card;
+                    break; 
+                }
+            }
+
+            if (encontrado) {
+                // Determinar a qué vista pertenece la tarjeta encontrada para mostrar la vista correcta
+                const parentVarios = document.getElementById('vista-varios');
+                const parentCursos = document.getElementById('vista-cursos');
+                
+                // Si la tarjeta está dentro de vista-varios
+                if (parentVarios.contains(targetCard) && parentVarios.style.display === 'none') {
+                    mostrarTemasVarios();
+                } 
+                // Si la tarjeta está dentro de vista-cursos
+                else if (parentCursos.contains(targetCard) && parentCursos.style.display === 'none') {
+                    mostrarCursosSecundaria();
+                }
+
+                // Scroll y animación
+                setTimeout(() => {
+                    targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    targetCard.classList.add('highlight-card');
+                    document.getElementById('buscador').value = '';
+                }, 100); // Pequeño delay para asegurar que la vista es visible antes de scroll
+            } else {
+                alert(`No se encontraron recursos para "${termino}".\nIntenta buscar: Pitágoras, Binomio, Funciones, etc.`);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+Tema: Introducción a los Sistemas de Ecuaciones Lineales (2x2)
+Nivel: 3er Año de Secundaria (Córdoba, Argentina)
+Enfoque Didáctico: Matemática realista. Comenzar con una situación problemática cercana, modelizar algebraicamente y luego explicar los métodos de resolución.
+
+Estructura requerida para la clase:
+
+1. Situación Disparadora (El problema del kiosco escolar): 
+Plantea el siguiente problema: "Para la feria de ciencias del colegio, el curso compró 30 empanadas (algunas de carne y otras de jamón y queso). Pagaron en total $45.000. Si las de carne costaban $1.600 cada una y las de jamón y queso $1.400 cada una, ¿cuántas empanadas de cada gusto compraron?".
+
+2. Modelización (Del lenguaje natural al algebraico):
+Explica paso a paso cómo definir las variables (ej. x = empanadas de carne, y = empanadas de J&Q).
+Construye las dos ecuaciones lineales explicando qué representa cada una:
+- Ecuación de cantidad: $x + y = 30$
+- Ecuación de costo: $1600x + 1400y = 45000$
+
+3. Método de Sustitución:
+Resuelve el problema paso a paso aplicando el método de sustitución. 
+Usa viñetas para cada paso: despejar una variable, sustituir en la otra ecuación, resolver, y reemplazar para hallar la segunda incógnita.
+Resalta la respuesta final al problema del kiosco.
+
+4. Interpretación Gráfica (Breve):
+Explica de forma conceptual que cada ecuación representa una recta en el plano, y que la solución que encontramos (el número de empanadas) es exactamente el punto donde esas dos rectas se cruzan.
+
+5. Desafío para el alumno:
+Deja un problema similar propuesto para que los estudiantes lo resuelvan solos, utilizando un contexto de compra de entradas de cine (mayores y menores).
+
+Estilo de diseño: Usa bloques de contenido claros, colores que resalten fórmulas (usa MathJax para todo el álgebra) y un lenguaje directo pero empático, dirigido a adolescentes.

@@ -33,7 +33,7 @@ for archivo_txt in glob.glob("borradores/*.txt"):
     
     # Generar clase con el modelo PRO actualizado
     respuesta = client.models.generate_content(
-        model='gemini-2.5-pro',
+        model='gemini-3.8-flash',
         contents=prompt,
     )
     

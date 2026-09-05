@@ -32,8 +32,8 @@ for archivo_txt in glob.glob("borradores/*.txt"):
     """
     
     # Generar clase con el modelo PRO
-    respuesta = client.models.generate_content(
-        model='gemini-1.5-pro',
+   respuesta = client.models.generate_content(
+        model='gemini-3.1-pro',
         contents=prompt,
     )
     html = respuesta.text.strip().removeprefix("```html").removesuffix("```")

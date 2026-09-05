@@ -31,11 +31,12 @@ for archivo_txt in glob.glob("borradores/*.txt"):
     {contenido}
     """
     
-    # Generar clase con el modelo PRO
+    # Generar clase con el modelo PRO actualizado
     respuesta = client.models.generate_content(
-        model='gemini-1.5-pro',
+        model='gemini-3.1-pro',
         contents=prompt,
     )
+    
     html = respuesta.text.strip().removeprefix("```html").removesuffix("```")
     
     if "</head>" in html:

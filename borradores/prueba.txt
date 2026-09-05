@@ -1,0 +1,1 @@
+Hazme una página que explique la función exponencial, incluye un ejemplo de crecimiento poblacional y muestra la fórmula general $f(x) = a \cdot b^x$
